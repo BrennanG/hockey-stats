@@ -1,0 +1,17 @@
+C:\Users\Govreau\AppData\Local\Temporary Projects\HockeyStats\bin\Debug\HockeyStats.exe
+C:\Users\Govreau\AppData\Local\Temporary Projects\HockeyStats\bin\Debug\HockeyStats.pdb
+C:\Users\Govreau\AppData\Local\Temporary Projects\HockeyStats\obj\x86\Debug\HockeyStats.Form1.resources
+C:\Users\Govreau\AppData\Local\Temporary Projects\HockeyStats\obj\x86\Debug\HockeyStats.Properties.Resources.resources
+C:\Users\Govreau\AppData\Local\Temporary Projects\HockeyStats\obj\x86\Debug\HockeyStats.csproj.GenerateResource.Cache
+C:\Users\Govreau\AppData\Local\Temporary Projects\HockeyStats\obj\x86\Debug\HockeyStats.exe
+C:\Users\Govreau\AppData\Local\Temporary Projects\HockeyStats\obj\x86\Debug\HockeyStats.pdb
+C:\Users\Govreau\documents\visual studio 2010\Projects\HockeyStats\HockeyStats\obj\x86\Debug\HockeyStats.exe
+C:\Users\Govreau\documents\visual studio 2010\Projects\HockeyStats\HockeyStats\obj\x86\Debug\HockeyStats.pdb
+C:\Users\Govreau\documents\visual studio 2010\Projects\HockeyStats\HockeyStats\bin\Debug\HockeyStats.exe
+C:\Users\Govreau\documents\visual studio 2010\Projects\HockeyStats\HockeyStats\bin\Debug\HockeyStats.pdb
+C:\Users\Govreau\documents\visual studio 2010\Projects\HockeyStats\HockeyStats\obj\x86\Debug\HockeyStats.Form1.resources
+C:\Users\Govreau\documents\visual studio 2010\Projects\HockeyStats\HockeyStats\obj\x86\Debug\HockeyStats.Properties.Resources.resources
+C:\Users\Govreau\documents\visual studio 2010\Projects\HockeyStats\HockeyStats\obj\x86\Debug\HockeyStats.csproj.GenerateResource.Cache
+C:\Users\Govreau\documents\visual studio 2010\Projects\HockeyStats\HockeyStats\obj\x86\Debug\HockeyStats.csprojResolveAssemblyReference.cache
+C:\Users\Govreau\Documents\Visual Studio 2010\Projects\HockeyStats\HockeyStats\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Govreau\Documents\Visual Studio 2010\Projects\HockeyStats\HockeyStats\bin\Debug\Newtonsoft.Json.xml
