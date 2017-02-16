@@ -20,34 +20,53 @@ namespace HockeyStats
 
             string displayYear = "2016-2017";
             List<string> playerIds = new List<string> { "156923", "108659" };
-            Dictionary<string, string> playerDict = new Dictionary<string, string>();
+            Dictionary<string, JObject> playerDict = new Dictionary<string, JObject>();
+            List<Dictionary<string, string>> rowData = new List<Dictionary<string, string>>();
 
             foreach (string playerId in playerIds)
             {
                 string jsonData = GetEPStats(playerId);
-                playerDict.Add(playerId, jsonData);
-                JObject results = JObject.Parse(jsonData);
+                JObject parsedJson = JObject.Parse(jsonData);
+                playerDict.Add(playerId, parsedJson);
 
-                foreach (JToken statLine in results["data"])
+                Dictionary<string, string> currentDict = new Dictionary<string, string>();
+                foreach (JToken statLine in parsedJson["data"])
                 {
                     string gameType = (string)statLine["gameType"];
                     JObject season = (JObject)statLine["season"];
                     string seasonName = (string)season["name"];
                     if (gameType == "REGULAR_SEASON" && seasonName == displayYear) {
-                        string gamesPlayed = GetGamesPlayed(statLine);
-                        string goals = GetGoals(statLine);
-                        string assists = GetAssists(statLine);
-                        string totalPoints = GetTotalPoints(statLine);
-                        string firstName = GetFirstName(statLine);
-                        string lastName = GetLastName(statLine);
-                        string teamName = GetTeamName(statLine);
-
-                        System.Diagnostics.Debug.Write(String.Format("{5} {6} - team: {4}, gamesPlayed: {0}, goals: {1}, assists: {2}, points: {3}\n", gamesPlayed, goals, assists, totalPoints, teamName, firstName, lastName));
+                        if (currentDict.Count == 0)
+                        {
+                            currentDict = new Dictionary<string, string>
+                            {
+                                { "First Name", GetFirstName(statLine) },
+                                { "Last Name", GetLastName(statLine) },
+                                { "Games Played", GetGamesPlayed(statLine) },
+                                { "Goals", GetGoals(statLine) },
+                                { "Assists", GetAssists(statLine) },
+                                { "Total Points", GetTotalPoints(statLine) },
+                                { "PPG", GetPointsPerGame(statLine) }
+                            };
+                            rowData.Add(currentDict);
+                        }
+                        else
+                        {
+                            currentDict["First Name"] += Environment.NewLine + GetFirstName(statLine);
+                            currentDict["Last Name"] += Environment.NewLine + GetLastName(statLine);
+                            currentDict["Games Played"] += Environment.NewLine + GetGamesPlayed(statLine);
+                            currentDict["Goals"] += Environment.NewLine + GetGoals(statLine);
+                            currentDict["Assists"] += Environment.NewLine + GetAssists(statLine);
+                            currentDict["Total Points"] += Environment.NewLine + GetTotalPoints(statLine);
+                            currentDict["PPG"] += Environment.NewLine + GetPointsPerGame(statLine);
+                        }
                     }
                 }
             }
 
-            FillTable(dataGridView1);
+            List<string> columnNames = new List<string> { "First Name", "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG" };
+
+            FillTable(dataGridView1, columnNames, rowData);
         }
 
         static string GetEPStats(string playerId)
@@ -65,29 +84,17 @@ namespace HockeyStats
             return jsonData;
         }
 
-        static void FillTable(DataGridView dataGridView)
+        static void FillTable(DataGridView dataGridView, List<string> columnNames, List<Dictionary<string, string>> rowData)
         {
             // Columns
             List<DataColumn> columns = new List<DataColumn>();
-            columns.Add(new DataColumn("First Name"));
-            columns.Add(new DataColumn("Last Name"));
-            columns.Add(new DataColumn("Games Played"));
-
-            // Rows
-            List<Dictionary<string, string>> rows = new List<Dictionary<string, string>>();
-            rows.Add(new Dictionary<string, string>
+            foreach (string columnName in columnNames)
             {
-                { "First Name", "Brennan" },
-                { "Last Name", "Govreau" }
-            });
-            rows.Add(new Dictionary<string, string>
-            {
-                { "First Name", "Jordan" },
-                { "Games Played", "1" }
-            });
+                columns.Add(new DataColumn(columnName));
+            }
 
             // Convert to DataTable.
-            DataTable table = ConvertListToDataTable(columns, rows);
+            DataTable table = ConvertListToDataTable(columns, rowData);
             dataGridView.DataSource = table;
         }
 
@@ -102,16 +109,16 @@ namespace HockeyStats
             }
 
             // Add rows
-            foreach (Dictionary<string, string> dictOfRows in rows)
+            foreach (Dictionary<string, string> rowDict in rows)
             {
                 string[] rowValues = new string[columns.Count];
                 for (int i = 0; i < columns.Count; i++)
                 {
                     string outString = String.Empty;
                     // If the column exists in the row, add the value
-                    if (dictOfRows.TryGetValue(columns[i].ColumnName, out outString))
+                    if (rowDict.TryGetValue(columns[i].ColumnName, out outString))
                     {
-                        rowValues[i] = dictOfRows[columns[i].ColumnName];
+                        rowValues[i] = rowDict[columns[i].ColumnName];
                     }
                 }
                 table.Rows.Add(rowValues);
@@ -164,7 +171,7 @@ namespace HockeyStats
             return (string)statLine["GP"];
         }
 
-        static string GetPointsPerGame(JObject statLine)
+        static string GetPointsPerGame(JToken statLine)
         {
             return (string)statLine["PPG"];
         }
