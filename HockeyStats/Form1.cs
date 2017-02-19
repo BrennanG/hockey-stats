@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace HockeyStats
 {
@@ -51,11 +52,16 @@ namespace HockeyStats
             "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League", "Draft Year", "Draft Round", "Draft Overall", "Draft Team"
         };
         private List<Dictionary<string, string>> rowData = new List<Dictionary<string, string>>();
+        delegate void FillDelegate();
 
         public Form1()
         {
             InitializeComponent();
+            this.Load += new EventHandler((object sender, EventArgs e) => this.BeginInvoke(new FillDelegate(FillTable)));
+        }
 
+        private void FillTable()
+        {
             // Get Elite Prospects data for each player
             foreach (string playerId in playerIds)
             {
@@ -77,7 +83,7 @@ namespace HockeyStats
             dataGridView1.DataSource = table;
         }
 
-        static void AddPlayerStatsToDict(Dictionary<string, string> playerDict, string playerId)
+        private void AddPlayerStatsToDict(Dictionary<string, string> playerDict, string playerId)
         {
             JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
             foreach (JToken statLine in statsJson["data"])
@@ -111,7 +117,7 @@ namespace HockeyStats
             }
         }
 
-        static void AddDraftDataToDict(Dictionary<string, string> playerDict, string playerId)
+        private void AddDraftDataToDict(Dictionary<string, string> playerDict, string playerId)
         {
             JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
             JToken data = draftJson["data"];
@@ -125,7 +131,7 @@ namespace HockeyStats
             }
         }
 
-        static DataTable ConvertListToDataTable(List<DataColumn> columns, List<Dictionary<string, string>> rows)
+        private DataTable ConvertListToDataTable(List<DataColumn> columns, List<Dictionary<string, string>> rows)
         {
             DataTable table = new DataTable();
 
