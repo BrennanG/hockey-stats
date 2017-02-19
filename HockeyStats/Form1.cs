@@ -17,9 +17,9 @@ namespace HockeyStats
             "269034", // Jordan Kyrou
             "201245", // Tanner Kaspick
             "146116", // Nolan Stevens
-            "84020", // Connor Bleackley
-            "207452", // Nikolaj Krag Christensen
-            "167520", // Filip Helt
+            //"84020", // Connor Bleackley
+            //"207452", // Nikolaj Krag Christensen
+            //"167520", // Filip Helt
             //"189422", // Adam Musil
             //"192245", // Glenn Gawdin
             //"234450", // Liam Dunda
