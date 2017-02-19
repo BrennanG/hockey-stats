@@ -8,66 +8,76 @@ namespace HockeyStats
 {
     public partial class Form1 : Form
     {
+        private string displayYear = "2016-2017";
+        private List<string> playerIds = new List<string>
+        {
+            // Forwards
+            "301349", // Tage Thompson
+            "269034", // Jordan Kyrou
+            "201245", // Tanner Kaspick
+            "146116", // Nolan Stevens
+            "84020", // Connor Bleackley
+            "207452", // Nikolaj Krag Christensen
+            "167520", // Filip Helt
+            //"189422", // Adam Musil
+            //"192245", // Glenn Gawdin
+            //"234450", // Liam Dunda
+            //"156923", // Robby Fabbri
+            //"108659", // Ivan Barbashev
+            //"231724", // Austin Poganski
+            //"213830", // Samuel Blais
+            //"191247", // Dwyer Tschantz
+            //"183505", // Mackenzie MacEachern
+            //"26385", // Ty Rattie
+            //"65564", // Dmitrij Jaskin
+            //"90315", // Justin Selman
+            //"233028", // Maxim Letunov
+            //// Defenders
+            //"161816", // Vince Dunn
+            //"94439", // Niko Mikkola
+            //"248066", // Jake Walman
+            //"196704", // Thomas Vannelli
+            //"60924", // Santeri Saari
+            //"50291", // Jordan Schmaltz
+            //"89411", // Colton Parayko
+            //"45347", // Petteri Lindbohm
+            //"59478", // Joel Edmundson
+            //"168690", // Dmitri Sergeyev
+            //"45342", // Jani Hakanpaa
+            //"34836", // Konrad Abeltshauser
+        };
+        private List<string> columnNames = new List<string>
+        {
+            "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League", "Draft Year", "Draft Round", "Draft Overall", "Draft Team"
+        };
+        private List<Dictionary<string, string>> rowData = new List<Dictionary<string, string>>();
+
         public Form1()
         {
             InitializeComponent();
 
-            string displayYear = "2016-2017";
-            List<string> playerIds = new List<string>
-            {
-                // Forwards
-                "301349", // Tage Thompson
-                "269034", // Jordan Kyrou
-                "201245", // Tanner Kaspick
-                "146116", // Nolan Stevens
-                "84020", // Connor Bleackley
-                "207452", // Nikolaj Krag Christensen
-                "167520", // Filip Helt
-                "189422", // Adam Musil
-                "192245", // Glenn Gawdin
-                "234450", // Liam Dunda
-                "156923", // Robby Fabbri
-                "108659", // Ivan Barbashev
-                "231724", // Austin Poganski
-                "213830", // Samuel Blais
-                "191247", // Dwyer Tschantz
-                "183505", // Mackenzie MacEachern
-                "26385", // Ty Rattie
-                "65564", // Dmitrij Jaskin
-                "90315", // Justin Selman
-                "233028", // Maxim Letunov
-                // Defenders
-                "161816", // Vince Dunn
-                "94439", // Niko Mikkola
-                "248066", // Jake Walman
-                "196704", // Thomas Vannelli
-                "60924", // Santeri Saari
-                "50291", // Jordan Schmaltz
-                "89411", // Colton Parayko
-                "45347", // Petteri Lindbohm
-                "59478", // Joel Edmundson
-                "168690", // Dmitri Sergeyev
-                "45342", // Jani Hakanpaa
-                "34836", // Konrad Abeltshauser
-            };
-            List<string> columnNames = new List<string>
-            {
-                "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League", "Draft Year", "Draft Round", "Draft Overall", "Draft Team"
-            };
-
-            List<Dictionary<string, string>> rowData = new List<Dictionary<string, string>>();
+            // Get Elite Prospects data for each player
             foreach (string playerId in playerIds)
             {
                 Dictionary<string, string> playerDict = new Dictionary<string, string>();
-                AddPlayerStatsToDict(playerDict, playerId, displayYear);
+                AddPlayerStatsToDict(playerDict, playerId);
                 AddDraftDataToDict(playerDict, playerId);
                 rowData.Add(playerDict);
             }
 
-            FillTable(dataGridView1, columnNames, rowData);
+            // Create Columns
+            List<DataColumn> columns = new List<DataColumn>();
+            foreach (string columnName in columnNames)
+            {
+                columns.Add(new DataColumn(columnName));
+            }
+
+            // Convert to DataTable.
+            DataTable table = ConvertListToDataTable(columns, rowData);
+            dataGridView1.DataSource = table;
         }
 
-        static void AddPlayerStatsToDict(Dictionary<string, string> playerDict, string playerId, string displayYear)
+        static void AddPlayerStatsToDict(Dictionary<string, string> playerDict, string playerId)
         {
             JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
             foreach (JToken statLine in statsJson["data"])
@@ -113,20 +123,6 @@ namespace HockeyStats
                 playerDict["Draft Overall"] = draftData.GetOverall();
                 playerDict["Draft Team"] = draftData.GetTeamName();
             }
-        }
-
-        static void FillTable(DataGridView dataGridView, List<string> columnNames, List<Dictionary<string, string>> rowData)
-        {
-            // Create Columns
-            List<DataColumn> columns = new List<DataColumn>();
-            foreach (string columnName in columnNames)
-            {
-                columns.Add(new DataColumn(columnName));
-            }
-
-            // Convert to DataTable.
-            DataTable table = ConvertListToDataTable(columns, rowData);
-            dataGridView.DataSource = table;
         }
 
         static DataTable ConvertListToDataTable(List<DataColumn> columns, List<Dictionary<string, string>> rows)
