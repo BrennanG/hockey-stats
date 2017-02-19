@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Net;
-using System.IO;
 using Newtonsoft.Json.Linq;
 
 namespace HockeyStats
@@ -19,74 +13,111 @@ namespace HockeyStats
             InitializeComponent();
 
             string displayYear = "2016-2017";
-            List<string> playerIds = new List<string> { "156923", "108659" };
-            Dictionary<string, JObject> playerDict = new Dictionary<string, JObject>();
-            List<Dictionary<string, string>> rowData = new List<Dictionary<string, string>>();
+            List<string> playerIds = new List<string>
+            {
+                // Forwards
+                "301349", // Tage Thompson
+                "269034", // Jordan Kyrou
+                "201245", // Tanner Kaspick
+                "146116", // Nolan Stevens
+                "84020", // Connor Bleackley
+                "207452", // Nikolaj Krag Christensen
+                "167520", // Filip Helt
+                "189422", // Adam Musil
+                "192245", // Glenn Gawdin
+                "234450", // Liam Dunda
+                "156923", // Robby Fabbri
+                "108659", // Ivan Barbashev
+                "231724", // Austin Poganski
+                "213830", // Samuel Blais
+                "191247", // Dwyer Tschantz
+                "183505", // Mackenzie MacEachern
+                "26385", // Ty Rattie
+                "65564", // Dmitrij Jaskin
+                "90315", // Justin Selman
+                "233028", // Maxim Letunov
+                // Defenders
+                "161816", // Vince Dunn
+                "94439", // Niko Mikkola
+                "248066", // Jake Walman
+                "196704", // Thomas Vannelli
+                "60924", // Santeri Saari
+                "50291", // Jordan Schmaltz
+                "89411", // Colton Parayko
+                "45347", // Petteri Lindbohm
+                "59478", // Joel Edmundson
+                "168690", // Dmitri Sergeyev
+                "45342", // Jani Hakanpaa
+                "34836", // Konrad Abeltshauser
+            };
+            List<string> columnNames = new List<string>
+            {
+                "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League", "Draft Year", "Draft Round", "Draft Overall", "Draft Team"
+            };
 
+            List<Dictionary<string, string>> rowData = new List<Dictionary<string, string>>();
             foreach (string playerId in playerIds)
             {
-                string jsonData = GetEPStats(playerId);
-                JObject parsedJson = JObject.Parse(jsonData);
-                playerDict.Add(playerId, parsedJson);
-
-                Dictionary<string, string> currentDict = new Dictionary<string, string>();
-                foreach (JToken statLine in parsedJson["data"])
-                {
-                    string gameType = (string)statLine["gameType"];
-                    JObject season = (JObject)statLine["season"];
-                    string seasonName = (string)season["name"];
-                    if (gameType == "REGULAR_SEASON" && seasonName == displayYear) {
-                        if (currentDict.Count == 0)
-                        {
-                            currentDict = new Dictionary<string, string>
-                            {
-                                { "First Name", GetFirstName(statLine) },
-                                { "Last Name", GetLastName(statLine) },
-                                { "Games Played", GetGamesPlayed(statLine) },
-                                { "Goals", GetGoals(statLine) },
-                                { "Assists", GetAssists(statLine) },
-                                { "Total Points", GetTotalPoints(statLine) },
-                                { "PPG", GetPointsPerGame(statLine) }
-                            };
-                            rowData.Add(currentDict);
-                        }
-                        else
-                        {
-                            currentDict["First Name"] += Environment.NewLine + GetFirstName(statLine);
-                            currentDict["Last Name"] += Environment.NewLine + GetLastName(statLine);
-                            currentDict["Games Played"] += Environment.NewLine + GetGamesPlayed(statLine);
-                            currentDict["Goals"] += Environment.NewLine + GetGoals(statLine);
-                            currentDict["Assists"] += Environment.NewLine + GetAssists(statLine);
-                            currentDict["Total Points"] += Environment.NewLine + GetTotalPoints(statLine);
-                            currentDict["PPG"] += Environment.NewLine + GetPointsPerGame(statLine);
-                        }
-                    }
-                }
+                Dictionary<string, string> playerDict = new Dictionary<string, string>();
+                AddPlayerStatsToDict(playerDict, playerId, displayYear);
+                AddDraftDataToDict(playerDict, playerId);
+                rowData.Add(playerDict);
             }
-
-            List<string> columnNames = new List<string> { "First Name", "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG" };
 
             FillTable(dataGridView1, columnNames, rowData);
         }
 
-        static string GetEPStats(string playerId)
+        static void AddPlayerStatsToDict(Dictionary<string, string> playerDict, string playerId, string displayYear)
         {
-            WebRequest request = WebRequest.Create("http://api.eliteprospects.com:80/beta/players/" + playerId + "/stats");
-            WebResponse response = request.GetResponse();
+            JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
+            foreach (JToken statLine in statsJson["data"])
+            {
+                StatLineParser stats = new StatLineParser(statLine);
+                if (stats.GetGameType() == "REGULAR_SEASON" && stats.GetSeasonName() == displayYear)
+                {
+                    if (playerDict.Count == 0)
+                    {
+                        playerDict["First Name"] = stats.GetFirstName();
+                        playerDict["Last Name"] = stats.GetLastName();
+                        playerDict["Games Played"] = stats.GetGamesPlayed();
+                        playerDict["Goals"] = stats.GetGoals();
+                        playerDict["Assists"] = stats.GetAssists();
+                        playerDict["Total Points"] = stats.GetTotalPoints();
+                        playerDict["PPG"] = stats.GetPointsPerGame();
+                        playerDict["League"] = stats.GetLeagueName();
+                        playerDict["Team"] = stats.GetTeamName();
+                    }
+                    else
+                    {
+                        playerDict["Games Played"] += Environment.NewLine + stats.GetGamesPlayed();
+                        playerDict["Goals"] += Environment.NewLine + stats.GetGoals();
+                        playerDict["Assists"] += Environment.NewLine + stats.GetAssists();
+                        playerDict["Total Points"] += Environment.NewLine + stats.GetTotalPoints();
+                        playerDict["PPG"] += Environment.NewLine + stats.GetPointsPerGame();
+                        playerDict["League"] += Environment.NewLine + stats.GetLeagueName();
+                        playerDict["Team"] += Environment.NewLine + stats.GetTeamName();
+                    }
+                }
+            }
+        }
 
-            Stream dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
-            string jsonData = reader.ReadToEnd();
-
-            reader.Close();
-            response.Close();
-
-            return jsonData;
+        static void AddDraftDataToDict(Dictionary<string, string> playerDict, string playerId)
+        {
+            JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
+            JToken data = draftJson["data"];
+            if (data != null)
+            {
+                DraftDataParser draftData = new DraftDataParser(data.First);
+                playerDict["Draft Year"] = draftData.GetYear();
+                playerDict["Draft Round"] = draftData.GetRound();
+                playerDict["Draft Overall"] = draftData.GetOverall();
+                playerDict["Draft Team"] = draftData.GetTeamName();
+            }
         }
 
         static void FillTable(DataGridView dataGridView, List<string> columnNames, List<Dictionary<string, string>> rowData)
         {
-            // Columns
+            // Create Columns
             List<DataColumn> columns = new List<DataColumn>();
             foreach (string columnName in columnNames)
             {
@@ -127,53 +158,5 @@ namespace HockeyStats
             return table;
         }
 
-        static string GetGoals(JToken statLine)
-        {
-            return (string)statLine["G"];
-        }
-
-        static string GetFirstName(JToken statLine)
-        {
-            JObject player = (JObject)statLine["player"];
-            return (string)player["firstName"];
-        }
-
-        static string GetLastName(JToken statLine)
-        {
-            JObject player = (JObject)statLine["player"];
-            return (string)player["lastName"];
-        }
-
-        static string GetAssists(JToken statLine)
-        {
-            return (string)statLine["A"];
-        }
-
-        static string GetTeamName(JToken statLine)
-        {
-            JObject team = (JObject)statLine["team"];
-            return (string)team["name"];
-        }
-
-        static string GetLeagueName(JToken statLine)
-        {
-            JObject league = (JObject)statLine["league"];
-            return (string)league["name"];
-        }
-
-        static string GetTotalPoints(JToken statLine)
-        {
-            return (string)statLine["TP"];
-        }
-
-        static string GetGamesPlayed(JToken statLine)
-        {
-            return (string)statLine["GP"];
-        }
-
-        static string GetPointsPerGame(JToken statLine)
-        {
-            return (string)statLine["PPG"];
-        }
     }
 }
