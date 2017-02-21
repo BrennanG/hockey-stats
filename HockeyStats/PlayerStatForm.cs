@@ -78,6 +78,7 @@ namespace HockeyStats
                 int junk;
                 if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
                 {
+                    playerIdTextbox.Text = "Loading player...";
                     AddPlayer(playerId);
                     playerIdTextbox.Text = String.Empty;
                 }
@@ -166,6 +167,5 @@ namespace HockeyStats
             AddDraftDataToDict(playerDict, playerId);
             AddRowToDataTable(playerDict);
         }
-
     }
 }
