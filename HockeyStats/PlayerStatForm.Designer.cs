@@ -1,6 +1,6 @@
 ﻿namespace HockeyStats
 {
-    partial class Form1
+    partial class PlayerStatForm
     {
         /// <summary>
         /// Required designer variable.
@@ -31,6 +31,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.addPlayerButton = new System.Windows.Forms.Button();
+            this.playerIdTextbox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,22 +62,43 @@
             this.dataGridView1.Size = new System.Drawing.Size(967, 792);
             this.dataGridView1.TabIndex = 0;
             // 
-            // Form1
+            // addPlayerButton
+            // 
+            this.addPlayerButton.Location = new System.Drawing.Point(559, 648);
+            this.addPlayerButton.Name = "addPlayerButton";
+            this.addPlayerButton.Size = new System.Drawing.Size(75, 23);
+            this.addPlayerButton.TabIndex = 1;
+            this.addPlayerButton.Text = "Add Player";
+            this.addPlayerButton.UseVisualStyleBackColor = true;
+            // 
+            // playerIdTextbox
+            // 
+            this.playerIdTextbox.Location = new System.Drawing.Point(436, 650);
+            this.playerIdTextbox.Name = "playerIdTextbox";
+            this.playerIdTextbox.Size = new System.Drawing.Size(117, 20);
+            this.playerIdTextbox.TabIndex = 2;
+            // 
+            // PlayerStatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(967, 792);
+            this.Controls.Add(this.playerIdTextbox);
+            this.Controls.Add(this.addPlayerButton);
             this.Controls.Add(this.dataGridView1);
-            this.Name = "Form1";
+            this.Name = "PlayerStatForm";
             this.Text = "Hockey Stats";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button addPlayerButton;
+        private System.Windows.Forms.TextBox playerIdTextbox;
     }
 }
 
