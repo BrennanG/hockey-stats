@@ -15,8 +15,8 @@ namespace HockeyStats
             // Forwards
             "301349", // Tage Thompson
             "269034", // Jordan Kyrou
-            "201245", // Tanner Kaspick
-            "146116", // Nolan Stevens
+            //"201245", // Tanner Kaspick
+            //"146116", // Nolan Stevens
             //"84020", // Connor Bleackley
             //"207452", // Nikolaj Krag Christensen
             //"167520", // Filip Helt
@@ -59,16 +59,17 @@ namespace HockeyStats
             "First Name", "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League", "Draft Year", "Draft Round", "Draft Overall", "Draft Team"
         };
 
-        delegate void Del(object sender, DataGridViewCellEventArgs e);
+        private PlayerStatTable mainTable;
+        private PlayerStatTable secondaryTable;
 
         public PlayerStatForm()
         {
             InitializeComponent();
-            PlayerStatTable mainTable = new PlayerStatTable(mainTableDGV, mainTablePlayerIds, mainTableColumnData, mainTableDisplayYears);
-            PlayerStatTable secondaryTable = new PlayerStatTable(secondaryTableDGV, secondaryTablePlayerIds, secondaryTableColumnData, secondaryTableDisplayYears);
+            mainTable = new PlayerStatTable(mainTableDGV, mainTablePlayerIds, mainTableColumnData, mainTableDisplayYears);
+            secondaryTable = new PlayerStatTable(secondaryTableDGV, secondaryTablePlayerIds, secondaryTableColumnData, secondaryTableDisplayYears);
             CreateAddPlayerButton(mainTable);
-
-            //mainTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => this.BeginInvoke(new Del(ShowPlayer)));
+            
+            mainTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => ShowPlayer(sender, e));
         }
 
         private void CreateAddPlayerButton(PlayerStatTable playerStatTable)
@@ -79,7 +80,7 @@ namespace HockeyStats
                 if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
                 {
                     playerIdTextbox.Text = "Loading player...";
-                    playerStatTable.AddPlayerToDataTable(playerId);
+                    playerStatTable.AddPlayerById(playerId);
                     playerIdTextbox.Text = String.Empty;
                 }
             });
@@ -88,10 +89,10 @@ namespace HockeyStats
         private void ShowPlayer(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dgv = (DataGridView)sender;
+            string playerId = dgv.Rows[e.RowIndex].Cells[dgv.Columns["ID"].Index].Value.ToString();
+            Dictionary<string, string> existingPlayerDict = mainTable.GetDisplayDictById(playerId);
+            secondaryTable.ClearPlayersFromTable();
+            secondaryTable.AddPlayerByDisplayDict(existingPlayerDict);
         }
-
-        ////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////
     }
 }

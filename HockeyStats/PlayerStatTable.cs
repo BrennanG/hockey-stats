@@ -11,8 +11,9 @@ namespace HockeyStats
 {
     public class PlayerStatTable
     {
-        DataTable dataTable;
+        private DataTable dataTable;
         private DataGridView dataGridView;
+        private List<Dictionary<string, string>> savedDicts = new List<Dictionary<string, string>>();
         private List<string> playerIds;
         private List<string> columnData;
         private List<string> displayYears;
@@ -28,12 +29,32 @@ namespace HockeyStats
             new Thread(() => FillDataTable()).Start(); // Fill the main table in a separate thread
         }
 
-        public void AddPlayerToDataTable(string playerId)
+        public void AddPlayerById(string playerId)
         {
-            Dictionary<string, string> playerDict = new Dictionary<string, string>();
-            AddPlayerStatsToDict(playerDict, playerId);
-            AddDraftDataToDict(playerDict, playerId);
-            AddRowToDataTable(playerDict);
+            Dictionary<string, string> DisplayDict = new Dictionary<string, string>();
+            Dictionary<string, string> SavedDict = new Dictionary<string, string>();
+            AddPlayerStatsToDict(DisplayDict, SavedDict, playerId);
+            AddDraftDataToDict(DisplayDict, SavedDict, playerId);
+            AddRowToDataTable(DisplayDict);
+        }
+
+        public void AddPlayerByDisplayDict(Dictionary<string, string> DisplayDict)
+        {
+            AddRowToDataTable(DisplayDict);
+            savedDicts.Add(DisplayDict);
+            playerIds.Add(DisplayDict["ID"]);
+        }
+
+        public void ClearPlayersFromTable()
+        {
+            dataTable.Clear();
+            savedDicts.Clear();
+            playerIds.Clear();
+        }
+
+        public Dictionary<string, string> GetDisplayDictById(string playerId)
+        {
+            return savedDicts.Find((Dictionary<string, string> dict) => dict["ID"] == playerId);
         }
 
         private DataTable CreateDataTable(DataGridView dgv)
@@ -43,80 +64,104 @@ namespace HockeyStats
             {
                 dataTable.Columns.Add(new DataColumn(columnName));
             }
+
+            DataColumn primaryKeyColumn = dataTable.Columns.Add("ID");
+            //dataTable.PrimaryKey = new DataColumn[] { primaryKeyColumn };
+
             dgv.DataSource = dataTable;
             return dataTable;
         }
 
         private void FillDataTable()
         {
-            // Get Elite Prospects data for each player
             foreach (string playerId in playerIds)
             {
-                AddPlayerToDataTable(playerId);
+                AddPlayerById(playerId);
             }
         }
 
-        private void AddPlayerStatsToDict(Dictionary<string, string> playerDict, string playerId)
+        private void AddPlayerStatsToDict(Dictionary<string, string> displayDict, Dictionary<string, string> savedDict, string playerId)
         {
             JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
             foreach (JToken statLine in statsJson["data"])
             {
                 StatLineParser stats = new StatLineParser(statLine);
-                if (stats.GetGameType() == "REGULAR_SEASON" && (displayYears == null || displayYears.Count == 0 || displayYears.Contains(stats.GetSeasonName())))
+                if (stats.GetGameType() == "REGULAR_SEASON")
                 {
-                    if (playerDict.Count == 0)
+                    if (displayYears == null || displayYears.Count == 0 || displayYears.Contains(stats.GetSeasonName()))
                     {
-                        playerDict["First Name"] = stats.GetFirstName();
-                        playerDict["Last Name"] = stats.GetLastName();
-                        playerDict["Games Played"] = stats.GetGamesPlayed();
-                        playerDict["Goals"] = stats.GetGoals();
-                        playerDict["Assists"] = stats.GetAssists();
-                        playerDict["Total Points"] = stats.GetTotalPoints();
-                        playerDict["PPG"] = stats.GetPointsPerGame();
-                        playerDict["League"] = stats.GetLeagueName();
-                        playerDict["Team"] = stats.GetTeamName();
+                        FillDictWithStats(displayDict, playerId, stats);
                     }
-                    else
-                    {
-                        playerDict["Games Played"] += Environment.NewLine + stats.GetGamesPlayed();
-                        playerDict["Goals"] += Environment.NewLine + stats.GetGoals();
-                        playerDict["Assists"] += Environment.NewLine + stats.GetAssists();
-                        playerDict["Total Points"] += Environment.NewLine + stats.GetTotalPoints();
-                        playerDict["PPG"] += Environment.NewLine + stats.GetPointsPerGame();
-                        playerDict["League"] += Environment.NewLine + stats.GetLeagueName();
-                        playerDict["Team"] += Environment.NewLine + stats.GetTeamName();
-                    }
+                    savedDicts.Add(FillDictWithStats(savedDict, playerId, stats));
                 }
+                
             }
         }
 
-        private void AddDraftDataToDict(Dictionary<string, string> playerDict, string playerId)
+        private void AddDraftDataToDict(Dictionary<string, string> displayDict, Dictionary<string, string> savedDict, string playerId)
         {
             JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
             JToken data = draftJson["data"];
             if (data != null)
             {
                 DraftDataParser draftData = new DraftDataParser(data.First);
-                playerDict["Draft Year"] = draftData.GetYear();
-                playerDict["Draft Round"] = draftData.GetRound();
-                playerDict["Draft Overall"] = draftData.GetOverall();
-                playerDict["Draft Team"] = draftData.GetTeamName();
+                FillDictWithDraftData(displayDict, draftData);
+                FillDictWithDraftData(savedDict, draftData);
             }
         }
 
-        private void AddRowToDataTable(Dictionary<string, string> rowDict)
+        private void AddRowToDataTable(Dictionary<string, string> displayDict)
         {
-            string[] orderedRowValues = new string[columnData.Count];
-            for (int i = 0; i < columnData.Count; i++)
+            string[] orderedRowValues = new string[dataTable.Columns.Count];
+            for (int i = 0; i < dataTable.Columns.Count; i++)
             {
-                string outString = String.Empty;
+                string junk = String.Empty;
                 // If the column exists in the row, add the value
-                if (rowDict.TryGetValue(columnData[i], out outString))
+                if (displayDict.TryGetValue(dataTable.Columns[i].ColumnName, out junk))
                 {
-                    orderedRowValues[i] = rowDict[columnData[i]];
+                    orderedRowValues[i] = displayDict[dataTable.Columns[i].ColumnName];
                 }
             }
             dataTable.Rows.Add(orderedRowValues);
+        }
+
+        private Dictionary<string, string> FillDictWithStats(Dictionary<string, string> dict, string playerId, StatLineParser stats)
+        {
+            if (dict.Count == 0)
+            {
+                dict["ID"] = playerId;
+                dict["First Name"] = stats.GetFirstName();
+                dict["Last Name"] = stats.GetLastName();
+                dict["Games Played"] = stats.GetGamesPlayed();
+                dict["Goals"] = stats.GetGoals();
+                dict["Assists"] = stats.GetAssists();
+                dict["Total Points"] = stats.GetTotalPoints();
+                dict["PPG"] = stats.GetPointsPerGame();
+                dict["League"] = stats.GetLeagueName();
+                dict["Team"] = stats.GetTeamName();
+            }
+            else
+            {
+                dict["Games Played"] += Environment.NewLine + stats.GetGamesPlayed();
+                dict["Goals"] += Environment.NewLine + stats.GetGoals();
+                dict["Assists"] += Environment.NewLine + stats.GetAssists();
+                dict["Total Points"] += Environment.NewLine + stats.GetTotalPoints();
+                dict["PPG"] += Environment.NewLine + stats.GetPointsPerGame();
+                dict["League"] += Environment.NewLine + stats.GetLeagueName();
+                dict["Team"] += Environment.NewLine + stats.GetTeamName();
+            }
+
+            return dict;
+        }
+
+        private Dictionary<string, string> FillDictWithDraftData(Dictionary<string, string> dict, DraftDataParser draftData)
+        {
+            dict["Draft Year"] = draftData.GetYear();
+            dict["Draft Round"] = draftData.GetRound();
+            dict["Draft Overall"] = draftData.GetOverall();
+            dict["Draft Team"] = draftData.GetTeamName();
+
+            return dict;
         }
     }
 }
