@@ -9,8 +9,8 @@ namespace HockeyStats
 {
     public partial class PlayerStatForm : Form
     {
-        private string displayYear = "2016-2017";
-        private List<string> playerIds = new List<string>
+        private List<string> mainTableDisplayYears = new List<string> { "2016-2017" };
+        private List<string> mainTablePlayerIds = new List<string>
         {
             // Forwards
             "301349", // Tage Thompson
@@ -47,31 +47,31 @@ namespace HockeyStats
             //"45342", // Jani Hakanpaa
             //"34836", // Konrad Abeltshauser
         };
-        private DataTable dataTable = new DataTable();
-        private List<string> columnData = new List<string>
+        private List<string> mainTableColumnData = new List<string>
         {
             "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League", "Draft Year", "Draft Round", "Draft Overall", "Draft Team"
         };
-        private List<Dictionary<string, string>> rowData = new List<Dictionary<string, string>>();
+
+        private List<string> secondaryTableDisplayYears = null;
+        private List<string> secondaryTablePlayerIds = new List<string>{ };
+        private List<string> secondaryTableColumnData = new List<string>
+        {
+            "First Name", "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League", "Draft Year", "Draft Round", "Draft Overall", "Draft Team"
+        };
+
+        delegate void Del(object sender, DataGridViewCellEventArgs e);
 
         public PlayerStatForm()
         {
             InitializeComponent();
-            CreateTable();
-            new Thread(() => FillTable()).Start(); // Fill the table in a separate thread
-            CreateAddPlayerButton();
+            PlayerStatTable mainTable = new PlayerStatTable(mainTableDGV, mainTablePlayerIds, mainTableColumnData, mainTableDisplayYears);
+            PlayerStatTable secondaryTable = new PlayerStatTable(secondaryTableDGV, secondaryTablePlayerIds, secondaryTableColumnData, secondaryTableDisplayYears);
+            CreateAddPlayerButton(mainTable);
+
+            //mainTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => this.BeginInvoke(new Del(ShowPlayer)));
         }
 
-        private void CreateTable()
-        {
-            foreach (string columnName in columnData)
-            {
-                dataTable.Columns.Add(new DataColumn(columnName));
-            }
-            dataGridView1.DataSource = dataTable;
-        }
-
-        private void CreateAddPlayerButton()
+        private void CreateAddPlayerButton(PlayerStatTable playerStatTable)
         {
             addPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
                 string playerId = playerIdTextbox.Text;
@@ -79,93 +79,19 @@ namespace HockeyStats
                 if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
                 {
                     playerIdTextbox.Text = "Loading player...";
-                    AddPlayer(playerId);
+                    playerStatTable.AddPlayerToDataTable(playerId);
                     playerIdTextbox.Text = String.Empty;
                 }
             });
         }
 
-        private void FillTable()
+        private void ShowPlayer(object sender, DataGridViewCellEventArgs e)
         {
-            // Get Elite Prospects data for each player
-            foreach (string playerId in playerIds)
-            {
-                Dictionary<string, string> playerDict = new Dictionary<string, string>();
-                AddPlayerStatsToDict(playerDict, playerId);
-                AddDraftDataToDict(playerDict, playerId);
-                AddRowToDataTable(playerDict);
-            }
+            DataGridView dgv = (DataGridView)sender;
         }
 
-        private void AddPlayerStatsToDict(Dictionary<string, string> playerDict, string playerId)
-        {
-            JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
-            foreach (JToken statLine in statsJson["data"])
-            {
-                StatLineParser stats = new StatLineParser(statLine);
-                if (stats.GetGameType() == "REGULAR_SEASON" && stats.GetSeasonName() == displayYear)
-                {
-                    if (playerDict.Count == 0)
-                    {
-                        playerDict["First Name"] = stats.GetFirstName();
-                        playerDict["Last Name"] = stats.GetLastName();
-                        playerDict["Games Played"] = stats.GetGamesPlayed();
-                        playerDict["Goals"] = stats.GetGoals();
-                        playerDict["Assists"] = stats.GetAssists();
-                        playerDict["Total Points"] = stats.GetTotalPoints();
-                        playerDict["PPG"] = stats.GetPointsPerGame();
-                        playerDict["League"] = stats.GetLeagueName();
-                        playerDict["Team"] = stats.GetTeamName();
-                    }
-                    else
-                    {
-                        playerDict["Games Played"] += Environment.NewLine + stats.GetGamesPlayed();
-                        playerDict["Goals"] += Environment.NewLine + stats.GetGoals();
-                        playerDict["Assists"] += Environment.NewLine + stats.GetAssists();
-                        playerDict["Total Points"] += Environment.NewLine + stats.GetTotalPoints();
-                        playerDict["PPG"] += Environment.NewLine + stats.GetPointsPerGame();
-                        playerDict["League"] += Environment.NewLine + stats.GetLeagueName();
-                        playerDict["Team"] += Environment.NewLine + stats.GetTeamName();
-                    }
-                }
-            }
-        }
-
-        private void AddDraftDataToDict(Dictionary<string, string> playerDict, string playerId)
-        {
-            JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
-            JToken data = draftJson["data"];
-            if (data != null)
-            {
-                DraftDataParser draftData = new DraftDataParser(data.First);
-                playerDict["Draft Year"] = draftData.GetYear();
-                playerDict["Draft Round"] = draftData.GetRound();
-                playerDict["Draft Overall"] = draftData.GetOverall();
-                playerDict["Draft Team"] = draftData.GetTeamName();
-            }
-        }
-
-        private void AddRowToDataTable(Dictionary<string, string> rowDict)
-        {
-            string[] orderedRowValues = new string[columnData.Count];
-            for (int i = 0; i < columnData.Count; i++)
-            {
-                string outString = String.Empty;
-                // If the column exists in the row, add the value
-                if (rowDict.TryGetValue(columnData[i], out outString))
-                {
-                    orderedRowValues[i] = rowDict[columnData[i]];
-                }
-            }
-            dataTable.Rows.Add(orderedRowValues);
-        }
-
-        private void AddPlayer(string playerId)
-        {
-            Dictionary<string, string> playerDict = new Dictionary<string, string>();
-            AddPlayerStatsToDict(playerDict, playerId);
-            AddDraftDataToDict(playerDict, playerId);
-            AddRowToDataTable(playerDict);
-        }
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
     }
 }
