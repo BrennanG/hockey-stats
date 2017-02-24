@@ -106,7 +106,7 @@ namespace HockeyStats
         }
 
         // Stats from season object
-        public string GetSeasonName()
+        public string GetYear()
         {
             return (string)seasonObj["name"];
         }

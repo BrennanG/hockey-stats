@@ -51,28 +51,26 @@ namespace HockeyStats
         {
             "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League", "Draft Year", "Draft Round", "Draft Overall", "Draft Team"
         };
-
-        private List<string> secondaryTableDisplayYears = null;
-        private List<string> secondaryTablePlayerIds = new List<string>{ };
+        
         private List<string> secondaryTableColumnData = new List<string>
         {
-            "First Name", "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League", "Draft Year", "Draft Round", "Draft Overall", "Draft Team"
+            "Year", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League"
         };
 
-        private PlayerStatTable mainTable;
-        private PlayerStatTable secondaryTable;
+        private MultiPlayerStatTable mainTable;
+        private SinglePlayerStatTable secondaryTable;
 
         public PlayerStatForm()
         {
             InitializeComponent();
-            mainTable = new PlayerStatTable(mainTableDGV, mainTablePlayerIds, mainTableColumnData, mainTableDisplayYears);
-            secondaryTable = new PlayerStatTable(secondaryTableDGV, secondaryTablePlayerIds, secondaryTableColumnData, secondaryTableDisplayYears);
+            mainTable = new MultiPlayerStatTable(mainTableDGV, mainTableColumnData, mainTableDisplayYears, mainTablePlayerIds);
+            secondaryTable = new SinglePlayerStatTable(secondaryTableDGV, secondaryTableColumnData);
             CreateAddPlayerButton(mainTable);
             
             mainTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => ShowPlayer(sender, e));
         }
 
-        private void CreateAddPlayerButton(PlayerStatTable playerStatTable)
+        private void CreateAddPlayerButton(MultiPlayerStatTable playerStatTable)
         {
             addPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
                 string playerId = playerIdTextbox.Text;
