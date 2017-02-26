@@ -53,6 +53,7 @@
     <Compile Include="DraftDataParser.cs" />
     <Compile Include="EliteProspectsAPI.cs" />
     <Compile Include="MultiPlayerStatTable.cs" />
+    <Compile Include="PlayerConstantStatTable.cs" />
     <Compile Include="PlayerStatForm.cs">
       <SubType>Form</SubType>
     </Compile>

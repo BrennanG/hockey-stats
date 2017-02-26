@@ -19,7 +19,8 @@ namespace HockeyStats
         {
             this.displayYears = displayYears;
             this.playerIds = playerIds;
-            new Thread(() => FillDataTable()).Start(); // Fill the main table in a separate thread
+            dataTable.Columns.Add("ID");
+            new Thread(() => FillDataTable()).Start(); // Fill the table in a separate thread
         }
 
         public void AddPlayerById(string playerId)

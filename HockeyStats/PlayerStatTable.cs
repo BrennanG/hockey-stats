@@ -46,9 +46,6 @@ namespace HockeyStats
                 dataTable.Columns.Add(new DataColumn(columnName));
             }
 
-            DataColumn primaryKeyColumn = dataTable.Columns.Add("ID");
-            //dataTable.PrimaryKey = new DataColumn[] { primaryKeyColumn };
-
             dgv.DataSource = dataTable;
             return dataTable;
         }

@@ -9,8 +9,8 @@ namespace HockeyStats
 {
     public partial class PlayerStatForm : Form
     {
-        private List<string> mainTableDisplayYears = new List<string> { "2016-2017" };
-        private List<string> mainTablePlayerIds = new List<string>
+        private List<string> firstTableDisplayYears = new List<string> { "2016-2017" };
+        private List<string> firstTablePlayerIds = new List<string>
         {
             // Forwards
             "301349", // Tage Thompson
@@ -47,27 +47,29 @@ namespace HockeyStats
             //"45342", // Jani Hakanpaa
             //"34836", // Konrad Abeltshauser
         };
-        private List<string> mainTableColumnData = new List<string>
+        private List<string> firstTableColumnData = new List<string>
         {
             "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League", "Draft Year", "Draft Round", "Draft Overall", "Draft Team"
         };
-        
-        private List<string> secondaryTableColumnData = new List<string>
+
+        private List<string> thirdTableColumnData = new List<string>
         {
             "Year", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League"
         };
 
-        private MultiPlayerStatTable mainTable;
-        private SinglePlayerStatTable secondaryTable;
+        private MultiPlayerStatTable firstTable;
+        private PlayerConstantStatTable secondTable;
+        private SinglePlayerStatTable thirdTable;
 
         public PlayerStatForm()
         {
             InitializeComponent();
-            mainTable = new MultiPlayerStatTable(mainTableDGV, mainTableColumnData, mainTableDisplayYears, mainTablePlayerIds);
-            secondaryTable = new SinglePlayerStatTable(secondaryTableDGV, secondaryTableColumnData);
-            CreateAddPlayerButton(mainTable);
-            
-            mainTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => ShowPlayer(sender, e));
+            firstTable = new MultiPlayerStatTable(firstTableDGV, firstTableColumnData, firstTableDisplayYears, firstTablePlayerIds);
+            secondTable = new PlayerConstantStatTable(secondTableDGV);
+            thirdTable = new SinglePlayerStatTable(thirdTableDGV, thirdTableColumnData);
+
+            CreateAddPlayerButton(firstTable);
+            firstTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => ShowPlayerInSecondAndThirdTables(sender, e));
         }
 
         private void CreateAddPlayerButton(MultiPlayerStatTable playerStatTable)
@@ -84,13 +86,17 @@ namespace HockeyStats
             });
         }
 
-        private void ShowPlayer(object sender, DataGridViewCellEventArgs e)
+        private void ShowPlayerInSecondAndThirdTables(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dgv = (DataGridView)sender;
             string playerId = dgv.Rows[e.RowIndex].Cells[dgv.Columns["ID"].Index].Value.ToString();
-            Dictionary<string, string> existingPlayerDict = mainTable.GetDisplayDictById(playerId);
-            secondaryTable.ClearPlayersFromTable();
-            secondaryTable.AddPlayerByDisplayDict(existingPlayerDict);
+            Dictionary<string, string> existingPlayerDict = firstTable.GetDisplayDictById(playerId);
+
+            secondTable.ClearTable();
+            secondTable.AddPlayerByDisplayDict(existingPlayerDict);
+
+            thirdTable.ClearTable();
+            thirdTable.AddPlayerByDisplayDict(existingPlayerDict);
         }
     }
 }
