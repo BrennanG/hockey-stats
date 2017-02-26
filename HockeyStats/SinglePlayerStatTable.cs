@@ -16,28 +16,36 @@ namespace HockeyStats
 
         public void AddPlayerByDisplayDict(Dictionary<string, string> displayDict)
         {
-            List<List<string>> listOfSplitValues = new List<List<string>>();
+            Dictionary<string, List<string>> keyToListOfValues = new Dictionary<string, List<string>>();
             int maxNumberOfValues = 0;
-            foreach (string value in displayDict.Values)
+            foreach (KeyValuePair<string, string> entry in displayDict)
             {
-                List<string> splitValues = value.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
-                listOfSplitValues.Add(splitValues);
+                List<string> splitValues = entry.Value.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
                 maxNumberOfValues = Math.Max(maxNumberOfValues, splitValues.Count());
+                keyToListOfValues[entry.Key] = splitValues;
             }
-            
+
+            List<Dictionary<string, string>> listOfDictsToAdd = new List<Dictionary<string, string>>();
             for (int i = 0; i < maxNumberOfValues; i++)
             {
-                Dictionary<string, string> tempDict = new Dictionary<string, string>();
-                int j = 0;
-                foreach (string key in displayDict.Keys)
+                Dictionary<string, string> dictForCurrentYear = listOfDictsToAdd.FirstOrDefault(d => keyToListOfValues["Year"][i] == d["Year"]);
+                Dictionary<string, string> dictToAdd = new Dictionary<string, string>();
+                foreach (KeyValuePair<string, List<string>> entry in keyToListOfValues)
                 {
-                    List<string> valuesForKey = listOfSplitValues[j];
-                    int index = (i <= valuesForKey.Count() - 1) ? i : valuesForKey.Count() - 1;
-                    tempDict.Add(key, valuesForKey[index]);
-                    j++;
+                    int index = (i <= entry.Value.Count() - 1) ? i : entry.Value.Count() - 1;
+                    if (dictForCurrentYear == null)
+                    {
+                        dictToAdd[entry.Key] = entry.Value[index];
+                    }
+                    else if (entry.Key != "Year")
+                    {
+                        dictForCurrentYear[entry.Key] += Environment.NewLine + entry.Value[index];
+                    }
                 }
-                AddRowToDataTable(tempDict);
+                if (dictToAdd.Count() > 0) { listOfDictsToAdd.Add(dictToAdd); }
             }
+
+            listOfDictsToAdd.ForEach((Dictionary<string, string> d) => AddRowToDataTable(d));
         }
 
         public void ClearTable()
