@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <playerIds>
+    <string>301349</string>
+    <string>269034</string>
+    <string>201245</string>
+    <string>146116</string>
+    <string>84020</string>
+    <string>207452</string>
+    <string>167520</string>
+    <string>189422</string>
+    <string>192245</string>
+    <string>234450</string>
+    <string>156923</string>
+    <string>108659</string>
+    <string>231724</string>
+    <string>213830</string>
+    <string>191247</string>
+    <string>183505</string>
+    <string>26385</string>
+    <string>65564</string>
+    <string>90315</string>
+    <string>233028</string>
+    <string>161816</string>
+    <string>94439</string>
+    <string>248066</string>
+    <string>196704</string>
+    <string>60924</string>
+    <string>50291</string>
+    <string>89411</string>
+    <string>45347</string>
+    <string>59478</string>
+    <string>168690</string>
+    <string>45342</string>
+    <string>34836</string>
+  </playerIds>
+  <displayYears>
+    <string>2016-2017</string>
+  </displayYears>
+  <primaryTableColumnNames>
+    <string>Last Name</string>
+    <string>Games Played</string>
+    <string>Goals</string>
+    <string>Assists</string>
+    <string>Total Points</string>
+    <string>PPG</string>
+    <string>League</string>
+    <string>Draft Year</string>
+    <string>Draft Round</string>
+    <string>Draft Overall</string>
+    <string>Draft Team</string>
+  </primaryTableColumnNames>
+  <secondaryTableColumnNames>
+    <string>Year</string>
+    <string>Games Played</string>
+    <string>Goals</string>
+    <string>Assists</string>
+    <string>Total Points</string>
+    <string>PPG</string>
+    <string>League</string>
+  </secondaryTableColumnNames>
+</PlayerList>

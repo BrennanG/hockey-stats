@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <playerIds>
+    <string>301349</string>
+    <string>269034</string>
+  </playerIds>
+  <displayYears>
+    <string>2016-2017</string>
+  </displayYears>
+  <primaryTableColumnNames>
+    <string>Last Name</string>
+    <string>Games Played</string>
+    <string>Goals</string>
+    <string>Assists</string>
+    <string>Total Points</string>
+    <string>PPG</string>
+    <string>League</string>
+    <string>Draft Year</string>
+    <string>Draft Round</string>
+    <string>Draft Overall</string>
+    <string>Draft Team</string>
+  </primaryTableColumnNames>
+  <secondaryTableColumnNames>
+    <string>Year</string>
+    <string>Games Played</string>
+    <string>Goals</string>
+    <string>Assists</string>
+    <string>Total Points</string>
+    <string>PPG</string>
+    <string>League</string>
+  </secondaryTableColumnNames>
+</PlayerList>
