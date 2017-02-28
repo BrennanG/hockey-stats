@@ -68,6 +68,8 @@ namespace HockeyStats
         {
             InitializeComponent();
 
+            LoadPlayerList("bluesProspectsShort");
+
             //PlayerList playerList = new PlayerList();
             //playerList.displayYears = firstTableDisplayYears;
             //playerList.playerIds = firstTablePlayerIds;
@@ -77,13 +79,16 @@ namespace HockeyStats
             string[] playerListFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*" + FILENAME_SUFFIX);
             FillSelectListDropDown(playerListFiles);
 
-            PlayerList playerList = Serializer.DeserializeObject<PlayerList>("bluesProspectsShort" + FILENAME_SUFFIX);
+            CreateAddPlayerButton();
+            firstTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => ShowSelectedPlayerInSecondAndThirdTables(sender, e));
+        }
+
+        private void LoadPlayerList(string listName)
+        {
+            PlayerList playerList = Serializer.DeserializeObject<PlayerList>(listName + FILENAME_SUFFIX);
             firstTable = new MultiPlayerStatTable(firstTableDGV, playerList.primaryTableColumnNames, playerList.displayYears, playerList.playerIds);
             secondTable = new PlayerConstantStatTable(secondTableDGV);
             thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryTableColumnNames);
-
-            CreateAddPlayerButton(firstTable);
-            firstTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => ShowPlayerInSecondAndThirdTables(sender, e));
         }
 
         private void FillSelectListDropDown(string[] playerListFiles)
@@ -93,12 +98,13 @@ namespace HockeyStats
                 // Get the name without the file path or suffix
                 string file = Path.GetFileName(fileWithPath);
                 string listName = file.Substring(0, file.Length - FILENAME_SUFFIX.Length);
-
-                SelectListDropDown.DropDownItems.Add(listName);
+                
+                EventHandler selectHandler = new EventHandler((object sender, EventArgs e) => LoadPlayerList(listName));
+                SelectListDropDown.DropDownItems.Add(listName, null, selectHandler);
             }
         }
 
-        private void CreateAddPlayerButton(MultiPlayerStatTable playerStatTable)
+        private void CreateAddPlayerButton()
         {
             addPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
                 string playerId = playerIdTextbox.Text;
@@ -106,16 +112,15 @@ namespace HockeyStats
                 if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
                 {
                     playerIdTextbox.Text = "Loading player...";
-                    playerStatTable.AddPlayerById(playerId);
+                    firstTable.AddPlayerById(playerId);
                     playerIdTextbox.Text = String.Empty;
                 }
             });
         }
 
-        private void ShowPlayerInSecondAndThirdTables(object sender, DataGridViewCellEventArgs e)
+        private void ShowSelectedPlayerInSecondAndThirdTables(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridView dgv = (DataGridView)sender;
-            string playerId = dgv.Rows[e.RowIndex].Cells[dgv.Columns["ID"].Index].Value.ToString();
+            string playerId = firstTableDGV.Rows[e.RowIndex].Cells[firstTableDGV.Columns["ID"].Index].Value.ToString();
             Dictionary<string, string> existingPlayerDict = firstTable.GetDisplayDictById(playerId);
 
             secondTable.ClearTable();
