@@ -37,19 +37,18 @@
             this.addPlayerButton = new System.Windows.Forms.Button();
             this.addPlayerTextbox = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.createListButton = new System.Windows.Forms.Button();
+            this.createListTextbox = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.selectListDropDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadListDropDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.secondTableDGV = new System.Windows.Forms.DataGridView();
             this.thirdTableDGV = new System.Windows.Forms.DataGridView();
-            this.createListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.createListTextbox = new System.Windows.Forms.TextBox();
-            this.createListButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.firstTableDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -130,12 +129,29 @@
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 3;
             // 
+            // createListButton
+            // 
+            this.createListButton.Location = new System.Drawing.Point(316, 1);
+            this.createListButton.Name = "createListButton";
+            this.createListButton.Size = new System.Drawing.Size(75, 23);
+            this.createListButton.TabIndex = 3;
+            this.createListButton.Text = "Create";
+            this.createListButton.UseVisualStyleBackColor = true;
+            this.createListButton.Visible = false;
+            // 
+            // createListTextbox
+            // 
+            this.createListTextbox.Location = new System.Drawing.Point(210, 3);
+            this.createListTextbox.Name = "createListTextbox";
+            this.createListTextbox.Size = new System.Drawing.Size(100, 20);
+            this.createListTextbox.TabIndex = 2;
+            this.createListTextbox.Visible = false;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectListDropDown,
-            this.saveAsToolStripMenuItem,
-            this.saveToolStripMenuItem,
+            this.loadListDropDown,
+            this.saveListToolStripMenuItem,
             this.createListToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -143,11 +159,23 @@
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // selectListDropDown
+            // loadListDropDown
             // 
-            this.selectListDropDown.Name = "selectListDropDown";
-            this.selectListDropDown.Size = new System.Drawing.Size(71, 20);
-            this.selectListDropDown.Text = "Select List";
+            this.loadListDropDown.Name = "loadListDropDown";
+            this.loadListDropDown.Size = new System.Drawing.Size(66, 20);
+            this.loadListDropDown.Text = "Load List";
+            // 
+            // saveListToolStripMenuItem
+            // 
+            this.saveListToolStripMenuItem.Name = "saveListToolStripMenuItem";
+            this.saveListToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.saveListToolStripMenuItem.Text = "Save List";
+            // 
+            // createListToolStripMenuItem
+            // 
+            this.createListToolStripMenuItem.Name = "createListToolStripMenuItem";
+            this.createListToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+            this.createListToolStripMenuItem.Text = "Create List";
             // 
             // tableLayoutPanel1
             // 
@@ -251,42 +279,6 @@
             this.thirdTableDGV.Size = new System.Drawing.Size(631, 422);
             this.thirdTableDGV.TabIndex = 3;
             // 
-            // createListToolStripMenuItem
-            // 
-            this.createListToolStripMenuItem.Name = "createListToolStripMenuItem";
-            this.createListToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
-            this.createListToolStripMenuItem.Text = "Create List";
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
-            this.saveAsToolStripMenuItem.Text = "Save As";
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.saveToolStripMenuItem.Text = "Save";
-            // 
-            // createListTextbox
-            // 
-            this.createListTextbox.Location = new System.Drawing.Point(262, 3);
-            this.createListTextbox.Name = "createListTextbox";
-            this.createListTextbox.Size = new System.Drawing.Size(100, 20);
-            this.createListTextbox.TabIndex = 2;
-            this.createListTextbox.Visible = false;
-            // 
-            // createListButton
-            // 
-            this.createListButton.Location = new System.Drawing.Point(368, 1);
-            this.createListButton.Name = "createListButton";
-            this.createListButton.Size = new System.Drawing.Size(75, 23);
-            this.createListButton.TabIndex = 3;
-            this.createListButton.Text = "Create";
-            this.createListButton.UseVisualStyleBackColor = true;
-            this.createListButton.Visible = false;
-            // 
             // PlayerStatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -329,10 +321,9 @@
         private System.Windows.Forms.DataGridView thirdTableDGV;
         private System.Windows.Forms.DataGridView secondTableDGV;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem selectListDropDown;
+        private System.Windows.Forms.ToolStripMenuItem loadListDropDown;
         private System.Windows.Forms.ToolStripMenuItem createListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveListToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button createListButton;
         private System.Windows.Forms.TextBox createListTextbox;

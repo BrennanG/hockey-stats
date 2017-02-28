@@ -8,6 +8,7 @@ namespace HockeyStats
     [Serializable]
     public class PlayerList
     {
+        public string listName;
         public List<string> playerIds;
         public List<string> displayYears;
         public List<string> primaryTableColumnNames;
@@ -20,6 +21,7 @@ namespace HockeyStats
 
         public void FillWithDefaults()
         {
+            listName = "defaultName";
             playerIds = new List<string>();
             displayYears = new List<string>() { "2016-2017" };
             primaryTableColumnNames = new List<string>
