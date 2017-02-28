@@ -15,7 +15,21 @@ namespace HockeyStats
         
         public PlayerList()
         {
+            
+        }
 
+        public void FillWithDefaults()
+        {
+            playerIds = new List<string>();
+            displayYears = new List<string>() { "2016-2017" };
+            primaryTableColumnNames = new List<string>
+            {
+                "Last Name", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League", "Draft Year", "Draft Round", "Draft Overall", "Draft Team"
+            };
+            secondaryTableColumnNames = new List<string>
+            {
+                "Year", "Games Played", "Goals", "Assists", "Total Points", "PPG", "League"
+            };
         }
     }
 }

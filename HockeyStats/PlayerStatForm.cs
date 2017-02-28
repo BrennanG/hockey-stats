@@ -76,23 +76,24 @@ namespace HockeyStats
             //playerList.primaryTableColumnNames = firstTableColumnData;
             //playerList.secondaryTableColumnNames = thirdTableColumnData;
             //Serializer.SerializeObject<PlayerList>(playerList, "bluesProspects.playerList.xml");
-            string[] playerListFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*" + FILENAME_SUFFIX);
-            FillSelectListDropDown(playerListFiles);
-
-            CreateAddPlayerButton();
-            firstTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => ShowSelectedPlayerInSecondAndThirdTables(sender, e));
+            FillSelectListDropDown();
+            SetupCreateListButton();
+            SetupAddPlayerButton();
+            SetupShowSelectedPlayer();
         }
 
-        private void LoadPlayerList(string listName)
+        private void LoadPlayerList(string fileName)
         {
-            PlayerList playerList = Serializer.DeserializeObject<PlayerList>(listName + FILENAME_SUFFIX);
+            PlayerList playerList = Serializer.DeserializeObject<PlayerList>(fileName + FILENAME_SUFFIX);
             firstTable = new MultiPlayerStatTable(firstTableDGV, playerList.primaryTableColumnNames, playerList.displayYears, playerList.playerIds);
             secondTable = new PlayerConstantStatTable(secondTableDGV);
             thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryTableColumnNames);
         }
 
-        private void FillSelectListDropDown(string[] playerListFiles)
+        private void FillSelectListDropDown()
         {
+            selectListDropDown.DropDownItems.Clear();
+            string[] playerListFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*" + FILENAME_SUFFIX);
             foreach (string fileWithPath in playerListFiles)
             {
                 // Get the name without the file path or suffix
@@ -100,34 +101,93 @@ namespace HockeyStats
                 string listName = file.Substring(0, file.Length - FILENAME_SUFFIX.Length);
                 
                 EventHandler selectHandler = new EventHandler((object sender, EventArgs e) => LoadPlayerList(listName));
-                SelectListDropDown.DropDownItems.Add(listName, null, selectHandler);
+                selectListDropDown.DropDownItems.Add(listName, null, selectHandler);
             }
         }
 
-        private void CreateAddPlayerButton()
+        private void OpenSaveDialog()
+        {
+            saveFileDialog.Filter = "PlayerList|*.playerList.xml";
+            saveFileDialog.Title = "Save Player List";
+            saveFileDialog.ShowDialog();
+
+            //if (saveFileDialog.FileName != "")
+            //{
+            //    // Saves the Image via a FileStream created by the OpenFile method.  
+            //    FileStream fs = (FileStream)saveFileDialog.OpenFile();
+            //    // Saves the Image in the appropriate ImageFormat based upon the  
+            //    // File type selected in the dialog box.  
+            //    // NOTE that the FilterIndex property is one-based.  
+            //    switch (saveFileDialog.FilterIndex)
+            //    {
+            //        case 1:
+            //            this.button2.Image.Save(fs, System.Drawing.Imaging.ImageFormat.Jpeg);
+            //            break;
+
+            //        case 2:
+            //            this.button2.Image.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
+            //            break;
+
+            //        case 3:
+            //            this.button2.Image.Save(fs, System.Drawing.Imaging.ImageFormat.Gif);
+            //            break;
+            //    }
+
+            //    fs.Close();
+            //}
+        }
+
+        private void SetupCreateListButton()
+        {
+            createListButton.Click += new EventHandler((object sender, EventArgs e) => {
+                if (!createListTextbox.Text.Equals(String.Empty))
+                {
+                    string fileName = createListTextbox.Text + FILENAME_SUFFIX;
+                    PlayerList playerList = new PlayerList();
+                    playerList.FillWithDefaults();
+                    Serializer.SerializeObject(playerList, fileName);
+
+                    LoadPlayerList(createListTextbox.Text);
+                    FillSelectListDropDown();
+
+                    createListTextbox.Text = String.Empty;
+                    createListTextbox.Visible = false;
+                    createListButton.Visible = false;
+                }
+            });
+
+            createListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) => {
+                createListTextbox.Visible = true;
+                createListButton.Visible = true;
+            });
+        }
+
+        private void SetupAddPlayerButton()
         {
             addPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
-                string playerId = playerIdTextbox.Text;
+                string playerId = addPlayerTextbox.Text;
                 int junk;
                 if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
                 {
-                    playerIdTextbox.Text = "Loading player...";
+                    addPlayerTextbox.Text = "Loading player...";
                     firstTable.AddPlayerById(playerId);
-                    playerIdTextbox.Text = String.Empty;
+                    addPlayerTextbox.Text = String.Empty;
                 }
             });
         }
 
-        private void ShowSelectedPlayerInSecondAndThirdTables(object sender, DataGridViewCellEventArgs e)
+        private void SetupShowSelectedPlayer()
         {
-            string playerId = firstTableDGV.Rows[e.RowIndex].Cells[firstTableDGV.Columns["ID"].Index].Value.ToString();
-            Dictionary<string, string> existingPlayerDict = firstTable.GetDisplayDictById(playerId);
+            firstTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => {
+                string playerId = firstTableDGV.Rows[e.RowIndex].Cells[firstTableDGV.Columns["ID"].Index].Value.ToString();
+                Dictionary<string, string> existingPlayerDict = firstTable.GetDisplayDictById(playerId);
 
-            secondTable.ClearTable();
-            secondTable.AddPlayerByDisplayDict(existingPlayerDict);
+                secondTable.ClearTable();
+                secondTable.AddPlayerByDisplayDict(existingPlayerDict);
 
-            thirdTable.ClearTable();
-            thirdTable.AddPlayerByDisplayDict(existingPlayerDict);
+                thirdTable.ClearTable();
+                thirdTable.AddPlayerByDisplayDict(existingPlayerDict);
+            });
         }
     }
 }
