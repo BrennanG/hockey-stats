@@ -21,7 +21,8 @@ namespace HockeyStats
         {
             InitializeComponent();
 
-            LoadPlayerList("bluesProspectsShort");
+            PlayerList playerListToLoad = Serializer.LoadPlayerList<PlayerList>("bluesProspectsShort" + FILENAME_SUFFIX);
+            LoadPlayerList(playerListToLoad);
             
             SetupLoadListDropDown();
             SetupSaveListButton();
@@ -30,9 +31,9 @@ namespace HockeyStats
             SetupShowSelectedPlayer();
         }
 
-        private void LoadPlayerList(string listToLoad)
+        private void LoadPlayerList(PlayerList playerListToLoad)
         {
-            playerList = Serializer.DeserializeObject<PlayerList>(listToLoad + FILENAME_SUFFIX);
+            playerList = playerListToLoad;
             firstTable = new MultiPlayerStatTable(firstTableDGV, playerList.primaryTableColumnNames, playerList.displayYears, playerList.playerIds);
             secondTable = new PlayerConstantStatTable(secondTableDGV);
             thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryTableColumnNames);
@@ -47,15 +48,20 @@ namespace HockeyStats
                 // Get the name without the file path or suffix
                 string file = Path.GetFileName(fileWithPath);
                 string listName = file.Substring(0, file.Length - FILENAME_SUFFIX.Length);
-                
-                EventHandler selectHandler = new EventHandler((object sender, EventArgs e) => LoadPlayerList(listName));
-                loadListDropDown.DropDownItems.Add(listName, null, selectHandler);
+
+                PlayerList playerListToLoad = Serializer.LoadPlayerList<PlayerList>(listName + FILENAME_SUFFIX);
+                EventHandler selectHandler = new EventHandler((object sender, EventArgs e) => {
+                    LoadPlayerList(playerListToLoad);
+                    SetupLoadListDropDown();
+                });
+                string stringToWrite = (playerList.listName == listName) ? "*" + listName : listName;
+                loadListDropDown.DropDownItems.Add(stringToWrite, null, selectHandler);
             }
         }
 
         private void SetupSaveListButton()
         {
-            saveFileDialog.Filter = "PlayerList|*.playerList.xml";
+            saveFileDialog.Filter = "Player List XML|*" + FILENAME_SUFFIX;
             saveFileDialog.Title = "Save Player List";
             saveListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
@@ -63,33 +69,21 @@ namespace HockeyStats
                 DialogResult result = saveFileDialog.ShowDialog();
                 if (result == DialogResult.OK || result == DialogResult.Yes)
                 {
-                    Serializer.SerializeObject<PlayerList>(playerList, playerList.listName + FILENAME_SUFFIX);
+                    string fileName = saveFileDialog.FileName;
+                    playerList.listName = Path.GetFileName(fileName).Substring(0, Path.GetFileName(fileName).Length - FILENAME_SUFFIX.Length);
+                    Serializer.SavePlayerList<PlayerList>(playerList, fileName);
+                    SetupLoadListDropDown();
                 }
             });
         }
 
         private void SetupCreateListButton()
         {
-            createListButton.Click += new EventHandler((object sender, EventArgs e) => {
-                if (!createListTextbox.Text.Equals(String.Empty))
-                {
-                    string fileName = createListTextbox.Text + FILENAME_SUFFIX;
-                    playerList = new PlayerList();
-                    playerList.FillWithDefaults();
-                    Serializer.SerializeObject(playerList, fileName);
-
-                    LoadPlayerList(createListTextbox.Text);
-                    SetupLoadListDropDown();
-
-                    createListTextbox.Text = String.Empty;
-                    createListTextbox.Visible = false;
-                    createListButton.Visible = false;
-                }
-            });
-
             createListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) => {
-                createListTextbox.Visible = true;
-                createListButton.Visible = true;
+                PlayerList playerListToLoad = new PlayerList();
+                playerListToLoad.FillWithDefaults();
+                LoadPlayerList(playerListToLoad);
+                SetupLoadListDropDown();
             });
         }
 

@@ -28,17 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             this.firstTableDGV = new System.Windows.Forms.DataGridView();
             this.addPlayerButton = new System.Windows.Forms.Button();
             this.addPlayerTextbox = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.createListButton = new System.Windows.Forms.Button();
-            this.createListTextbox = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.loadListDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,19 +68,19 @@
             this.firstTableDGV.AllowUserToAddRows = false;
             this.firstTableDGV.AllowUserToDeleteRows = false;
             this.firstTableDGV.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            this.firstTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.LightGray;
+            this.firstTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
             this.firstTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.firstTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.firstTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.firstTableDGV.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.firstTableDGV.DefaultCellStyle = dataGridViewCellStyle17;
             this.firstTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.firstTableDGV.Location = new System.Drawing.Point(0, 24);
             this.firstTableDGV.Name = "firstTableDGV";
@@ -116,8 +114,6 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.createListButton);
-            this.splitContainer1.Panel1.Controls.Add(this.createListTextbox);
             this.splitContainer1.Panel1.Controls.Add(this.firstTableDGV);
             this.splitContainer1.Panel1.Controls.Add(this.menuStrip1);
             // 
@@ -128,24 +124,6 @@
             this.splitContainer1.SplitterDistance = 322;
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 3;
-            // 
-            // createListButton
-            // 
-            this.createListButton.Location = new System.Drawing.Point(316, 1);
-            this.createListButton.Name = "createListButton";
-            this.createListButton.Size = new System.Drawing.Size(75, 23);
-            this.createListButton.TabIndex = 3;
-            this.createListButton.Text = "Create";
-            this.createListButton.UseVisualStyleBackColor = true;
-            this.createListButton.Visible = false;
-            // 
-            // createListTextbox
-            // 
-            this.createListTextbox.Location = new System.Drawing.Point(210, 3);
-            this.createListTextbox.Name = "createListTextbox";
-            this.createListTextbox.Size = new System.Drawing.Size(100, 20);
-            this.createListTextbox.TabIndex = 2;
-            this.createListTextbox.Visible = false;
             // 
             // menuStrip1
             // 
@@ -232,19 +210,19 @@
             this.secondTableDGV.AllowUserToDeleteRows = false;
             this.secondTableDGV.AllowUserToOrderColumns = true;
             this.secondTableDGV.AllowUserToResizeColumns = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
-            this.secondTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.LightGray;
+            this.secondTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle18;
             this.secondTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.secondTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.secondTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.secondTableDGV.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.secondTableDGV.DefaultCellStyle = dataGridViewCellStyle19;
             this.secondTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.secondTableDGV.Location = new System.Drawing.Point(0, 0);
             this.secondTableDGV.Name = "secondTableDGV";
@@ -259,18 +237,18 @@
             this.thirdTableDGV.AllowUserToAddRows = false;
             this.thirdTableDGV.AllowUserToDeleteRows = false;
             this.thirdTableDGV.AllowUserToOrderColumns = true;
-            this.thirdTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.thirdTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
             this.thirdTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.thirdTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.thirdTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.thirdTableDGV.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.thirdTableDGV.DefaultCellStyle = dataGridViewCellStyle20;
             this.thirdTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.thirdTableDGV.Location = new System.Drawing.Point(0, 0);
             this.thirdTableDGV.Name = "thirdTableDGV";
@@ -325,8 +303,6 @@
         private System.Windows.Forms.ToolStripMenuItem createListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveListToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private System.Windows.Forms.Button createListButton;
-        private System.Windows.Forms.TextBox createListTextbox;
     }
 }
 

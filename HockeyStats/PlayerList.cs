@@ -21,7 +21,7 @@ namespace HockeyStats
 
         public void FillWithDefaults()
         {
-            listName = "defaultName";
+            listName = "";
             playerIds = new List<string>();
             displayYears = new List<string>() { "2016-2017" };
             primaryTableColumnNames = new List<string>
