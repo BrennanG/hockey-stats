@@ -34,7 +34,7 @@ namespace HockeyStats
         private void LoadPlayerList(PlayerList playerListToLoad)
         {
             playerList = playerListToLoad;
-            firstTable = new MultiPlayerStatTable(firstTableDGV, playerList.primaryTableColumnNames, playerList.displayYears, playerList.playerIds);
+            firstTable = new MultiPlayerStatTable(firstTableDGV, playerList);
             secondTable = new PlayerConstantStatTable(secondTableDGV);
             thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryTableColumnNames);
         }

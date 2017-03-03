@@ -11,7 +11,11 @@ namespace HockeyStats
         public SinglePlayerStatTable(DataGridView dataGridView, List<string> columnData)
             : base(dataGridView, columnData)
         {
-            dataGridView.Sort(dataGridView.Columns["Year"], System.ComponentModel.ListSortDirection.Ascending);
+            try
+            {
+                dataGridView.Sort(dataGridView.Columns["Year"], System.ComponentModel.ListSortDirection.Ascending);
+            }
+            catch { }
         }
 
         public void AddPlayerByDisplayDict(Dictionary<string, string> displayDict)

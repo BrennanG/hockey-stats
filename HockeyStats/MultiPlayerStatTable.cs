@@ -11,14 +11,12 @@ namespace HockeyStats
     public class MultiPlayerStatTable : PlayerStatTable
     {
         private List<Dictionary<string, string>> savedDicts = new List<Dictionary<string, string>>();
-        private List<string> displayYears;
-        private List<string> playerIds;
+        private PlayerList playerList;
 
-        public MultiPlayerStatTable(DataGridView dataGridView, List<string> columnData, List<string> displayYears, List<string> playerIds)
-            : base(dataGridView, columnData)
+        public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList)
+            : base(dataGridView, playerList.primaryTableColumnNames)
         {
-            this.displayYears = displayYears;
-            this.playerIds = playerIds;
+            this.playerList = playerList;
             dataTable.Columns.Add("ID");
             new Thread(() => FillDataTable()).Start(); // Fill the table in a separate thread
         }
@@ -39,7 +37,7 @@ namespace HockeyStats
 
         private void FillDataTable()
         {
-            foreach (string playerId in playerIds)
+            foreach (string playerId in playerList.playerIds)
             {
                 AddPlayerById(playerId);
             }
@@ -53,7 +51,7 @@ namespace HockeyStats
                 StatLineParser stats = new StatLineParser(statLine);
                 if (stats.GetGameType() == "REGULAR_SEASON")
                 {
-                    if (displayYears == null || displayYears.Count == 0 || displayYears.Contains(stats.GetYear()))
+                    if (playerList.displayYears == null || playerList.displayYears.Count == 0 || playerList.displayYears.Contains(stats.GetYear()))
                     {
                         FillDictWithStats(displayDict, playerId, stats);
                     }
