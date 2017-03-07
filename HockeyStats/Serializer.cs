@@ -16,7 +16,7 @@ namespace HockeyStats
         /// <typeparam name="T"></typeparam>
         /// <param name="serializableObject"></param>
         /// <param name="fileName"></param>
-        public static void SavePlayerList<T>(T serializableObject, string fileName)
+        public static void WritePlayerList<T>(T serializableObject, string fileName)
         {
             if (serializableObject == null) { return; }
 
@@ -46,7 +46,7 @@ namespace HockeyStats
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static T LoadPlayerList<T>(string fileName)
+        public static T ReadPlayerList<T>(string fileName)
         {
             if (string.IsNullOrEmpty(fileName)) { return default(T); }
 

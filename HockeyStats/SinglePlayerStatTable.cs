@@ -15,7 +15,7 @@ namespace HockeyStats
             {
                 dataGridView.Sort(dataGridView.Columns["Year"], System.ComponentModel.ListSortDirection.Ascending);
             }
-            catch { }
+            catch (Exception e) { }
         }
 
         public void AddPlayerByDisplayDict(Dictionary<string, string> displayDict)

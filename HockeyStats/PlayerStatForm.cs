@@ -21,7 +21,7 @@ namespace HockeyStats
         {
             InitializeComponent();
 
-            PlayerList playerListToLoad = Serializer.LoadPlayerList<PlayerList>("bluesProspectsShort" + FILENAME_SUFFIX);
+            PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>("bluesProspectsShort" + FILENAME_SUFFIX);
             LoadPlayerList(playerListToLoad);
             
             SetupLoadListDropDown();
@@ -49,7 +49,7 @@ namespace HockeyStats
                 string file = Path.GetFileName(fileWithPath);
                 string listName = file.Substring(0, file.Length - FILENAME_SUFFIX.Length);
 
-                PlayerList playerListToLoad = Serializer.LoadPlayerList<PlayerList>(listName + FILENAME_SUFFIX);
+                PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>(listName + FILENAME_SUFFIX);
                 EventHandler selectHandler = new EventHandler((object sender, EventArgs e) => {
                     LoadPlayerList(playerListToLoad);
                     SetupLoadListDropDown();
@@ -71,7 +71,7 @@ namespace HockeyStats
                 {
                     string fileName = saveFileDialog.FileName;
                     playerList.listName = Path.GetFileName(fileName).Substring(0, Path.GetFileName(fileName).Length - FILENAME_SUFFIX.Length);
-                    Serializer.SavePlayerList<PlayerList>(playerList, fileName);
+                    Serializer.WritePlayerList<PlayerList>(playerList, fileName);
                     SetupLoadListDropDown();
                 }
             });
@@ -83,7 +83,6 @@ namespace HockeyStats
                 PlayerList playerListToLoad = new PlayerList();
                 playerListToLoad.FillWithDefaults();
                 LoadPlayerList(playerListToLoad);
-                SetupLoadListDropDown();
             });
         }
 
@@ -105,8 +104,11 @@ namespace HockeyStats
         private void SetupShowSelectedPlayer()
         {
             firstTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => {
-                string playerId = firstTableDGV.Rows[e.RowIndex].Cells[firstTableDGV.Columns["ID"].Index].Value.ToString();
-                Dictionary<string, string> existingPlayerDict = firstTable.GetDisplayDictById(playerId);
+                if (e.RowIndex < 0) { return; } // Ignore if a column was double clicked
+
+                DataRow row = ((DataRowView)firstTableDGV.Rows[e.RowIndex].DataBoundItem).Row;
+                string playerId = firstTable.GetIdByRow(row);
+                Dictionary<string, string> existingPlayerDict = firstTable.GetSavedDictById(playerId);
 
                 secondTable.ClearTable();
                 secondTable.AddPlayerByDisplayDict(existingPlayerDict);

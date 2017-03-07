@@ -17,7 +17,6 @@ namespace HockeyStats
             : base(dataGridView, playerList.primaryTableColumnNames)
         {
             this.playerList = playerList;
-            dataTable.Columns.Add("ID");
             new Thread(() => FillDataTable()).Start(); // Fill the table in a separate thread
         }
 
@@ -30,7 +29,7 @@ namespace HockeyStats
             AddRowToDataTable(DisplayDict);
         }
 
-        public Dictionary<string, string> GetDisplayDictById(string playerId)
+        public Dictionary<string, string> GetSavedDictById(string playerId)
         {
             return savedDicts.Find((Dictionary<string, string> dict) => dict["ID"] == playerId);
         }
