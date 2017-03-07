@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -10,8 +11,8 @@ namespace HockeyStats
 {
     public class MultiPlayerStatTable : PlayerStatTable
     {
-        private List<Dictionary<string, string>> savedDicts = new List<Dictionary<string, string>>();
         private PlayerList playerList;
+        private Dictionary<int, Dictionary<string, string>> rowHashToSavedDictMap = new Dictionary<int, Dictionary<string, string>>();
 
         public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList)
             : base(dataGridView, playerList.primaryTableColumnNames)
@@ -26,12 +27,13 @@ namespace HockeyStats
             Dictionary<string, string> SavedDict = new Dictionary<string, string>();
             AddPlayerStatsToDict(DisplayDict, SavedDict, playerId);
             AddDraftDataToDict(DisplayDict, SavedDict, playerId);
-            AddRowToDataTable(DisplayDict);
+            DataRow newDataRow = AddRowToDataTable(DisplayDict);
+            rowHashToSavedDictMap[newDataRow.GetHashCode()] = SavedDict;
         }
 
-        public Dictionary<string, string> GetSavedDictById(string playerId)
+        public Dictionary<string, string> GetSavedDictFromRow(DataRow dataRow)
         {
-            return savedDicts.Find((Dictionary<string, string> dict) => dict["ID"] == playerId);
+            return rowHashToSavedDictMap[dataRow.GetHashCode()];
         }
 
         private void FillDataTable()
@@ -45,6 +47,7 @@ namespace HockeyStats
         private void AddPlayerStatsToDict(Dictionary<string, string> displayDict, Dictionary<string, string> savedDict, string playerId)
         {
             JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
+            Dictionary<string, string> lastDict = null;
             foreach (JToken statLine in statsJson["data"])
             {
                 StatLineParser stats = new StatLineParser(statLine);
@@ -52,9 +55,9 @@ namespace HockeyStats
                 {
                     if (playerList.displayYears == null || playerList.displayYears.Count == 0 || playerList.displayYears.Contains(stats.GetYear()))
                     {
-                        FillDictWithStats(displayDict, playerId, stats);
+                        FillDictWithStats(displayDict, stats);
                     }
-                    savedDicts.Add(FillDictWithStats(savedDict, playerId, stats));
+                    lastDict = FillDictWithStats(savedDict, stats);
                 }
 
             }
@@ -72,11 +75,10 @@ namespace HockeyStats
             }
         }
 
-        private Dictionary<string, string> FillDictWithStats(Dictionary<string, string> dict, string playerId, StatLineParser stats)
+        private Dictionary<string, string> FillDictWithStats(Dictionary<string, string> dict, StatLineParser stats)
         {
             if (dict.Count == 0)
             {
-                dict["ID"] = playerId;
                 dict["First Name"] = stats.GetFirstName();
                 dict["Last Name"] = stats.GetLastName();
                 dict["Games Played"] = stats.GetGamesPlayed();

@@ -107,8 +107,7 @@ namespace HockeyStats
                 if (e.RowIndex < 0) { return; } // Ignore if a column was double clicked
 
                 DataRow row = ((DataRowView)firstTableDGV.Rows[e.RowIndex].DataBoundItem).Row;
-                string playerId = firstTable.GetIdByRow(row);
-                Dictionary<string, string> existingPlayerDict = firstTable.GetSavedDictById(playerId);
+                Dictionary<string, string> existingPlayerDict = firstTable.GetSavedDictFromRow(row);
 
                 secondTable.ClearTable();
                 secondTable.AddPlayerByDisplayDict(existingPlayerDict);

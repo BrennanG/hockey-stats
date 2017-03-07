@@ -14,7 +14,6 @@ namespace HockeyStats
         protected DataTable dataTable;
         protected DataGridView dataGridView;
         protected List<string> columnData;
-        private Dictionary<int, string> rowHashToIdMap = new Dictionary<int, string>();
 
         public PlayerStatTable(DataGridView dataGridView, List<string> columnData)
         {
@@ -24,12 +23,7 @@ namespace HockeyStats
             dataTable = CreateDataTable(this.dataGridView);
         }
 
-        public string GetIdByRow(DataRow dataRow)
-        {
-            return rowHashToIdMap[dataRow.GetHashCode()];
-        }
-
-        protected void AddRowToDataTable(Dictionary<string, string> displayDict)
+        protected DataRow AddRowToDataTable(Dictionary<string, string> displayDict)
         {
             string[] orderedRowValues = new string[dataTable.Columns.Count];
             for (int i = 0; i < dataTable.Columns.Count; i++)
@@ -42,12 +36,7 @@ namespace HockeyStats
                     orderedRowValues[i] = columnName;
                 }
             }
-            DataRow newRow = dataTable.Rows.Add(orderedRowValues);
-            string playerId;
-            if (displayDict.TryGetValue("ID", out playerId))
-            {
-                rowHashToIdMap[newRow.GetHashCode()] = playerId;
-            }
+            return dataTable.Rows.Add(orderedRowValues);
         }
 
         private DataTable CreateDataTable(DataGridView dgv)
