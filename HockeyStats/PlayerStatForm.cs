@@ -103,7 +103,7 @@ namespace HockeyStats
 
         private void SetupShowSelectedPlayer()
         {
-            firstTableDGV.CellDoubleClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => {
+            firstTableDGV.CellClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => {
                 if (e.RowIndex < 0) { return; } // Ignore if a column was double clicked
 
                 DataRow row = ((DataRowView)firstTableDGV.Rows[e.RowIndex].DataBoundItem).Row;

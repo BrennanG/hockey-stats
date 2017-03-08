@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Columns.cs" />
     <Compile Include="DraftDataParser.cs" />
     <Compile Include="EliteProspectsAPI.cs" />
     <Compile Include="MultiPlayerStatTable.cs" />

@@ -16,6 +16,7 @@ namespace HockeyStats
                 dataGridView.Sort(dataGridView.Columns["Year"], System.ComponentModel.ListSortDirection.Ascending);
             }
             catch (Exception e) { }
+            dataGridView.SelectionChanged += DataGridView_SelectionChanged;
         }
 
         public void AddPlayerByDisplayDict(Dictionary<string, string> displayDict)
@@ -55,6 +56,11 @@ namespace HockeyStats
         public void ClearTable()
         {
             dataTable.Clear();
+        }
+
+        private void DataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            dataGridView.ClearSelection();
         }
     }
 }

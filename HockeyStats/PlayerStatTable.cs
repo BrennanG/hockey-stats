@@ -14,12 +14,6 @@ namespace HockeyStats
         protected DataTable dataTable;
         protected DataGridView dataGridView;
         protected List<string> columnData;
-        private static List<string> integerColumns = new List<string>()
-        {
-            "Draft Year",
-            "Draft Round",
-            "Draft Overall"
-        };
 
         public PlayerStatTable(DataGridView dataGridView, List<string> columnData)
         {
@@ -27,6 +21,7 @@ namespace HockeyStats
             this.columnData = columnData;
 
             dataTable = CreateDataTable(this.dataGridView);
+            DisableSortingOnDynamicColumns();
         }
 
         protected DataRow AddRowToDataTable(Dictionary<string, string> displayDict)
@@ -50,18 +45,29 @@ namespace HockeyStats
             DataTable dataTable = new DataTable();
             foreach (string columnName in columnData)
             {
-                if (integerColumns.Contains(columnName))
+                if (Columns.NumericColumns.Contains(columnName))
                 {
-                    dataTable.Columns.Add(new DataColumn(columnName, 1.GetType()));
+                    dataTable.Columns.Add(new DataColumn(columnName, new int().GetType()));
                 }
                 else
                 {
                     dataTable.Columns.Add(new DataColumn(columnName));
                 }
             }
-
+            
             dgv.DataSource = dataTable;
             return dataTable;
+        }
+
+        private void DisableSortingOnDynamicColumns()
+        {
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                if (Columns.DynamicColumns.Contains(column.Name))
+                {
+                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+            }
         }
     }
 }

@@ -12,8 +12,9 @@ namespace HockeyStats
             : base(dataGridView, new List<string>() { "Key", "Value" } )
         {
             dataGridView.ColumnHeadersVisible = false;
+            dataGridView.SelectionChanged += DataGridView_SelectionChanged;
         }
-        
+
         public void AddPlayerByDisplayDict(Dictionary<string, string> displayDict)
         {
             foreach (KeyValuePair<string, string> keyValuePair in displayDict)
@@ -32,6 +33,11 @@ namespace HockeyStats
         public void ClearTable()
         {
             dataTable.Clear();
+        }
+
+        private void DataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            dataGridView.ClearSelection();
         }
     }
 }
