@@ -14,6 +14,12 @@ namespace HockeyStats
         protected DataTable dataTable;
         protected DataGridView dataGridView;
         protected List<string> columnData;
+        private static List<string> integerColumns = new List<string>()
+        {
+            "Draft Year",
+            "Draft Round",
+            "Draft Overall"
+        };
 
         public PlayerStatTable(DataGridView dataGridView, List<string> columnData)
         {
@@ -30,10 +36,10 @@ namespace HockeyStats
             {
                 string junk = String.Empty;
                 // If the column exists in the row, add the value
-                string columnName;
-                if (displayDict.TryGetValue(dataTable.Columns[i].ColumnName, out columnName))
+                string value;
+                if (displayDict.TryGetValue(dataTable.Columns[i].ColumnName, out value))
                 {
-                    orderedRowValues[i] = columnName;
+                    orderedRowValues[i] = value;
                 }
             }
             return dataTable.Rows.Add(orderedRowValues);
@@ -44,7 +50,14 @@ namespace HockeyStats
             DataTable dataTable = new DataTable();
             foreach (string columnName in columnData)
             {
-                dataTable.Columns.Add(new DataColumn(columnName));
+                if (integerColumns.Contains(columnName))
+                {
+                    dataTable.Columns.Add(new DataColumn(columnName, 1.GetType()));
+                }
+                else
+                {
+                    dataTable.Columns.Add(new DataColumn(columnName));
+                }
             }
 
             dgv.DataSource = dataTable;

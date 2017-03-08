@@ -25,7 +25,7 @@
   <secondaryTableColumnNames>
     <string>Year</string>
     <string>Games Played</string>
-    <string>Goals</string>
+    <string>Goals/GAA</string>
     <string>Assists/Sv%</string>
     <string>Total Points</string>
     <string>PPG</string>

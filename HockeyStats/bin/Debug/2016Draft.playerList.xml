@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <listName>2016Draft</listName>
+  <playerIds>
+    <string>199898</string>
+<string>221667</string>
+<string>252480</string>
+<string>152117</string>
+<string>196391</string>
+<string>233030</string>
+<string>226432</string>
+<string>212641</string>
+<string>312213</string>
+<string>148111</string>
+<string>248391</string>
+<string>240821</string>
+<string>199660</string>
+<string>245142</string>
+<string>245278</string>
+<string>243386</string>
+<string>247041</string>
+<string>240108</string>
+<string>247945</string>
+<string>247137</string>
+<string>213464</string>
+<string>312227</string>
+<string>118332</string>
+<string>233448</string>
+<string>291903</string>
+<string>301349</string>
+<string>232712</string>
+<string>199937</string>
+<string>272221</string>
+<string>154496</string>
+<string>176637</string>
+<string>154220</string>
+<string>139616</string>
+<string>291905</string>
+<string>269034</string>
+<string>252492</string>
+<string>195023</string>
+<string>240112</string>
+<string>231275</string>
+<string>268696</string>
+<string>245157</string>
+<string>212368</string>
+<string>209426</string>
+<string>269859</string>
+<string>229559</string>
+<string>252472</string>
+<string>251476</string>
+<string>161850</string>
+<string>226442</string>
+<string>312217</string>
+<string>108472</string>
+<string>199949</string>
+<string>191286</string>
+<string>234378</string>
+<string>212732</string>
+<string>157256</string>
+<string>113516</string>
+<string>245610</string>
+<string>216160</string>
+<string>192301</string>
+<string>122146</string>
+  </playerIds>
+  <displayYears>
+    <string>2016-2017</string>
+  </displayYears>
+  <primaryTableColumnNames>
+    <string>Last Name</string>
+    <string>Games Played</string>
+    <string>Goals/GAA</string>
+    <string>Assists/Sv%</string>
+    <string>Total Points</string>
+    <string>PPG</string>
+    <string>League</string>
+    <string>Draft Year</string>
+    <string>Draft Round</string>
+    <string>Draft Overall</string>
+    <string>Draft Team</string>
+  </primaryTableColumnNames>
+  <secondaryTableColumnNames>
+    <string>Year</string>
+    <string>Games Played</string>
+    <string>Goals/GAA</string>
+    <string>Assists/Sv%</string>
+    <string>Total Points</string>
+    <string>PPG</string>
+    <string>League</string>
+  </secondaryTableColumnNames>
+</PlayerList>
