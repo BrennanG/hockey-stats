@@ -82,8 +82,8 @@ namespace HockeyStats
                 dict["First Name"] = stats.GetFirstName();
                 dict["Last Name"] = stats.GetLastName();
                 dict["Games Played"] = stats.GetGamesPlayed();
-                dict["Goals"] = stats.GetGoals();
-                dict["Assists"] = stats.GetAssists();
+                dict["Goals/GAA"] = stats.GetGoalsOrGAA();
+                dict["Assists/Sv%"] = stats.GetAssists();
                 dict["Total Points"] = stats.GetTotalPoints();
                 dict["PPG"] = stats.GetPointsPerGame();
                 dict["League"] = stats.GetLeagueName();
@@ -93,8 +93,8 @@ namespace HockeyStats
             else
             {
                 dict["Games Played"] += Environment.NewLine + stats.GetGamesPlayed();
-                dict["Goals"] += Environment.NewLine + stats.GetGoals();
-                dict["Assists"] += Environment.NewLine + stats.GetAssists();
+                dict["Goals/GAA"] += Environment.NewLine + stats.GetGoalsOrGAA();
+                dict["Assists/Sv%"] += Environment.NewLine + stats.GetAssists();
                 dict["Total Points"] += Environment.NewLine + stats.GetTotalPoints();
                 dict["PPG"] += Environment.NewLine + stats.GetPointsPerGame();
                 dict["League"] += Environment.NewLine + stats.GetLeagueName();

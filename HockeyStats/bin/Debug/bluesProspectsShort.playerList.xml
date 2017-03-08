@@ -4,6 +4,7 @@
   <playerIds>
     <string>301349</string>
     <string>269034</string>
+    <string>50661</string>
   </playerIds>
   <displayYears>
     <string>2016-2017</string>
@@ -11,8 +12,8 @@
   <primaryTableColumnNames>
     <string>Last Name</string>
     <string>Games Played</string>
-    <string>Goals</string>
-    <string>Assists</string>
+    <string>Goals/GAA</string>
+    <string>Assists/Sv%</string>
     <string>Total Points</string>
     <string>PPG</string>
     <string>League</string>
@@ -25,7 +26,7 @@
     <string>Year</string>
     <string>Games Played</string>
     <string>Goals</string>
-    <string>Assists</string>
+    <string>Assists/Sv%</string>
     <string>Total Points</string>
     <string>PPG</string>
     <string>League</string>

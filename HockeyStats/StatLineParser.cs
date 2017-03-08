@@ -32,14 +32,16 @@ namespace HockeyStats
             return (string)statLine["GP"];
         }
 
-        public string GetGoals()
+        public string GetGoalsOrGAA()
         {
-            return (string)statLine["G"];
+            string goals = (string)statLine["G"];
+            return (goals != null) ? goals : (string)statLine["GAA"];
         }
 
         public string GetAssists()
         {
-            return (string)statLine["A"];
+            string assists = (string)statLine["A"];
+            return (assists != null) ? assists : (string)statLine["SVP"];
         }
 
         public string GetTotalPoints()
