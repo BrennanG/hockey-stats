@@ -33,7 +33,7 @@ namespace HockeyStats
                     stream.Close();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Log exception here
             }
@@ -72,7 +72,7 @@ namespace HockeyStats
                     read.Close();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Log exception here
             }

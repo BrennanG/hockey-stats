@@ -25,8 +25,8 @@ namespace HockeyStats
         {
             Dictionary<string, string> DisplayDict = new Dictionary<string, string>();
             Dictionary<string, string> SavedDict = new Dictionary<string, string>();
-            AddPlayerStatsToDict(DisplayDict, SavedDict, playerId);
-            AddDraftDataToDict(DisplayDict, SavedDict, playerId);
+            AddPlayerStatsToDicts(DisplayDict, SavedDict, playerId);
+            AddDraftDataToDicts(DisplayDict, SavedDict, playerId);
             DataRow newDataRow = AddRowToDataTable(DisplayDict);
             rowHashToSavedDictMap[newDataRow.GetHashCode()] = SavedDict;
         }
@@ -44,10 +44,9 @@ namespace HockeyStats
             }
         }
 
-        private void AddPlayerStatsToDict(Dictionary<string, string> displayDict, Dictionary<string, string> savedDict, string playerId)
+        private void AddPlayerStatsToDicts(Dictionary<string, string> displayDict, Dictionary<string, string> savedDict, string playerId)
         {
             JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
-            Dictionary<string, string> lastDict = null;
             foreach (JToken statLine in statsJson["data"])
             {
                 StatLineParser stats = new StatLineParser(statLine);
@@ -57,13 +56,13 @@ namespace HockeyStats
                     {
                         FillDictWithStats(displayDict, stats);
                     }
-                    lastDict = FillDictWithStats(savedDict, stats);
+                    FillDictWithStats(savedDict, stats);
                 }
 
             }
         }
 
-        private void AddDraftDataToDict(Dictionary<string, string> displayDict, Dictionary<string, string> savedDict, string playerId)
+        private void AddDraftDataToDicts(Dictionary<string, string> displayDict, Dictionary<string, string> savedDict, string playerId)
         {
             JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
             JToken data = draftJson["data"];

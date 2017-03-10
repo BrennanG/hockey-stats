@@ -15,7 +15,7 @@ namespace HockeyStats
             {
                 dataGridView.Sort(dataGridView.Columns["Year"], System.ComponentModel.ListSortDirection.Ascending);
             }
-            catch (Exception e) { }
+            catch (Exception) { }
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;
         }
 
