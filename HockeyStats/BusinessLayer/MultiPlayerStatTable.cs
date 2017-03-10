@@ -26,8 +26,8 @@ namespace HockeyStats
             Dictionary<string, string> DisplayDict = new Dictionary<string, string>();
             Dictionary<string, string> SavedDict = new Dictionary<string, string>();
 
-            StatLineParser statLineParser = new StatLineParser(playerId, playerList.displayYears);
-            statLineParser.AddPlayerStatsToDicts(DisplayDict, SavedDict);
+            PlayerStats playerStats = new PlayerStats(playerId, playerList.displayYears);
+            playerStats.AddPlayerStatsToDicts(DisplayDict, SavedDict);
 
             DataRow newDataRow = AddRowToDataTable(DisplayDict);
             rowHashToSavedDictMap[newDataRow.GetHashCode()] = SavedDict;

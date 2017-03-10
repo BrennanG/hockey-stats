@@ -50,25 +50,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Columns.cs" />
-    <Compile Include="DraftDataParser.cs" />
-    <Compile Include="EliteProspectsAPI.cs" />
-    <Compile Include="MultiPlayerStatTable.cs" />
-    <Compile Include="PlayerConstantStatTable.cs" />
-    <Compile Include="PlayerList.cs" />
-    <Compile Include="PlayerStatForm.cs">
+    <Compile Include="BusinessLayer\Columns.cs" />
+    <Compile Include="DataLayer\DraftDataParser.cs" />
+    <Compile Include="DataLayer\EliteProspectsAPI.cs" />
+    <Compile Include="BusinessLayer\MultiPlayerStatTable.cs" />
+    <Compile Include="DataLayer\Parser.cs" />
+    <Compile Include="BusinessLayer\PlayerConstantStatTable.cs" />
+    <Compile Include="PresentationLayer\PlayerList.cs" />
+    <Compile Include="PresentationLayer\PlayerStatForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PlayerStatForm.Designer.cs">
+    <Compile Include="PresentationLayer\PlayerStatForm.Designer.cs">
       <DependentUpon>PlayerStatForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlayerStatTable.cs" />
+    <Compile Include="BusinessLayer\PlayerStatTable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serializer.cs" />
-    <Compile Include="SinglePlayerStatTable.cs" />
-    <Compile Include="StatLineParser.cs" />
-    <EmbeddedResource Include="PlayerStatForm.resx">
+    <Compile Include="PresentationLayer\Serializer.cs" />
+    <Compile Include="BusinessLayer\SinglePlayerStatTable.cs" />
+    <Compile Include="DataLayer\PlayerStats.cs" />
+    <Compile Include="DataLayer\StatLineParser.cs" />
+    <EmbeddedResource Include="PresentationLayer\PlayerStatForm.resx">
       <DependentUpon>PlayerStatForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -94,6 +96,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

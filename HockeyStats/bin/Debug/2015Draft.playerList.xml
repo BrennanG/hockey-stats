@@ -68,6 +68,7 @@
     <string>2016-2017</string>
   </displayYears>
   <primaryTableColumnNames>
+    <string>First Name</string>
     <string>Last Name</string>
     <string>Games Played</string>
     <string>Goals/GAA</string>
@@ -75,6 +76,7 @@
     <string>Total Points</string>
     <string>PPG</string>
     <string>League</string>
+    <string>Team</string>
     <string>Draft Year</string>
     <string>Draft Round</string>
     <string>Draft Overall</string>
@@ -88,5 +90,6 @@
     <string>Total Points</string>
     <string>PPG</string>
     <string>League</string>
+    <string>Team</string>
   </secondaryTableColumnNames>
 </PlayerList>
