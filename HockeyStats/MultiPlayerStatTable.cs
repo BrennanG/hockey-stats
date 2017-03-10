@@ -25,8 +25,10 @@ namespace HockeyStats
         {
             Dictionary<string, string> DisplayDict = new Dictionary<string, string>();
             Dictionary<string, string> SavedDict = new Dictionary<string, string>();
-            AddPlayerStatsToDicts(DisplayDict, SavedDict, playerId);
-            AddDraftDataToDicts(DisplayDict, SavedDict, playerId);
+
+            StatLineParser statLineParser = new StatLineParser(playerId, playerList.displayYears);
+            statLineParser.AddPlayerStatsToDicts(DisplayDict, SavedDict);
+
             DataRow newDataRow = AddRowToDataTable(DisplayDict);
             rowHashToSavedDictMap[newDataRow.GetHashCode()] = SavedDict;
         }
@@ -42,76 +44,6 @@ namespace HockeyStats
             {
                 AddPlayerById(playerId);
             }
-        }
-
-        private void AddPlayerStatsToDicts(Dictionary<string, string> displayDict, Dictionary<string, string> savedDict, string playerId)
-        {
-            JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
-            foreach (JToken statLine in statsJson["data"])
-            {
-                StatLineParser stats = new StatLineParser(statLine);
-                if (stats.GetGameType() == "REGULAR_SEASON")
-                {
-                    if (playerList.displayYears == null || playerList.displayYears.Count == 0 || playerList.displayYears.Contains(stats.GetYear()))
-                    {
-                        FillDictWithStats(displayDict, stats);
-                    }
-                    FillDictWithStats(savedDict, stats);
-                }
-
-            }
-        }
-
-        private void AddDraftDataToDicts(Dictionary<string, string> displayDict, Dictionary<string, string> savedDict, string playerId)
-        {
-            JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
-            JToken data = draftJson["data"];
-            if (data != null)
-            {
-                DraftDataParser draftData = new DraftDataParser(data.First);
-                FillDictWithDraftData(displayDict, draftData);
-                FillDictWithDraftData(savedDict, draftData);
-            }
-        }
-
-        private Dictionary<string, string> FillDictWithStats(Dictionary<string, string> dict, StatLineParser stats)
-        {
-            if (dict.Count == 0)
-            {
-                dict["First Name"] = stats.GetFirstName();
-                dict["Last Name"] = stats.GetLastName();
-                dict["Games Played"] = stats.GetGamesPlayed();
-                dict["Goals/GAA"] = stats.GetGoalsOrGAA();
-                dict["Assists/Sv%"] = stats.GetAssists();
-                dict["Total Points"] = stats.GetTotalPoints();
-                dict["PPG"] = stats.GetPointsPerGame();
-                dict["League"] = stats.GetLeagueName();
-                dict["Team"] = stats.GetTeamName();
-                dict["Year"] = stats.GetYear();
-            }
-            else
-            {
-                dict["Games Played"] += Environment.NewLine + stats.GetGamesPlayed();
-                dict["Goals/GAA"] += Environment.NewLine + stats.GetGoalsOrGAA();
-                dict["Assists/Sv%"] += Environment.NewLine + stats.GetAssists();
-                dict["Total Points"] += Environment.NewLine + stats.GetTotalPoints();
-                dict["PPG"] += Environment.NewLine + stats.GetPointsPerGame();
-                dict["League"] += Environment.NewLine + stats.GetLeagueName();
-                dict["Team"] += Environment.NewLine + stats.GetTeamName();
-                dict["Year"] += Environment.NewLine + stats.GetYear();
-            }
-
-            return dict;
-        }
-
-        private Dictionary<string, string> FillDictWithDraftData(Dictionary<string, string> dict, DraftDataParser draftData)
-        {
-            dict["Draft Year"] = draftData.GetYear();
-            dict["Draft Round"] = draftData.GetRound();
-            dict["Draft Overall"] = draftData.GetOverall();
-            dict["Draft Team"] = draftData.GetTeamName();
-
-            return dict;
         }
     }
 }

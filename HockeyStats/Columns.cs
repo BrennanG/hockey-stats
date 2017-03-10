@@ -7,7 +7,7 @@ namespace HockeyStats
 {
     public static class Columns
     {
-        public static readonly List<string> PossibleColumns = new List<string>()
+        public static readonly List<string> AllPossibleColumns = new List<string>()
         {
             "First Name",
             "Last Name",
@@ -42,6 +42,6 @@ namespace HockeyStats
             "Draft Team"
         };
 
-        public static readonly List<string> DynamicColumns = PossibleColumns.Where((string col) => !ConstantColumns.Contains(col)).ToList();
+        public static readonly List<string> DynamicColumns = AllPossibleColumns.Where((string col) => !ConstantColumns.Contains(col)).ToList();
     }
 }
