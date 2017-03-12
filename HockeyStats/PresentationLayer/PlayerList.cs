@@ -24,7 +24,7 @@ namespace HockeyStats
             listName = "";
             playerIds = new List<string>();
             displayYears = new List<string>() { "2016-2017" };
-            primaryTableColumnNames = Columns.AllPossibleColumns;
+            primaryTableColumnNames = Columns.DefaultColumns;
             secondaryTableColumnNames = Columns.DynamicColumns;
         }
     }

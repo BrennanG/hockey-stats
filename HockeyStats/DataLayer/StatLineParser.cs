@@ -93,19 +93,28 @@ namespace HockeyStats
         public void GetHeight(string key)
         {
             string value = (string)playerObj["height"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            int height;
+            Int32.TryParse(value, out height);
+            height = Convert.ToInt32(height * 0.3937007874); // Convert to pounds
+            int feet = height / 12;
+            int inches = height - (feet * 12);
+            AddOrAppendToDict(dictionaryToFill, key, feet.ToString() + "' " + inches.ToString() + "\"");
         }
 
         public void GetWeight(string key)
         {
             string value = (string)playerObj["weight"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            int weight;
+            Int32.TryParse(value, out weight);
+            weight = Convert.ToInt32(weight * 2.20462262185); // Convert to inches
+            AddOrAppendToDict(dictionaryToFill, key, weight.ToString() + " lbs");
         }
 
-        public void GetShoots(string key)
+        public void GetShootsOrCatches(string key)
         {
-            string value = (string)playerObj["shoots"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            string shoots = (string)playerObj["shoots"];
+            string value = (shoots != null) ? shoots : (string)playerObj["catches"];
+            AddOrAppendToDict(dictionaryToFill, key, value[0].ToString());
         }
 
         public void GetId(string key)

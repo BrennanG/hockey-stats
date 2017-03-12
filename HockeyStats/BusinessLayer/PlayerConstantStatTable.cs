@@ -19,7 +19,7 @@ namespace HockeyStats
         {
             foreach (KeyValuePair<string, string> keyValuePair in displayDict)
             {
-                if (keyValuePair.Value.Contains(Environment.NewLine) == false)
+                if (keyValuePair.Value != null && keyValuePair.Value.Contains(Environment.NewLine) == false)
                 {
                     Dictionary<string, string> entry = new Dictionary<string, string>() {
                         { "Key", keyValuePair.Key },

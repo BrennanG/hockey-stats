@@ -19,27 +19,58 @@ namespace HockeyStats
             "League",
             "Team",
             "Year",
+            "PIM",
+            "Date of Birth",
+            "Height",
+            "Weight",
+            "Shoots/Catches",
             "Draft Year",
             "Draft Round",
             "Draft Overall",
-            "Draft Team"
+            "Draft Team",
+            "ID"
         };
 
         public static List<string> NumericColumns = new List<string>()
         {
+            "PIM",
+            "Height",
+            "Weight",
             "Draft Year",
             "Draft Round",
-            "Draft Overall"
+            "Draft Overall",
+            "ID"
+        };
+
+        public static List<string> DefaultColumns = new List<string>()
+        {
+            "First Name",
+            "Last Name",
+            "Games Played",
+            "Goals/GAA",
+            "Assists/Sv%",
+            "Total Points",
+            "PPG",
+            "League",
+            "Draft Year",
+            "Draft Round",
+            "Draft Overall",
+            "Draft Team",
         };
 
         public static readonly List<string> ConstantColumns = new List<string>()
         {
             "First Name",
             "Last Name",
+            "Date of Birth",
+            "Height",
+            "Weight",
+            "Shoots/Catches",
             "Draft Year",
             "Draft Round",
             "Draft Overall",
-            "Draft Team"
+            "Draft Team",
+            "ID"
         };
 
         public static readonly List<string> DynamicColumns = AllPossibleColumns.Where((string col) => !ConstantColumns.Contains(col)).ToList();

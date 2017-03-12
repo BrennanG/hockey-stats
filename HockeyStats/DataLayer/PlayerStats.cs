@@ -71,10 +71,16 @@ namespace HockeyStats
             getStatMap.Add("League", () => statLineParser.GetLeagueName("League"));
             getStatMap.Add("Team", () => statLineParser.GetTeamName("Team"));
             getStatMap.Add("Year", () => statLineParser.GetYear("Year"));
+            getStatMap.Add("PIM", () => statLineParser.GetPIM("PIM"));
+            getStatMap.Add("Date of Birth", () => statLineParser.GetDateOfBirth("Date of Birth"));
+            getStatMap.Add("Height", () => statLineParser.GetHeight("Height"));
+            getStatMap.Add("Weight", () => statLineParser.GetWeight("Weight"));
+            getStatMap.Add("Shoots/Catches", () => statLineParser.GetShootsOrCatches("Shoots/Catches"));
             getStatMap.Add("Draft Year", () => draftDataParser.GetDraftYear("Draft Year"));
             getStatMap.Add("Draft Round", () => draftDataParser.GetDraftRound("Draft Round"));
             getStatMap.Add("Draft Overall", () => draftDataParser.GetDraftOverall("Draft Overall"));
             getStatMap.Add("Draft Team", () => draftDataParser.GetDraftTeamName("Draft Team"));
+            getStatMap.Add("ID", () => statLineParser.GetId("ID"));
         }
     }
 }
