@@ -38,6 +38,28 @@ namespace HockeyStats
             return rowHashToSavedDictMap[dataRow.GetHashCode()];
         }
 
+        public new void AddColumn(string columnName)
+        {
+            if (!Columns.AllPossibleColumns.Contains(columnName) || dataTable.Columns.Contains(columnName)) { return; }
+
+            dataTable.Columns.Add(columnName);
+            foreach (DataGridViewRow dgvRow in dataGridView.Rows)
+            {
+                DataRow row = GetDataRowFromDGVRow(dgvRow);
+                Dictionary<string, string> savedDictForRow = rowHashToSavedDictMap[row.GetHashCode()];
+                string value;
+                if (savedDictForRow.TryGetValue(columnName, out value))
+                {
+                    row[columnName] = value;
+                }
+            }
+        }
+
+        public static DataRow GetDataRowFromDGVRow(DataGridViewRow dgvRow)
+        {
+            return ((DataRowView)dgvRow.DataBoundItem).Row;
+        }
+
         private void FillDataTable()
         {
             foreach (string playerId in playerList.playerIds)

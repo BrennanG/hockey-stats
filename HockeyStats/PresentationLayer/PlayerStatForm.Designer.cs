@@ -47,6 +47,7 @@
             this.secondTableDGV = new System.Windows.Forms.DataGridView();
             this.thirdTableDGV = new System.Windows.Forms.DataGridView();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.addRemoveColumnDropDown = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.firstTableDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -83,6 +84,7 @@
             this.firstTableDGV.DefaultCellStyle = dataGridViewCellStyle2;
             this.firstTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.firstTableDGV.Location = new System.Drawing.Point(0, 24);
+            this.firstTableDGV.MultiSelect = false;
             this.firstTableDGV.Name = "firstTableDGV";
             this.firstTableDGV.ReadOnly = true;
             this.firstTableDGV.RowHeadersVisible = false;
@@ -131,9 +133,11 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadListDropDown,
             this.saveListToolStripMenuItem,
-            this.createListToolStripMenuItem});
+            this.createListToolStripMenuItem,
+            this.addRemoveColumnDropDown});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
             this.menuStrip1.Size = new System.Drawing.Size(967, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
@@ -258,6 +262,13 @@
             this.thirdTableDGV.Size = new System.Drawing.Size(631, 422);
             this.thirdTableDGV.TabIndex = 3;
             // 
+            // addRemoveColumnDropDown
+            // 
+            this.addRemoveColumnDropDown.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.addRemoveColumnDropDown.Name = "addRemoveColumnDropDown";
+            this.addRemoveColumnDropDown.Size = new System.Drawing.Size(135, 20);
+            this.addRemoveColumnDropDown.Text = "Add/Remove Column";
+            // 
             // PlayerStatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -304,6 +315,7 @@
         private System.Windows.Forms.ToolStripMenuItem createListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveListToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem addRemoveColumnDropDown;
     }
 }
 

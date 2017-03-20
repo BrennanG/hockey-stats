@@ -11,6 +11,7 @@ namespace HockeyStats
     public partial class PlayerStatForm : Form
     {
         private const string FILENAME_SUFFIX = ".playerList.xml";
+        private string defaultPlayerList = "bluesProspectsShort";
         
         PlayerList playerList = new PlayerList();
         private MultiPlayerStatTable firstTable;
@@ -21,12 +22,13 @@ namespace HockeyStats
         {
             InitializeComponent();
 
-            PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>("bluesProspectsShort" + FILENAME_SUFFIX);
+            PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>(defaultPlayerList + FILENAME_SUFFIX);
             LoadPlayerList(playerListToLoad);
             
             SetupLoadListDropDown();
             SetupSaveListButton();
             SetupCreateListButton();
+            SetupAddRemoveColumnButton();
             SetupAddPlayerButton();
             SetupShowSelectedPlayer();
         }
@@ -41,7 +43,8 @@ namespace HockeyStats
 
         private void SetupLoadListDropDown()
         {
-            loadListDropDown.DropDownItems.Clear();
+            ToolStripItemCollection dropDownItems = loadListDropDown.DropDownItems;
+            dropDownItems.Clear();
             string[] playerListFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*" + FILENAME_SUFFIX);
             foreach (string fileWithPath in playerListFiles)
             {
@@ -50,12 +53,15 @@ namespace HockeyStats
                 string listName = file.Substring(0, file.Length - FILENAME_SUFFIX.Length);
 
                 PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>(listName + FILENAME_SUFFIX);
-                EventHandler selectHandler = new EventHandler((object sender, EventArgs e) => {
+                EventHandler selectPlayerListHandler = new EventHandler((object sender, EventArgs e) => {
                     LoadPlayerList(playerListToLoad);
                     SetupLoadListDropDown();
                 });
-                string stringToWrite = (playerList.listName == listName) ? "*" + listName : listName;
-                loadListDropDown.DropDownItems.Add(stringToWrite, null, selectHandler);
+                dropDownItems.Add(listName, null, selectPlayerListHandler);
+                if (playerList.listName == listName)
+                {
+                    ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
+                }
             }
         }
 
@@ -86,6 +92,31 @@ namespace HockeyStats
             });
         }
 
+        private void SetupAddRemoveColumnButton()
+        {
+            foreach (string columnName in Columns.AllPossibleColumnsAlphebetized)
+            {
+                ToolStripItemCollection dropDownItems = addRemoveColumnDropDown.DropDownItems;
+                EventHandler selectColumnHandler = new EventHandler((object sender, EventArgs e) => {
+                    ToolStripMenuItem dropDownItem = (ToolStripMenuItem)sender;
+                    if (dropDownItem.Checked)
+                    {
+                        firstTable.RemoveColumn(dropDownItem.Text);
+                    }
+                    else
+                    {
+                        firstTable.AddColumn(dropDownItem.Text);
+                    }
+                    dropDownItem.Checked = !dropDownItem.Checked;
+                });
+                dropDownItems.Add(columnName, null, selectColumnHandler);
+                if (playerList.primaryTableColumnNames.Contains(columnName))
+                {
+                    ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
+                }
+            }
+        }
+
         private void SetupAddPlayerButton()
         {
             addPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
@@ -103,10 +134,12 @@ namespace HockeyStats
 
         private void SetupShowSelectedPlayer()
         {
-            firstTableDGV.CellClick += new DataGridViewCellEventHandler((object sender, DataGridViewCellEventArgs e) => {
-                if (e.RowIndex < 0) { return; } // Ignore if a column was double clicked
+            firstTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
+                if (firstTableDGV.SelectedRows.Count != 1) { return; }
+                int rowIndex = firstTableDGV.SelectedRows[0].Index;
+                if (rowIndex < 0) { return; } // Ignore if a column was double clicked
 
-                DataRow row = ((DataRowView)firstTableDGV.Rows[e.RowIndex].DataBoundItem).Row;
+                DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(firstTableDGV.Rows[rowIndex]);
                 Dictionary<string, string> existingPlayerDict = firstTable.GetSavedDictFromRow(row);
 
                 secondTable.ClearTable();

@@ -74,5 +74,16 @@ namespace HockeyStats
         };
 
         public static readonly List<string> DynamicColumns = AllPossibleColumns.Where((string col) => !ConstantColumns.Contains(col)).ToList();
+
+        public static readonly List<string> AllPossibleColumnsAlphebetized = GetAllPossibleColumnsAlphebetized();
+
+        private static List<string> GetAllPossibleColumnsAlphebetized()
+        {
+            string[] copy = new string[AllPossibleColumns.Count];
+            AllPossibleColumns.CopyTo(copy);
+            List<string> copyAsList = copy.ToList();
+            copyAsList.Sort();
+            return copyAsList;
+        }
     }
 }
