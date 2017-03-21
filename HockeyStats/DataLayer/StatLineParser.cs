@@ -36,58 +36,58 @@ namespace HockeyStats
         public void GetGamesPlayed(string key)
         {
             string value = (string)statLine["GP"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         public void GetGoalsOrGAA(string key)
         {
             string goals = (string)statLine["G"];
             string value = (goals != null) ? goals : (string)statLine["GAA"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         public void GetAssistsOrSVP(string key)
         {
             string assists = (string)statLine["A"];
             string value = (assists != null) ? assists : (string)statLine["SVP"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         public void GetTotalPoints(string key)
         {
             string value = (string)statLine["TP"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         public void GetPointsPerGame(string key)
         {
             string value = (string)statLine["PPG"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         public void GetPIM(string key)
         {
             string value = (string)statLine["PIM"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         // Stats from player object
         public void GetFirstName(string key)
         {
             string value = (string)playerObj["firstName"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         public void GetLastName(string key)
         {
             string value = (string)playerObj["lastName"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         public void GetDateOfBirth(string key)
         {
             string value = (string)playerObj["dateOfBirth"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         public void GetHeight(string key)
@@ -98,7 +98,7 @@ namespace HockeyStats
             height = Convert.ToInt32(height * 0.3937007874); // Convert to pounds
             int feet = height / 12;
             int inches = height - (feet * 12);
-            AddOrAppendToDict(dictionaryToFill, key, feet.ToString() + "' " + inches.ToString() + "\"");
+            AddOrAppendToDict(key, feet.ToString() + "' " + inches.ToString() + "\"");
         }
 
         public void GetWeight(string key)
@@ -107,41 +107,41 @@ namespace HockeyStats
             int weight;
             Int32.TryParse(value, out weight);
             weight = Convert.ToInt32(weight * 2.20462262185); // Convert to inches
-            AddOrAppendToDict(dictionaryToFill, key, weight.ToString() + " lbs");
+            AddOrAppendToDict(key, weight.ToString() + " lbs");
         }
 
         public void GetShootsOrCatches(string key)
         {
             string shoots = (string)playerObj["shoots"];
             string value = (shoots != null) ? shoots : (string)playerObj["catches"];
-            AddOrAppendToDict(dictionaryToFill, key, value[0].ToString());
+            AddOrAppendToDict(key, value[0].ToString());
         }
 
         public void GetId(string key)
         {
             string value = (string)playerObj["id"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         // Stats from team object
         public void GetTeamName(string key)
         {
             string value = (string)teamObj["name"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         // Stats from league object
         public void GetLeagueName(string key)
         {
             string value = (string)leagueObj["name"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         // Stats from season object
         public void GetYear(string key)
         {
             string value = (string)seasonObj["name"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         public string ReturnYear()

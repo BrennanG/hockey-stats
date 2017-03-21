@@ -22,26 +22,26 @@ namespace HockeyStats
         {
             string date = (string)draftData["year"];
             string year = date.Substring(6, 4);
-            AddOrAppendToDict(dictionaryToFill, key, year);
+            AddOrAppendToDict(key, year);
         }
 
         public void GetDraftRound(string key)
         {
             string value = (string)draftData["round"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         public void GetDraftOverall(string key)
         {
             string value = (string)draftData["overall"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
 
         // Stats from draft team object
         public void GetDraftTeamName(string key)
         {
             string value = (string)draftTeamObj["name"];
-            AddOrAppendToDict(dictionaryToFill, key, value);
+            AddOrAppendToDict(key, value);
         }
     }
 }

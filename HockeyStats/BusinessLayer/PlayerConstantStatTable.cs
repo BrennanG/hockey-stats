@@ -15,11 +15,11 @@ namespace HockeyStats
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;
         }
 
-        public void AddPlayerByDisplayDict(Dictionary<string, string> displayDict)
+        public void AddPlayerByPlayerStats(PlayerStats playerStats, string displayYear)
         {
-            foreach (KeyValuePair<string, string> keyValuePair in displayDict)
+            foreach (KeyValuePair<string, string> keyValuePair in playerStats.GetConstantColumnValues(displayYear))
             {
-                if (keyValuePair.Value != null && keyValuePair.Value.Contains(Environment.NewLine) == false)
+                if (keyValuePair.Value != null)
                 {
                     Dictionary<string, string> entry = new Dictionary<string, string>() {
                         { "Key", keyValuePair.Key },

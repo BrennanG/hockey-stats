@@ -12,7 +12,7 @@ namespace HockeyStats
     public class MultiPlayerStatTable : PlayerStatTable
     {
         private PlayerList playerList;
-        private Dictionary<int, Dictionary<string, string>> rowHashToSavedDictMap = new Dictionary<int, Dictionary<string, string>>();
+        private Dictionary<int, PlayerStats> rowHashToPlayerStatsMap = new Dictionary<int, PlayerStats>();
 
         public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList)
             : base(dataGridView, playerList.primaryTableColumnNames)
@@ -23,19 +23,23 @@ namespace HockeyStats
 
         public void AddPlayerById(string playerId)
         {
-            Dictionary<string, string> DisplayDict = new Dictionary<string, string>();
-            Dictionary<string, string> SavedDict = new Dictionary<string, string>();
+            PlayerStats playerStats = new PlayerStats(playerId);
 
-            PlayerStats playerStats = new PlayerStats(playerId, playerList.displayYears);
-            playerStats.AddPlayerStatsToDicts(DisplayDict, SavedDict);
-
-            DataRow newDataRow = AddRowToDataTable(DisplayDict);
-            rowHashToSavedDictMap[newDataRow.GetHashCode()] = SavedDict;
+            Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displayYears.First());
+            DataRow newDataRow = AddRowToDataTable(collapsedYear);
+            rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
         }
 
-        public Dictionary<string, string> GetSavedDictFromRow(DataRow dataRow)
+        public PlayerStats GetPlayerStatsFromRow(DataRow dataRow)
         {
-            return rowHashToSavedDictMap[dataRow.GetHashCode()];
+            if (rowHashToPlayerStatsMap.ContainsKey(dataRow.GetHashCode()))
+            {
+                return rowHashToPlayerStatsMap[dataRow.GetHashCode()];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public new void AddColumn(string columnName)
@@ -46,12 +50,8 @@ namespace HockeyStats
             foreach (DataGridViewRow dgvRow in dataGridView.Rows)
             {
                 DataRow row = GetDataRowFromDGVRow(dgvRow);
-                Dictionary<string, string> savedDictForRow = rowHashToSavedDictMap[row.GetHashCode()];
-                string value;
-                if (savedDictForRow.TryGetValue(columnName, out value))
-                {
-                    row[columnName] = value;
-                }
+                PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
+                row[columnName] = playerStats.GetCollapsedYear(playerList.displayYears.First());
             }
         }
 

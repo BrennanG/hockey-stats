@@ -42,7 +42,6 @@ namespace HockeyStats
             string[] orderedRowValues = new string[dataTable.Columns.Count];
             for (int i = 0; i < dataTable.Columns.Count; i++)
             {
-                string junk = String.Empty;
                 // If the column exists in the row, add the value
                 string value;
                 if (displayDict.TryGetValue(dataTable.Columns[i].ColumnName, out value))

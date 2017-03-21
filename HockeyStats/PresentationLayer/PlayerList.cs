@@ -9,8 +9,8 @@ namespace HockeyStats
     public class PlayerList
     {
         public string listName;
-        public List<string> playerIds;
         public List<string> displayYears;
+        public List<string> playerIds;
         public List<string> primaryTableColumnNames;
         public List<string> secondaryTableColumnNames;
         

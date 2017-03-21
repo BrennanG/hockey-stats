@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.IO;
+using System.Linq;
 
 namespace HockeyStats
 {
@@ -89,6 +90,7 @@ namespace HockeyStats
                 PlayerList playerListToLoad = new PlayerList();
                 playerListToLoad.FillWithDefaults();
                 LoadPlayerList(playerListToLoad);
+                SetupLoadListDropDown();
             });
         }
 
@@ -128,6 +130,9 @@ namespace HockeyStats
                     firstTable.AddPlayerById(playerId);
                     playerList.playerIds.Add(playerId);
                     addPlayerTextbox.Text = String.Empty;
+                    firstTableDGV.ClearSelection();
+                    secondTable.ClearTable();
+                    thirdTable.ClearTable();
                 }
             });
         }
@@ -135,18 +140,18 @@ namespace HockeyStats
         private void SetupShowSelectedPlayer()
         {
             firstTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
-                if (firstTableDGV.SelectedRows.Count != 1) { return; }
+                if (firstTableDGV.SelectedRows.Count != 1 || playerList.playerIds.Count < 1) { return; }
                 int rowIndex = firstTableDGV.SelectedRows[0].Index;
-                if (rowIndex < 0) { return; } // Ignore if a column was double clicked
 
                 DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(firstTableDGV.Rows[rowIndex]);
-                Dictionary<string, string> existingPlayerDict = firstTable.GetSavedDictFromRow(row);
+                PlayerStats existingPlayerStats = firstTable.GetPlayerStatsFromRow(row);
+                if (existingPlayerStats == null) { return; }
 
                 secondTable.ClearTable();
-                secondTable.AddPlayerByDisplayDict(existingPlayerDict);
+                secondTable.AddPlayerByPlayerStats(existingPlayerStats, playerList.displayYears.First());
 
                 thirdTable.ClearTable();
-                thirdTable.AddPlayerByDisplayDict(existingPlayerDict);
+                thirdTable.AddPlayerByPlayerStats(existingPlayerStats);
             });
         }
     }

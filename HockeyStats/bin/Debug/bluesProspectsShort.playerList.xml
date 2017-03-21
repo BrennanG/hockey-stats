@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
 <PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <listName>bluesProspectsShort</listName>
+  <displayYears>
+    <string>2016-2017</string>
+  </displayYears>
   <playerIds>
     <string>301349</string>
     <string>269034</string>
     <string>50661</string>
+    <string>161816</string>
   </playerIds>
-  <displayYears>
-    <string>2016-2017</string>
-  </displayYears>
   <primaryTableColumnNames>
     <string>First Name</string>
     <string>Last Name</string>

@@ -14,16 +14,16 @@ namespace HockeyStats
             this.dictionaryToFill = dictionaryToFill;
         }
 
-        protected void AddOrAppendToDict(Dictionary<string, string> dict, string key, string value)
+        protected void AddOrAppendToDict(string key, string value)
         {
             string junk;
-            if (dict.TryGetValue(key, out junk))
+            if (dictionaryToFill.TryGetValue(key, out junk))
             {
-                dict[key] += Environment.NewLine + value;
+                throw new Exception();
             }
             else
             {
-                dict[key] = value;
+                dictionaryToFill[key] = value;
             }
         }
 
