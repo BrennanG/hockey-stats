@@ -49,7 +49,7 @@ namespace HockeyStats
             string collapsedColumn = "";
             foreach (Dictionary<string, string> dict in playerStats[year])
             {
-                if (collapsedColumn == "")
+                if (collapsedColumn == "" || Columns.ConstantColumns.Contains(columnName))
                 {
                     collapsedColumn = dict[columnName];
                 }

@@ -46,12 +46,20 @@ namespace HockeyStats
         {
             if (!Columns.AllPossibleColumns.Contains(columnName) || dataTable.Columns.Contains(columnName)) { return; }
 
-            dataTable.Columns.Add(columnName);
+            if (Columns.NumericColumns.Contains(columnName))
+            {
+                dataTable.Columns.Add(new DataColumn(columnName, new int().GetType()));
+            }
+            else
+            {
+                dataTable.Columns.Add(new DataColumn(columnName));
+            }
+
             foreach (DataGridViewRow dgvRow in dataGridView.Rows)
             {
                 DataRow row = GetDataRowFromDGVRow(dgvRow);
                 PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
-                row[columnName] = playerStats.GetCollapsedYear(playerList.displayYears.First());
+                row[columnName] = playerStats.GetCollapsedColumnValue(playerList.displayYears.First(), columnName);
             }
         }
 

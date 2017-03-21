@@ -33,9 +33,8 @@ namespace HockeyStats
 
         public static List<string> NumericColumns = new List<string>()
         {
-            "PIM",
-            "Height",
-            "Weight",
+            //"Height",
+            //"Weight",
             "Draft Year",
             "Draft Round",
             "Draft Overall",
