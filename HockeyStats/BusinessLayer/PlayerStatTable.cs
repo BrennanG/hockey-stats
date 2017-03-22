@@ -20,7 +20,7 @@ namespace HockeyStats
             this.dataGridView = dataGridView;
             this.columnData = columnData;
 
-            InitializeTable(this.dataGridView);
+            InitializeTable();
             DisableSortingOnDynamicColumns();
         }
 
@@ -41,14 +41,14 @@ namespace HockeyStats
             }
         }
 
-        protected DataRow AddRowToDataTable(Dictionary<string, string> displayDict)
+        protected DataRow AddRowToDataTable(Dictionary<string, string> statDict)
         {
             string[] orderedRowValues = new string[dataTable.Columns.Count];
             for (int i = 0; i < dataTable.Columns.Count; i++)
             {
                 // If the column exists in the row, add the value
                 string value;
-                if (displayDict.TryGetValue(dataTable.Columns[i].ColumnName, out value))
+                if (statDict.TryGetValue(dataTable.Columns[i].ColumnName, out value))
                 {
                     orderedRowValues[i] = value;
                 }
@@ -56,13 +56,14 @@ namespace HockeyStats
             return dataTable.Rows.Add(orderedRowValues);
         }
 
-        private void InitializeTable(DataGridView dgv)
+        private void InitializeTable()
         {
+            dataGridView.Columns.Clear();
             foreach (string columnName in columnData)
             {
                 AddColumn(columnName);
             }
-            dgv.DataSource = dataTable;
+            dataGridView.DataSource = dataTable;
         }
 
         private void DisableSortingOnDynamicColumns()

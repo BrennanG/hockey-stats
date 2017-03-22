@@ -10,6 +10,7 @@ namespace HockeyStats
     {
         // Dictionary from year (as a string) to list of stat lines for that year
         private Dictionary<string, List<Dictionary<string, string>>> playerStats = new Dictionary<string, List<Dictionary<string, string>>>();
+        private Dictionary<string, string> constantPlayerStats = new Dictionary<string, string>();
         private string playerId;
 
         private static Dictionary<string, Action> getStatMap = FillGetStatMap();
@@ -20,10 +21,13 @@ namespace HockeyStats
         {
             this.playerId = playerId;
             FillPlayerStats();
+            FillConstantPlayerStats();
         }
 
         public Dictionary<string, string> GetCollapsedYear(string year)
         {
+            if (!playerStats.ContainsKey(year)) { return constantPlayerStats;  }
+
             Dictionary<string, string> returnDict = new Dictionary<string, string>();
             foreach (Dictionary<string, string> loopDict in playerStats[year])
             {
@@ -61,17 +65,9 @@ namespace HockeyStats
             return collapsedColumn;
         }
 
-        public Dictionary<string, string> GetConstantColumnValues(string year)
+        public Dictionary<string, string> GetConstantColumnValues()
         {
-            Dictionary<string, string> returnDict = new Dictionary<string, string>();
-            foreach (KeyValuePair<string, string> keyValuePair in playerStats[year].First())
-            {
-                if (Columns.ConstantColumns.Contains(keyValuePair.Key))
-                {
-                    returnDict.Add(keyValuePair.Key, keyValuePair.Value);
-                }
-            }
-            return returnDict;
+            return constantPlayerStats;
         }
 
         public List<Dictionary<string, string>> GetDynamicColumnValues()
@@ -102,10 +98,7 @@ namespace HockeyStats
         {
             JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
             JToken data = draftJson["data"];
-            if (data != null)
-            {
-                draftDataParser.SetDraftData(data.Last);
-            }
+            draftDataParser.SetDraftData(data);
 
             JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
             foreach (JToken statLine in statsJson["data"])
@@ -123,6 +116,23 @@ namespace HockeyStats
                     FillDictWithStats(dict);
                 }
 
+            }
+        }
+
+        private void FillConstantPlayerStats()
+        {
+            Dictionary<string, string> firstDictWithData = new Dictionary<string, string>();
+            foreach (List<Dictionary<string, string>> dicts in playerStats.Values)
+            {
+                if (dicts.Count > 0 && dicts[0].Keys.Count > 0)
+                {
+                    firstDictWithData = dicts[0];
+                    break;
+                }
+            }
+            foreach (string columnName in Columns.ConstantColumns)
+            {
+                constantPlayerStats[columnName] = firstDictWithData[columnName];
             }
         }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <listName>2016Draft</listName>
-  <displayYear>2016-2017</displayYear>
+  <displaySeason>2016-2017</displaySeason>
   <playerIds>
     <string>199898</string>
 <string>221667</string>

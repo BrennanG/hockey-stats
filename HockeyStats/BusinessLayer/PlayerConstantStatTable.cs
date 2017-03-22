@@ -15,9 +15,9 @@ namespace HockeyStats
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;
         }
 
-        public void AddPlayerByPlayerStats(PlayerStats playerStats, string displayYear)
+        public void AddPlayerByPlayerStats(PlayerStats playerStats)
         {
-            foreach (KeyValuePair<string, string> keyValuePair in playerStats.GetConstantColumnValues(displayYear))
+            foreach (KeyValuePair<string, string> keyValuePair in playerStats.GetConstantColumnValues())
             {
                 if (keyValuePair.Value != null)
                 {

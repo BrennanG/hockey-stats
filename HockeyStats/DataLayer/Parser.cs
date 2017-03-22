@@ -14,7 +14,7 @@ namespace HockeyStats
             this.dictionaryToFill = dictionaryToFill;
         }
 
-        protected void AddOrAppendToDict(string key, string value)
+        protected void AddToDict(string key, string value)
         {
             string junk;
             if (dictionaryToFill.TryGetValue(key, out junk))

@@ -29,6 +29,7 @@ namespace HockeyStats
             SetupLoadListDropDown();
             SetupSaveListButton();
             SetupCreateListButton();
+            SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
             SetupAddPlayerButton();
             SetupRemoveSelectedPlayerButton();
@@ -58,7 +59,7 @@ namespace HockeyStats
                 PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>(listName + FILENAME_SUFFIX);
                 EventHandler selectPlayerListHandler = new EventHandler((object sender, EventArgs e) => {
                     LoadPlayerList(playerListToLoad);
-                    SetupLoadListDropDown();
+                    RefreshDropDownLists();
                 });
                 dropDownItems.Add(listName, null, selectPlayerListHandler);
                 if (playerList.listName == listName)
@@ -92,15 +93,42 @@ namespace HockeyStats
                 PlayerList playerListToLoad = new PlayerList();
                 playerListToLoad.FillWithDefaults();
                 LoadPlayerList(playerListToLoad);
-                SetupLoadListDropDown();
+                RefreshDropDownLists();
             });
+        }
+
+        private void SetupSelectSeasonButton()
+        {
+            ToolStripItemCollection dropDownItems = selectSeasonDropDown.DropDownItems;
+            dropDownItems.Clear();
+
+            string currentSeason = GetCurrentSeason();
+            string[] years = currentSeason.Split('-');
+            int startYear = Int32.Parse(years[0]);
+            int endYear = Int32.Parse(years[1]);
+
+            for (int i = 0; i < 15; i++)
+            {
+                string seasonToAdd = String.Format("{0}-{1}", startYear - i, endYear - i);
+                EventHandler selectSeasonHandler = new EventHandler((object sender, EventArgs e) => {
+                    playerList.displaySeason = seasonToAdd;
+                    LoadPlayerList(playerList);
+                    RefreshDropDownLists();
+                });
+                dropDownItems.Add(seasonToAdd, null, selectSeasonHandler);
+                if (playerList.displaySeason == seasonToAdd)
+                {
+                    ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
+                }
+            }
         }
 
         private void SetupAddRemoveColumnButton()
         {
+            ToolStripItemCollection dropDownItems = addRemoveColumnDropDown.DropDownItems;
+            dropDownItems.Clear();
             foreach (string columnName in Columns.AllPossibleColumnsAlphebetized)
             {
-                ToolStripItemCollection dropDownItems = addRemoveColumnDropDown.DropDownItems;
                 EventHandler selectColumnHandler = new EventHandler((object sender, EventArgs e) => {
                     ToolStripMenuItem dropDownItem = (ToolStripMenuItem)sender;
                     if (dropDownItem.Checked)
@@ -172,7 +200,7 @@ namespace HockeyStats
                 if (existingPlayerStats == null) { return; }
 
                 secondTable.ClearTable();
-                secondTable.AddPlayerByPlayerStats(existingPlayerStats, playerList.displayYear);
+                secondTable.AddPlayerByPlayerStats(existingPlayerStats);
 
                 thirdTable.ClearTable();
                 thirdTable.AddPlayerByPlayerStats(existingPlayerStats);
@@ -184,6 +212,30 @@ namespace HockeyStats
             firstTableDGV.ClearSelection();
             secondTable.ClearTable();
             thirdTable.ClearTable();
+        }
+
+        private void RefreshDropDownLists()
+        {
+            SetupLoadListDropDown();
+            SetupSelectSeasonButton();
+            SetupAddRemoveColumnButton();
+        }
+
+        public static string GetCurrentSeason()
+        {
+            DateTime today = DateTime.Today;
+            int seasonStart, seasonEnd;
+            if (today.Month < 6)
+            {
+                seasonStart = today.Year - 1;
+                seasonEnd = today.Year;
+            }
+            else
+            {
+                seasonStart = today.Year;
+                seasonEnd = today.Year + 1;
+            }
+            return String.Format("{0}-{1}", seasonStart, seasonEnd);
         }
     }
 }

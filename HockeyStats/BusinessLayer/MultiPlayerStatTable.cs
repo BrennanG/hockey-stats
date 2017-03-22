@@ -29,7 +29,7 @@ namespace HockeyStats
         {
             PlayerStats playerStats = new PlayerStats(playerId);
 
-            Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displayYear);
+            Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displaySeason);
             DataRow newDataRow = AddRowToDataTable(collapsedYear);
             rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
         }
@@ -57,13 +57,20 @@ namespace HockeyStats
         {
             if (!Columns.AllPossibleColumns.Contains(columnName) || dataTable.Columns.Contains(columnName)) { return; }
 
-            AddColumn(columnName);
+            base.AddColumn(columnName);
+            playerList.primaryTableColumnNames.Add(columnName);
             foreach (DataGridViewRow dgvRow in dataGridView.Rows)
             {
                 DataRow row = GetDataRowFromDGVRow(dgvRow);
                 PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
-                row[columnName] = playerStats.GetCollapsedColumnValue(playerList.displayYear, columnName);
+                row[columnName] = playerStats.GetCollapsedColumnValue(playerList.displaySeason, columnName);
             }
+        }
+
+        public new void RemoveColumn(string columnName)
+        {
+            base.RemoveColumn(columnName);
+            playerList.primaryTableColumnNames.Remove(columnName);
         }
 
         public void AbortFillDataTableThread()
@@ -85,7 +92,9 @@ namespace HockeyStats
 
         private void FillDataTable()
         {
-            foreach (string playerId in playerList.playerIds)
+            string[] copiedPlayerIds = new string[playerList.playerIds.Count];
+            playerList.playerIds.CopyTo(copiedPlayerIds);
+            foreach (string playerId in copiedPlayerIds)
             {
                 AddPlayerById(playerId);
             }

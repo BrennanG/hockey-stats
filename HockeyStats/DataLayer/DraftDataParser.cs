@@ -11,37 +11,48 @@ namespace HockeyStats
         {
         }
 
-        public void SetDraftData(JToken draftData)
+        public void SetDraftData(JToken data)
         {
-            this.draftData = draftData;
-            draftTeamObj = (JObject)draftData["team"];
+            if (data == null)
+            {
+                this.draftData = null;
+            }
+            else
+            {
+                this.draftData = data.First;
+                draftTeamObj = (JObject)draftData["team"];
+            }
         }
 
         // Stats from base draft object
         public void GetDraftYear(string key)
         {
+            if (draftData == null) { AddToDict(key, null); }
             string date = (string)draftData["year"];
             string year = date.Substring(6, 4);
-            AddOrAppendToDict(key, year);
+            AddToDict(key, year);
         }
 
         public void GetDraftRound(string key)
         {
+            if (draftData == null) { AddToDict(key, null); }
             string value = (string)draftData["round"];
-            AddOrAppendToDict(key, value);
+            AddToDict(key, value);
         }
 
         public void GetDraftOverall(string key)
         {
+            if (draftData == null) { AddToDict(key, null); }
             string value = (string)draftData["overall"];
-            AddOrAppendToDict(key, value);
+            AddToDict(key, value);
         }
 
         // Stats from draft team object
         public void GetDraftTeamName(string key)
         {
+            if (draftData == null) { AddToDict(key, null); }
             string value = (string)draftTeamObj["name"];
-            AddOrAppendToDict(key, value);
+            AddToDict(key, value);
         }
     }
 }
