@@ -11,7 +11,7 @@ namespace HockeyStats
 {
     public abstract class PlayerStatTable
     {
-        protected DataTable dataTable;
+        protected DataTable dataTable = new DataTable();
         protected DataGridView dataGridView;
         protected List<string> columnData;
 
@@ -20,7 +20,7 @@ namespace HockeyStats
             this.dataGridView = dataGridView;
             this.columnData = columnData;
 
-            dataTable = CreateDataTable(this.dataGridView);
+            InitializeTable(this.dataGridView);
             DisableSortingOnDynamicColumns();
         }
 
@@ -31,16 +31,13 @@ namespace HockeyStats
 
         public void AddColumn(string columnName)
         {
-            if (Columns.AllPossibleColumns.Contains(columnName) && !dataTable.Columns.Contains(columnName))
+            if (Columns.NumericColumns.Contains(columnName))
             {
-                if (Columns.NumericColumns.Contains(columnName))
-                {
-                    dataTable.Columns.Add(new DataColumn(columnName, new int().GetType()));
-                }
-                else
-                {
-                    dataTable.Columns.Add(new DataColumn(columnName));
-                }
+                dataTable.Columns.Add(new DataColumn(columnName, new int().GetType()));
+            }
+            else
+            {
+                dataTable.Columns.Add(new DataColumn(columnName));
             }
         }
 
@@ -59,23 +56,13 @@ namespace HockeyStats
             return dataTable.Rows.Add(orderedRowValues);
         }
 
-        private DataTable CreateDataTable(DataGridView dgv)
+        private void InitializeTable(DataGridView dgv)
         {
-            DataTable dataTable = new DataTable();
             foreach (string columnName in columnData)
             {
-                if (Columns.NumericColumns.Contains(columnName))
-                {
-                    dataTable.Columns.Add(new DataColumn(columnName, new int().GetType()));
-                }
-                else
-                {
-                    dataTable.Columns.Add(new DataColumn(columnName));
-                }
+                AddColumn(columnName);
             }
-            
             dgv.DataSource = dataTable;
-            return dataTable;
         }
 
         private void DisableSortingOnDynamicColumns()

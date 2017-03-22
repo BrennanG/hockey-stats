@@ -50,15 +50,7 @@ namespace HockeyStats
         {
             if (!Columns.AllPossibleColumns.Contains(columnName) || dataTable.Columns.Contains(columnName)) { return; }
 
-            if (Columns.NumericColumns.Contains(columnName))
-            {
-                dataTable.Columns.Add(new DataColumn(columnName, new int().GetType()));
-            }
-            else
-            {
-                dataTable.Columns.Add(new DataColumn(columnName));
-            }
-
+            AddColumn(columnName);
             foreach (DataGridViewRow dgvRow in dataGridView.Rows)
             {
                 DataRow row = GetDataRowFromDGVRow(dgvRow);
