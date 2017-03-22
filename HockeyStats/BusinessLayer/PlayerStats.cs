@@ -93,6 +93,11 @@ namespace HockeyStats
             return dynamicColumnValues;
         }
 
+        public string GetPlayerId()
+        {
+            return playerId;
+        }
+
         private void FillPlayerStats()
         {
             JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);

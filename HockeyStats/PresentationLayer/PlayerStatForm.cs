@@ -31,6 +31,7 @@ namespace HockeyStats
             SetupCreateListButton();
             SetupAddRemoveColumnButton();
             SetupAddPlayerButton();
+            SetupRemoveSelectedPlayerButton();
             SetupShowSelectedPlayer();
         }
 
@@ -131,10 +132,32 @@ namespace HockeyStats
                     firstTable.AddPlayerById(playerId);
                     playerList.playerIds.Add(playerId);
                     addPlayerTextbox.Text = String.Empty;
-                    firstTableDGV.ClearSelection();
-                    secondTable.ClearTable();
-                    thirdTable.ClearTable();
                 }
+            });
+        }
+
+        private void SetupRemoveSelectedPlayerButton()
+        {
+            // Enabling and disabling the button
+            firstTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
+                if (firstTableDGV.SelectedRows.Count == 1)
+                {
+                    removeSelectedPlayerButton.Enabled = true;
+                }
+                else
+                {
+                    removeSelectedPlayerButton.Enabled = false;
+                }
+            });
+
+            // Adding logic to the button
+            removeSelectedPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
+                if (firstTableDGV.SelectedRows.Count != 1) { return; }
+
+                int rowIndex = firstTableDGV.SelectedRows[0].Index;
+                DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(firstTableDGV.Rows[rowIndex]);
+                firstTable.RemoveRow(row);
+                ClearPlayerSelection();
             });
         }
 
@@ -154,6 +177,13 @@ namespace HockeyStats
                 thirdTable.ClearTable();
                 thirdTable.AddPlayerByPlayerStats(existingPlayerStats);
             });
+        }
+
+        private void ClearPlayerSelection()
+        {
+            firstTableDGV.ClearSelection();
+            secondTable.ClearTable();
+            thirdTable.ClearTable();
         }
     }
 }

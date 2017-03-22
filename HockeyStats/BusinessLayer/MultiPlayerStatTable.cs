@@ -34,6 +34,13 @@ namespace HockeyStats
             rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
         }
 
+        public void RemoveRow(DataRow row)
+        {
+            PlayerStats playerStats = GetPlayerStatsFromRow(row);
+            playerList.playerIds.Remove(playerStats.GetPlayerId());
+            dataTable.Rows.Remove(row);
+        }
+
         public PlayerStats GetPlayerStatsFromRow(DataRow dataRow)
         {
             if (rowHashToPlayerStatsMap.ContainsKey(dataRow.GetHashCode()))
