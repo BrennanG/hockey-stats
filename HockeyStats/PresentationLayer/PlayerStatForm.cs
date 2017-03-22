@@ -37,6 +37,7 @@ namespace HockeyStats
         private void LoadPlayerList(PlayerList playerListToLoad)
         {
             playerList = playerListToLoad;
+            if (firstTable != null) { firstTable.AbortFillDataTableThread(); }
             firstTable = new MultiPlayerStatTable(firstTableDGV, playerList);
             secondTable = new PlayerConstantStatTable(secondTableDGV);
             thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryTableColumnNames);

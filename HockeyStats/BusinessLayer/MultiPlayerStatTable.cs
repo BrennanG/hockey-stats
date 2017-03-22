@@ -13,12 +13,16 @@ namespace HockeyStats
     {
         private PlayerList playerList;
         private Dictionary<int, PlayerStats> rowHashToPlayerStatsMap = new Dictionary<int, PlayerStats>();
+        private Thread fillDataTableThread;
 
         public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList)
             : base(dataGridView, playerList.primaryTableColumnNames)
         {
             this.playerList = playerList;
-            new Thread(() => FillDataTable()).Start(); // Fill the table in a separate thread
+
+            // Fill the table in a separate thread
+            fillDataTableThread = new Thread(() => FillDataTable());
+            fillDataTableThread.Start();
         }
 
         public void AddPlayerById(string playerId)
@@ -60,6 +64,18 @@ namespace HockeyStats
                 DataRow row = GetDataRowFromDGVRow(dgvRow);
                 PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
                 row[columnName] = playerStats.GetCollapsedColumnValue(playerList.displayYears.First(), columnName);
+            }
+        }
+
+        public void AbortFillDataTableThread()
+        {
+            if (fillDataTableThread != null && fillDataTableThread.ThreadState == ThreadState.Running)
+            {
+                fillDataTableThread.Abort();
+            }
+            while (fillDataTableThread.ThreadState != ThreadState.Aborted && fillDataTableThread.ThreadState != ThreadState.Stopped)
+            {
+                // loop until it's aborted
             }
         }
 
