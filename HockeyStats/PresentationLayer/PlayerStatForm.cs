@@ -149,7 +149,7 @@ namespace HockeyStats
                 if (existingPlayerStats == null) { return; }
 
                 secondTable.ClearTable();
-                secondTable.AddPlayerByPlayerStats(existingPlayerStats, playerList.displayYears.First());
+                secondTable.AddPlayerByPlayerStats(existingPlayerStats, playerList.displayYear);
 
                 thirdTable.ClearTable();
                 thirdTable.AddPlayerByPlayerStats(existingPlayerStats);

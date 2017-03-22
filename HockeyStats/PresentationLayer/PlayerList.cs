@@ -9,7 +9,7 @@ namespace HockeyStats
     public class PlayerList
     {
         public string listName;
-        public List<string> displayYears;
+        public string displayYear;
         public List<string> playerIds;
         public List<string> primaryTableColumnNames;
         public List<string> secondaryTableColumnNames;
@@ -23,7 +23,7 @@ namespace HockeyStats
         {
             listName = "";
             playerIds = new List<string>();
-            displayYears = new List<string>() { "2016-2017" };
+            displayYear = "2016-2017";
             primaryTableColumnNames = Columns.DefaultColumns;
             secondaryTableColumnNames = Columns.DynamicColumns;
         }

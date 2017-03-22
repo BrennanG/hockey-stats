@@ -29,7 +29,7 @@ namespace HockeyStats
         {
             PlayerStats playerStats = new PlayerStats(playerId);
 
-            Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displayYears.First());
+            Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displayYear);
             DataRow newDataRow = AddRowToDataTable(collapsedYear);
             rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
         }
@@ -55,7 +55,7 @@ namespace HockeyStats
             {
                 DataRow row = GetDataRowFromDGVRow(dgvRow);
                 PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
-                row[columnName] = playerStats.GetCollapsedColumnValue(playerList.displayYears.First(), columnName);
+                row[columnName] = playerStats.GetCollapsedColumnValue(playerList.displayYear, columnName);
             }
         }
 

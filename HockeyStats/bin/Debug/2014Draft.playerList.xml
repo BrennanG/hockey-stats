@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <listName>2014Draft</listName>
+  <displayYear>2016-2017</displayYear>
   <playerIds>
     <string>49042</string>
     <string>95032</string>
@@ -63,9 +64,6 @@
     <string>213262</string>
     <string>50668</string>
   </playerIds>
-  <displayYears>
-    <string>2016-2017</string>
-  </displayYears>
   <primaryTableColumnNames>
     <string>First Name</string>
     <string>Last Name</string>
