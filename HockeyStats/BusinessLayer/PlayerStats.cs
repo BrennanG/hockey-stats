@@ -104,7 +104,7 @@ namespace HockeyStats
             JToken data = draftJson["data"];
             if (data != null)
             {
-                draftDataParser.SetDraftData(data.First);
+                draftDataParser.SetDraftData(data.Last);
             }
 
             JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
