@@ -138,7 +138,7 @@ namespace HockeyStats
         }
 
         // Stats from season object
-        public void GetYear(string key)
+        public void GetSeason(string key)
         {
             string value = (string)seasonObj["name"];
             AddToDict(key, value);

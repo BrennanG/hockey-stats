@@ -7,69 +7,90 @@ namespace HockeyStats
 {
     public static class Columns
     {
+        public static readonly string FIRST_NAME = "First Name";
+        public static readonly string LAST_NAME = "Last Name";
+        public static readonly string GAMES_PLAYED = "Games Played";
+        public static readonly string GOALS_GAA = "Goals/GAA";
+        public static readonly string ASSISTS_SVP = "Assists/Sv%";
+        public static readonly string TOTAL_POINTS = "Total Points";
+        public static readonly string PPG = "PPG";
+        public static readonly string LEAGUE = "League";
+        public static readonly string TEAM = "Team";
+        public static readonly string SEASON = "Season";
+        public static readonly string PIM = "PIM";
+        public static readonly string DATE_OF_BIRTH = "Date of Birth";
+        public static readonly string HEIGHT = "Height";
+        public static readonly string WEIGHT = "Weight";
+        public static readonly string SHOOTS_CATCHES = "Shoots/Catches";
+        public static readonly string DRAFT_YEAR = "Draft Year";
+        public static readonly string DRAFT_ROUND = "Draft Round";
+        public static readonly string DRAFT_OVERALL = "Draft Overall";
+        public static readonly string DRAFT_TEAM = "Draft Team";
+        public static readonly string ID = "ID";
+
         public static readonly List<string> AllPossibleColumns = new List<string>()
         {
-            "First Name",
-            "Last Name",
-            "Games Played",
-            "Goals/GAA",
-            "Assists/Sv%",
-            "Total Points",
-            "PPG",
-            "League",
-            "Team",
-            "Year",
-            "PIM",
-            "Date of Birth",
-            "Height",
-            "Weight",
-            "Shoots/Catches",
-            "Draft Year",
-            "Draft Round",
-            "Draft Overall",
-            "Draft Team",
-            "ID"
+            Columns.FIRST_NAME,
+            Columns.LAST_NAME,
+            Columns.GAMES_PLAYED,
+            Columns.GOALS_GAA,
+            Columns.ASSISTS_SVP,
+            Columns.TOTAL_POINTS,
+            Columns.PPG,
+            Columns.LEAGUE,
+            Columns.TEAM,
+            Columns.SEASON,
+            Columns.PIM,
+            Columns.DATE_OF_BIRTH,
+            Columns.HEIGHT,
+            Columns.WEIGHT,
+            Columns.SHOOTS_CATCHES,
+            Columns.DRAFT_YEAR,
+            Columns.DRAFT_ROUND,
+            Columns.DRAFT_OVERALL,
+            Columns.DRAFT_TEAM,
+            Columns.ID
         };
 
         public static List<string> NumericColumns = new List<string>()
         {
-            //"Height",
-            //"Weight",
-            "Draft Year",
-            "Draft Round",
-            "Draft Overall",
-            "ID"
+            //Columns.HEIGHT,
+            //Columns.WEIGHT,
+            Columns.DRAFT_YEAR,
+            Columns.DRAFT_ROUND,
+            Columns.DRAFT_OVERALL,
+            Columns.ID
         };
 
         public static List<string> DefaultColumns = new List<string>()
         {
-            "First Name",
-            "Last Name",
-            "Games Played",
-            "Goals/GAA",
-            "Assists/Sv%",
-            "Total Points",
-            "PPG",
-            "League",
-            "Draft Year",
-            "Draft Round",
-            "Draft Overall",
-            "Draft Team",
+            Columns.FIRST_NAME,
+            Columns.LAST_NAME,
+            Columns.GAMES_PLAYED,
+            Columns.GOALS_GAA,
+            Columns.ASSISTS_SVP,
+            Columns.TOTAL_POINTS,
+            Columns.PPG,
+            Columns.LEAGUE,
+            Columns.DRAFT_YEAR,
+            Columns.DRAFT_ROUND,
+            Columns.DRAFT_OVERALL,
+            Columns.DRAFT_TEAM,
         };
 
         public static readonly List<string> ConstantColumns = new List<string>()
         {
-            "First Name",
-            "Last Name",
-            "Date of Birth",
-            "Height",
-            "Weight",
-            "Shoots/Catches",
-            "Draft Year",
-            "Draft Round",
-            "Draft Overall",
-            "Draft Team",
-            "ID"
+            Columns.FIRST_NAME,
+            Columns.LAST_NAME,
+            Columns.DATE_OF_BIRTH,
+            Columns.HEIGHT,
+            Columns.WEIGHT,
+            Columns.SHOOTS_CATCHES,
+            Columns.DRAFT_YEAR,
+            Columns.DRAFT_ROUND,
+            Columns.DRAFT_OVERALL,
+            Columns.DRAFT_TEAM,
+            Columns.ID
         };
 
         public static readonly List<string> DynamicColumns = AllPossibleColumns.Where((string col) => !ConstantColumns.Contains(col)).ToList();

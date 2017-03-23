@@ -153,26 +153,26 @@ namespace HockeyStats
         private static Dictionary<string, Action> FillGetStatMap()
         {
             Dictionary<string, Action> map = new Dictionary<string, Action>();
-            map.Add("First Name", () => statLineParser.GetFirstName("First Name"));
-            map.Add("Last Name", () => statLineParser.GetLastName("Last Name"));
-            map.Add("Games Played", () => statLineParser.GetGamesPlayed("Games Played"));
-            map.Add("Goals/GAA", () => statLineParser.GetGoalsOrGAA("Goals/GAA"));
-            map.Add("Assists/Sv%", () => statLineParser.GetAssistsOrSVP("Assists/Sv%"));
-            map.Add("Total Points", () => statLineParser.GetTotalPoints("Total Points"));
-            map.Add("PPG", () => statLineParser.GetPointsPerGame("PPG"));
-            map.Add("League", () => statLineParser.GetLeagueName("League"));
-            map.Add("Team", () => statLineParser.GetTeamName("Team"));
-            map.Add("Year", () => statLineParser.GetYear("Year"));
-            map.Add("PIM", () => statLineParser.GetPIM("PIM"));
-            map.Add("Date of Birth", () => statLineParser.GetDateOfBirth("Date of Birth"));
-            map.Add("Height", () => statLineParser.GetHeight("Height"));
-            map.Add("Weight", () => statLineParser.GetWeight("Weight"));
-            map.Add("Shoots/Catches", () => statLineParser.GetShootsOrCatches("Shoots/Catches"));
-            map.Add("Draft Year", () => draftDataParser.GetDraftYear("Draft Year"));
-            map.Add("Draft Round", () => draftDataParser.GetDraftRound("Draft Round"));
-            map.Add("Draft Overall", () => draftDataParser.GetDraftOverall("Draft Overall"));
-            map.Add("Draft Team", () => draftDataParser.GetDraftTeamName("Draft Team"));
-            map.Add("ID", () => statLineParser.GetId("ID"));
+            map.Add(Columns.FIRST_NAME, () => statLineParser.GetFirstName(Columns.FIRST_NAME));
+            map.Add(Columns.LAST_NAME, () => statLineParser.GetLastName(Columns.LAST_NAME));
+            map.Add(Columns.GAMES_PLAYED, () => statLineParser.GetGamesPlayed(Columns.GAMES_PLAYED));
+            map.Add(Columns.GOALS_GAA, () => statLineParser.GetGoalsOrGAA(Columns.GOALS_GAA));
+            map.Add(Columns.ASSISTS_SVP, () => statLineParser.GetAssistsOrSVP(Columns.ASSISTS_SVP));
+            map.Add(Columns.TOTAL_POINTS, () => statLineParser.GetTotalPoints(Columns.TOTAL_POINTS));
+            map.Add(Columns.PPG, () => statLineParser.GetPointsPerGame(Columns.PPG));
+            map.Add(Columns.LEAGUE, () => statLineParser.GetLeagueName(Columns.LEAGUE));
+            map.Add(Columns.TEAM, () => statLineParser.GetTeamName(Columns.TEAM));
+            map.Add(Columns.SEASON, () => statLineParser.GetSeason(Columns.SEASON));
+            map.Add(Columns.PIM, () => statLineParser.GetPIM(Columns.PIM));
+            map.Add(Columns.DATE_OF_BIRTH, () => statLineParser.GetDateOfBirth(Columns.DATE_OF_BIRTH));
+            map.Add(Columns.HEIGHT, () => statLineParser.GetHeight(Columns.HEIGHT));
+            map.Add(Columns.WEIGHT, () => statLineParser.GetWeight(Columns.WEIGHT));
+            map.Add(Columns.SHOOTS_CATCHES, () => statLineParser.GetShootsOrCatches(Columns.SHOOTS_CATCHES));
+            map.Add(Columns.DRAFT_YEAR, () => draftDataParser.GetDraftYear(Columns.DRAFT_YEAR));
+            map.Add(Columns.DRAFT_ROUND, () => draftDataParser.GetDraftRound(Columns.DRAFT_ROUND));
+            map.Add(Columns.DRAFT_OVERALL, () => draftDataParser.GetDraftOverall(Columns.DRAFT_OVERALL));
+            map.Add(Columns.DRAFT_TEAM, () => draftDataParser.GetDraftTeamName(Columns.DRAFT_TEAM));
+            map.Add(Columns.ID, () => statLineParser.GetId(Columns.ID));
             return map;
         }
     }
