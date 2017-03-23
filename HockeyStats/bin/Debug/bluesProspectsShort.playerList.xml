@@ -8,7 +8,6 @@
     <string>50661</string>
   </playerIds>
   <primaryTableColumnNames>
-    <string>First Name</string>
     <string>Last Name</string>
     <string>Games Played</string>
     <string>Goals/GAA</string>
@@ -23,7 +22,7 @@
     <string>Draft Team</string>
   </primaryTableColumnNames>
   <secondaryTableColumnNames>
-    <string>Year</string>
+    <string>Season</string>
     <string>Games Played</string>
     <string>Goals/GAA</string>
     <string>Assists/Sv%</string>

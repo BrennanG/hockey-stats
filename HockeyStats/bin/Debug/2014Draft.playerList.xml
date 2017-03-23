@@ -80,7 +80,7 @@
     <string>Draft Team</string>
   </primaryTableColumnNames>
   <secondaryTableColumnNames>
-    <string>Year</string>
+    <string>Season</string>
     <string>Games Played</string>
     <string>Goals/GAA</string>
     <string>Assists/Sv%</string>

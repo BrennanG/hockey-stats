@@ -37,20 +37,7 @@ namespace HockeyStats
         public void RemoveRow(DataRow row)
         {
             PlayerStats playerStats = GetPlayerStatsFromRow(row);
-            playerList.playerIds.Remove(playerStats.GetPlayerId());
             dataTable.Rows.Remove(row);
-        }
-
-        public PlayerStats GetPlayerStatsFromRow(DataRow dataRow)
-        {
-            if (rowHashToPlayerStatsMap.ContainsKey(dataRow.GetHashCode()))
-            {
-                return rowHashToPlayerStatsMap[dataRow.GetHashCode()];
-            }
-            else
-            {
-                return null;
-            }
         }
 
         public new void AddColumn(string columnName)
@@ -58,7 +45,6 @@ namespace HockeyStats
             if (!Columns.AllPossibleColumns.Contains(columnName) || dataTable.Columns.Contains(columnName)) { return; }
 
             base.AddColumn(columnName);
-            playerList.primaryTableColumnNames.Add(columnName);
             foreach (DataGridViewRow dgvRow in dataGridView.Rows)
             {
                 DataRow row = GetDataRowFromDGVRow(dgvRow);
@@ -70,7 +56,6 @@ namespace HockeyStats
         public new void RemoveColumn(string columnName)
         {
             base.RemoveColumn(columnName);
-            playerList.primaryTableColumnNames.Remove(columnName);
         }
 
         public void AbortFillDataTableThread()
@@ -82,6 +67,18 @@ namespace HockeyStats
             while (fillDataTableThread.ThreadState != ThreadState.Aborted && fillDataTableThread.ThreadState != ThreadState.Stopped)
             {
                 // loop until it's aborted
+            }
+        }
+
+        public PlayerStats GetPlayerStatsFromRow(DataRow dataRow)
+        {
+            if (rowHashToPlayerStatsMap.ContainsKey(dataRow.GetHashCode()))
+            {
+                return rowHashToPlayerStatsMap[dataRow.GetHashCode()];
+            }
+            else
+            {
+                return null;
             }
         }
 

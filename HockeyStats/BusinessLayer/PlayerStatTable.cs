@@ -24,12 +24,12 @@ namespace HockeyStats
             DisableSortingOnDynamicColumns();
         }
 
-        public void RemoveColumn(string columnName)
+        protected void RemoveColumn(string columnName)
         {
             dataTable.Columns.Remove(columnName);
         }
 
-        public void AddColumn(string columnName)
+        protected void AddColumn(string columnName)
         {
             if (Columns.NumericColumns.Contains(columnName))
             {

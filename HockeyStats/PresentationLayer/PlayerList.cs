@@ -27,5 +27,30 @@ namespace HockeyStats
             primaryTableColumnNames = Columns.DefaultColumns;
             secondaryTableColumnNames = Columns.DynamicColumns;
         }
+
+        public void AddPlayer(string playerId)
+        {
+            playerIds.Add(playerId);
+        }
+
+        public void RemovePlayer(string playerId)
+        {
+            playerIds.Remove(playerId);
+        }
+
+        public void AddPrimaryColumn(string columnName)
+        {
+            primaryTableColumnNames.Add(columnName);
+        }
+
+        public void RemovePrimaryColumn(string columnName)
+        {
+            primaryTableColumnNames.Remove(columnName);
+        }
+
+        public void SetDisplaySeason(string season)
+        {
+            displaySeason = season;
+        }
     }
 }

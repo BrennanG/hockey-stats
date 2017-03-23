@@ -109,14 +109,14 @@ namespace HockeyStats
 
             for (int i = 0; i < 15; i++)
             {
-                string seasonToAdd = String.Format("{0}-{1}", startYear - i, endYear - i);
+                string season = String.Format("{0}-{1}", startYear - i, endYear - i);
                 EventHandler selectSeasonHandler = new EventHandler((object sender, EventArgs e) => {
-                    playerList.displaySeason = seasonToAdd;
+                    playerList.SetDisplaySeason(season);
                     LoadPlayerList(playerList);
                     RefreshDropDownLists();
                 });
-                dropDownItems.Add(seasonToAdd, null, selectSeasonHandler);
-                if (playerList.displaySeason == seasonToAdd)
+                dropDownItems.Add(season, null, selectSeasonHandler);
+                if (playerList.displaySeason == season)
                 {
                     ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
                 }
@@ -134,10 +134,12 @@ namespace HockeyStats
                     if (dropDownItem.Checked)
                     {
                         firstTable.RemoveColumn(dropDownItem.Text);
+                        playerList.RemovePrimaryColumn(columnName);
                     }
                     else
                     {
                         firstTable.AddColumn(dropDownItem.Text);
+                        playerList.AddPrimaryColumn(columnName);
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
                 });
@@ -158,7 +160,7 @@ namespace HockeyStats
                 {
                     addPlayerTextbox.Text = "Loading player...";
                     firstTable.AddPlayerById(playerId);
-                    playerList.playerIds.Add(playerId);
+                    playerList.AddPlayer(playerId);
                     addPlayerTextbox.Text = String.Empty;
                 }
             });
@@ -185,6 +187,10 @@ namespace HockeyStats
                 int rowIndex = firstTableDGV.SelectedRows[0].Index;
                 DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(firstTableDGV.Rows[rowIndex]);
                 firstTable.RemoveRow(row);
+
+                PlayerStats playerStats = firstTable.GetPlayerStatsFromRow(row);
+                playerList.RemovePlayer(playerStats.GetPlayerId());
+
                 ClearPlayerSelection();
             });
         }
