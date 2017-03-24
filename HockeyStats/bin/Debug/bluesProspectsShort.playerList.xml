@@ -7,7 +7,8 @@
     <string>269034</string>
     <string>50661</string>
   </playerIds>
-  <primaryTableColumnNames>
+  <primaryColumnNames>
+    <string>First Name</string>
     <string>Last Name</string>
     <string>Games Played</string>
     <string>Goals/GAA</string>
@@ -19,9 +20,9 @@
     <string>Draft Year</string>
     <string>Draft Round</string>
     <string>Draft Overall</string>
-    <string>Draft Team</string>
-  </primaryTableColumnNames>
-  <secondaryTableColumnNames>
+    <string>Shoots/Catches</string>
+  </primaryColumnNames>
+  <secondaryColumnNames>
     <string>Season</string>
     <string>Games Played</string>
     <string>Goals/GAA</string>
@@ -30,5 +31,5 @@
     <string>PPG</string>
     <string>League</string>
     <string>Team</string>
-  </secondaryTableColumnNames>
+  </secondaryColumnNames>
 </PlayerList>

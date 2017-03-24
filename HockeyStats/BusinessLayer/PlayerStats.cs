@@ -34,7 +34,7 @@ namespace HockeyStats
                 foreach (string columnName in Columns.AllPossibleColumns)
                 {
                     string junk;
-                    if (returnDict.TryGetValue(columnName, out junk) && Columns.DynamicColumns.Contains(columnName))
+                    if (returnDict.TryGetValue(columnName, out junk) && Columns.DynamicColumns.Contains(columnName) && columnName != Columns.SEASON)
                     {
                         returnDict[columnName] += Environment.NewLine + loopDict[columnName];
                     }

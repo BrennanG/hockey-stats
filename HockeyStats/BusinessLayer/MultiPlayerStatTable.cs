@@ -16,7 +16,7 @@ namespace HockeyStats
         private Thread fillDataTableThread;
 
         public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList)
-            : base(dataGridView, playerList.primaryTableColumnNames)
+            : base(dataGridView, playerList.primaryColumnNames)
         {
             this.playerList = playerList;
 

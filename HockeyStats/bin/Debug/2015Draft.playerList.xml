@@ -65,7 +65,7 @@
 <string>142238</string>
 <string>197800</string>
   </playerIds>
-  <primaryTableColumnNames>
+  <primaryColumnNames>
     <string>First Name</string>
     <string>Last Name</string>
     <string>Games Played</string>
@@ -79,8 +79,8 @@
     <string>Draft Round</string>
     <string>Draft Overall</string>
     <string>Draft Team</string>
-  </primaryTableColumnNames>
-  <secondaryTableColumnNames>
+  </primaryColumnNames>
+  <secondaryColumnNames>
     <string>Season</string>
     <string>Games Played</string>
     <string>Goals/GAA</string>
@@ -89,5 +89,5 @@
     <string>PPG</string>
     <string>League</string>
     <string>Team</string>
-  </secondaryTableColumnNames>
+  </secondaryColumnNames>
 </PlayerList>

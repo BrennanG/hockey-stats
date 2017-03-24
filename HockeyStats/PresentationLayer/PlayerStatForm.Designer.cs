@@ -42,6 +42,7 @@
             this.saveListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addRemoveColumnDropDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectSeasonDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.removeSelectedPlayerButton = new System.Windows.Forms.Button();
@@ -49,7 +50,6 @@
             this.secondTableDGV = new System.Windows.Forms.DataGridView();
             this.thirdTableDGV = new System.Windows.Forms.DataGridView();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.selectSeasonDropDown = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.firstTableDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -91,12 +91,12 @@
             this.firstTableDGV.ReadOnly = true;
             this.firstTableDGV.RowHeadersVisible = false;
             this.firstTableDGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.firstTableDGV.Size = new System.Drawing.Size(967, 298);
+            this.firstTableDGV.Size = new System.Drawing.Size(1084, 326);
             this.firstTableDGV.TabIndex = 0;
             // 
             // addPlayerButton
             // 
-            this.addPlayerButton.Location = new System.Drawing.Point(126, 3);
+            this.addPlayerButton.Location = new System.Drawing.Point(143, 3);
             this.addPlayerButton.Name = "addPlayerButton";
             this.addPlayerButton.Size = new System.Drawing.Size(75, 20);
             this.addPlayerButton.TabIndex = 1;
@@ -108,7 +108,7 @@
             this.addPlayerTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.addPlayerTextbox.Location = new System.Drawing.Point(3, 3);
             this.addPlayerTextbox.Name = "addPlayerTextbox";
-            this.addPlayerTextbox.Size = new System.Drawing.Size(117, 20);
+            this.addPlayerTextbox.Size = new System.Drawing.Size(134, 20);
             this.addPlayerTextbox.TabIndex = 2;
             // 
             // splitContainer1
@@ -126,8 +126,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel1);
-            this.splitContainer1.Size = new System.Drawing.Size(967, 792);
-            this.splitContainer1.SplitterDistance = 322;
+            this.splitContainer1.Size = new System.Drawing.Size(1084, 861);
+            this.splitContainer1.SplitterDistance = 350;
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 3;
             // 
@@ -142,7 +142,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(967, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1084, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -171,6 +171,13 @@
             this.addRemoveColumnDropDown.Size = new System.Drawing.Size(135, 20);
             this.addRemoveColumnDropDown.Text = "Add/Remove Column";
             // 
+            // selectSeasonDropDown
+            // 
+            this.selectSeasonDropDown.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.selectSeasonDropDown.Name = "selectSeasonDropDown";
+            this.selectSeasonDropDown.Size = new System.Drawing.Size(90, 20);
+            this.selectSeasonDropDown.Text = "Select Season";
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
@@ -184,7 +191,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.5F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(967, 460);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1084, 501);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // tableLayoutPanel2
@@ -192,7 +199,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.06024F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.93976F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 143F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 145F));
             this.tableLayoutPanel2.Controls.Add(this.addPlayerButton, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.addPlayerTextbox, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.removeSelectedPlayerButton, 2, 0);
@@ -202,13 +209,13 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(961, 26);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1078, 26);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // removeSelectedPlayerButton
             // 
             this.removeSelectedPlayerButton.Enabled = false;
-            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(820, 3);
+            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(935, 3);
             this.removeSelectedPlayerButton.Name = "removeSelectedPlayerButton";
             this.removeSelectedPlayerButton.Size = new System.Drawing.Size(132, 20);
             this.removeSelectedPlayerButton.TabIndex = 3;
@@ -228,8 +235,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.thirdTableDGV);
-            this.splitContainer2.Size = new System.Drawing.Size(961, 422);
-            this.splitContainer2.SplitterDistance = 320;
+            this.splitContainer2.Size = new System.Drawing.Size(1078, 463);
+            this.splitContainer2.SplitterDistance = 358;
             this.splitContainer2.SplitterWidth = 10;
             this.splitContainer2.TabIndex = 1;
             // 
@@ -258,7 +265,7 @@
             this.secondTableDGV.ReadOnly = true;
             this.secondTableDGV.RowHeadersVisible = false;
             this.secondTableDGV.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.secondTableDGV.Size = new System.Drawing.Size(320, 422);
+            this.secondTableDGV.Size = new System.Drawing.Size(358, 463);
             this.secondTableDGV.TabIndex = 4;
             // 
             // thirdTableDGV
@@ -283,23 +290,18 @@
             this.thirdTableDGV.Name = "thirdTableDGV";
             this.thirdTableDGV.ReadOnly = true;
             this.thirdTableDGV.RowHeadersVisible = false;
-            this.thirdTableDGV.Size = new System.Drawing.Size(631, 422);
+            this.thirdTableDGV.Size = new System.Drawing.Size(710, 463);
             this.thirdTableDGV.TabIndex = 3;
-            // 
-            // selectSeasonDropDown
-            // 
-            this.selectSeasonDropDown.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.selectSeasonDropDown.Name = "selectSeasonDropDown";
-            this.selectSeasonDropDown.Size = new System.Drawing.Size(90, 20);
-            this.selectSeasonDropDown.Text = "Select Season";
             // 
             // PlayerStatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(967, 792);
+            this.ClientSize = new System.Drawing.Size(1084, 861);
             this.Controls.Add(this.splitContainer1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "PlayerStatForm";
             this.Text = "Hockey Stats";
             ((System.ComponentModel.ISupportInitialize)(this.firstTableDGV)).EndInit();

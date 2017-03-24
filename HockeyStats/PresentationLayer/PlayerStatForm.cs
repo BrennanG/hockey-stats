@@ -42,7 +42,7 @@ namespace HockeyStats
             if (firstTable != null) { firstTable.AbortFillDataTableThread(); }
             firstTable = new MultiPlayerStatTable(firstTableDGV, playerList);
             secondTable = new PlayerConstantStatTable(secondTableDGV);
-            thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryTableColumnNames);
+            thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryColumnNames);
         }
 
         private void SetupLoadListDropDown()
@@ -81,6 +81,7 @@ namespace HockeyStats
                 {
                     string fileName = saveFileDialog.FileName;
                     playerList.listName = Path.GetFileName(fileName).Substring(0, Path.GetFileName(fileName).Length - FILENAME_SUFFIX.Length);
+                    playerList.SetPrimaryColumns(firstTableDGV.Columns);
                     Serializer.WritePlayerList<PlayerList>(playerList, fileName);
                     SetupLoadListDropDown();
                 }
@@ -144,7 +145,7 @@ namespace HockeyStats
                     dropDownItem.Checked = !dropDownItem.Checked;
                 });
                 dropDownItems.Add(columnName, null, selectColumnHandler);
-                if (playerList.primaryTableColumnNames.Contains(columnName))
+                if (playerList.primaryColumnNames.Contains(columnName))
                 {
                     ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
                 }

@@ -24,6 +24,21 @@ namespace HockeyStats
             DisableSortingOnDynamicColumns();
         }
 
+        protected DataRow AddRowToDataTable(Dictionary<string, string> statDict)
+        {
+            string[] orderedRowValues = new string[dataTable.Columns.Count];
+            for (int i = 0; i < dataTable.Columns.Count; i++)
+            {
+                // If the column exists in the row, add the value
+                string value;
+                if (statDict.TryGetValue(dataTable.Columns[i].ColumnName, out value))
+                {
+                    orderedRowValues[i] = value;
+                }
+            }
+            return dataTable.Rows.Add(orderedRowValues);
+        }
+
         protected void RemoveColumn(string columnName)
         {
             dataTable.Columns.Remove(columnName);
@@ -39,21 +54,6 @@ namespace HockeyStats
             {
                 dataTable.Columns.Add(new DataColumn(columnName));
             }
-        }
-
-        protected DataRow AddRowToDataTable(Dictionary<string, string> statDict)
-        {
-            string[] orderedRowValues = new string[dataTable.Columns.Count];
-            for (int i = 0; i < dataTable.Columns.Count; i++)
-            {
-                // If the column exists in the row, add the value
-                string value;
-                if (statDict.TryGetValue(dataTable.Columns[i].ColumnName, out value))
-                {
-                    orderedRowValues[i] = value;
-                }
-            }
-            return dataTable.Rows.Add(orderedRowValues);
         }
 
         private void InitializeTable()
