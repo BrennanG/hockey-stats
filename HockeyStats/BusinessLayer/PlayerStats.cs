@@ -160,6 +160,8 @@ namespace HockeyStats
             map.Add(Columns.ASSISTS_SVP, () => statLineParser.GetAssistsOrSVP(Columns.ASSISTS_SVP));
             map.Add(Columns.TOTAL_POINTS, () => statLineParser.GetTotalPoints(Columns.TOTAL_POINTS));
             map.Add(Columns.PPG, () => statLineParser.GetPointsPerGame(Columns.PPG));
+            map.Add(Columns.PLUS_MINUS, () => statLineParser.GetPlusMinus(Columns.PLUS_MINUS));
+            map.Add(Columns.POSITION, () => statLineParser.GetPosition(Columns.POSITION));
             map.Add(Columns.LEAGUE, () => statLineParser.GetLeagueName(Columns.LEAGUE));
             map.Add(Columns.TEAM, () => statLineParser.GetTeamName(Columns.TEAM));
             map.Add(Columns.SEASON, () => statLineParser.GetSeason(Columns.SEASON));

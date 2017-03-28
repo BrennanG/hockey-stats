@@ -14,6 +14,8 @@ namespace HockeyStats
         public static readonly string ASSISTS_SVP = "Assists/Sv%";
         public static readonly string TOTAL_POINTS = "Total Points";
         public static readonly string PPG = "PPG";
+        public static readonly string PLUS_MINUS = "+/-";
+        public static readonly string POSITION = "Position";
         public static readonly string LEAGUE = "League";
         public static readonly string TEAM = "Team";
         public static readonly string SEASON = "Season";
@@ -37,6 +39,8 @@ namespace HockeyStats
             Columns.ASSISTS_SVP,
             Columns.TOTAL_POINTS,
             Columns.PPG,
+            Columns.PLUS_MINUS,
+            Columns.POSITION,
             Columns.LEAGUE,
             Columns.TEAM,
             Columns.SEASON,
@@ -71,6 +75,7 @@ namespace HockeyStats
             Columns.ASSISTS_SVP,
             Columns.TOTAL_POINTS,
             Columns.PPG,
+            Columns.POSITION,
             Columns.LEAGUE,
             Columns.DRAFT_YEAR,
             Columns.DRAFT_ROUND,
@@ -82,6 +87,7 @@ namespace HockeyStats
         {
             Columns.FIRST_NAME,
             Columns.LAST_NAME,
+            Columns.POSITION,
             Columns.DATE_OF_BIRTH,
             Columns.HEIGHT,
             Columns.WEIGHT,

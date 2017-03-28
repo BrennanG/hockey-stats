@@ -71,6 +71,12 @@ namespace HockeyStats
             AddToDict(key, value);
         }
 
+        public void GetPlusMinus(string key)
+        {
+            string value = (string)statLine["PM"];
+            AddToDict(key, value);
+        }
+
         // Stats from player object
         public void GetFirstName(string key)
         {
@@ -82,6 +88,12 @@ namespace HockeyStats
         {
             string value = (string)playerObj["lastName"];
             AddToDict(key, value);
+        }
+
+        public void GetPosition(string key)
+        {
+            string value = (string)playerObj["playerPosition"];
+            AddToDict(key, value[0].ToString());
         }
 
         public void GetDateOfBirth(string key)
