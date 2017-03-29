@@ -24,9 +24,9 @@ namespace HockeyStats
         {
             listName = "";
             playerIds = new List<string>();
-            displaySeason = PlayerStatForm.GetCurrentSeason();
-            primaryColumnNames = Columns.DefaultColumns;
-            secondaryColumnNames = Columns.DynamicColumns;
+            displaySeason = Constants.CurrentSeason;
+            primaryColumnNames = Constants.DefaultColumns;
+            secondaryColumnNames = Constants.DynamicColumns;
         }
 
         public void AddPlayer(string playerId)

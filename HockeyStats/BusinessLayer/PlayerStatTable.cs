@@ -44,7 +44,7 @@ namespace HockeyStats
 
         protected void AddColumn(string columnName)
         {
-            if (Columns.NumericColumns.Contains(columnName))
+            if (Constants.NumericColumns.Contains(columnName))
             {
                 dataTable.Columns.Add(new DataColumn(columnName, new int().GetType()));
             }
@@ -69,7 +69,7 @@ namespace HockeyStats
         {
             foreach (DataGridViewColumn column in dataGridView.Columns)
             {
-                if (Columns.DynamicColumns.Contains(column.Name))
+                if (Constants.DynamicColumns.Contains(column.Name))
                 {
                     column.SortMode = DataGridViewColumnSortMode.NotSortable;
                 }

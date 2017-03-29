@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HockeyStats
 {
-    public static class Columns
+    public static class Constants
     {
         public static readonly string FIRST_NAME = "First Name";
         public static readonly string LAST_NAME = "Last Name";
@@ -32,76 +32,78 @@ namespace HockeyStats
 
         public static readonly List<string> AllPossibleColumns = new List<string>()
         {
-            Columns.FIRST_NAME,
-            Columns.LAST_NAME,
-            Columns.GAMES_PLAYED,
-            Columns.GOALS_GAA,
-            Columns.ASSISTS_SVP,
-            Columns.TOTAL_POINTS,
-            Columns.PPG,
-            Columns.PLUS_MINUS,
-            Columns.POSITION,
-            Columns.LEAGUE,
-            Columns.TEAM,
-            Columns.SEASON,
-            Columns.PIM,
-            Columns.DATE_OF_BIRTH,
-            Columns.HEIGHT,
-            Columns.WEIGHT,
-            Columns.SHOOTS_CATCHES,
-            Columns.DRAFT_YEAR,
-            Columns.DRAFT_ROUND,
-            Columns.DRAFT_OVERALL,
-            Columns.DRAFT_TEAM,
-            Columns.ID
+            Constants.FIRST_NAME,
+            Constants.LAST_NAME,
+            Constants.GAMES_PLAYED,
+            Constants.GOALS_GAA,
+            Constants.ASSISTS_SVP,
+            Constants.TOTAL_POINTS,
+            Constants.PPG,
+            Constants.PLUS_MINUS,
+            Constants.POSITION,
+            Constants.LEAGUE,
+            Constants.TEAM,
+            Constants.SEASON,
+            Constants.PIM,
+            Constants.DATE_OF_BIRTH,
+            Constants.HEIGHT,
+            Constants.WEIGHT,
+            Constants.SHOOTS_CATCHES,
+            Constants.DRAFT_YEAR,
+            Constants.DRAFT_ROUND,
+            Constants.DRAFT_OVERALL,
+            Constants.DRAFT_TEAM,
+            Constants.ID
         };
 
         public static List<string> NumericColumns = new List<string>()
         {
             //Columns.HEIGHT,
             //Columns.WEIGHT,
-            Columns.DRAFT_YEAR,
-            Columns.DRAFT_ROUND,
-            Columns.DRAFT_OVERALL,
-            Columns.ID
+            Constants.DRAFT_YEAR,
+            Constants.DRAFT_ROUND,
+            Constants.DRAFT_OVERALL,
+            Constants.ID
         };
 
         public static List<string> DefaultColumns = new List<string>()
         {
-            Columns.FIRST_NAME,
-            Columns.LAST_NAME,
-            Columns.GAMES_PLAYED,
-            Columns.GOALS_GAA,
-            Columns.ASSISTS_SVP,
-            Columns.TOTAL_POINTS,
-            Columns.PPG,
-            Columns.POSITION,
-            Columns.LEAGUE,
-            Columns.DRAFT_YEAR,
-            Columns.DRAFT_ROUND,
-            Columns.DRAFT_OVERALL,
-            Columns.DRAFT_TEAM,
+            Constants.FIRST_NAME,
+            Constants.LAST_NAME,
+            Constants.GAMES_PLAYED,
+            Constants.GOALS_GAA,
+            Constants.ASSISTS_SVP,
+            Constants.TOTAL_POINTS,
+            Constants.PPG,
+            Constants.POSITION,
+            Constants.LEAGUE,
+            Constants.DRAFT_YEAR,
+            Constants.DRAFT_ROUND,
+            Constants.DRAFT_OVERALL,
+            Constants.DRAFT_TEAM,
         };
 
         public static readonly List<string> ConstantColumns = new List<string>()
         {
-            Columns.FIRST_NAME,
-            Columns.LAST_NAME,
-            Columns.POSITION,
-            Columns.DATE_OF_BIRTH,
-            Columns.HEIGHT,
-            Columns.WEIGHT,
-            Columns.SHOOTS_CATCHES,
-            Columns.DRAFT_YEAR,
-            Columns.DRAFT_ROUND,
-            Columns.DRAFT_OVERALL,
-            Columns.DRAFT_TEAM,
-            Columns.ID
+            Constants.FIRST_NAME,
+            Constants.LAST_NAME,
+            Constants.POSITION,
+            Constants.DATE_OF_BIRTH,
+            Constants.HEIGHT,
+            Constants.WEIGHT,
+            Constants.SHOOTS_CATCHES,
+            Constants.DRAFT_YEAR,
+            Constants.DRAFT_ROUND,
+            Constants.DRAFT_OVERALL,
+            Constants.DRAFT_TEAM,
+            Constants.ID
         };
 
         public static readonly List<string> DynamicColumns = AllPossibleColumns.Where((string col) => !ConstantColumns.Contains(col)).ToList();
 
         public static readonly List<string> AllPossibleColumnsAlphebetized = GetAllPossibleColumnsAlphebetized();
+
+        public static readonly string CurrentSeason = GetCurrentSeason();
 
         private static List<string> GetAllPossibleColumnsAlphebetized()
         {
@@ -110,6 +112,23 @@ namespace HockeyStats
             List<string> copyAsList = copy.ToList();
             copyAsList.Sort();
             return copyAsList;
+        }
+
+        private static string GetCurrentSeason()
+        {
+            DateTime today = DateTime.Today;
+            int seasonStart, seasonEnd;
+            if (today.Month < 6)
+            {
+                seasonStart = today.Year - 1;
+                seasonEnd = today.Year;
+            }
+            else
+            {
+                seasonStart = today.Year;
+                seasonEnd = today.Year + 1;
+            }
+            return String.Format("{0}-{1}", seasonStart, seasonEnd);
         }
     }
 }

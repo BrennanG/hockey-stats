@@ -13,7 +13,7 @@ namespace HockeyStats
         {
             try
             {
-                dataGridView.Sort(dataGridView.Columns[Columns.SEASON], System.ComponentModel.ListSortDirection.Ascending);
+                dataGridView.Sort(dataGridView.Columns[Constants.SEASON], System.ComponentModel.ListSortDirection.Ascending);
             }
             catch (Exception) { }
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;

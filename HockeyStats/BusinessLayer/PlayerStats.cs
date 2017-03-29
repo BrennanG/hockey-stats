@@ -31,10 +31,10 @@ namespace HockeyStats
             Dictionary<string, string> returnDict = new Dictionary<string, string>();
             foreach (Dictionary<string, string> loopDict in playerStats[year])
             {
-                foreach (string columnName in Columns.AllPossibleColumns)
+                foreach (string columnName in Constants.AllPossibleColumns)
                 {
                     string junk;
-                    if (returnDict.TryGetValue(columnName, out junk) && Columns.DynamicColumns.Contains(columnName) && columnName != Columns.SEASON)
+                    if (returnDict.TryGetValue(columnName, out junk) && Constants.DynamicColumns.Contains(columnName) && columnName != Constants.SEASON)
                     {
                         returnDict[columnName] += Environment.NewLine + loopDict[columnName];
                     }
@@ -53,7 +53,7 @@ namespace HockeyStats
             string collapsedColumn = "";
             foreach (Dictionary<string, string> dict in playerStats[year])
             {
-                if (collapsedColumn == "" || Columns.ConstantColumns.Contains(columnName))
+                if (collapsedColumn == "" || Constants.ConstantColumns.Contains(columnName))
                 {
                     collapsedColumn = dict[columnName];
                 }
@@ -79,7 +79,7 @@ namespace HockeyStats
                 Dictionary<string, string> collapsedYearOnlyDynamicColumns = new Dictionary<string, string>();
                 foreach (string columnName in collapsedYear.Keys)
                 {
-                    if (Columns.DynamicColumns.Contains(columnName))
+                    if (Constants.DynamicColumns.Contains(columnName))
                     {
                         collapsedYearOnlyDynamicColumns.Add(columnName, collapsedYear[columnName]);
                     }
@@ -130,7 +130,7 @@ namespace HockeyStats
                     break;
                 }
             }
-            foreach (string columnName in Columns.ConstantColumns)
+            foreach (string columnName in Constants.ConstantColumns)
             {
                 constantPlayerStats[columnName] = firstDictWithData[columnName];
             }
@@ -140,7 +140,7 @@ namespace HockeyStats
         {
             statLineParser.SetDictionaryToFill(dict);
             draftDataParser.SetDictionaryToFill(dict);
-            foreach (string columnName in Columns.AllPossibleColumns)
+            foreach (string columnName in Constants.AllPossibleColumns)
             {
                 try
                 {
@@ -153,28 +153,28 @@ namespace HockeyStats
         private static Dictionary<string, Action> FillGetStatMap()
         {
             Dictionary<string, Action> map = new Dictionary<string, Action>();
-            map.Add(Columns.FIRST_NAME, () => statLineParser.GetFirstName(Columns.FIRST_NAME));
-            map.Add(Columns.LAST_NAME, () => statLineParser.GetLastName(Columns.LAST_NAME));
-            map.Add(Columns.GAMES_PLAYED, () => statLineParser.GetGamesPlayed(Columns.GAMES_PLAYED));
-            map.Add(Columns.GOALS_GAA, () => statLineParser.GetGoalsOrGAA(Columns.GOALS_GAA));
-            map.Add(Columns.ASSISTS_SVP, () => statLineParser.GetAssistsOrSVP(Columns.ASSISTS_SVP));
-            map.Add(Columns.TOTAL_POINTS, () => statLineParser.GetTotalPoints(Columns.TOTAL_POINTS));
-            map.Add(Columns.PPG, () => statLineParser.GetPointsPerGame(Columns.PPG));
-            map.Add(Columns.PLUS_MINUS, () => statLineParser.GetPlusMinus(Columns.PLUS_MINUS));
-            map.Add(Columns.POSITION, () => statLineParser.GetPosition(Columns.POSITION));
-            map.Add(Columns.LEAGUE, () => statLineParser.GetLeagueName(Columns.LEAGUE));
-            map.Add(Columns.TEAM, () => statLineParser.GetTeamName(Columns.TEAM));
-            map.Add(Columns.SEASON, () => statLineParser.GetSeason(Columns.SEASON));
-            map.Add(Columns.PIM, () => statLineParser.GetPIM(Columns.PIM));
-            map.Add(Columns.DATE_OF_BIRTH, () => statLineParser.GetDateOfBirth(Columns.DATE_OF_BIRTH));
-            map.Add(Columns.HEIGHT, () => statLineParser.GetHeight(Columns.HEIGHT));
-            map.Add(Columns.WEIGHT, () => statLineParser.GetWeight(Columns.WEIGHT));
-            map.Add(Columns.SHOOTS_CATCHES, () => statLineParser.GetShootsOrCatches(Columns.SHOOTS_CATCHES));
-            map.Add(Columns.DRAFT_YEAR, () => draftDataParser.GetDraftYear(Columns.DRAFT_YEAR));
-            map.Add(Columns.DRAFT_ROUND, () => draftDataParser.GetDraftRound(Columns.DRAFT_ROUND));
-            map.Add(Columns.DRAFT_OVERALL, () => draftDataParser.GetDraftOverall(Columns.DRAFT_OVERALL));
-            map.Add(Columns.DRAFT_TEAM, () => draftDataParser.GetDraftTeamName(Columns.DRAFT_TEAM));
-            map.Add(Columns.ID, () => statLineParser.GetId(Columns.ID));
+            map.Add(Constants.FIRST_NAME, () => statLineParser.GetFirstName(Constants.FIRST_NAME));
+            map.Add(Constants.LAST_NAME, () => statLineParser.GetLastName(Constants.LAST_NAME));
+            map.Add(Constants.GAMES_PLAYED, () => statLineParser.GetGamesPlayed(Constants.GAMES_PLAYED));
+            map.Add(Constants.GOALS_GAA, () => statLineParser.GetGoalsOrGAA(Constants.GOALS_GAA));
+            map.Add(Constants.ASSISTS_SVP, () => statLineParser.GetAssistsOrSVP(Constants.ASSISTS_SVP));
+            map.Add(Constants.TOTAL_POINTS, () => statLineParser.GetTotalPoints(Constants.TOTAL_POINTS));
+            map.Add(Constants.PPG, () => statLineParser.GetPointsPerGame(Constants.PPG));
+            map.Add(Constants.PLUS_MINUS, () => statLineParser.GetPlusMinus(Constants.PLUS_MINUS));
+            map.Add(Constants.POSITION, () => statLineParser.GetPosition(Constants.POSITION));
+            map.Add(Constants.LEAGUE, () => statLineParser.GetLeagueName(Constants.LEAGUE));
+            map.Add(Constants.TEAM, () => statLineParser.GetTeamName(Constants.TEAM));
+            map.Add(Constants.SEASON, () => statLineParser.GetSeason(Constants.SEASON));
+            map.Add(Constants.PIM, () => statLineParser.GetPIM(Constants.PIM));
+            map.Add(Constants.DATE_OF_BIRTH, () => statLineParser.GetDateOfBirth(Constants.DATE_OF_BIRTH));
+            map.Add(Constants.HEIGHT, () => statLineParser.GetHeight(Constants.HEIGHT));
+            map.Add(Constants.WEIGHT, () => statLineParser.GetWeight(Constants.WEIGHT));
+            map.Add(Constants.SHOOTS_CATCHES, () => statLineParser.GetShootsOrCatches(Constants.SHOOTS_CATCHES));
+            map.Add(Constants.DRAFT_YEAR, () => draftDataParser.GetDraftYear(Constants.DRAFT_YEAR));
+            map.Add(Constants.DRAFT_ROUND, () => draftDataParser.GetDraftRound(Constants.DRAFT_ROUND));
+            map.Add(Constants.DRAFT_OVERALL, () => draftDataParser.GetDraftOverall(Constants.DRAFT_OVERALL));
+            map.Add(Constants.DRAFT_TEAM, () => draftDataParser.GetDraftTeamName(Constants.DRAFT_TEAM));
+            map.Add(Constants.ID, () => statLineParser.GetId(Constants.ID));
             return map;
         }
     }

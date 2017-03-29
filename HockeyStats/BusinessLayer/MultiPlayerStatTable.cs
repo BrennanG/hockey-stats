@@ -42,7 +42,7 @@ namespace HockeyStats
 
         public new void AddColumn(string columnName)
         {
-            if (!Columns.AllPossibleColumns.Contains(columnName) || dataTable.Columns.Contains(columnName)) { return; }
+            if (!Constants.AllPossibleColumns.Contains(columnName) || dataTable.Columns.Contains(columnName)) { return; }
 
             base.AddColumn(columnName);
             foreach (DataGridViewRow dgvRow in dataGridView.Rows)

@@ -102,9 +102,8 @@ namespace HockeyStats
         {
             ToolStripItemCollection dropDownItems = selectSeasonDropDown.DropDownItems;
             dropDownItems.Clear();
-
-            string currentSeason = GetCurrentSeason();
-            string[] years = currentSeason.Split('-');
+            
+            string[] years = Constants.CurrentSeason.Split('-');
             int startYear = Int32.Parse(years[0]);
             int endYear = Int32.Parse(years[1]);
 
@@ -128,7 +127,7 @@ namespace HockeyStats
         {
             ToolStripItemCollection dropDownItems = addRemoveColumnDropDown.DropDownItems;
             dropDownItems.Clear();
-            foreach (string columnName in Columns.AllPossibleColumnsAlphebetized)
+            foreach (string columnName in Constants.AllPossibleColumnsAlphebetized)
             {
                 EventHandler selectColumnHandler = new EventHandler((object sender, EventArgs e) => {
                     ToolStripMenuItem dropDownItem = (ToolStripMenuItem)sender;
@@ -226,23 +225,6 @@ namespace HockeyStats
             SetupLoadListDropDown();
             SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
-        }
-
-        public static string GetCurrentSeason()
-        {
-            DateTime today = DateTime.Today;
-            int seasonStart, seasonEnd;
-            if (today.Month < 6)
-            {
-                seasonStart = today.Year - 1;
-                seasonEnd = today.Year;
-            }
-            else
-            {
-                seasonStart = today.Year;
-                seasonEnd = today.Year + 1;
-            }
-            return String.Format("{0}-{1}", seasonStart, seasonEnd);
         }
     }
 }
