@@ -13,14 +13,12 @@ namespace HockeyStats
     {
         protected DataTable dataTable = new DataTable();
         protected DataGridView dataGridView;
-        protected List<string> columnData;
-
-        public PlayerStatTable(DataGridView dataGridView, List<string> columnData)
+        
+        public PlayerStatTable(DataGridView dataGridView, List<string> columnNames)
         {
             this.dataGridView = dataGridView;
-            this.columnData = columnData;
 
-            InitializeTable();
+            InitializeTable(columnNames);
             DisableSortingOnDynamicColumns();
         }
 
@@ -54,16 +52,17 @@ namespace HockeyStats
             {
                 dataTable.Columns.Add(new DataColumn(columnName));
             }
+            dataGridView.Columns[dataGridView.Columns.Count - 1].ToolTipText = columnName;
         }
 
-        private void InitializeTable()
+        private void InitializeTable(List<string> columnNames)
         {
             dataGridView.Columns.Clear();
-            foreach (string columnName in columnData)
+            dataGridView.DataSource = dataTable;
+            foreach (string columnName in columnNames)
             {
                 AddColumn(columnName);
             }
-            dataGridView.DataSource = dataTable;
         }
 
         private void DisableSortingOnDynamicColumns()

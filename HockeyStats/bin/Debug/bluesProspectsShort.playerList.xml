@@ -15,12 +15,12 @@
     <string>Assists/Sv%</string>
     <string>Total Points</string>
     <string>PPG</string>
+    <string>Position</string>
     <string>League</string>
     <string>Team</string>
     <string>Draft Year</string>
     <string>Draft Round</string>
     <string>Draft Overall</string>
-    <string>Shoots/Catches</string>
   </primaryColumnNames>
   <secondaryColumnNames>
     <string>Season</string>
