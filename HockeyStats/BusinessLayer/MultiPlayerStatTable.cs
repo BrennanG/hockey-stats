@@ -58,6 +58,11 @@ namespace HockeyStats
             base.RemoveColumn(columnName);
         }
 
+        public void SetCollectionChangedHandler(System.ComponentModel.CollectionChangeEventHandler handler)
+        {
+            dataTable.Columns.CollectionChanged += handler;
+        }
+
         public void AbortFillDataTableThread()
         {
             if (fillDataTableThread != null && fillDataTableThread.ThreadState == ThreadState.Running)

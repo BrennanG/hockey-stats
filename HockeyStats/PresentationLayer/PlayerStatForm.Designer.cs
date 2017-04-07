@@ -199,7 +199,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.06024F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.93976F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 145F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 146F));
             this.tableLayoutPanel2.Controls.Add(this.addPlayerButton, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.addPlayerTextbox, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.removeSelectedPlayerButton, 2, 0);
@@ -215,7 +215,7 @@
             // removeSelectedPlayerButton
             // 
             this.removeSelectedPlayerButton.Enabled = false;
-            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(935, 3);
+            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(934, 3);
             this.removeSelectedPlayerButton.Name = "removeSelectedPlayerButton";
             this.removeSelectedPlayerButton.Size = new System.Drawing.Size(132, 20);
             this.removeSelectedPlayerButton.TabIndex = 3;

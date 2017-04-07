@@ -9,7 +9,7 @@ namespace HockeyStats
     public class PlayerConstantStatTable : PlayerStatTable
     {
         public PlayerConstantStatTable(DataGridView dataGridView)
-            : base(dataGridView, new List<string>() { "Key", "Value" } )
+            : base(dataGridView, new List<string>() { "Key", "Value" })
         {
             dataGridView.ColumnHeadersVisible = false;
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;

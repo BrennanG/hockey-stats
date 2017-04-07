@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.IO;
 using System.Linq;
+using System.ComponentModel;
 
 namespace HockeyStats
 {
@@ -43,6 +44,7 @@ namespace HockeyStats
             firstTable = new MultiPlayerStatTable(firstTableDGV, playerList);
             secondTable = new PlayerConstantStatTable(secondTableDGV);
             thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryColumnNames);
+            RedrawPrimaryColumnWidths();
         }
 
         private void SetupLoadListDropDown()
@@ -80,8 +82,10 @@ namespace HockeyStats
                 if (result == DialogResult.OK || result == DialogResult.Yes)
                 {
                     string fileName = saveFileDialog.FileName;
-                    playerList.listName = Path.GetFileName(fileName).Substring(0, Path.GetFileName(fileName).Length - FILENAME_SUFFIX.Length);
+                    string listName = Path.GetFileName(fileName).Substring(0, Path.GetFileName(fileName).Length - FILENAME_SUFFIX.Length);
+                    playerList.SetListName(listName);
                     playerList.SetPrimaryColumns(firstTableDGV.Columns);
+                    playerList.SetPrimaryColumnWidths(firstTableDGV.Columns);
                     Serializer.WritePlayerList<PlayerList>(playerList, fileName);
                     SetupLoadListDropDown();
                 }
@@ -225,6 +229,23 @@ namespace HockeyStats
             SetupLoadListDropDown();
             SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
+        }
+
+        private void RedrawPrimaryColumnWidths()
+        {
+            foreach (DataGridViewColumn column in firstTableDGV.Columns)
+            {
+                if (column.DisplayIndex != firstTableDGV.Columns.Count - 1)
+                {
+                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    int width = playerList.GetPrimaryColumnWidth(column.Name);
+                    column.Width = (width >= 0) ? width : column.GetPreferredWidth(DataGridViewAutoSizeColumnMode.ColumnHeader, false);
+                }
+                else
+                {
+                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+            }
         }
     }
 }

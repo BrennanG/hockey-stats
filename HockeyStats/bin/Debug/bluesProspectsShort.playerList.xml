@@ -32,4 +32,110 @@
     <string>League</string>
     <string>Team</string>
   </secondaryColumnNames>
+  <primaryColumnWidths>
+    <item>
+      <key>
+        <string>First Name</string>
+      </key>
+      <value>
+        <int>81</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Last Name</string>
+      </key>
+      <value>
+        <int>83</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Games Played</string>
+      </key>
+      <value>
+        <int>83</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Goals/GAA</string>
+      </key>
+      <value>
+        <int>83</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Assists/Sv%</string>
+      </key>
+      <value>
+        <int>83</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Total Points</string>
+      </key>
+      <value>
+        <int>52</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>PPG</string>
+      </key>
+      <value>
+        <int>83</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Position</string>
+      </key>
+      <value>
+        <int>35</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>League</string>
+      </key>
+      <value>
+        <int>83</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Team</string>
+      </key>
+      <value>
+        <int>84</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Draft Year</string>
+      </key>
+      <value>
+        <int>83</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Draft Round</string>
+      </key>
+      <value>
+        <int>84</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Draft Overall</string>
+      </key>
+      <value>
+        <int>164</int>
+      </value>
+    </item>
+  </primaryColumnWidths>
 </PlayerList>

@@ -67,4 +67,5 @@
     <string>League</string>
     <string>Team</string>
   </secondaryColumnNames>
+  <primaryColumnWidths />
 </PlayerList>

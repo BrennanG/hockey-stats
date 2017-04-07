@@ -14,6 +14,7 @@ namespace HockeyStats
         public List<string> playerIds;
         public List<string> primaryColumnNames;
         public List<string> secondaryColumnNames;
+        public SerializableDictionary<string, int> primaryColumnWidths;
 
         public PlayerList()
         {
@@ -27,6 +28,12 @@ namespace HockeyStats
             displaySeason = Constants.CurrentSeason;
             primaryColumnNames = Constants.DefaultColumns;
             secondaryColumnNames = Constants.DynamicColumns;
+            primaryColumnWidths = new SerializableDictionary<string, int>();
+        }
+
+        public void SetListName(string listName)
+        {
+            this.listName = listName;
         }
 
         public void AddPlayer(string playerId)
@@ -63,6 +70,26 @@ namespace HockeyStats
                 columnNames[column.DisplayIndex] = column.Name;
             }
             primaryColumnNames = columnNames.ToList();
+        }
+
+        public void SetPrimaryColumnWidths(DataGridViewColumnCollection columns)
+        {
+            foreach (DataGridViewColumn column in columns)
+            {
+                primaryColumnWidths[column.Name] = column.Width;
+            }
+        }
+
+        public int GetPrimaryColumnWidth(string columnName)
+        {
+            if (primaryColumnWidths.ContainsKey(columnName))
+            {
+                return primaryColumnWidths[columnName];
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 }
