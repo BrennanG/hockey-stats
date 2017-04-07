@@ -87,7 +87,7 @@ namespace HockeyStats
                     playerList.SetPrimaryColumns(firstTableDGV.Columns);
                     playerList.SetPrimaryColumnWidths(firstTableDGV.Columns);
                     Serializer.WritePlayerList<PlayerList>(playerList, fileName);
-                    SetupLoadListDropDown();
+                    RefreshDropDownLists();
                 }
             });
         }
@@ -146,6 +146,7 @@ namespace HockeyStats
                         playerList.AddPrimaryColumn(columnName);
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
+                    RedrawPrimaryColumnWidths();
                 });
                 dropDownItems.Add(columnName, null, selectColumnHandler);
                 if (playerList.primaryColumnNames.Contains(columnName))

@@ -134,7 +134,15 @@
         <string>Draft Overall</string>
       </key>
       <value>
-        <int>164</int>
+        <int>82</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Date of Birth</string>
+      </key>
+      <value>
+        <int>82</int>
       </value>
     </item>
   </primaryColumnWidths>
