@@ -20,18 +20,32 @@ namespace HockeyStats
         {
             this.playerList = playerList;
 
-            // Fill the table in a separate thread
+            // Fill the table in a separate thread so the GUI will be displayed while the data is loading
             fillDataTableThread = new Thread(() => FillDataTable());
             fillDataTableThread.Start();
         }
 
-        public void AddPlayerById(string playerId)
+        public void AddPlayerById(string playerId, string season)
         {
             PlayerStats playerStats = new PlayerStats(playerId);
 
-            Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displaySeason);
+            Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(season);
             DataRow newDataRow = AddRowToDataTable(collapsedYear);
             rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
+        }
+
+        public void ChangeDisplaySeason(string season)
+        {
+            foreach (DataRow row in dataTable.Rows)
+            {
+                PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
+                Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(season);
+                foreach (DataColumn column in dataTable.Columns)
+                {
+                    string columnName = column.ColumnName;
+                    row[columnName] = (collapsedYear.ContainsKey(columnName)) ? collapsedYear[columnName] : String.Empty;
+                }
+            }
         }
 
         public void RemoveRow(DataRow row)
@@ -40,7 +54,7 @@ namespace HockeyStats
             dataTable.Rows.Remove(row);
         }
 
-        public new void AddColumn(string columnName)
+        public void AddColumn(string columnName, string season)
         {
             if (!Constants.AllPossibleColumns.Contains(columnName) || dataTable.Columns.Contains(columnName)) { return; }
 
@@ -49,7 +63,7 @@ namespace HockeyStats
             {
                 DataRow row = GetDataRowFromDGVRow(dgvRow);
                 PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
-                row[columnName] = playerStats.GetCollapsedColumnValue(playerList.displaySeason, columnName);
+                row[columnName] = playerStats.GetCollapsedColumnValue(season, columnName);
             }
         }
 
@@ -98,7 +112,7 @@ namespace HockeyStats
             playerList.playerIds.CopyTo(copiedPlayerIds);
             foreach (string playerId in copiedPlayerIds)
             {
-                AddPlayerById(playerId);
+                AddPlayerById(playerId, playerList.displaySeason);
             }
         }
     }

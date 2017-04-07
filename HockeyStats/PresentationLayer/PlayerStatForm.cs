@@ -13,12 +13,13 @@ namespace HockeyStats
     public partial class PlayerStatForm : Form
     {
         private const string FILENAME_SUFFIX = ".playerList.xml";
-        private string defaultPlayerList = "bluesProspectsShort";
+        private const string defaultPlayerList = "bluesProspectsShort";
         
         PlayerList playerList = new PlayerList();
         private MultiPlayerStatTable firstTable;
         private PlayerConstantStatTable secondTable;
         private SinglePlayerStatTable thirdTable;
+        private string currentDisplaySeason;
 
         public PlayerStatForm()
         {
@@ -40,6 +41,7 @@ namespace HockeyStats
         private void LoadPlayerList(PlayerList playerListToLoad)
         {
             playerList = playerListToLoad;
+            currentDisplaySeason = playerList.displaySeason;
             if (firstTable != null) { firstTable.AbortFillDataTableThread(); }
             firstTable = new MultiPlayerStatTable(firstTableDGV, playerList);
             secondTable = new PlayerConstantStatTable(secondTableDGV);
@@ -86,6 +88,7 @@ namespace HockeyStats
                     playerList.SetListName(listName);
                     playerList.SetPrimaryColumns(firstTableDGV.Columns);
                     playerList.SetPrimaryColumnWidths(firstTableDGV.Columns);
+                    playerList.SetDisplaySeason(currentDisplaySeason);
                     Serializer.WritePlayerList<PlayerList>(playerList, fileName);
                     RefreshDropDownLists();
                 }
@@ -104,6 +107,7 @@ namespace HockeyStats
 
         private void SetupSelectSeasonButton()
         {
+            selectSeasonDropDown.Text = currentDisplaySeason;
             ToolStripItemCollection dropDownItems = selectSeasonDropDown.DropDownItems;
             dropDownItems.Clear();
             
@@ -115,12 +119,12 @@ namespace HockeyStats
             {
                 string season = String.Format("{0}-{1}", startYear - i, endYear - i);
                 EventHandler selectSeasonHandler = new EventHandler((object sender, EventArgs e) => {
-                    playerList.SetDisplaySeason(season);
-                    LoadPlayerList(playerList);
+                    firstTable.ChangeDisplaySeason(season);
+                    currentDisplaySeason = season;
                     RefreshDropDownLists();
                 });
                 dropDownItems.Add(season, null, selectSeasonHandler);
-                if (playerList.displaySeason == season)
+                if (currentDisplaySeason == season)
                 {
                     ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
                 }
@@ -142,7 +146,7 @@ namespace HockeyStats
                     }
                     else
                     {
-                        firstTable.AddColumn(dropDownItem.Text);
+                        firstTable.AddColumn(dropDownItem.Text, currentDisplaySeason);
                         playerList.AddPrimaryColumn(columnName);
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
@@ -164,7 +168,7 @@ namespace HockeyStats
                 if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
                 {
                     addPlayerTextbox.Text = "Loading player...";
-                    firstTable.AddPlayerById(playerId);
+                    firstTable.AddPlayerById(playerId, currentDisplaySeason);
                     playerList.AddPlayer(playerId);
                     addPlayerTextbox.Text = String.Empty;
                 }
@@ -175,14 +179,7 @@ namespace HockeyStats
         {
             // Enabling and disabling the button
             firstTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
-                if (firstTableDGV.SelectedRows.Count == 1)
-                {
-                    removeSelectedPlayerButton.Enabled = true;
-                }
-                else
-                {
-                    removeSelectedPlayerButton.Enabled = false;
-                }
+                removeSelectedPlayerButton.Enabled = (firstTableDGV.SelectedRows.Count == 1);
             });
 
             // Adding logic to the button
