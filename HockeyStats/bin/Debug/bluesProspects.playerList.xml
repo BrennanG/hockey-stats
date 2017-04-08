@@ -169,7 +169,7 @@
         <string>Draft Team</string>
       </key>
       <value>
-        <int>155</int>
+        <int>-1</int>
       </value>
     </item>
   </primaryColumnWidths>

@@ -43,7 +43,7 @@ namespace HockeyStats
             playerList = playerListToLoad;
             currentDisplaySeason = playerList.displaySeason;
             if (firstTable != null) { firstTable.AbortFillDataTableThread(); }
-            firstTable = new MultiPlayerStatTable(firstTableDGV, playerList);
+            firstTable = new MultiPlayerStatTable(firstTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason);
             secondTable = new PlayerConstantStatTable(secondTableDGV);
             thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryColumnNames);
             RedrawPrimaryColumnWidths();
@@ -86,9 +86,10 @@ namespace HockeyStats
                     string fileName = saveFileDialog.FileName;
                     string listName = Path.GetFileName(fileName).Substring(0, Path.GetFileName(fileName).Length - FILENAME_SUFFIX.Length);
                     playerList.SetListName(listName);
+                    playerList.SetDisplaySeason(currentDisplaySeason);
+                    playerList.SetPlayerIds(firstTable.GetPlayerIds());
                     playerList.SetPrimaryColumns(firstTableDGV.Columns);
                     playerList.SetPrimaryColumnWidths(firstTableDGV.Columns);
-                    playerList.SetDisplaySeason(currentDisplaySeason);
                     Serializer.WritePlayerList<PlayerList>(playerList, fileName);
                     RefreshDropDownLists();
                 }
@@ -142,18 +143,16 @@ namespace HockeyStats
                     if (dropDownItem.Checked)
                     {
                         firstTable.RemoveColumn(dropDownItem.Text);
-                        playerList.RemovePrimaryColumn(columnName);
                     }
                     else
                     {
                         firstTable.AddColumn(dropDownItem.Text, currentDisplaySeason);
-                        playerList.AddPrimaryColumn(columnName);
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
                     RedrawPrimaryColumnWidths();
                 });
                 dropDownItems.Add(columnName, null, selectColumnHandler);
-                if (playerList.primaryColumnNames.Contains(columnName))
+                if (firstTable.ContainsColumn(columnName))
                 {
                     ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
                 }
@@ -169,7 +168,6 @@ namespace HockeyStats
                 {
                     addPlayerTextbox.Text = "Loading player...";
                     firstTable.AddPlayerById(playerId, currentDisplaySeason);
-                    playerList.AddPlayer(playerId);
                     addPlayerTextbox.Text = String.Empty;
                 }
             });
@@ -190,9 +188,6 @@ namespace HockeyStats
                 DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(firstTableDGV.Rows[rowIndex]);
                 firstTable.RemoveRow(row);
 
-                PlayerStats playerStats = firstTable.GetPlayerStatsFromRow(row);
-                playerList.RemovePlayer(playerStats.GetPlayerId());
-
                 ClearPlayerSelection();
             });
         }
@@ -200,7 +195,7 @@ namespace HockeyStats
         private void SetupShowSelectedPlayer()
         {
             firstTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
-                if (firstTableDGV.SelectedRows.Count != 1 || playerList.playerIds.Count < 1) { return; }
+                if (firstTableDGV.SelectedRows.Count != 1 || firstTableDGV.Rows.Count < 1) { return; }
                 int rowIndex = firstTableDGV.SelectedRows[0].Index;
 
                 DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(firstTableDGV.Rows[rowIndex]);
@@ -233,11 +228,11 @@ namespace HockeyStats
         {
             foreach (DataGridViewColumn column in firstTableDGV.Columns)
             {
-                if (column.DisplayIndex != firstTableDGV.Columns.Count - 1)
+                int width = playerList.GetPrimaryColumnWidth(column.Name);
+                if (column.DisplayIndex != firstTableDGV.Columns.Count - 1 && width >= 0)
                 {
                     column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                    int width = playerList.GetPrimaryColumnWidth(column.Name);
-                    column.Width = (width >= 0) ? width : column.GetPreferredWidth(DataGridViewAutoSizeColumnMode.ColumnHeader, false);
+                    column.Width = width;
                 }
                 else
                 {

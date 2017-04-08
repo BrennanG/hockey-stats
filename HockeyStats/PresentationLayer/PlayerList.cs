@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -61,6 +62,11 @@ namespace HockeyStats
             displaySeason = season;
         }
 
+        public void SetPlayerIds(List<string> playerIds)
+        {
+            this.playerIds = playerIds;
+        }
+
         public void SetPrimaryColumns(DataGridViewColumnCollection columns)
         {
             string[] columnNames = new string[columns.Count];
@@ -76,7 +82,8 @@ namespace HockeyStats
         {
             foreach (DataGridViewColumn column in columns)
             {
-                primaryColumnWidths[column.Name] = column.Width;
+                primaryColumnWidths[column.Name] = (column.DisplayIndex != columns.Count - 1) ? column.Width : -1;
+                //primaryColumnWidths[column.Name] = column.Width;
             }
         }
 

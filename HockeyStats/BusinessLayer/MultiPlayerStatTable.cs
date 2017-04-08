@@ -11,17 +11,14 @@ namespace HockeyStats
 {
     public class MultiPlayerStatTable : PlayerStatTable
     {
-        private PlayerList playerList;
         private Dictionary<int, PlayerStats> rowHashToPlayerStatsMap = new Dictionary<int, PlayerStats>();
         private Thread fillDataTableThread;
 
-        public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList)
-            : base(dataGridView, playerList.primaryColumnNames)
+        public MultiPlayerStatTable(DataGridView dataGridView, List<string> columnNames, List<string> playerIds, string season)
+            : base(dataGridView, columnNames)
         {
-            this.playerList = playerList;
-
             // Fill the table in a separate thread so the GUI will be displayed while the data is loading
-            fillDataTableThread = new Thread(() => FillDataTable());
+            fillDataTableThread = new Thread(() => FillDataTable(playerIds, season));
             fillDataTableThread.Start();
         }
 
@@ -32,20 +29,6 @@ namespace HockeyStats
             Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(season);
             DataRow newDataRow = AddRowToDataTable(collapsedYear);
             rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
-        }
-
-        public void ChangeDisplaySeason(string season)
-        {
-            foreach (DataRow row in dataTable.Rows)
-            {
-                PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
-                Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(season);
-                foreach (DataColumn column in dataTable.Columns)
-                {
-                    string columnName = column.ColumnName;
-                    row[columnName] = (collapsedYear.ContainsKey(columnName)) ? collapsedYear[columnName] : String.Empty;
-                }
-            }
         }
 
         public void RemoveRow(DataRow row)
@@ -72,20 +55,17 @@ namespace HockeyStats
             base.RemoveColumn(columnName);
         }
 
-        public void SetCollectionChangedHandler(System.ComponentModel.CollectionChangeEventHandler handler)
+        public void ChangeDisplaySeason(string season)
         {
-            dataTable.Columns.CollectionChanged += handler;
-        }
-
-        public void AbortFillDataTableThread()
-        {
-            if (fillDataTableThread != null && fillDataTableThread.ThreadState == ThreadState.Running)
+            foreach (DataRow row in dataTable.Rows)
             {
-                fillDataTableThread.Abort();
-            }
-            while (fillDataTableThread.ThreadState != ThreadState.Aborted && fillDataTableThread.ThreadState != ThreadState.Stopped)
-            {
-                // loop until it's aborted
+                PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
+                Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(season);
+                foreach (DataColumn column in dataTable.Columns)
+                {
+                    string columnName = column.ColumnName;
+                    row[columnName] = (collapsedYear.ContainsKey(columnName)) ? collapsedYear[columnName] : String.Empty;
+                }
             }
         }
 
@@ -101,18 +81,42 @@ namespace HockeyStats
             }
         }
 
+        public List<string> GetPlayerIds()
+        {
+            List<string> playerIds = new List<string>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                PlayerStats playerStats = GetPlayerStatsFromRow(row);
+                if (playerStats == null) { continue; }
+                playerIds.Add(playerStats.GetPlayerId());
+            }
+            return playerIds;
+        }
+
+        public void AbortFillDataTableThread()
+        {
+            if (fillDataTableThread != null && fillDataTableThread.ThreadState == ThreadState.Running)
+            {
+                fillDataTableThread.Abort();
+            }
+            while (fillDataTableThread.ThreadState != ThreadState.Aborted && fillDataTableThread.ThreadState != ThreadState.Stopped)
+            {
+                // loop until it's aborted
+            }
+        }
+
         public static DataRow GetDataRowFromDGVRow(DataGridViewRow dgvRow)
         {
             return ((DataRowView)dgvRow.DataBoundItem).Row;
         }
 
-        private void FillDataTable()
+        private void FillDataTable(List<string> playerIds, string season)
         {
-            string[] copiedPlayerIds = new string[playerList.playerIds.Count];
-            playerList.playerIds.CopyTo(copiedPlayerIds);
+            string[] copiedPlayerIds = new string[playerIds.Count];
+            playerIds.CopyTo(copiedPlayerIds);
             foreach (string playerId in copiedPlayerIds)
             {
-                AddPlayerById(playerId, playerList.displaySeason);
+                AddPlayerById(playerId, season);
             }
         }
     }

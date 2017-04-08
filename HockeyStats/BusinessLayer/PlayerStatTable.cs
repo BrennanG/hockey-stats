@@ -22,6 +22,15 @@ namespace HockeyStats
             DisableSortingOnDynamicColumns();
         }
 
+        public bool ContainsColumn(string columnName)
+        {
+            foreach (DataColumn column in dataTable.Columns)
+            {
+                if (column.ColumnName == columnName) { return true; }
+            }
+            return false;
+        }
+
         protected DataRow AddRowToDataTable(Dictionary<string, string> statDict)
         {
             string[] orderedRowValues = new string[dataTable.Columns.Count];

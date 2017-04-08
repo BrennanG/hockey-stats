@@ -4,66 +4,66 @@
   <displaySeason>2016-2017</displaySeason>
   <playerIds>
     <string>183442</string>
-<string>191959</string>
-<string>228107</string>
-<string>223194</string>
-<string>177710</string>
-<string>130786</string>
-<string>242584</string>
-<string>186311</string>
-<string>95921</string>
-<string>91186</string>
-<string>205155</string>
-<string>263964</string>
-<string>112379</string>
-<string>84242</string>
-<string>245108</string>
-<string>186310</string>
-<string>177671</string>
-<string>213607</string>
-<string>168679</string>
-<string>139633</string>
-<string>183810</string>
-<string>277797</string>
-<string>248381</string>
-<string>205148</string>
-<string>226309</string>
-<string>199905</string>
-<string>147719</string>
-<string>213435</string>
-<string>187919</string>
-<string>107894</string>
-<string>151150</string>
-<string>226901</string>
-<string>186392</string>
-<string>214673</string>
-<string>152111</string>
-<string>156103</string>
-<string>120965</string>
-<string>216874</string>
-<string>151125</string>
-<string>213821</string>
-<string>120198</string>
-<string>203280</string>
-<string>166368</string>
-<string>225188</string>
-<string>115158</string>
-<string>231299</string>
-<string>160158</string>
-<string>157524</string>
-<string>92117</string>
-<string>183455</string>
-<string>63250</string>
-<string>213715</string>
-<string>86137</string>
-<string>225057</string>
-<string>277485</string>
-<string>161816</string>
-<string>105407</string>
-<string>142262</string>
-<string>85961</string>
-<string>142238</string>
-<string>197800</string>
+    <string>191959</string>
+    <string>228107</string>
+    <string>223194</string>
+    <string>177710</string>
+    <string>130786</string>
+    <string>242584</string>
+    <string>186311</string>
+    <string>95921</string>
+    <string>91186</string>
+    <string>205155</string>
+    <string>263964</string>
+    <string>112379</string>
+    <string>84242</string>
+    <string>245108</string>
+    <string>186310</string>
+    <string>177671</string>
+    <string>213607</string>
+    <string>168679</string>
+    <string>139633</string>
+    <string>183810</string>
+    <string>277797</string>
+    <string>248381</string>
+    <string>205148</string>
+    <string>226309</string>
+    <string>199905</string>
+    <string>147719</string>
+    <string>213435</string>
+    <string>187919</string>
+    <string>107894</string>
+    <string>151150</string>
+    <string>226901</string>
+    <string>186392</string>
+    <string>214673</string>
+    <string>152111</string>
+    <string>156103</string>
+    <string>120965</string>
+    <string>216874</string>
+    <string>151125</string>
+    <string>213821</string>
+    <string>120198</string>
+    <string>203280</string>
+    <string>166368</string>
+    <string>225188</string>
+    <string>115158</string>
+    <string>231299</string>
+    <string>160158</string>
+    <string>157524</string>
+    <string>92117</string>
+    <string>183455</string>
+    <string>63250</string>
+    <string>213715</string>
+    <string>86137</string>
+    <string>225057</string>
+    <string>277485</string>
+    <string>161816</string>
+    <string>105407</string>
+    <string>142262</string>
+    <string>85961</string>
+    <string>142238</string>
+    <string>197800</string>
   </playerIds>
   <primaryColumnNames>
     <string>Draft Overall</string>
@@ -174,7 +174,7 @@
         <string>Team</string>
       </key>
       <value>
-        <int>390</int>
+        <int>-1</int>
       </value>
     </item>
   </primaryColumnWidths>
