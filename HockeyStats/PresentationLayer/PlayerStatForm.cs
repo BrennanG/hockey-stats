@@ -207,6 +207,16 @@ namespace HockeyStats
 
                 thirdTable.ClearTable();
                 thirdTable.AddPlayerByPlayerStats(existingPlayerStats);
+
+                foreach (DataGridViewRow DGVRow in thirdTableDGV.Rows)
+                {
+                    string season = DGVRow.Cells[Constants.SEASON].Value.ToString();
+                    string endYear = (season != String.Empty) ? season.Substring(5) : String.Empty;
+                    if (endYear == existingPlayerStats.GetDraftYear())
+                    {
+                        DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.Khaki;
+                    }
+                }
             });
         }
 

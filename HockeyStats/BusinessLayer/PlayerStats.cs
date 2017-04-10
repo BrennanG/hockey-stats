@@ -94,6 +94,18 @@ namespace HockeyStats
             return playerId;
         }
 
+        public string GetDraftYear()
+        {
+            if (constantPlayerStats.ContainsKey(Constants.DRAFT_YEAR))
+            {
+                return constantPlayerStats[Constants.DRAFT_YEAR];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         private void FillPlayerStats()
         {
             JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
