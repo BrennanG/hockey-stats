@@ -8,7 +8,7 @@ namespace HockeyStats
 {
     public class PlayerStats
     {
-        // Dictionary from year (as a string) to list of stat lines for that year
+        // Map from year (as a string) to list of stat lines for that year
         private Dictionary<string, List<Dictionary<string, string>>> playerStats = new Dictionary<string, List<Dictionary<string, string>>>();
         private Dictionary<string, string> constantPlayerStats = new Dictionary<string, string>();
         private string playerId;
@@ -117,12 +117,12 @@ namespace HockeyStats
             {
                 statLineParser.SetStatLine(statLine);
                 string year = statLineParser.ReturnYear();
-                if (!playerStats.ContainsKey(year))
-                {
-                    playerStats[year] = new List<Dictionary<string, string>>();
-                }
                 if (statLineParser.ReturnGameType() == "REGULAR_SEASON")
                 {
+                    if (!playerStats.ContainsKey(year))
+                    {
+                        playerStats[year] = new List<Dictionary<string, string>>();
+                    }
                     Dictionary<string, string> dict = new Dictionary<string, string>();
                     playerStats[year].Add(dict);
                     FillDictWithStats(dict);

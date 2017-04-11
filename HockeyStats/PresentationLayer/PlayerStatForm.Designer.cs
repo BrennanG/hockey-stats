@@ -50,6 +50,7 @@
             this.secondTableDGV = new System.Windows.Forms.DataGridView();
             this.thirdTableDGV = new System.Windows.Forms.DataGridView();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.listNameLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.firstTableDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -120,6 +121,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.listNameLabel);
             this.splitContainer1.Panel1.Controls.Add(this.firstTableDGV);
             this.splitContainer1.Panel1.Controls.Add(this.menuStrip1);
             // 
@@ -199,7 +201,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.06024F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.93976F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 146F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 147F));
             this.tableLayoutPanel2.Controls.Add(this.addPlayerButton, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.addPlayerTextbox, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.removeSelectedPlayerButton, 2, 0);
@@ -215,7 +217,7 @@
             // removeSelectedPlayerButton
             // 
             this.removeSelectedPlayerButton.Enabled = false;
-            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(934, 3);
+            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(933, 3);
             this.removeSelectedPlayerButton.Name = "removeSelectedPlayerButton";
             this.removeSelectedPlayerButton.Size = new System.Drawing.Size(132, 20);
             this.removeSelectedPlayerButton.TabIndex = 3;
@@ -293,6 +295,15 @@
             this.thirdTableDGV.Size = new System.Drawing.Size(710, 463);
             this.thirdTableDGV.TabIndex = 3;
             // 
+            // listNameLabel
+            // 
+            this.listNameLabel.AutoSize = true;
+            this.listNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listNameLabel.Location = new System.Drawing.Point(367, 1);
+            this.listNameLabel.Name = "listNameLabel";
+            this.listNameLabel.Size = new System.Drawing.Size(0, 20);
+            this.listNameLabel.TabIndex = 2;
+            // 
             // PlayerStatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -344,6 +355,7 @@
         private System.Windows.Forms.ToolStripMenuItem addRemoveColumnDropDown;
         private System.Windows.Forms.Button removeSelectedPlayerButton;
         private System.Windows.Forms.ToolStripMenuItem selectSeasonDropDown;
+        private System.Windows.Forms.Label listNameLabel;
     }
 }
 

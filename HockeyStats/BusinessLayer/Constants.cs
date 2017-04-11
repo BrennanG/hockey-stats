@@ -7,6 +7,7 @@ namespace HockeyStats
 {
     public static class Constants
     {
+        public static readonly string DEFAULT_LIST_NAME = "NewList";
         public static readonly string FIRST_NAME = "First Name";
         public static readonly string LAST_NAME = "Last Name";
         public static readonly string GAMES_PLAYED = "Games Played";

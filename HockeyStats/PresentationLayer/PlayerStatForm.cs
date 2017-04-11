@@ -42,10 +42,13 @@ namespace HockeyStats
         {
             playerList = playerListToLoad;
             currentDisplaySeason = playerList.displaySeason;
+            listNameLabel.Text = playerList.listName;
             if (firstTable != null) { firstTable.AbortFillDataTableThread(); }
+
             firstTable = new MultiPlayerStatTable(firstTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason);
             secondTable = new PlayerConstantStatTable(secondTableDGV);
             thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryColumnNames);
+
             RedrawPrimaryColumnWidths();
             RedrawSecondaryColumnWidths();
         }
