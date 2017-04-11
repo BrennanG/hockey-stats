@@ -16,6 +16,7 @@ namespace HockeyStats
         public List<string> primaryColumnNames;
         public List<string> secondaryColumnNames;
         public SerializableDictionary<string, int> primaryColumnWidths;
+        public SerializableDictionary<string, int> secondaryColumnWidths;
 
         public PlayerList()
         {
@@ -27,9 +28,10 @@ namespace HockeyStats
             listName = "";
             playerIds = new List<string>();
             displaySeason = Constants.CurrentSeason;
-            primaryColumnNames = Constants.DefaultColumns;
-            secondaryColumnNames = Constants.DynamicColumns;
-            primaryColumnWidths = new SerializableDictionary<string, int>();
+            primaryColumnNames = Constants.DefaultPrimaryColumns;
+            secondaryColumnNames = Constants.DefaultSecondaryColumns;
+            primaryColumnWidths = Constants.DefaultPrimaryColumnWidths;
+            secondaryColumnWidths = Constants.DefaultSecondaryColumnWidths;
         }
 
         public void SetListName(string listName)
@@ -83,7 +85,6 @@ namespace HockeyStats
             foreach (DataGridViewColumn column in columns)
             {
                 primaryColumnWidths[column.Name] = (column.DisplayIndex != columns.Count - 1) ? column.Width : -1;
-                //primaryColumnWidths[column.Name] = column.Width;
             }
         }
 
@@ -98,5 +99,26 @@ namespace HockeyStats
                 return -1;
             }
         }
+
+        public void SetSecondaryColumnWidths(DataGridViewColumnCollection columns)
+        {
+            foreach (DataGridViewColumn column in columns)
+            {
+                secondaryColumnWidths[column.Name] = (column.DisplayIndex != columns.Count - 1) ? column.Width : -1;
+            }
+        }
+
+        public int GetSecondaryColumnWidth(string columnName)
+        {
+            if (secondaryColumnWidths.ContainsKey(columnName))
+            {
+                return secondaryColumnWidths[columnName];
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
     }
 }

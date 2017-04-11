@@ -47,6 +47,7 @@ namespace HockeyStats
             secondTable = new PlayerConstantStatTable(secondTableDGV);
             thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryColumnNames);
             RedrawPrimaryColumnWidths();
+            RedrawSecondaryColumnWidths();
         }
 
         private void SetupLoadListDropDown()
@@ -90,6 +91,7 @@ namespace HockeyStats
                     playerList.SetPlayerIds(firstTable.GetPlayerIds());
                     playerList.SetPrimaryColumns(firstTableDGV.Columns);
                     playerList.SetPrimaryColumnWidths(firstTableDGV.Columns);
+                    playerList.SetSecondaryColumnWidths(thirdTableDGV.Columns);
                     Serializer.WritePlayerList<PlayerList>(playerList, fileName);
                     RefreshDropDownLists();
                 }
@@ -208,6 +210,7 @@ namespace HockeyStats
                 thirdTable.ClearTable();
                 thirdTable.AddPlayerByPlayerStats(existingPlayerStats);
 
+                // Change color of draft year in third table
                 foreach (DataGridViewRow DGVRow in thirdTableDGV.Rows)
                 {
                     string season = DGVRow.Cells[Constants.SEASON].Value.ToString();
@@ -240,6 +243,23 @@ namespace HockeyStats
             {
                 int width = playerList.GetPrimaryColumnWidth(column.Name);
                 if (column.DisplayIndex != firstTableDGV.Columns.Count - 1 && width >= 0)
+                {
+                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    column.Width = width;
+                }
+                else
+                {
+                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+            }
+        }
+
+        private void RedrawSecondaryColumnWidths()
+        {
+            foreach (DataGridViewColumn column in thirdTableDGV.Columns)
+            {
+                int width = playerList.GetSecondaryColumnWidth(column.Name);
+                if (column.DisplayIndex != thirdTableDGV.Columns.Count - 1 && width >= 0)
                 {
                     column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                     column.Width = width;

@@ -5,7 +5,6 @@
   <playerIds>
     <string>301349</string>
     <string>269034</string>
-    <string>50661</string>
   </playerIds>
   <primaryColumnNames>
     <string>First Name</string>
@@ -20,7 +19,6 @@
     <string>Draft Year</string>
     <string>Draft Round</string>
     <string>Draft Overall</string>
-    <string>Date of Birth</string>
   </primaryColumnNames>
   <secondaryColumnNames>
     <string>Season</string>
@@ -134,14 +132,6 @@
         <string>Draft Overall</string>
       </key>
       <value>
-        <int>62</int>
-      </value>
-    </item>
-    <item>
-      <key>
-        <string>Date of Birth</string>
-      </key>
-      <value>
         <int>-1</int>
       </value>
     </item>
@@ -153,13 +143,71 @@
         <int>79</int>
       </value>
     </item>
+  </primaryColumnWidths>
+  <secondaryColumnWidths>
     <item>
       <key>
-        <string>Weight</string>
+        <string>Season</string>
+      </key>
+      <value>
+        <int>65</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Games Played</string>
+      </key>
+      <value>
+        <int>44</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Goals/GAA</string>
+      </key>
+      <value>
+        <int>38</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Assists/Sv%</string>
+      </key>
+      <value>
+        <int>44</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Total Points</string>
+      </key>
+      <value>
+        <int>38</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>PPG</string>
+      </key>
+      <value>
+        <int>62</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>League</string>
+      </key>
+      <value>
+        <int>130</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Team</string>
       </key>
       <value>
         <int>-1</int>
       </value>
     </item>
-  </primaryColumnWidths>
+  </secondaryColumnWidths>
 </PlayerList>

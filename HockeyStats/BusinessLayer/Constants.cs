@@ -66,7 +66,7 @@ namespace HockeyStats
             Constants.ID
         };
 
-        public static List<string> DefaultColumns = new List<string>()
+        public static List<string> DefaultPrimaryColumns = new List<string>()
         {
             Constants.FIRST_NAME,
             Constants.LAST_NAME,
@@ -81,6 +81,20 @@ namespace HockeyStats
             Constants.DRAFT_ROUND,
             Constants.DRAFT_OVERALL,
             Constants.DRAFT_TEAM,
+        };
+
+
+        public static List<string> DefaultSecondaryColumns = new List<string>()
+        {
+            Constants.SEASON,
+            Constants.GAMES_PLAYED,
+            Constants.GOALS_GAA,
+            Constants.ASSISTS_SVP,
+            Constants.TOTAL_POINTS,
+            Constants.PPG,
+            Constants.LEAGUE,
+            Constants.TEAM,
+
         };
 
         public static readonly List<string> ConstantColumns = new List<string>()
@@ -103,8 +117,25 @@ namespace HockeyStats
 
         public static readonly List<string> AllPossibleColumnsAlphebetized = GetAllPossibleColumnsAlphebetized();
 
+        public static readonly SerializableDictionary<string, int> DefaultPrimaryColumnWidths = GetDefaultPrimaryColumnWidths();
+
+        public static readonly SerializableDictionary<string, int> DefaultSecondaryColumnWidths = new SerializableDictionary<string, int>()
+        {
+            { Constants.SEASON, 65 },
+            { Constants.GAMES_PLAYED, 44 },
+            { Constants.GOALS_GAA, 38 },
+            { Constants.ASSISTS_SVP, 44 },
+            { Constants.TOTAL_POINTS, 38 },
+            { Constants.PPG, 62 },
+            { Constants.LEAGUE, 130 },
+            { Constants.TEAM, -1 }
+        };
+
         public static readonly string CurrentSeason = GetCurrentSeason();
 
+
+
+        // Methods
         private static List<string> GetAllPossibleColumnsAlphebetized()
         {
             string[] copy = new string[AllPossibleColumns.Count];
@@ -112,6 +143,16 @@ namespace HockeyStats
             List<string> copyAsList = copy.ToList();
             copyAsList.Sort();
             return copyAsList;
+        }
+
+        public static SerializableDictionary<string, int> GetDefaultPrimaryColumnWidths()
+        {
+            SerializableDictionary<string, int> widths = new SerializableDictionary<string, int>();
+            foreach (string column in AllPossibleColumns)
+            {
+                widths.Add(column, 83);
+            }
+            return widths;
         }
 
         private static string GetCurrentSeason()
