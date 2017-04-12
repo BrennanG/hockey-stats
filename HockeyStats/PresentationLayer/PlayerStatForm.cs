@@ -222,6 +222,10 @@ namespace HockeyStats
                     {
                         DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.Khaki;
                     }
+                    else if (endYear == existingPlayerStats.GetFirstYearOfDraftEligibility())
+                    {
+                        DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.LightGreen;
+                    }
                 }
             });
         }

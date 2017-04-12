@@ -106,6 +106,21 @@ namespace HockeyStats
             }
         }
 
+        public string GetFirstYearOfDraftEligibility()
+        {
+            if (!constantPlayerStats.ContainsKey(Constants.DATE_OF_BIRTH)) { return null; }
+            
+            DateTime dateOfBirth = DateTime.Parse(constantPlayerStats[Constants.DATE_OF_BIRTH]);
+            if (dateOfBirth.Month < 9 || (dateOfBirth.Month == 9 && dateOfBirth.Day <= 15))
+            {
+                return (dateOfBirth.Year + 18).ToString();
+            }
+            else
+            {
+                return (dateOfBirth.Year + 19).ToString();
+            }
+        }
+
         private void FillPlayerStats()
         {
             JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
