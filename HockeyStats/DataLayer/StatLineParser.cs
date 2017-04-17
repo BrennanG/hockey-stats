@@ -28,9 +28,18 @@ namespace HockeyStats
         }
 
         // Stats from base object
-        public string ReturnGameType()
+        public string ReturnSeasonType()
         {
-            return (string)statLine["gameType"];
+            string seasonType = (string)statLine["gameType"];
+            switch (seasonType)
+            {
+                case "REGULAR_SEASON":
+                    return Constants.REGULAR_SEASON;
+                case "PLAYOFFS":
+                    return Constants.PLAYOFFS;
+                default:
+                    return seasonType;
+            }
         }
 
         public void GetGamesPlayed(string key)

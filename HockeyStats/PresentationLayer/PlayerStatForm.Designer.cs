@@ -37,6 +37,7 @@
             this.addPlayerButton = new System.Windows.Forms.Button();
             this.addPlayerTextbox = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.listNameLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.loadListDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +51,7 @@
             this.secondTableDGV = new System.Windows.Forms.DataGridView();
             this.thirdTableDGV = new System.Windows.Forms.DataGridView();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.listNameLabel = new System.Windows.Forms.Label();
+            this.selectSeasonTypeDropDown = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.firstTableDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -133,6 +134,15 @@
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 3;
             // 
+            // listNameLabel
+            // 
+            this.listNameLabel.AutoSize = true;
+            this.listNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listNameLabel.Location = new System.Drawing.Point(367, 1);
+            this.listNameLabel.Name = "listNameLabel";
+            this.listNameLabel.Size = new System.Drawing.Size(0, 20);
+            this.listNameLabel.TabIndex = 2;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -140,7 +150,8 @@
             this.saveListToolStripMenuItem,
             this.createListToolStripMenuItem,
             this.addRemoveColumnDropDown,
-            this.selectSeasonDropDown});
+            this.selectSeasonDropDown,
+            this.selectSeasonTypeDropDown});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
@@ -201,7 +212,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.06024F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.93976F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 147F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 148F));
             this.tableLayoutPanel2.Controls.Add(this.addPlayerButton, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.addPlayerTextbox, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.removeSelectedPlayerButton, 2, 0);
@@ -217,7 +228,7 @@
             // removeSelectedPlayerButton
             // 
             this.removeSelectedPlayerButton.Enabled = false;
-            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(933, 3);
+            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(932, 3);
             this.removeSelectedPlayerButton.Name = "removeSelectedPlayerButton";
             this.removeSelectedPlayerButton.Size = new System.Drawing.Size(132, 20);
             this.removeSelectedPlayerButton.TabIndex = 3;
@@ -295,14 +306,12 @@
             this.thirdTableDGV.Size = new System.Drawing.Size(710, 463);
             this.thirdTableDGV.TabIndex = 3;
             // 
-            // listNameLabel
+            // selectSeasonTypeDropDown
             // 
-            this.listNameLabel.AutoSize = true;
-            this.listNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listNameLabel.Location = new System.Drawing.Point(367, 1);
-            this.listNameLabel.Name = "listNameLabel";
-            this.listNameLabel.Size = new System.Drawing.Size(0, 20);
-            this.listNameLabel.TabIndex = 2;
+            this.selectSeasonTypeDropDown.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.selectSeasonTypeDropDown.Name = "selectSeasonTypeDropDown";
+            this.selectSeasonTypeDropDown.Size = new System.Drawing.Size(118, 20);
+            this.selectSeasonTypeDropDown.Text = "Select Season Type";
             // 
             // PlayerStatForm
             // 
@@ -356,6 +365,7 @@
         private System.Windows.Forms.Button removeSelectedPlayerButton;
         private System.Windows.Forms.ToolStripMenuItem selectSeasonDropDown;
         private System.Windows.Forms.Label listNameLabel;
+        private System.Windows.Forms.ToolStripMenuItem selectSeasonTypeDropDown;
     }
 }
 

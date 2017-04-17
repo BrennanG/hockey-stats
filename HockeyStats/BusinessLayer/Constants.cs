@@ -8,6 +8,10 @@ namespace HockeyStats
     public static class Constants
     {
         public static readonly string DEFAULT_LIST_NAME = "NewList";
+
+        public static readonly string REGULAR_SEASON = "Regular Season";
+        public static readonly string PLAYOFFS = "Playoffs";
+
         public static readonly string FIRST_NAME = "First Name";
         public static readonly string LAST_NAME = "Last Name";
         public static readonly string GAMES_PLAYED = "Games Played";
@@ -59,8 +63,6 @@ namespace HockeyStats
 
         public static List<string> NumericColumns = new List<string>()
         {
-            //Columns.HEIGHT,
-            //Columns.WEIGHT,
             Constants.DRAFT_YEAR,
             Constants.DRAFT_ROUND,
             Constants.DRAFT_OVERALL,
@@ -130,6 +132,12 @@ namespace HockeyStats
             { Constants.PPG, 62 },
             { Constants.LEAGUE, 130 },
             { Constants.TEAM, -1 }
+        };
+
+        public static readonly List<string> SeasonTypes = new List<string>()
+        {
+            Constants.REGULAR_SEASON,
+            Constants.PLAYOFFS
         };
 
         public static readonly string CurrentSeason = GetCurrentSeason();

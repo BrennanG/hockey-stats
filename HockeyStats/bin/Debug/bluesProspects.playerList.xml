@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <listName>bluesProspects</listName>
+  <seasonType>Regular Season</seasonType>
   <displaySeason>2016-2017</displaySeason>
   <playerIds>
     <string>301349</string>

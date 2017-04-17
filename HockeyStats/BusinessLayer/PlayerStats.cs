@@ -9,7 +9,8 @@ namespace HockeyStats
     public class PlayerStats
     {
         // Map from year (as a string) to list of stat lines for that year
-        private Dictionary<string, List<Dictionary<string, string>>> playerStats = new Dictionary<string, List<Dictionary<string, string>>>();
+        private Dictionary<string, List<Dictionary<string, string>>> regularSeasonPlayerStats = new Dictionary<string, List<Dictionary<string, string>>>();
+        private Dictionary<string, List<Dictionary<string, string>>> playoffsPlayerStats = new Dictionary<string, List<Dictionary<string, string>>>();
         private Dictionary<string, string> constantPlayerStats = new Dictionary<string, string>();
         private string playerId;
 
@@ -24,9 +25,10 @@ namespace HockeyStats
             FillConstantPlayerStats();
         }
 
-        public Dictionary<string, string> GetCollapsedYear(string year)
+        public Dictionary<string, string> GetCollapsedYear(string year, string seasonType)
         {
-            if (!playerStats.ContainsKey(year)) { return constantPlayerStats;  }
+            Dictionary<string, List<Dictionary<string, string>>> playerStats = GetPlayerStatsForSeasonType(seasonType);
+            if (playerStats == null || !playerStats.ContainsKey(year)) { return constantPlayerStats;  }
 
             Dictionary<string, string> returnDict = new Dictionary<string, string>();
             foreach (Dictionary<string, string> loopDict in playerStats[year])
@@ -47,13 +49,16 @@ namespace HockeyStats
             return returnDict;
         }
 
-        public string GetCollapsedColumnValue(string year, string columnName)
+        public string GetCollapsedColumnValue(string year, string columnName, string seasonType)
         {
-            if (!playerStats.ContainsKey(year)) { return ""; }
-            string collapsedColumn = "";
+            Dictionary<string, List<Dictionary<string, string>>> playerStats = GetPlayerStatsForSeasonType(seasonType);
+            if (playerStats == null || !playerStats.ContainsKey(year)) { return String.Empty; }
+
+            if (!playerStats.ContainsKey(year)) { return String.Empty; }
+            string collapsedColumn = String.Empty;
             foreach (Dictionary<string, string> dict in playerStats[year])
             {
-                if (collapsedColumn == "" || Constants.ConstantColumns.Contains(columnName))
+                if (collapsedColumn == String.Empty || Constants.ConstantColumns.Contains(columnName))
                 {
                     collapsedColumn = dict[columnName];
                 }
@@ -73,9 +78,9 @@ namespace HockeyStats
         public List<Dictionary<string, string>> GetDynamicColumnValues()
         {
             List<Dictionary<string, string>> dynamicColumnValues = new List<Dictionary<string, string>>();
-            foreach (string year in playerStats.Keys)
+            foreach (string year in regularSeasonPlayerStats.Keys)
             {
-                Dictionary<string, string> collapsedYear = GetCollapsedYear(year);
+                Dictionary<string, string> collapsedYear = GetCollapsedYear(year, Constants.REGULAR_SEASON);
                 Dictionary<string, string> collapsedYearOnlyDynamicColumns = new Dictionary<string, string>();
                 foreach (string columnName in collapsedYear.Keys)
                 {
@@ -131,25 +136,26 @@ namespace HockeyStats
             foreach (JToken statLine in statsJson["data"])
             {
                 statLineParser.SetStatLine(statLine);
-                string year = statLineParser.ReturnYear();
-                if (statLineParser.ReturnGameType() == "REGULAR_SEASON")
-                {
-                    if (!playerStats.ContainsKey(year))
-                    {
-                        playerStats[year] = new List<Dictionary<string, string>>();
-                    }
-                    Dictionary<string, string> dict = new Dictionary<string, string>();
-                    playerStats[year].Add(dict);
-                    FillDictWithStats(dict);
-                }
 
+                string seasonType = statLineParser.ReturnSeasonType();
+                if (!Constants.SeasonTypes.Contains(seasonType)) { continue; }
+                Dictionary<string, List<Dictionary<string, string>>> playerStatsToFill = GetPlayerStatsForSeasonType(seasonType);
+                
+                string year = statLineParser.ReturnYear();
+                if (!playerStatsToFill.ContainsKey(year))
+                {
+                    playerStatsToFill[year] = new List<Dictionary<string, string>>();
+                }
+                Dictionary<string, string> dict = new Dictionary<string, string>();
+                playerStatsToFill[year].Add(dict);
+                FillDictWithStats(dict);
             }
         }
 
         private void FillConstantPlayerStats()
         {
             Dictionary<string, string> firstDictWithData = new Dictionary<string, string>();
-            foreach (List<Dictionary<string, string>> dicts in playerStats.Values)
+            foreach (List<Dictionary<string, string>> dicts in regularSeasonPlayerStats.Values)
             {
                 if (dicts.Count > 0 && dicts[0].Keys.Count > 0)
                 {
@@ -160,6 +166,22 @@ namespace HockeyStats
             foreach (string columnName in Constants.ConstantColumns)
             {
                 constantPlayerStats[columnName] = firstDictWithData[columnName];
+            }
+        }
+
+        private Dictionary<string, List<Dictionary<string, string>>> GetPlayerStatsForSeasonType(string seasonType)
+        {
+            if (seasonType == Constants.REGULAR_SEASON)
+            {
+                return regularSeasonPlayerStats;
+            }
+            else if (seasonType == Constants.PLAYOFFS)
+            {
+                return playoffsPlayerStats;
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -176,7 +198,7 @@ namespace HockeyStats
                 catch (Exception) { /* Data was not found */}
             }
         }
-
+        
         private static Dictionary<string, Action> FillGetStatMap()
         {
             Dictionary<string, Action> map = new Dictionary<string, Action>();

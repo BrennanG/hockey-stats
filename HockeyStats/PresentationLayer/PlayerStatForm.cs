@@ -20,6 +20,7 @@ namespace HockeyStats
         private PlayerConstantStatTable secondTable;
         private SinglePlayerStatTable thirdTable;
         private string currentDisplaySeason;
+        private string currentSeasonType;
 
         public PlayerStatForm()
         {
@@ -31,6 +32,7 @@ namespace HockeyStats
             SetupLoadListDropDown();
             SetupSaveListButton();
             SetupCreateListButton();
+            SetupSelectSeasonTypeButton();
             SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
             SetupAddPlayerButton();
@@ -42,10 +44,11 @@ namespace HockeyStats
         {
             playerList = playerListToLoad;
             currentDisplaySeason = playerList.displaySeason;
+            currentSeasonType = playerList.seasonType;
             listNameLabel.Text = playerList.listName;
             if (firstTable != null) { firstTable.AbortFillDataTableThread(); }
 
-            firstTable = new MultiPlayerStatTable(firstTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason);
+            firstTable = new MultiPlayerStatTable(firstTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason, playerList.seasonType);
             secondTable = new PlayerConstantStatTable(secondTableDGV);
             thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryColumnNames);
 
@@ -90,6 +93,7 @@ namespace HockeyStats
                     string fileName = saveFileDialog.FileName;
                     string listName = Path.GetFileName(fileName).Substring(0, Path.GetFileName(fileName).Length - FILENAME_SUFFIX.Length);
                     playerList.SetListName(listName);
+                    playerList.SetSeasonType(currentSeasonType);
                     playerList.SetDisplaySeason(currentDisplaySeason);
                     playerList.SetPlayerIds(firstTable.GetPlayerIds());
                     playerList.SetPrimaryColumns(firstTableDGV.Columns);
@@ -109,6 +113,27 @@ namespace HockeyStats
                 LoadPlayerList(playerListToLoad);
                 RefreshDropDownLists();
             });
+        }
+
+        private void SetupSelectSeasonTypeButton()
+        {
+            selectSeasonTypeDropDown.Text = currentSeasonType;
+            ToolStripItemCollection dropDownItems = selectSeasonTypeDropDown.DropDownItems;
+            dropDownItems.Clear();
+
+            foreach (string seasonType in Constants.SeasonTypes)
+            {
+                EventHandler selectSeasonTypeHandler = new EventHandler((object sender, EventArgs e) => {
+                    firstTable.ChangeSeasonType(seasonType);
+                    currentSeasonType = seasonType;
+                    RefreshDropDownLists();
+                });
+                dropDownItems.Add(seasonType, null, selectSeasonTypeHandler);
+                if (currentSeasonType == seasonType)
+                {
+                    ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
+                }
+            }
         }
 
         private void SetupSelectSeasonButton()
@@ -172,7 +197,7 @@ namespace HockeyStats
                 if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
                 {
                     addPlayerTextbox.Text = "Loading player...";
-                    firstTable.AddPlayerById(playerId, currentDisplaySeason);
+                    firstTable.AddPlayerById(playerId);
                     addPlayerTextbox.Text = String.Empty;
                 }
             });
@@ -240,6 +265,7 @@ namespace HockeyStats
         private void RefreshDropDownLists()
         {
             SetupLoadListDropDown();
+            SetupSelectSeasonTypeButton();
             SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
         }
