@@ -25,13 +25,13 @@ namespace HockeyStats
             FillConstantPlayerStats();
         }
 
-        public Dictionary<string, string> GetCollapsedYear(string year, string seasonType)
+        public Dictionary<string, string> GetCollapsedYear(string season, string seasonType)
         {
             Dictionary<string, List<Dictionary<string, string>>> playerStats = GetPlayerStatsForSeasonType(seasonType);
-            if (playerStats == null || !playerStats.ContainsKey(year)) { return constantPlayerStats;  }
+            if (playerStats == null || !playerStats.ContainsKey(season)) { return constantPlayerStats;  }
 
             Dictionary<string, string> returnDict = new Dictionary<string, string>();
-            foreach (Dictionary<string, string> loopDict in playerStats[year])
+            foreach (Dictionary<string, string> loopDict in playerStats[season])
             {
                 foreach (string columnName in Constants.AllPossibleColumns)
                 {
@@ -49,14 +49,14 @@ namespace HockeyStats
             return returnDict;
         }
 
-        public string GetCollapsedColumnValue(string year, string columnName, string seasonType)
+        public string GetCollapsedColumnValue(string season, string columnName, string seasonType)
         {
             Dictionary<string, List<Dictionary<string, string>>> playerStats = GetPlayerStatsForSeasonType(seasonType);
-            if (playerStats == null || !playerStats.ContainsKey(year)) { return String.Empty; }
+            if (playerStats == null || !playerStats.ContainsKey(season)) { return String.Empty; }
 
-            if (!playerStats.ContainsKey(year)) { return String.Empty; }
+            if (!playerStats.ContainsKey(season)) { return String.Empty; }
             string collapsedColumn = String.Empty;
-            foreach (Dictionary<string, string> dict in playerStats[year])
+            foreach (Dictionary<string, string> dict in playerStats[season])
             {
                 if (collapsedColumn == String.Empty || Constants.ConstantColumns.Contains(columnName))
                 {
@@ -75,21 +75,29 @@ namespace HockeyStats
             return constantPlayerStats;
         }
 
-        public List<Dictionary<string, string>> GetDynamicColumnValues()
+        public List<Dictionary<string, string>> GetDynamicColumnValues(string seasonType)
         {
             List<Dictionary<string, string>> dynamicColumnValues = new List<Dictionary<string, string>>();
-            foreach (string year in regularSeasonPlayerStats.Keys)
+            foreach (string season in regularSeasonPlayerStats.Keys)
             {
-                Dictionary<string, string> collapsedYear = GetCollapsedYear(year, Constants.REGULAR_SEASON);
-                Dictionary<string, string> collapsedYearOnlyDynamicColumns = new Dictionary<string, string>();
-                foreach (string columnName in collapsedYear.Keys)
+                if (seasonType == Constants.REGULAR_SEASON || playoffsPlayerStats.ContainsKey(season))
                 {
-                    if (Constants.DynamicColumns.Contains(columnName))
+                    Dictionary<string, string> collapsedYear = GetCollapsedYear(season, seasonType);
+                    Dictionary<string, string> collapsedYearOnlyDynamicColumns = new Dictionary<string, string>();
+                    foreach (string columnName in collapsedYear.Keys)
                     {
-                        collapsedYearOnlyDynamicColumns.Add(columnName, collapsedYear[columnName]);
+                        if (Constants.DynamicColumns.Contains(columnName))
+                        {
+                            collapsedYearOnlyDynamicColumns.Add(columnName, collapsedYear[columnName]);
+                        }
                     }
+                    dynamicColumnValues.Add(collapsedYearOnlyDynamicColumns);
                 }
-                dynamicColumnValues.Add(collapsedYearOnlyDynamicColumns);
+                else
+                {
+                    Dictionary<string, string> collapsedYearOnlyDynamicColumns = new Dictionary<string, string>() { { Constants.SEASON, season } };
+                    dynamicColumnValues.Add(collapsedYearOnlyDynamicColumns);
+                }
             }
             return dynamicColumnValues;
         }

@@ -54,6 +54,7 @@ namespace HockeyStats
 
             RedrawPrimaryColumnWidths();
             RedrawSecondaryColumnWidths();
+            ResetRowColors();
         }
 
         private void SetupLoadListDropDown()
@@ -125,8 +126,10 @@ namespace HockeyStats
             {
                 EventHandler selectSeasonTypeHandler = new EventHandler((object sender, EventArgs e) => {
                     firstTable.ChangeSeasonType(seasonType);
+                    thirdTable.ChangeSeasonType(seasonType);
                     currentSeasonType = seasonType;
                     RefreshDropDownLists();
+                    ResetRowColors();
                 });
                 dropDownItems.Add(seasonType, null, selectSeasonTypeHandler);
                 if (currentSeasonType == seasonType)
@@ -236,22 +239,9 @@ namespace HockeyStats
                 secondTable.AddPlayerByPlayerStats(existingPlayerStats);
 
                 thirdTable.ClearTable();
-                thirdTable.AddPlayerByPlayerStats(existingPlayerStats);
+                thirdTable.AddPlayerByPlayerStats(existingPlayerStats, currentSeasonType);
 
-                // Change color of draft year in third table
-                foreach (DataGridViewRow DGVRow in thirdTableDGV.Rows)
-                {
-                    string season = DGVRow.Cells[Constants.SEASON].Value.ToString();
-                    string endYear = (season != String.Empty) ? season.Substring(5) : String.Empty;
-                    if (endYear == existingPlayerStats.GetDraftYear())
-                    {
-                        DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.Khaki;
-                    }
-                    else if (endYear == existingPlayerStats.GetFirstYearOfDraftEligibility())
-                    {
-                        DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.LightGreen;
-                    }
-                }
+                HighlightDraftRowsInThirdTable(existingPlayerStats);
             });
         }
 
@@ -302,6 +292,41 @@ namespace HockeyStats
                     column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
+        }
+
+        private void HighlightDraftRowsInThirdTable(PlayerStats playerStats)
+        {
+            foreach (DataGridViewRow DGVRow in thirdTableDGV.Rows)
+            {
+                string season = DGVRow.Cells[Constants.SEASON].Value.ToString();
+                string endYear = (season != String.Empty) ? season.Substring(5) : String.Empty;
+                if (endYear == playerStats.GetDraftYear())
+                {
+                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.Khaki;
+                }
+                else if (endYear == playerStats.GetFirstYearOfDraftEligibility())
+                {
+                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.LightGreen;
+                }
+            }
+        }
+
+        private void ResetRowColors()
+        {
+            if (currentSeasonType == Constants.REGULAR_SEASON)
+            {
+                firstTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+                secondTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+                thirdTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+            }
+            else if (currentSeasonType == Constants.PLAYOFFS)
+            {
+                firstTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+                secondTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+                thirdTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+            }
+
+            HighlightDraftRowsInThirdTable(thirdTable.GetPlayerStats());
         }
     }
 }

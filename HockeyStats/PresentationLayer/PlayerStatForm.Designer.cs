@@ -33,6 +33,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.firstTableDGV = new System.Windows.Forms.DataGridView();
             this.addPlayerButton = new System.Windows.Forms.Button();
             this.addPlayerTextbox = new System.Windows.Forms.TextBox();
@@ -44,6 +45,7 @@
             this.createListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addRemoveColumnDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSeasonDropDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectSeasonTypeDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.removeSelectedPlayerButton = new System.Windows.Forms.Button();
@@ -51,7 +53,6 @@
             this.secondTableDGV = new System.Windows.Forms.DataGridView();
             this.thirdTableDGV = new System.Windows.Forms.DataGridView();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.selectSeasonTypeDropDown = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.firstTableDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -98,7 +99,7 @@
             // 
             // addPlayerButton
             // 
-            this.addPlayerButton.Location = new System.Drawing.Point(143, 3);
+            this.addPlayerButton.Location = new System.Drawing.Point(142, 3);
             this.addPlayerButton.Name = "addPlayerButton";
             this.addPlayerButton.Size = new System.Drawing.Size(75, 20);
             this.addPlayerButton.TabIndex = 1;
@@ -110,7 +111,7 @@
             this.addPlayerTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.addPlayerTextbox.Location = new System.Drawing.Point(3, 3);
             this.addPlayerTextbox.Name = "addPlayerTextbox";
-            this.addPlayerTextbox.Size = new System.Drawing.Size(134, 20);
+            this.addPlayerTextbox.Size = new System.Drawing.Size(133, 20);
             this.addPlayerTextbox.TabIndex = 2;
             // 
             // splitContainer1
@@ -191,6 +192,13 @@
             this.selectSeasonDropDown.Size = new System.Drawing.Size(90, 20);
             this.selectSeasonDropDown.Text = "Select Season";
             // 
+            // selectSeasonTypeDropDown
+            // 
+            this.selectSeasonTypeDropDown.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.selectSeasonTypeDropDown.Name = "selectSeasonTypeDropDown";
+            this.selectSeasonTypeDropDown.Size = new System.Drawing.Size(118, 20);
+            this.selectSeasonTypeDropDown.Text = "Select Season Type";
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
@@ -212,7 +220,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.06024F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.93976F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 148F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 149F));
             this.tableLayoutPanel2.Controls.Add(this.addPlayerButton, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.addPlayerTextbox, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.removeSelectedPlayerButton, 2, 0);
@@ -228,7 +236,7 @@
             // removeSelectedPlayerButton
             // 
             this.removeSelectedPlayerButton.Enabled = false;
-            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(932, 3);
+            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(931, 3);
             this.removeSelectedPlayerButton.Name = "removeSelectedPlayerButton";
             this.removeSelectedPlayerButton.Size = new System.Drawing.Size(132, 20);
             this.removeSelectedPlayerButton.TabIndex = 3;
@@ -286,18 +294,19 @@
             this.thirdTableDGV.AllowUserToAddRows = false;
             this.thirdTableDGV.AllowUserToDeleteRows = false;
             this.thirdTableDGV.AllowUserToOrderColumns = true;
-            this.thirdTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.LightGray;
+            this.thirdTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
             this.thirdTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.thirdTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.thirdTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.thirdTableDGV.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.thirdTableDGV.DefaultCellStyle = dataGridViewCellStyle6;
             this.thirdTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.thirdTableDGV.Location = new System.Drawing.Point(0, 0);
             this.thirdTableDGV.Name = "thirdTableDGV";
@@ -305,13 +314,6 @@
             this.thirdTableDGV.RowHeadersVisible = false;
             this.thirdTableDGV.Size = new System.Drawing.Size(710, 463);
             this.thirdTableDGV.TabIndex = 3;
-            // 
-            // selectSeasonTypeDropDown
-            // 
-            this.selectSeasonTypeDropDown.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.selectSeasonTypeDropDown.Name = "selectSeasonTypeDropDown";
-            this.selectSeasonTypeDropDown.Size = new System.Drawing.Size(118, 20);
-            this.selectSeasonTypeDropDown.Text = "Select Season Type";
             // 
             // PlayerStatForm
             // 

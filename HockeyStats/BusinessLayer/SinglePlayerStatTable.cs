@@ -8,6 +8,8 @@ namespace HockeyStats
 {
     public class SinglePlayerStatTable : PlayerStatTable
     {
+        private PlayerStats playerStats;
+
         public SinglePlayerStatTable(DataGridView dataGridView, List<string> columnData)
             : base(dataGridView, columnData)
         {
@@ -19,9 +21,26 @@ namespace HockeyStats
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;
         }
 
-        public void AddPlayerByPlayerStats(PlayerStats playerStats)
+        public void AddPlayerByPlayerStats(PlayerStats playerStats, string seasonType)
         {
-            List<Dictionary<string, string>> dynamicColumnValues = playerStats.GetDynamicColumnValues();
+            this.playerStats = playerStats;
+            UpdateRowData(seasonType);
+        }
+
+        public void ChangeSeasonType(string seasonType)
+        {
+            UpdateRowData(seasonType);
+        }
+
+        public PlayerStats GetPlayerStats()
+        {
+            return playerStats;
+        }
+
+        private void UpdateRowData(string seasonType)
+        {
+            dataTable.Rows.Clear();
+            List<Dictionary<string, string>> dynamicColumnValues = playerStats.GetDynamicColumnValues(seasonType);
             foreach (Dictionary<string, string> dictOfDynamicColumnValues in dynamicColumnValues)
             {
                 AddRowToDataTable(dictOfDynamicColumnValues);
