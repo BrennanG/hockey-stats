@@ -108,6 +108,11 @@ namespace HockeyStats
             }
         }
 
+        public bool ThreadIsRunning()
+        {
+            return fillDataTableThread.ThreadState == ThreadState.Running;
+        }
+
         public static DataRow GetDataRowFromDGVRow(DataGridViewRow dgvRow)
         {
             return ((DataRowView)dgvRow.DataBoundItem).Row;

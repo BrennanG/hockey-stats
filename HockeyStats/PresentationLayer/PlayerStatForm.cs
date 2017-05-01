@@ -87,6 +87,11 @@ namespace HockeyStats
             saveFileDialog.Title = "Save Player List";
             saveListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
+                if (firstTable.ThreadIsRunning())
+                {
+                    MessageBox.Show("You must wait until all players are loaded before saving.");
+                    return;
+                }
                 saveFileDialog.FileName = playerList.listName;
                 DialogResult result = saveFileDialog.ShowDialog();
                 if (result == DialogResult.OK || result == DialogResult.Yes)
@@ -199,9 +204,16 @@ namespace HockeyStats
                 int junk;
                 if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
                 {
-                    addPlayerTextbox.Text = "Loading player...";
-                    firstTable.AddPlayerById(playerId);
-                    addPlayerTextbox.Text = String.Empty;
+                    if (firstTable.ThreadIsRunning())
+                    {
+                        MessageBox.Show("You must wait until all players are loaded before adding another.");
+                    }
+                    else
+                    {
+                        addPlayerTextbox.Text = "Loading player...";
+                        firstTable.AddPlayerById(playerId);
+                        addPlayerTextbox.Text = String.Empty;
+                    }
                 }
             });
         }
