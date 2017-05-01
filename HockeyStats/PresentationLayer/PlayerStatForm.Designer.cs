@@ -34,7 +34,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.firstTableDGV = new System.Windows.Forms.DataGridView();
+            this.topTableDGV = new System.Windows.Forms.DataGridView();
             this.addPlayerButton = new System.Windows.Forms.Button();
             this.addPlayerTextbox = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -50,10 +50,10 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.removeSelectedPlayerButton = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.secondTableDGV = new System.Windows.Forms.DataGridView();
-            this.thirdTableDGV = new System.Windows.Forms.DataGridView();
+            this.leftTableDGV = new System.Windows.Forms.DataGridView();
+            this.rightTableDGV = new System.Windows.Forms.DataGridView();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            ((System.ComponentModel.ISupportInitialize)(this.firstTableDGV)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.topTableDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -65,20 +65,20 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.secondTableDGV)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thirdTableDGV)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.leftTableDGV)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rightTableDGV)).BeginInit();
             this.SuspendLayout();
             // 
-            // firstTableDGV
+            // topTableDGV
             // 
-            this.firstTableDGV.AllowUserToAddRows = false;
-            this.firstTableDGV.AllowUserToDeleteRows = false;
-            this.firstTableDGV.AllowUserToOrderColumns = true;
+            this.topTableDGV.AllowUserToAddRows = false;
+            this.topTableDGV.AllowUserToDeleteRows = false;
+            this.topTableDGV.AllowUserToOrderColumns = true;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            this.firstTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.firstTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.firstTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.firstTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.topTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.topTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.topTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.topTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -86,16 +86,16 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.firstTableDGV.DefaultCellStyle = dataGridViewCellStyle2;
-            this.firstTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.firstTableDGV.Location = new System.Drawing.Point(0, 24);
-            this.firstTableDGV.MultiSelect = false;
-            this.firstTableDGV.Name = "firstTableDGV";
-            this.firstTableDGV.ReadOnly = true;
-            this.firstTableDGV.RowHeadersVisible = false;
-            this.firstTableDGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.firstTableDGV.Size = new System.Drawing.Size(1084, 326);
-            this.firstTableDGV.TabIndex = 0;
+            this.topTableDGV.DefaultCellStyle = dataGridViewCellStyle2;
+            this.topTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.topTableDGV.Location = new System.Drawing.Point(0, 24);
+            this.topTableDGV.MultiSelect = false;
+            this.topTableDGV.Name = "topTableDGV";
+            this.topTableDGV.ReadOnly = true;
+            this.topTableDGV.RowHeadersVisible = false;
+            this.topTableDGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.topTableDGV.Size = new System.Drawing.Size(1084, 326);
+            this.topTableDGV.TabIndex = 0;
             // 
             // addPlayerButton
             // 
@@ -124,7 +124,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.listNameLabel);
-            this.splitContainer1.Panel1.Controls.Add(this.firstTableDGV);
+            this.splitContainer1.Panel1.Controls.Add(this.topTableDGV);
             this.splitContainer1.Panel1.Controls.Add(this.menuStrip1);
             // 
             // splitContainer1.Panel2
@@ -220,7 +220,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.06024F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.93976F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 149F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel2.Controls.Add(this.addPlayerButton, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.addPlayerTextbox, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.removeSelectedPlayerButton, 2, 0);
@@ -236,7 +236,7 @@
             // removeSelectedPlayerButton
             // 
             this.removeSelectedPlayerButton.Enabled = false;
-            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(931, 3);
+            this.removeSelectedPlayerButton.Location = new System.Drawing.Point(930, 3);
             this.removeSelectedPlayerButton.Name = "removeSelectedPlayerButton";
             this.removeSelectedPlayerButton.Size = new System.Drawing.Size(132, 20);
             this.removeSelectedPlayerButton.TabIndex = 3;
@@ -251,27 +251,27 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.secondTableDGV);
+            this.splitContainer2.Panel1.Controls.Add(this.leftTableDGV);
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.thirdTableDGV);
+            this.splitContainer2.Panel2.Controls.Add(this.rightTableDGV);
             this.splitContainer2.Size = new System.Drawing.Size(1078, 463);
             this.splitContainer2.SplitterDistance = 358;
             this.splitContainer2.SplitterWidth = 10;
             this.splitContainer2.TabIndex = 1;
             // 
-            // secondTableDGV
+            // leftTableDGV
             // 
-            this.secondTableDGV.AllowUserToAddRows = false;
-            this.secondTableDGV.AllowUserToDeleteRows = false;
-            this.secondTableDGV.AllowUserToOrderColumns = true;
-            this.secondTableDGV.AllowUserToResizeColumns = false;
+            this.leftTableDGV.AllowUserToAddRows = false;
+            this.leftTableDGV.AllowUserToDeleteRows = false;
+            this.leftTableDGV.AllowUserToOrderColumns = true;
+            this.leftTableDGV.AllowUserToResizeColumns = false;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
-            this.secondTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.secondTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.secondTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.secondTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.leftTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.leftTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.leftTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.leftTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -279,26 +279,26 @@
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.secondTableDGV.DefaultCellStyle = dataGridViewCellStyle4;
-            this.secondTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.secondTableDGV.Location = new System.Drawing.Point(0, 0);
-            this.secondTableDGV.Name = "secondTableDGV";
-            this.secondTableDGV.ReadOnly = true;
-            this.secondTableDGV.RowHeadersVisible = false;
-            this.secondTableDGV.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.secondTableDGV.Size = new System.Drawing.Size(358, 463);
-            this.secondTableDGV.TabIndex = 4;
+            this.leftTableDGV.DefaultCellStyle = dataGridViewCellStyle4;
+            this.leftTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.leftTableDGV.Location = new System.Drawing.Point(0, 0);
+            this.leftTableDGV.Name = "leftTableDGV";
+            this.leftTableDGV.ReadOnly = true;
+            this.leftTableDGV.RowHeadersVisible = false;
+            this.leftTableDGV.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.leftTableDGV.Size = new System.Drawing.Size(358, 463);
+            this.leftTableDGV.TabIndex = 4;
             // 
-            // thirdTableDGV
+            // rightTableDGV
             // 
-            this.thirdTableDGV.AllowUserToAddRows = false;
-            this.thirdTableDGV.AllowUserToDeleteRows = false;
-            this.thirdTableDGV.AllowUserToOrderColumns = true;
+            this.rightTableDGV.AllowUserToAddRows = false;
+            this.rightTableDGV.AllowUserToDeleteRows = false;
+            this.rightTableDGV.AllowUserToOrderColumns = true;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.LightGray;
-            this.thirdTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            this.thirdTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.thirdTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.thirdTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.rightTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.rightTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.rightTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.rightTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -306,14 +306,14 @@
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.thirdTableDGV.DefaultCellStyle = dataGridViewCellStyle6;
-            this.thirdTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.thirdTableDGV.Location = new System.Drawing.Point(0, 0);
-            this.thirdTableDGV.Name = "thirdTableDGV";
-            this.thirdTableDGV.ReadOnly = true;
-            this.thirdTableDGV.RowHeadersVisible = false;
-            this.thirdTableDGV.Size = new System.Drawing.Size(710, 463);
-            this.thirdTableDGV.TabIndex = 3;
+            this.rightTableDGV.DefaultCellStyle = dataGridViewCellStyle6;
+            this.rightTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rightTableDGV.Location = new System.Drawing.Point(0, 0);
+            this.rightTableDGV.Name = "rightTableDGV";
+            this.rightTableDGV.ReadOnly = true;
+            this.rightTableDGV.RowHeadersVisible = false;
+            this.rightTableDGV.Size = new System.Drawing.Size(710, 463);
+            this.rightTableDGV.TabIndex = 3;
             // 
             // PlayerStatForm
             // 
@@ -326,7 +326,7 @@
             this.MaximizeBox = false;
             this.Name = "PlayerStatForm";
             this.Text = "Hockey Stats";
-            ((System.ComponentModel.ISupportInitialize)(this.firstTableDGV)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.topTableDGV)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -341,23 +341,23 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.secondTableDGV)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thirdTableDGV)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.leftTableDGV)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rightTableDGV)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView firstTableDGV;
+        private System.Windows.Forms.DataGridView topTableDGV;
         private System.Windows.Forms.Button addPlayerButton;
         private System.Windows.Forms.TextBox addPlayerTextbox;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.DataGridView thirdTableDGV;
-        private System.Windows.Forms.DataGridView secondTableDGV;
+        private System.Windows.Forms.DataGridView rightTableDGV;
+        private System.Windows.Forms.DataGridView leftTableDGV;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem loadListDropDown;
         private System.Windows.Forms.ToolStripMenuItem createListToolStripMenuItem;

@@ -16,9 +16,9 @@ namespace HockeyStats
         private const string defaultPlayerList = "bluesProspectsShort";
         
         PlayerList playerList = new PlayerList();
-        private MultiPlayerStatTable firstTable;
-        private PlayerConstantStatTable secondTable;
-        private SinglePlayerStatTable thirdTable;
+        private MultiPlayerStatTable topTable;
+        private PlayerConstantStatTable leftTable;
+        private SinglePlayerStatTable rightTable;
         private string currentDisplaySeason;
         private string currentSeasonType;
 
@@ -46,11 +46,11 @@ namespace HockeyStats
             currentDisplaySeason = playerList.displaySeason;
             currentSeasonType = playerList.seasonType;
             listNameLabel.Text = playerList.listName;
-            if (firstTable != null) { firstTable.AbortFillDataTableThread(); }
+            if (topTable != null) { topTable.AbortFillDataTableThread(); }
 
-            firstTable = new MultiPlayerStatTable(firstTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason, playerList.seasonType);
-            secondTable = new PlayerConstantStatTable(secondTableDGV);
-            thirdTable = new SinglePlayerStatTable(thirdTableDGV, playerList.secondaryColumnNames);
+            topTable = new MultiPlayerStatTable(topTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason, playerList.seasonType);
+            leftTable = new PlayerConstantStatTable(leftTableDGV);
+            rightTable = new SinglePlayerStatTable(rightTableDGV, playerList.secondaryColumnNames);
 
             RedrawPrimaryColumnWidths();
             RedrawSecondaryColumnWidths();
@@ -87,7 +87,7 @@ namespace HockeyStats
             saveFileDialog.Title = "Save Player List";
             saveListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                if (firstTable.ThreadIsRunning())
+                if (topTable.ThreadIsRunning())
                 {
                     MessageBox.Show("You must wait until all players are loaded before saving.");
                     return;
@@ -101,10 +101,10 @@ namespace HockeyStats
                     playerList.SetListName(listName);
                     playerList.SetSeasonType(currentSeasonType);
                     playerList.SetDisplaySeason(currentDisplaySeason);
-                    playerList.SetPlayerIds(firstTable.GetPlayerIds());
-                    playerList.SetPrimaryColumns(firstTableDGV.Columns);
-                    playerList.SetPrimaryColumnWidths(firstTableDGV.Columns);
-                    playerList.SetSecondaryColumnWidths(thirdTableDGV.Columns);
+                    playerList.SetPlayerIds(topTable.GetPlayerIds());
+                    playerList.SetPrimaryColumns(topTableDGV.Columns);
+                    playerList.SetPrimaryColumnWidths(topTableDGV.Columns);
+                    playerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
                     Serializer.WritePlayerList<PlayerList>(playerList, fileName);
                     RefreshDropDownLists();
                 }
@@ -130,8 +130,8 @@ namespace HockeyStats
             foreach (string seasonType in Constants.SeasonTypes)
             {
                 EventHandler selectSeasonTypeHandler = new EventHandler((object sender, EventArgs e) => {
-                    firstTable.ChangeSeasonType(seasonType);
-                    thirdTable.ChangeSeasonType(seasonType);
+                    topTable.ChangeSeasonType(seasonType);
+                    rightTable.ChangeSeasonType(seasonType);
                     currentSeasonType = seasonType;
                     RefreshDropDownLists();
                     ResetRowColors();
@@ -158,7 +158,7 @@ namespace HockeyStats
             {
                 string season = String.Format("{0}-{1}", startYear - i, endYear - i);
                 EventHandler selectSeasonHandler = new EventHandler((object sender, EventArgs e) => {
-                    firstTable.ChangeDisplaySeason(season);
+                    topTable.ChangeDisplaySeason(season);
                     currentDisplaySeason = season;
                     RefreshDropDownLists();
                 });
@@ -180,17 +180,17 @@ namespace HockeyStats
                     ToolStripMenuItem dropDownItem = (ToolStripMenuItem)sender;
                     if (dropDownItem.Checked)
                     {
-                        firstTable.RemoveColumn(dropDownItem.Text);
+                        topTable.RemoveColumn(dropDownItem.Text);
                     }
                     else
                     {
-                        firstTable.AddColumn(dropDownItem.Text, currentDisplaySeason);
+                        topTable.AddColumn(dropDownItem.Text, currentDisplaySeason);
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
                     RedrawPrimaryColumnWidths();
                 });
                 dropDownItems.Add(columnName, null, selectColumnHandler);
-                if (firstTable.ContainsColumn(columnName))
+                if (topTable.ContainsColumn(columnName))
                 {
                     ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
                 }
@@ -204,14 +204,14 @@ namespace HockeyStats
                 int junk;
                 if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
                 {
-                    if (firstTable.ThreadIsRunning())
+                    if (topTable.ThreadIsRunning())
                     {
                         MessageBox.Show("You must wait until all players are loaded before adding another.");
                     }
                     else
                     {
                         addPlayerTextbox.Text = "Loading player...";
-                        firstTable.AddPlayerById(playerId);
+                        topTable.AddPlayerById(playerId);
                         addPlayerTextbox.Text = String.Empty;
                     }
                 }
@@ -221,17 +221,17 @@ namespace HockeyStats
         private void SetupRemoveSelectedPlayerButton()
         {
             // Enabling and disabling the button
-            firstTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
-                removeSelectedPlayerButton.Enabled = (firstTableDGV.SelectedRows.Count == 1);
+            topTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
+                removeSelectedPlayerButton.Enabled = (topTableDGV.SelectedRows.Count == 1);
             });
 
             // Adding logic to the button
             removeSelectedPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
-                if (firstTableDGV.SelectedRows.Count != 1) { return; }
+                if (topTableDGV.SelectedRows.Count != 1) { return; }
 
-                int rowIndex = firstTableDGV.SelectedRows[0].Index;
-                DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(firstTableDGV.Rows[rowIndex]);
-                firstTable.RemoveRow(row);
+                int rowIndex = topTableDGV.SelectedRows[0].Index;
+                DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(topTableDGV.Rows[rowIndex]);
+                topTable.RemoveRow(row);
 
                 ClearPlayerSelection();
             });
@@ -239,19 +239,19 @@ namespace HockeyStats
 
         private void SetupShowSelectedPlayer()
         {
-            firstTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
-                if (firstTableDGV.SelectedRows.Count != 1 || firstTableDGV.Rows.Count < 1) { return; }
-                int rowIndex = firstTableDGV.SelectedRows[0].Index;
+            topTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
+                if (topTableDGV.SelectedRows.Count != 1 || topTableDGV.Rows.Count < 1) { return; }
+                int rowIndex = topTableDGV.SelectedRows[0].Index;
 
-                DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(firstTableDGV.Rows[rowIndex]);
-                PlayerStats existingPlayerStats = firstTable.GetPlayerStatsFromRow(row);
+                DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(topTableDGV.Rows[rowIndex]);
+                PlayerStats existingPlayerStats = topTable.GetPlayerStatsFromRow(row);
                 if (existingPlayerStats == null) { return; }
 
-                secondTable.ClearTable();
-                secondTable.AddPlayerByPlayerStats(existingPlayerStats);
+                leftTable.ClearTable();
+                leftTable.AddPlayerByPlayerStats(existingPlayerStats);
 
-                thirdTable.ClearTable();
-                thirdTable.AddPlayerByPlayerStats(existingPlayerStats, currentSeasonType);
+                rightTable.ClearTable();
+                rightTable.AddPlayerByPlayerStats(existingPlayerStats, currentSeasonType);
 
                 HighlightDraftRowsInThirdTable(existingPlayerStats);
             });
@@ -259,9 +259,9 @@ namespace HockeyStats
 
         private void ClearPlayerSelection()
         {
-            firstTableDGV.ClearSelection();
-            secondTable.ClearTable();
-            thirdTable.ClearTable();
+            topTableDGV.ClearSelection();
+            leftTable.ClearTable();
+            rightTable.ClearTable();
         }
 
         private void RefreshDropDownLists()
@@ -274,10 +274,10 @@ namespace HockeyStats
 
         private void RedrawPrimaryColumnWidths()
         {
-            foreach (DataGridViewColumn column in firstTableDGV.Columns)
+            foreach (DataGridViewColumn column in topTableDGV.Columns)
             {
                 int width = playerList.GetPrimaryColumnWidth(column.Name);
-                if (column.DisplayIndex != firstTableDGV.Columns.Count - 1 && width >= 0)
+                if (column.DisplayIndex != topTableDGV.Columns.Count - 1 && width >= 0)
                 {
                     column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                     column.Width = width;
@@ -291,10 +291,10 @@ namespace HockeyStats
 
         private void RedrawSecondaryColumnWidths()
         {
-            foreach (DataGridViewColumn column in thirdTableDGV.Columns)
+            foreach (DataGridViewColumn column in rightTableDGV.Columns)
             {
                 int width = playerList.GetSecondaryColumnWidth(column.Name);
-                if (column.DisplayIndex != thirdTableDGV.Columns.Count - 1 && width >= 0)
+                if (column.DisplayIndex != rightTableDGV.Columns.Count - 1 && width >= 0)
                 {
                     column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                     column.Width = width;
@@ -308,7 +308,7 @@ namespace HockeyStats
 
         private void HighlightDraftRowsInThirdTable(PlayerStats playerStats)
         {
-            foreach (DataGridViewRow DGVRow in thirdTableDGV.Rows)
+            foreach (DataGridViewRow DGVRow in rightTableDGV.Rows)
             {
                 string season = DGVRow.Cells[Constants.SEASON].Value.ToString();
                 string endYear = (season != String.Empty) ? season.Substring(5) : String.Empty;
@@ -327,18 +327,18 @@ namespace HockeyStats
         {
             if (currentSeasonType == Constants.REGULAR_SEASON)
             {
-                firstTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
-                secondTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
-                thirdTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+                topTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+                leftTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+                rightTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
             }
             else if (currentSeasonType == Constants.PLAYOFFS)
             {
-                firstTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
-                secondTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
-                thirdTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+                topTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+                leftTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+                rightTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
             }
 
-            HighlightDraftRowsInThirdTable(thirdTable.GetPlayerStats());
+            HighlightDraftRowsInThirdTable(rightTable.GetPlayerStats());
         }
     }
 }
