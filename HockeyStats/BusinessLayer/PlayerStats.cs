@@ -121,7 +121,7 @@ namespace HockeyStats
 
         public string GetFirstYearOfDraftEligibility()
         {
-            if (!constantPlayerStats.ContainsKey(Constants.DATE_OF_BIRTH)) { return null; }
+            if (!constantPlayerStats.ContainsKey(Constants.DATE_OF_BIRTH) || String.IsNullOrEmpty(constantPlayerStats[Constants.DATE_OF_BIRTH])) { return null; }
             
             DateTime dateOfBirth = DateTime.Parse(constantPlayerStats[Constants.DATE_OF_BIRTH]);
             if (dateOfBirth.Month < 9 || (dateOfBirth.Month == 9 && dateOfBirth.Day <= 15))
@@ -173,7 +173,10 @@ namespace HockeyStats
             }
             foreach (string columnName in Constants.ConstantColumns)
             {
-                constantPlayerStats[columnName] = firstDictWithData[columnName];
+                if (firstDictWithData.ContainsKey(columnName))
+                {
+                    constantPlayerStats[columnName] = firstDictWithData[columnName];
+                }
             }
         }
 
@@ -203,7 +206,7 @@ namespace HockeyStats
                 {
                     getStatMap[columnName]();
                 }
-                catch (Exception) { /* Data was not found */}
+                catch (Exception) { /* Data was not found */ }
             }
         }
         
@@ -231,7 +234,7 @@ namespace HockeyStats
             map.Add(Constants.DRAFT_ROUND, () => draftDataParser.GetDraftRound(Constants.DRAFT_ROUND));
             map.Add(Constants.DRAFT_OVERALL, () => draftDataParser.GetDraftOverall(Constants.DRAFT_OVERALL));
             map.Add(Constants.DRAFT_TEAM, () => draftDataParser.GetDraftTeamName(Constants.DRAFT_TEAM));
-            map.Add(Constants.ID, () => statLineParser.GetId(Constants.ID));
+            //map.Add(Constants.ID, () => statLineParser.GetId(Constants.ID));
             return map;
         }
     }

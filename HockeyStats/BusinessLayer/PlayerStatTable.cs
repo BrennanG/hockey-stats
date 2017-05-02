@@ -31,6 +31,11 @@ namespace HockeyStats
             return false;
         }
 
+        public static DataRow GetDataRowFromDGVRow(DataGridViewRow dgvRow)
+        {
+            return ((DataRowView)dgvRow.DataBoundItem).Row;
+        }
+
         protected DataRow AddRowToDataTable(Dictionary<string, string> statDict)
         {
             string[] orderedRowValues = new string[dataTable.Columns.Count];

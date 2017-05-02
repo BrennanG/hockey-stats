@@ -61,7 +61,7 @@ namespace HockeyStats
             Constants.DRAFT_ROUND,
             Constants.DRAFT_OVERALL,
             Constants.DRAFT_TEAM,
-            Constants.ID
+            //Constants.ID
         };
 
         public static List<string> NumericColumns = new List<string>()
@@ -69,7 +69,7 @@ namespace HockeyStats
             Constants.DRAFT_YEAR,
             Constants.DRAFT_ROUND,
             Constants.DRAFT_OVERALL,
-            Constants.ID
+            //Constants.ID
         };
 
         public static List<string> DefaultPrimaryColumns = new List<string>()
@@ -88,8 +88,7 @@ namespace HockeyStats
             Constants.DRAFT_OVERALL,
             Constants.DRAFT_TEAM,
         };
-
-
+        
         public static List<string> DefaultSecondaryColumns = new List<string>()
         {
             Constants.SEASON,
@@ -108,7 +107,8 @@ namespace HockeyStats
             Constants.LAST_NAME,
             Constants.DATE_OF_BIRTH,
             Constants.LATEST_SEASON,
-            Constants.LATEST_TEAM
+            //Constants.LATEST_TEAM,
+            //Constants.ID
         };
 
         public static readonly List<string> ConstantColumns = new List<string>()
@@ -124,7 +124,7 @@ namespace HockeyStats
             Constants.DRAFT_ROUND,
             Constants.DRAFT_OVERALL,
             Constants.DRAFT_TEAM,
-            Constants.ID
+            //Constants.ID
         };
 
         public static readonly List<string> DynamicColumns = AllPossibleColumns.Where((string col) => !ConstantColumns.Contains(col)).ToList();

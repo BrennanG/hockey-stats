@@ -36,18 +36,41 @@ namespace HockeyStats
         public void GetDateOfBirth(string key)
         {
             string value = (string)searchData["dateOfBirth"];
+            if (value == null) { value = ""; }
+            AddToDict(key, value);
+        }
+
+        public void GetId(string key)
+        {
+            string value = (string)searchData["id"];
             AddToDict(key, value);
         }
 
         public void GetLatestSeason(string key)
         {
-            string value = (string)latestPlayerStats["season"]["name"];
+            string value;
+            try
+            {
+                value = (string)latestPlayerStats["season"]["name"];
+            }
+            catch
+            {
+                value = "";
+            }
             AddToDict(key, value);
         }
 
         public void GetLatestTeam(string key)
         {
-            string value = (string)latestPlayerStats["team"]["name"];
+            string value;
+            try
+            {
+                value = (string)latestPlayerStats["team"]["name"];
+            }
+            catch
+            {
+                value = "";
+            }
             AddToDict(key, value);
         }
     }

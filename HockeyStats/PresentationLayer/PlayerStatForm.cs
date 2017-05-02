@@ -37,6 +37,8 @@ namespace HockeyStats
             SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
             SetupSearchPlayerButton();
+            SetupClearSearchButton();
+            SetupAddSelectedPlayerButton();
             SetupRemoveSelectedPlayerButton();
             SetupShowSelectedPlayer();
         }
@@ -50,7 +52,7 @@ namespace HockeyStats
             if (topTable != null) { topTable.AbortFillDataTableThread(); }
 
             topTable = new MultiPlayerStatTable(topTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason, playerList.seasonType);
-            leftTable = new SearchDataStatTable(leftTableDGV, Constants.DefaultSearchDataTableColumns);
+            if (leftTable == null) { leftTable = new SearchDataStatTable(leftTableDGV, Constants.DefaultSearchDataTableColumns); }
             middleTable = new PlayerConstantsStatTable(middleTableDGV);
             rightTable = new SinglePlayerStatTable(rightTableDGV, playerList.secondaryColumnNames);
 
@@ -202,24 +204,60 @@ namespace HockeyStats
         private void SetupSearchPlayerButton()
         {
             searchPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
-                //string playerId = searchPlayerTextbox.Text;
-                //int junk;
-                //if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
-                //{
-                //    if (topTable.ThreadIsRunning())
-                //    {
-                //        MessageBox.Show("You must wait until all players are loaded before adding another.");
-                //    }
-                //    else
-                //    {
-                //        searchPlayerTextbox.Text = "Loading player...";
-                //        topTable.AddPlayerById(playerId);
-                //        searchPlayerTextbox.Text = String.Empty;
-                //    }
-                //}
-
                 string playerName = searchPlayerTextbox.Text;
-                leftTable.SearchPlayer(playerName);
+                if (String.IsNullOrWhiteSpace(playerName))
+                {
+                    MessageBox.Show("Invalid Search.");
+                    searchPlayerTextbox.Text = "";
+                }
+                else
+                {
+                    searchPlayerTextbox.Text = "Searching...";
+                    bool successful = leftTable.DisplayPlayerSearch(playerName);
+                    if (!successful)
+                    {
+                        MessageBox.Show("No Results Found.");
+                    }
+                    searchPlayerTextbox.Text = "";
+                }
+            });
+        }
+
+        private void SetupClearSearchButton()
+        {
+            clearSearchButton.Click += new EventHandler((object sender, EventArgs e) => {
+                if (leftTableDGV.SelectedRows.Count == 1)
+                {
+                    middleTable.ClearTable();
+                    rightTable.ClearTable();
+                    ClearPlayerSelection();
+                }
+                leftTable.ClearTable();
+            });
+        }
+
+        private void SetupAddSelectedPlayerButton()
+        {
+            // Enabling and disabling the button
+            leftTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
+                addSelectedPlayerButton.Enabled = (leftTableDGV.SelectedRows.Count == 1);
+            });
+
+            // Adding logic to the button
+            addSelectedPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
+                if (leftTableDGV.SelectedRows.Count != 1) { return; }
+
+                if (topTable.ThreadIsRunning())
+                {
+                    MessageBox.Show("You must wait until all players are loaded before adding another.");
+                }
+                else
+                {
+                    int rowIndex = leftTableDGV.SelectedRows[0].Index;
+                    DataGridViewRow row = leftTableDGV.Rows[rowIndex];
+                    string playerId = leftTable.GetPlayerIdFromRow(row);
+                    topTable.AddPlayerById(playerId);
+                }
             });
         }
 
@@ -246,9 +284,10 @@ namespace HockeyStats
         {
             topTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
                 if (topTableDGV.SelectedRows.Count != 1 || topTableDGV.Rows.Count < 1) { return; }
+                leftTableDGV.ClearSelection();
                 int rowIndex = topTableDGV.SelectedRows[0].Index;
 
-                DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(topTableDGV.Rows[rowIndex]);
+                DataRow row = PlayerStatTable.GetDataRowFromDGVRow(topTableDGV.Rows[rowIndex]);
                 PlayerStats existingPlayerStats = topTable.GetPlayerStatsFromRow(row);
                 if (existingPlayerStats == null) { return; }
 
@@ -259,6 +298,24 @@ namespace HockeyStats
                 rightTable.AddPlayerByPlayerStats(existingPlayerStats, currentSeasonType);
 
                 HighlightDraftRowsInThirdTable(existingPlayerStats);
+            });
+
+            leftTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
+                if (leftTableDGV.SelectedRows.Count != 1 || leftTableDGV.Rows.Count < 1) { return; }
+                topTableDGV.ClearSelection();
+
+                int rowIndex = leftTableDGV.SelectedRows[0].Index;
+                DataGridViewRow row = leftTableDGV.Rows[rowIndex];
+                string playerId = leftTable.GetPlayerIdFromRow(row);
+                PlayerStats searchedPlayerStats = new PlayerStats(playerId);
+
+                middleTable.ClearTable();
+                middleTable.AddPlayerByPlayerStats(searchedPlayerStats);
+
+                rightTable.ClearTable();
+                rightTable.AddPlayerByPlayerStats(searchedPlayerStats, currentSeasonType);
+
+                HighlightDraftRowsInThirdTable(searchedPlayerStats);
             });
         }
 

@@ -119,7 +119,7 @@ namespace HockeyStats
             height = Convert.ToInt32(height * 0.3937007874); // Convert to pounds
             int feet = height / 12;
             int inches = height - (feet * 12);
-            AddToDict(key, feet.ToString() + "' " + inches.ToString() + "\"");
+            AddToDict(key, value: feet.ToString() + "' " + inches.ToString() + "\"");
         }
 
         public void GetWeight(string key)
@@ -133,9 +133,11 @@ namespace HockeyStats
 
         public void GetShootsOrCatches(string key)
         {
+            if (playerObj == null) { AddToDict(key, null); }
             string shoots = (string)playerObj["shoots"];
             string value = (shoots != null) ? shoots : (string)playerObj["catches"];
-            AddToDict(key, value[0].ToString());
+            value = (value == null) ? value : value[0].ToString();
+            AddToDict(key, value);
         }
 
         public void GetId(string key)

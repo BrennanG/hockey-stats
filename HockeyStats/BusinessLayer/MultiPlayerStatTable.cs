@@ -113,11 +113,6 @@ namespace HockeyStats
             return fillDataTableThread.ThreadState == ThreadState.Running;
         }
 
-        public static DataRow GetDataRowFromDGVRow(DataGridViewRow dgvRow)
-        {
-            return ((DataRowView)dgvRow.DataBoundItem).Row;
-        }
-
         private void UpdateRowData()
         {
             DataRow[] copyOfRows = new DataRow[dataTable.Rows.Count];
