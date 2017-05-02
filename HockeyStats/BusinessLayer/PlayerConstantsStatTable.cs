@@ -6,9 +6,9 @@ using System.Windows.Forms;
 
 namespace HockeyStats
 {
-    public class PlayerConstantStatTable : PlayerStatTable
+    public class PlayerConstantsStatTable : PlayerStatTable
     {
-        public PlayerConstantStatTable(DataGridView dataGridView)
+        public PlayerConstantsStatTable(DataGridView dataGridView)
             : base(dataGridView, new List<string>() { "Key", "Value" })
         {
             dataGridView.ColumnHeadersVisible = false;

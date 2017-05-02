@@ -17,7 +17,8 @@ namespace HockeyStats
         
         PlayerList playerList = new PlayerList();
         private MultiPlayerStatTable topTable;
-        private PlayerConstantStatTable leftTable;
+        private SearchDataStatTable leftTable;
+        private PlayerConstantsStatTable middleTable;
         private SinglePlayerStatTable rightTable;
         private string currentDisplaySeason;
         private string currentSeasonType;
@@ -35,7 +36,7 @@ namespace HockeyStats
             SetupSelectSeasonTypeButton();
             SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
-            SetupAddPlayerButton();
+            SetupSearchPlayerButton();
             SetupRemoveSelectedPlayerButton();
             SetupShowSelectedPlayer();
         }
@@ -49,7 +50,8 @@ namespace HockeyStats
             if (topTable != null) { topTable.AbortFillDataTableThread(); }
 
             topTable = new MultiPlayerStatTable(topTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason, playerList.seasonType);
-            leftTable = new PlayerConstantStatTable(leftTableDGV);
+            leftTable = new SearchDataStatTable(leftTableDGV, Constants.DefaultSearchDataTableColumns);
+            middleTable = new PlayerConstantsStatTable(middleTableDGV);
             rightTable = new SinglePlayerStatTable(rightTableDGV, playerList.secondaryColumnNames);
 
             RedrawPrimaryColumnWidths();
@@ -197,24 +199,27 @@ namespace HockeyStats
             }
         }
 
-        private void SetupAddPlayerButton()
+        private void SetupSearchPlayerButton()
         {
-            addPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
-                string playerId = addPlayerTextbox.Text;
-                int junk;
-                if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
-                {
-                    if (topTable.ThreadIsRunning())
-                    {
-                        MessageBox.Show("You must wait until all players are loaded before adding another.");
-                    }
-                    else
-                    {
-                        addPlayerTextbox.Text = "Loading player...";
-                        topTable.AddPlayerById(playerId);
-                        addPlayerTextbox.Text = String.Empty;
-                    }
-                }
+            searchPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
+                //string playerId = searchPlayerTextbox.Text;
+                //int junk;
+                //if (!playerId.Equals(String.Empty) && int.TryParse(playerId, out junk))
+                //{
+                //    if (topTable.ThreadIsRunning())
+                //    {
+                //        MessageBox.Show("You must wait until all players are loaded before adding another.");
+                //    }
+                //    else
+                //    {
+                //        searchPlayerTextbox.Text = "Loading player...";
+                //        topTable.AddPlayerById(playerId);
+                //        searchPlayerTextbox.Text = String.Empty;
+                //    }
+                //}
+
+                string playerName = searchPlayerTextbox.Text;
+                leftTable.SearchPlayer(playerName);
             });
         }
 
@@ -247,8 +252,8 @@ namespace HockeyStats
                 PlayerStats existingPlayerStats = topTable.GetPlayerStatsFromRow(row);
                 if (existingPlayerStats == null) { return; }
 
-                leftTable.ClearTable();
-                leftTable.AddPlayerByPlayerStats(existingPlayerStats);
+                middleTable.ClearTable();
+                middleTable.AddPlayerByPlayerStats(existingPlayerStats);
 
                 rightTable.ClearTable();
                 rightTable.AddPlayerByPlayerStats(existingPlayerStats, currentSeasonType);
@@ -260,7 +265,7 @@ namespace HockeyStats
         private void ClearPlayerSelection()
         {
             topTableDGV.ClearSelection();
-            leftTable.ClearTable();
+            middleTable.ClearTable();
             rightTable.ClearTable();
         }
 
@@ -328,13 +333,13 @@ namespace HockeyStats
             if (currentSeasonType == Constants.REGULAR_SEASON)
             {
                 topTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
-                leftTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+                middleTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
                 rightTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
             }
             else if (currentSeasonType == Constants.PLAYOFFS)
             {
                 topTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
-                leftTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+                middleTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
                 rightTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
             }
 

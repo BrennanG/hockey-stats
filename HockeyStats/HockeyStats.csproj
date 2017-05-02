@@ -52,11 +52,13 @@
   <ItemGroup>
     <Compile Include="BusinessLayer\Constants.cs" />
     <Compile Include="BusinessLayer\PlayerStats.cs" />
+    <Compile Include="BusinessLayer\SearchDataStatTable.cs" />
     <Compile Include="DataLayer\DraftDataParser.cs" />
     <Compile Include="DataLayer\EliteProspectsAPI.cs" />
     <Compile Include="BusinessLayer\MultiPlayerStatTable.cs" />
     <Compile Include="DataLayer\Parser.cs" />
-    <Compile Include="BusinessLayer\PlayerConstantStatTable.cs" />
+    <Compile Include="BusinessLayer\PlayerConstantsStatTable.cs" />
+    <Compile Include="DataLayer\SearchDataParser.cs" />
     <Compile Include="PresentationLayer\PlayerList.cs" />
     <Compile Include="PresentationLayer\PlayerStatForm.cs">
       <SubType>Form</SubType>

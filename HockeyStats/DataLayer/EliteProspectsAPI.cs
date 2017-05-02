@@ -17,6 +17,12 @@ namespace HockeyStats
             string requestString = "http://api.eliteprospects.com:80/beta/drafts?filter=player.id%3D" + playerId + "%26draftType.name%3DNHL%20Entry%20Draft&sort=year";
             return GetEliteProspectsData(requestString);
         }
+        
+        public static JObject SearchPlayer(string playerName)
+        {
+            string requestString = "http://api.eliteprospects.com:80/beta/search?q=" + playerName +"&type=player&limit=25";
+            return GetEliteProspectsData(requestString);
+        }
 
         private static JObject GetEliteProspectsData(string requestString)
         {

@@ -15,11 +15,11 @@ namespace HockeyStats
         {
             if (data == null)
             {
-                this.draftData = null;
+                draftData = null;
             }
             else
             {
-                this.draftData = data.First;
+                draftData = data.First;
                 draftTeamObj = (JObject)draftData["team"];
             }
         }

@@ -12,6 +12,9 @@ namespace HockeyStats
         public static readonly string REGULAR_SEASON = "Regular Season";
         public static readonly string PLAYOFFS = "Playoffs";
 
+        public static readonly string LATEST_SEASON = "Latest Season";
+        public static readonly string LATEST_TEAM = "Latest Team";
+
         public static readonly string FIRST_NAME = "First Name";
         public static readonly string LAST_NAME = "Last Name";
         public static readonly string GAMES_PLAYED = "Games Played";
@@ -96,8 +99,16 @@ namespace HockeyStats
             Constants.TOTAL_POINTS,
             Constants.PPG,
             Constants.LEAGUE,
-            Constants.TEAM,
+            Constants.TEAM
+        };
 
+        public static List<string> DefaultSearchDataTableColumns = new List<string>()
+        {
+            Constants.FIRST_NAME,
+            Constants.LAST_NAME,
+            Constants.DATE_OF_BIRTH,
+            Constants.LATEST_SEASON,
+            Constants.LATEST_TEAM
         };
 
         public static readonly List<string> ConstantColumns = new List<string>()
