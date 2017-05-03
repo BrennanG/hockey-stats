@@ -7,6 +7,7 @@ namespace HockeyStats
 {
     public static class Constants
     {
+        public static readonly string FILENAME_SUFFIX = ".playerList.xml";
         public static readonly string DEFAULT_LIST_NAME = "NewList";
 
         public static readonly string REGULAR_SEASON = "Regular Season";

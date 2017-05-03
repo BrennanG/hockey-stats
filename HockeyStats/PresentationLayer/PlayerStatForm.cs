@@ -12,8 +12,7 @@ namespace HockeyStats
 {
     public partial class PlayerStatForm : Form
     {
-        private const string FILENAME_SUFFIX = ".playerList.xml";
-        private const string defaultPlayerList = "bluesProspectsShort";
+        private const string defaultPlayerListName = "bluesProspectsShort";
         
         PlayerList playerList = new PlayerList();
         private MultiPlayerStatTable topTable;
@@ -27,8 +26,8 @@ namespace HockeyStats
         {
             InitializeComponent();
 
-            PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>(defaultPlayerList + FILENAME_SUFFIX);
-            LoadPlayerList(playerListToLoad);
+            PlayerList defaultPlayerList = Serializer.ReadPlayerList<PlayerList>(defaultPlayerListName + Constants.FILENAME_SUFFIX);
+            LoadPlayerList(defaultPlayerList);
             
             SetupLoadListDropDown();
             SetupSaveListButton();
@@ -65,14 +64,14 @@ namespace HockeyStats
         {
             ToolStripItemCollection dropDownItems = loadListDropDown.DropDownItems;
             dropDownItems.Clear();
-            string[] playerListFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*" + FILENAME_SUFFIX);
+            string[] playerListFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*" + Constants.FILENAME_SUFFIX);
             foreach (string fileWithPath in playerListFiles)
             {
                 // Get the name without the file path or suffix
                 string file = Path.GetFileName(fileWithPath);
-                string listName = file.Substring(0, file.Length - FILENAME_SUFFIX.Length);
+                string listName = file.Substring(0, file.Length - Constants.FILENAME_SUFFIX.Length);
 
-                PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>(listName + FILENAME_SUFFIX);
+                PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>(listName + Constants.FILENAME_SUFFIX);
                 EventHandler selectPlayerListHandler = new EventHandler((object sender, EventArgs e) => {
                     LoadPlayerList(playerListToLoad);
                     RefreshDropDownLists();
@@ -87,7 +86,7 @@ namespace HockeyStats
 
         private void SetupSaveListButton()
         {
-            saveFileDialog.Filter = "Player List XML|*" + FILENAME_SUFFIX;
+            saveFileDialog.Filter = "Player List XML|*" + Constants.FILENAME_SUFFIX;
             saveFileDialog.Title = "Save Player List";
             saveListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
@@ -101,7 +100,7 @@ namespace HockeyStats
                 if (result == DialogResult.OK || result == DialogResult.Yes)
                 {
                     string fileName = saveFileDialog.FileName;
-                    string listName = Path.GetFileName(fileName).Substring(0, Path.GetFileName(fileName).Length - FILENAME_SUFFIX.Length);
+                    string listName = Path.GetFileName(fileName).Substring(0, Path.GetFileName(fileName).Length - Constants.FILENAME_SUFFIX.Length);
                     playerList.SetListName(listName);
                     playerList.SetSeasonType(currentSeasonType);
                     playerList.SetDisplaySeason(currentDisplaySeason);
