@@ -7,6 +7,8 @@ namespace HockeyStats
 {
     public static class Constants
     {
+        public static readonly string ARE_YOU_SURE_LEAVE_MESSAGE = "This list has unsaved changes. Are you sure you want to leave?";
+
         public static readonly string FILENAME_SUFFIX = ".playerList.xml";
         public static readonly string DEFAULT_LIST_NAME = "NewList";
 

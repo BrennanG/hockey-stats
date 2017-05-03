@@ -21,6 +21,7 @@ namespace HockeyStats
         private SinglePlayerStatTable rightTable;
         private string currentDisplaySeason;
         private string currentSeasonType;
+        private bool listIsSaved;
 
         public PlayerStatForm()
         {
@@ -40,6 +41,7 @@ namespace HockeyStats
             SetupAddSelectedPlayerButton();
             SetupRemoveSelectedPlayerButton();
             SetupShowSelectedPlayer();
+            SetupFormClosingHandler();
         }
 
         private void LoadPlayerList(PlayerList playerListToLoad)
@@ -58,6 +60,8 @@ namespace HockeyStats
             RedrawPrimaryColumnWidths();
             RedrawSecondaryColumnWidths();
             RedrawRowColors();
+
+            SetListIsSaved(true);
         }
 
         private void SetupLoadListDropDown()
@@ -73,9 +77,14 @@ namespace HockeyStats
 
                 PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>(listName + Constants.FILENAME_SUFFIX);
                 EventHandler selectPlayerListHandler = new EventHandler((object sender, EventArgs e) => {
-                    LoadPlayerList(playerListToLoad);
-                    RefreshDropDownLists();
+                    Action LoadPlayer = () => {
+                        LoadPlayerList(playerListToLoad);
+                        RefreshDropDownLists();
+                    };
+
+                    TriggerLeaveRequest(LoadPlayer);
                 });
+
                 dropDownItems.Add(listName, null, selectPlayerListHandler);
                 if (playerList.listName == listName)
                 {
@@ -110,6 +119,7 @@ namespace HockeyStats
                     playerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
                     Serializer.WritePlayerList<PlayerList>(playerList, fileName);
                     RefreshDropDownLists();
+                    SetListIsSaved(true);
                 }
             });
         }
@@ -117,10 +127,15 @@ namespace HockeyStats
         private void SetupCreateListButton()
         {
             createListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) => {
-                PlayerList playerListToLoad = new PlayerList();
-                playerListToLoad.FillWithDefaults();
-                LoadPlayerList(playerListToLoad);
-                RefreshDropDownLists();
+                Action CreateList = () => {
+                    PlayerList playerListToLoad = new PlayerList();
+                    playerListToLoad.FillWithDefaults();
+                    LoadPlayerList(playerListToLoad);
+                    RefreshDropDownLists();
+                    SetListIsSaved(false);
+                };
+
+                TriggerLeaveRequest(CreateList);
             });
         }
 
@@ -138,6 +153,7 @@ namespace HockeyStats
                     currentSeasonType = seasonType;
                     RefreshDropDownLists();
                     RedrawRowColors();
+                    SetListIsSaved(false);
                 });
                 dropDownItems.Add(seasonType, null, selectSeasonTypeHandler);
                 if (currentSeasonType == seasonType)
@@ -164,6 +180,7 @@ namespace HockeyStats
                     topTable.ChangeDisplaySeason(season);
                     currentDisplaySeason = season;
                     RefreshDropDownLists();
+                    SetListIsSaved(false);
                 });
                 dropDownItems.Add(season, null, selectSeasonHandler);
                 if (currentDisplaySeason == season)
@@ -191,6 +208,7 @@ namespace HockeyStats
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
                     RedrawPrimaryColumnWidths();
+                    SetListIsSaved(false);
                 });
                 dropDownItems.Add(columnName, null, selectColumnHandler);
                 if (topTable.ContainsColumn(columnName))
@@ -202,6 +220,28 @@ namespace HockeyStats
 
         private void SetupSearchPlayerButton()
         {
+            Action SearchPlayer = () => {
+                string playerName = searchPlayerTextbox.Text;
+                if (String.IsNullOrWhiteSpace(playerName))
+                {
+                    MessageBox.Show("Invalid Search.");
+                    searchPlayerTextbox.Text = "";
+                }
+                else
+                {
+                    string previousText = searchPlayerButton.Text;
+                    searchPlayerButton.Text = "Searching...";
+                    searchPlayerButton.Enabled = false;
+                    bool successful = leftTable.DisplayPlayerSearch(playerName);
+                    if (!successful)
+                    {
+                        MessageBox.Show("No Results Found.");
+                    }
+                    searchPlayerButton.Text = previousText;
+                    searchPlayerButton.Enabled = true;
+                }
+            };
+
             searchPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
                 SearchPlayer();
             });
@@ -250,6 +290,7 @@ namespace HockeyStats
                     DataGridViewRow row = leftTableDGV.Rows[rowIndex];
                     string playerId = leftTable.GetPlayerIdFromRow(row);
                     topTable.AddPlayerById(playerId);
+                    SetListIsSaved(false);
                 }
             });
         }
@@ -267,13 +308,15 @@ namespace HockeyStats
 
                 int rowIndex = topTableDGV.SelectedRows[0].Index;
                 DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(topTableDGV.Rows[rowIndex]);
+
                 string message = String.Format("Are you sure you want to remove {0} {1} from the list?", row[Constants.FIRST_NAME], row[Constants.LAST_NAME]);
-                var confirmResult = MessageBox.Show(message, "", MessageBoxButtons.YesNo);
-                if (confirmResult == DialogResult.Yes)
-                {
+                Action RemovePlayer = () => {
                     topTable.RemoveRow(row);
                     ClearPlayerSelection();
-                }
+                };
+                DisplayYesNoMessageBox(message, RemovePlayer);
+
+                SetListIsSaved(false);
             });
         }
 
@@ -313,6 +356,17 @@ namespace HockeyStats
                 rightTable.AddPlayerByPlayerStats(searchedPlayerStats, currentSeasonType);
 
                 HighlightDraftRowsInThirdTable(searchedPlayerStats);
+            });
+        }
+
+        private void SetupFormClosingHandler()
+        {
+            FormClosing += new FormClosingEventHandler((object sender, FormClosingEventArgs e) => {
+                Action CancelLeave = () =>
+                {
+                    e.Cancel = true;
+                };
+                TriggerLeaveRequest(null, CancelLeave);
             });
         }
 
@@ -400,26 +454,34 @@ namespace HockeyStats
             HighlightDraftRowsInThirdTable(rightTable.GetPlayerStats());
         }
 
-        private void SearchPlayer()
+        private void SetListIsSaved(bool boolean)
         {
-            string playerName = searchPlayerTextbox.Text;
-            if (String.IsNullOrWhiteSpace(playerName))
+            listIsSaved = boolean;
+            listNameLabel.Text = (listIsSaved) ? playerList.listName : playerList.listName + "*";
+        }
+
+        private void DisplayYesNoMessageBox(string message, Action yesAction = null, Action noAction = null)
+        {
+            DialogResult confirmResult = MessageBox.Show(message, "", MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes && yesAction != null)
             {
-                MessageBox.Show("Invalid Search.");
-                searchPlayerTextbox.Text = "";
+                yesAction();
             }
-            else
+            else if (confirmResult == DialogResult.No && noAction != null)
             {
-                string previousText = searchPlayerButton.Text;
-                searchPlayerButton.Text = "Searching...";
-                searchPlayerButton.Enabled = false;
-                bool successful = leftTable.DisplayPlayerSearch(playerName);
-                if (!successful)
-                {
-                    MessageBox.Show("No Results Found.");
-                }
-                searchPlayerButton.Text = previousText;
-                searchPlayerButton.Enabled = true;
+                noAction();
+            }
+        }
+
+        private void TriggerLeaveRequest(Action leaveAction = null, Action stayAction = null)
+        {
+            if (!listIsSaved)
+            {
+                DisplayYesNoMessageBox(Constants.ARE_YOU_SURE_LEAVE_MESSAGE, leaveAction, stayAction);
+            }
+            else if (leaveAction != null)
+            {
+                leaveAction();
             }
         }
     }
