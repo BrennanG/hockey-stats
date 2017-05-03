@@ -268,9 +268,13 @@ namespace HockeyStats
 
                 int rowIndex = topTableDGV.SelectedRows[0].Index;
                 DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(topTableDGV.Rows[rowIndex]);
-                topTable.RemoveRow(row);
-
-                ClearPlayerSelection();
+                string message = String.Format("Are you sure you want to remove {0} {1} from the list?", row[Constants.FIRST_NAME], row[Constants.LAST_NAME]);
+                var confirmResult = MessageBox.Show(message, "", MessageBoxButtons.YesNo);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    topTable.RemoveRow(row);
+                    ClearPlayerSelection();
+                }
             });
         }
 
