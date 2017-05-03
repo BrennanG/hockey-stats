@@ -207,7 +207,7 @@ namespace HockeyStats
                         topTable.AddColumn(dropDownItem.Text, currentDisplaySeason);
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
-                    RedrawPrimaryColumnWidths();
+                    RedrawColumnWidths(topTableDGV, playerList.GetPrimaryColumnWidth);
                     SetListIsSaved(false);
                 });
                 dropDownItems.Add(columnName, null, selectColumnHandler);
