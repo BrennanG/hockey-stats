@@ -58,7 +58,7 @@ namespace HockeyStats
 
             RedrawPrimaryColumnWidths();
             RedrawSecondaryColumnWidths();
-            ResetRowColors();
+            RedrawRowColors();
         }
 
         private void SetupLoadListDropDown()
@@ -138,7 +138,7 @@ namespace HockeyStats
                     rightTable.ChangeSeasonType(seasonType);
                     currentSeasonType = seasonType;
                     RefreshDropDownLists();
-                    ResetRowColors();
+                    RedrawRowColors();
                 });
                 dropDownItems.Add(seasonType, null, selectSeasonTypeHandler);
                 if (currentSeasonType == seasonType)
@@ -204,21 +204,14 @@ namespace HockeyStats
         private void SetupSearchPlayerButton()
         {
             searchPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
-                string playerName = searchPlayerTextbox.Text;
-                if (String.IsNullOrWhiteSpace(playerName))
+                SearchPlayer();
+            });
+
+            // Listen for Enter key when textbox is selected
+            searchPlayerTextbox.KeyUp += new KeyEventHandler((object sender, KeyEventArgs e) => {
+                if (e.KeyCode == Keys.Enter)
                 {
-                    MessageBox.Show("Invalid Search.");
-                    searchPlayerTextbox.Text = "";
-                }
-                else
-                {
-                    searchPlayerTextbox.Text = "Searching...";
-                    bool successful = leftTable.DisplayPlayerSearch(playerName);
-                    if (!successful)
-                    {
-                        MessageBox.Show("No Results Found.");
-                    }
-                    searchPlayerTextbox.Text = "";
+                    SearchPlayer();
                 }
             });
         }
@@ -233,6 +226,7 @@ namespace HockeyStats
                     ClearPlayerSelection();
                 }
                 leftTable.ClearTable();
+                searchPlayerTextbox.Text = String.Empty;
             });
         }
 
@@ -385,7 +379,7 @@ namespace HockeyStats
             }
         }
 
-        private void ResetRowColors()
+        private void RedrawRowColors()
         {
             if (currentSeasonType == Constants.REGULAR_SEASON)
             {
@@ -401,6 +395,29 @@ namespace HockeyStats
             }
 
             HighlightDraftRowsInThirdTable(rightTable.GetPlayerStats());
+        }
+
+        private void SearchPlayer()
+        {
+            string playerName = searchPlayerTextbox.Text;
+            if (String.IsNullOrWhiteSpace(playerName))
+            {
+                MessageBox.Show("Invalid Search.");
+                searchPlayerTextbox.Text = "";
+            }
+            else
+            {
+                string previousText = searchPlayerButton.Text;
+                searchPlayerButton.Text = "Searching...";
+                searchPlayerButton.Enabled = false;
+                bool successful = leftTable.DisplayPlayerSearch(playerName);
+                if (!successful)
+                {
+                    MessageBox.Show("No Results Found.");
+                }
+                searchPlayerButton.Text = previousText;
+                searchPlayerButton.Enabled = true;
+            }
         }
     }
 }
