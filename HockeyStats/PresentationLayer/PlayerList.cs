@@ -89,43 +89,42 @@ namespace HockeyStats
 
         public void SetPrimaryColumnWidths(DataGridViewColumnCollection columns)
         {
-            foreach (DataGridViewColumn column in columns)
-            {
-                primaryColumnWidths[column.Name] = (column.DisplayIndex != columns.Count - 1) ? column.Width : -1;
-            }
-        }
-
-        public int GetPrimaryColumnWidth(string columnName)
-        {
-            if (primaryColumnWidths.ContainsKey(columnName))
-            {
-                return primaryColumnWidths[columnName];
-            }
-            else
-            {
-                return -1;
-            }
+            SetColumnWidths(columns, primaryColumnWidths);
         }
 
         public void SetSecondaryColumnWidths(DataGridViewColumnCollection columns)
         {
-            foreach (DataGridViewColumn column in columns)
-            {
-                secondaryColumnWidths[column.Name] = (column.DisplayIndex != columns.Count - 1) ? column.Width : -1;
-            }
+            SetColumnWidths(columns, secondaryColumnWidths);
+        }
+
+        public int GetPrimaryColumnWidth(string columnName)
+        {
+            return GetColumnWidth(columnName, primaryColumnWidths);
         }
 
         public int GetSecondaryColumnWidth(string columnName)
         {
-            if (secondaryColumnWidths.ContainsKey(columnName))
+            return GetColumnWidth(columnName, secondaryColumnWidths);
+        }
+
+        private void SetColumnWidths(DataGridViewColumnCollection columns, SerializableDictionary<string, int> columnWidths)
+        {
+            foreach (DataGridViewColumn column in columns)
             {
-                return secondaryColumnWidths[columnName];
+                columnWidths[column.Name] = (column.DisplayIndex != columns.Count - 1) ? column.Width : -1;
+            }
+        }
+
+        private int GetColumnWidth(string columnName, SerializableDictionary<string, int> columnWidths)
+        {
+            if (columnWidths.ContainsKey(columnName))
+            {
+                return columnWidths[columnName];
             }
             else
             {
                 return -1;
             }
         }
-
     }
 }

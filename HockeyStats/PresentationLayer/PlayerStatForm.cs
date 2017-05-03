@@ -56,9 +56,9 @@ namespace HockeyStats
             if (leftTable == null) { leftTable = new SearchDataStatTable(leftTableDGV, Constants.DefaultSearchDataTableColumns); }
             middleTable = new PlayerConstantsStatTable(middleTableDGV);
             rightTable = new SinglePlayerStatTable(rightTableDGV, playerList.secondaryColumnNames);
-
-            RedrawPrimaryColumnWidths();
-            RedrawSecondaryColumnWidths();
+            
+            RedrawColumnWidths(topTableDGV, playerList.GetPrimaryColumnWidth);
+            RedrawColumnWidths(rightTableDGV, playerList.GetSecondaryColumnWidth);
             RedrawRowColors();
 
             SetListIsSaved(true);
@@ -385,29 +385,12 @@ namespace HockeyStats
             SetupAddRemoveColumnButton();
         }
 
-        private void RedrawPrimaryColumnWidths()
+        private void RedrawColumnWidths(DataGridView dataGridView, Func<string, int> GetWidthFunction)
         {
-            foreach (DataGridViewColumn column in topTableDGV.Columns)
+            foreach (DataGridViewColumn column in dataGridView.Columns)
             {
-                int width = playerList.GetPrimaryColumnWidth(column.Name);
-                if (column.DisplayIndex != topTableDGV.Columns.Count - 1 && width >= 0)
-                {
-                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                    column.Width = width;
-                }
-                else
-                {
-                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
-            }
-        }
-
-        private void RedrawSecondaryColumnWidths()
-        {
-            foreach (DataGridViewColumn column in rightTableDGV.Columns)
-            {
-                int width = playerList.GetSecondaryColumnWidth(column.Name);
-                if (column.DisplayIndex != rightTableDGV.Columns.Count - 1 && width >= 0)
+                int width = GetWidthFunction(column.Name);
+                if (column.DisplayIndex != dataGridView.Columns.Count - 1 && width >= 0)
                 {
                     column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                     column.Width = width;
