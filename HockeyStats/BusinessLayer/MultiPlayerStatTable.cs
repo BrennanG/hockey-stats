@@ -11,6 +11,7 @@ namespace HockeyStats
 {
     public class MultiPlayerStatTable : PlayerStatTable
     {
+        private List<string> playerIds;
         private string seasonType;
         private string displaySeason;
         private Dictionary<int, PlayerStats> rowHashToPlayerStatsMap = new Dictionary<int, PlayerStats>();
@@ -19,6 +20,7 @@ namespace HockeyStats
         public MultiPlayerStatTable(DataGridView dataGridView, List<string> columnNames, List<string> playerIds, string displaySeason, string seasonType)
             : base(dataGridView, columnNames)
         {
+            this.playerIds = playerIds;
             this.seasonType = seasonType;
             this.displaySeason = displaySeason;
 
@@ -27,18 +29,19 @@ namespace HockeyStats
             fillDataTableThread.Start();
         }
 
-        public void AddPlayerById(string playerId)
+        public void AddRow(string playerId)
         {
-            PlayerStats playerStats = new PlayerStats(playerId);
-
-            Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(displaySeason, seasonType);
-            DataRow newDataRow = AddRowToDataTable(collapsedYear);
-            rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
+            AddPlayerById(playerId);
+            playerIds.Add(playerId);
         }
 
         public void RemoveRow(DataRow row)
         {
             dataTable.Rows.Remove(row);
+
+            PlayerStats playerStats = GetPlayerStatsFromRow(row);
+            string playerId = playerStats.GetPlayerId();
+            playerIds.Remove(playerId);
         }
 
         public void AddColumn(string columnName, string season)
@@ -85,13 +88,13 @@ namespace HockeyStats
 
         public List<string> GetPlayerIds()
         {
-            List<string> playerIds = new List<string>();
-            foreach (DataRow row in dataTable.Rows)
-            {
-                PlayerStats playerStats = GetPlayerStatsFromRow(row);
-                if (playerStats == null) { continue; }
-                playerIds.Add(playerStats.GetPlayerId());
-            }
+            //List<string> playerIds = new List<string>();
+            //foreach (DataRow row in dataTable.Rows)
+            //{
+            //    PlayerStats playerStats = GetPlayerStatsFromRow(row);
+            //    if (playerStats == null) { continue; }
+            //    playerIds.Add(playerStats.GetPlayerId());
+            //}
             return playerIds;
         }
 
@@ -110,6 +113,15 @@ namespace HockeyStats
         public bool ThreadIsRunning()
         {
             return fillDataTableThread.ThreadState == ThreadState.Running;
+        }
+
+        private void AddPlayerById(string playerId)
+        {
+            PlayerStats playerStats = new PlayerStats(playerId);
+
+            Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(displaySeason, seasonType);
+            DataRow newDataRow = AddRowToDataTable(collapsedYear);
+            rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
         }
 
         private void UpdateRowData()
