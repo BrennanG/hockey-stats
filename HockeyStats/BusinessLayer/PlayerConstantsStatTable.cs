@@ -39,5 +39,10 @@ namespace HockeyStats
         {
             dataGridView.ClearSelection();
         }
+
+        internal void AddPlayerByPlayerStats(object searchedPlayerStats)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -217,7 +217,7 @@ namespace HockeyStats
         {
             Action SearchPlayer = () => {
                 string playerName = searchPlayerTextbox.Text;
-                if (String.IsNullOrWhiteSpace(playerName))
+                if (String.IsNullOrWhiteSpace(playerName) || playerName.Contains("'") || playerName.Contains("\""))
                 {
                     MessageBox.Show("Invalid Search.");
                     searchPlayerTextbox.Text = "";
@@ -227,13 +227,17 @@ namespace HockeyStats
                     string previousText = searchPlayerButton.Text;
                     searchPlayerButton.Text = "Searching...";
                     searchPlayerButton.Enabled = false;
+                    clearSearchButton.Enabled = false;
+
                     bool successful = leftTable.DisplayPlayerSearch(playerName);
                     if (!successful)
                     {
                         MessageBox.Show("No Results Found.");
                     }
+
                     searchPlayerButton.Text = previousText;
                     searchPlayerButton.Enabled = true;
+                    clearSearchButton.Enabled = true;
                 }
             };
 
@@ -261,6 +265,7 @@ namespace HockeyStats
                 }
                 leftTable.ClearTable();
                 searchPlayerTextbox.Text = String.Empty;
+                clearSearchButton.Enabled = false;
             });
         }
 
