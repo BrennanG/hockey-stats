@@ -38,7 +38,6 @@ namespace HockeyStats
 
         public void RemoveRow(DataRow row)
         {
-            PlayerStats playerStats = GetPlayerStatsFromRow(row);
             dataTable.Rows.Remove(row);
         }
 
@@ -138,9 +137,9 @@ namespace HockeyStats
 
         private void FillDataTable(List<string> playerIds)
         {
-            string[] copiedPlayerIds = new string[playerIds.Count];
-            playerIds.CopyTo(copiedPlayerIds);
-            foreach (string playerId in copiedPlayerIds)
+            string[] copyOfPlayerIds = new string[playerIds.Count];
+            playerIds.CopyTo(copyOfPlayerIds);
+            foreach (string playerId in copyOfPlayerIds)
             {
                 AddPlayerById(playerId);
             }

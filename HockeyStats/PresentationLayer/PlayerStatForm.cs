@@ -280,18 +280,17 @@ namespace HockeyStats
             addSelectedPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
                 if (leftTableDGV.SelectedRows.Count != 1) { return; }
 
-                if (topTable.ThreadIsRunning())
-                {
-                    MessageBox.Show("You must wait until all players are loaded before adding another.");
-                }
-                else
-                {
-                    int rowIndex = leftTableDGV.SelectedRows[0].Index;
-                    DataGridViewRow row = leftTableDGV.Rows[rowIndex];
-                    string playerId = leftTable.GetPlayerIdFromRow(row);
-                    topTable.AddPlayerById(playerId);
-                    SetListIsSaved(false);
-                }
+                string previousText = addSelectedPlayerButton.Text;
+                addSelectedPlayerButton.Text = "Adding Player...";
+                addSelectedPlayerButton.Enabled = false;
+
+                int rowIndex = leftTableDGV.SelectedRows[0].Index;
+                DataGridViewRow row = leftTableDGV.Rows[rowIndex];
+                string playerId = leftTable.GetPlayerIdFromRow(row);
+                topTable.AddPlayerById(playerId);
+
+                addSelectedPlayerButton.Text = previousText;
+                SetListIsSaved(false);
             });
         }
 

@@ -21,6 +21,9 @@
     <string>Draft Year</string>
     <string>Draft Round</string>
     <string>Draft Overall</string>
+    <string>Weight</string>
+    <string>Height</string>
+    <string>Position</string>
   </primaryColumnNames>
   <secondaryColumnNames>
     <string>Season</string>
@@ -94,7 +97,7 @@
         <string>Position</string>
       </key>
       <value>
-        <int>35</int>
+        <int>-1</int>
       </value>
     </item>
     <item>
@@ -134,7 +137,7 @@
         <string>Draft Overall</string>
       </key>
       <value>
-        <int>-1</int>
+        <int>37</int>
       </value>
     </item>
     <item>
@@ -143,6 +146,22 @@
       </key>
       <value>
         <int>79</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Weight</string>
+      </key>
+      <value>
+        <int>37</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Height</string>
+      </key>
+      <value>
+        <int>36</int>
       </value>
     </item>
   </primaryColumnWidths>
@@ -192,7 +211,7 @@
         <string>PPG</string>
       </key>
       <value>
-        <int>62</int>
+        <int>45</int>
       </value>
     </item>
     <item>
@@ -200,7 +219,7 @@
         <string>League</string>
       </key>
       <value>
-        <int>130</int>
+        <int>77</int>
       </value>
     </item>
     <item>

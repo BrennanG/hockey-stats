@@ -14,13 +14,14 @@ namespace HockeyStats
         private Dictionary<string, string> constantPlayerStats = new Dictionary<string, string>();
         private string playerId;
 
-        private static Dictionary<string, Action> getStatMap = FillGetStatMap();
-        private static StatLineParser statLineParser = new StatLineParser();
-        private static DraftDataParser draftDataParser = new DraftDataParser();
+        private Dictionary<string, Action> getStatMap;
+        private StatLineParser statLineParser = new StatLineParser();
+        private DraftDataParser draftDataParser = new DraftDataParser();
         
         public PlayerStats(string playerId)
         {
             this.playerId = playerId;
+            getStatMap = FillGetStatMap();
             FillPlayerStats();
             FillConstantPlayerStats();
         }
@@ -210,7 +211,7 @@ namespace HockeyStats
             }
         }
         
-        private static Dictionary<string, Action> FillGetStatMap()
+        private Dictionary<string, Action> FillGetStatMap()
         {
             Dictionary<string, Action> map = new Dictionary<string, Action>();
             map.Add(Constants.FIRST_NAME, () => statLineParser.GetFirstName(Constants.FIRST_NAME));
