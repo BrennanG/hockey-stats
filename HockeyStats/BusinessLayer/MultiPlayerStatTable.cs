@@ -88,13 +88,6 @@ namespace HockeyStats
 
         public List<string> GetPlayerIds()
         {
-            //List<string> playerIds = new List<string>();
-            //foreach (DataRow row in dataTable.Rows)
-            //{
-            //    PlayerStats playerStats = GetPlayerStatsFromRow(row);
-            //    if (playerStats == null) { continue; }
-            //    playerIds.Add(playerStats.GetPlayerId());
-            //}
             return playerIds;
         }
 
