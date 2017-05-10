@@ -178,7 +178,7 @@
         <int>-1</int>
       </value>
     </item>
-  </primaryColumnWidths>  
+  </primaryColumnWidths>
   <secondaryColumnWidths>
     <item>
       <key>
@@ -225,7 +225,7 @@
         <string>PPG</string>
       </key>
       <value>
-        <int>62</int>
+        <int>40</int>
       </value>
     </item>
     <item>
@@ -233,7 +233,7 @@
         <string>League</string>
       </key>
       <value>
-        <int>130</int>
+        <int>99</int>
       </value>
     </item>
     <item>

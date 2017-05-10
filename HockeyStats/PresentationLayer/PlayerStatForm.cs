@@ -95,7 +95,7 @@ namespace HockeyStats
 
         private void SetupSaveListButton()
         {
-            saveFileDialog.Filter = "Player List XML|*" + Constants.FILENAME_SUFFIX;
+            saveFileDialog.Filter = "Player List|*" + Constants.FILENAME_SUFFIX;
             saveFileDialog.Title = "Save Player List";
             saveListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
@@ -103,8 +103,9 @@ namespace HockeyStats
                 DialogResult result = saveFileDialog.ShowDialog();
                 if (result == DialogResult.OK || result == DialogResult.Yes)
                 {
-                    string fileName = saveFileDialog.FileName;
-                    string listName = Path.GetFileName(fileName).Substring(0, Path.GetFileName(fileName).Length - Constants.FILENAME_SUFFIX.Length);
+                    string fileName = Path.GetFileName(saveFileDialog.FileName);
+                    string listName = TrimFileNameSuffix(fileName);
+                    string listNameWithSuffix = listName + Constants.FILENAME_SUFFIX;
                     playerList.SetListName(listName);
                     playerList.SetSeasonType(currentSeasonType);
                     playerList.SetDisplaySeason(currentDisplaySeason);
@@ -112,7 +113,7 @@ namespace HockeyStats
                     playerList.SetPrimaryColumns(topTableDGV.Columns);
                     playerList.SetPrimaryColumnWidths(topTableDGV.Columns);
                     playerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
-                    Serializer.WritePlayerList<PlayerList>(playerList, fileName);
+                    Serializer.WritePlayerList<PlayerList>(playerList, listNameWithSuffix);
                     RefreshDropDownLists();
                     SetListIsSaved(true);
                 }
@@ -465,6 +466,18 @@ namespace HockeyStats
             {
                 leaveAction();
             }
+        }
+
+        private string TrimFileNameSuffix(string fullFileName)
+        {
+            if (fullFileName.EndsWith(Constants.FILENAME_SUFFIX)) { fullFileName = fullFileName.Remove(fullFileName.IndexOf(Constants.FILENAME_SUFFIX)); }
+
+            while(fullFileName.EndsWith(Constants.FILENAME_SUFFIX_NO_XML))
+            {
+                fullFileName = fullFileName.Remove(fullFileName.IndexOf(Constants.FILENAME_SUFFIX_NO_XML));
+            }
+
+            return fullFileName;
         }
     }
 }
