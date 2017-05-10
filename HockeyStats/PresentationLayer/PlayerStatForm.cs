@@ -22,6 +22,7 @@ namespace HockeyStats
         private string currentDisplaySeason;
         private string currentSeasonType;
         private bool listIsSaved;
+        private bool tableHasBeenClicked;
 
         public PlayerStatForm()
         {
@@ -42,6 +43,8 @@ namespace HockeyStats
             SetupRemoveSelectedPlayerButton();
             SetupShowSelectedPlayer();
             SetupFormClosingHandler();
+            SetupListenForColumnResize();
+            SetupListenForTableClick();
         }
 
         private void LoadPlayerList(PlayerList playerListToLoad)
@@ -62,6 +65,7 @@ namespace HockeyStats
             RedrawRowColors();
 
             SetListIsSaved(true);
+            tableHasBeenClicked = false;
         }
 
         private void SetupLoadListDropDown()
@@ -367,6 +371,50 @@ namespace HockeyStats
                     e.Cancel = true;
                 };
                 TriggerLeaveRequest(null, CancelLeave);
+            });
+        }
+
+        private void SetupListenForColumnResize()
+        {
+            Action HandleResize = () =>
+            {
+                if (tableHasBeenClicked)
+                {
+                    SetListIsSaved(false);
+                }
+            };
+
+            topTableDGV.ColumnWidthChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
+            {
+                HandleResize();
+            });
+
+            rightTableDGV.ColumnWidthChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
+            {
+                HandleResize();
+            });
+        }
+
+        private void SetupListenForTableClick()
+        {
+            topTableDGV.MouseDown += new MouseEventHandler((object sender, MouseEventArgs e) =>
+            {
+                tableHasBeenClicked = true;
+            });
+
+            leftTableDGV.MouseDown += new MouseEventHandler((object sender, MouseEventArgs e) =>
+            {
+                tableHasBeenClicked = true;
+            });
+
+            middleTableDGV.MouseDown += new MouseEventHandler((object sender, MouseEventArgs e) =>
+            {
+                tableHasBeenClicked = true;
+            });
+
+            rightTableDGV.MouseDown += new MouseEventHandler((object sender, MouseEventArgs e) =>
+            {
+                tableHasBeenClicked = true;
             });
         }
 
