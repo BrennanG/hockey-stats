@@ -68,9 +68,14 @@ namespace HockeyStats
             UpdateRowData();
         }
 
-        public void ChangeSeasonType(string seasonType)
+        public override string GetSeasonType()
         {
-            this.seasonType = seasonType;
+            return seasonType;
+        }
+
+        public override void SetSeasonType(string newSeasonType)
+        {
+            seasonType = newSeasonType;
             UpdateRowData();
         }
 

@@ -11,7 +11,8 @@ namespace HockeyStats
     public class PlayerList
     {
         public string listName;
-        public string seasonType;
+        public string primarySeasonType;
+        public string secondarySeasonType;
         public string displaySeason;
         public List<string> playerIds;
         public List<string> primaryColumnNames;
@@ -27,7 +28,7 @@ namespace HockeyStats
         public void FillWithDefaults()
         {
             listName = Constants.DEFAULT_LIST_NAME;
-            seasonType = Constants.REGULAR_SEASON;
+            primarySeasonType = Constants.REGULAR_SEASON;
             displaySeason = Constants.CurrentSeason;
             playerIds = new List<string>();
             primaryColumnNames = Constants.DefaultPrimaryColumns;
@@ -61,9 +62,14 @@ namespace HockeyStats
             primaryColumnNames.Remove(columnName);
         }
 
-        public void SetSeasonType(string seasonType)
+        public void SetPrimarySeasonType(string seasonType)
         {
-            this.seasonType = seasonType;
+            this.primarySeasonType = seasonType;
+        }
+
+        public void SetSecondarySeasonType(string seasonType)
+        {
+            this.secondarySeasonType = seasonType;
         }
 
         public void SetDisplaySeason(string season)

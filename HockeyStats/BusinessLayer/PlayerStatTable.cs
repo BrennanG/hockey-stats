@@ -36,6 +36,16 @@ namespace HockeyStats
             return ((DataRowView)dgvRow.DataBoundItem).Row;
         }
 
+        public virtual string GetSeasonType()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void SetSeasonType(string newSeasonType)
+        {
+            throw new NotImplementedException();
+        }
+
         protected DataRow AddRowToDataTable(Dictionary<string, string> statDict)
         {
             string[] orderedRowValues = new string[dataTable.Columns.Count];

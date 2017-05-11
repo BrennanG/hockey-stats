@@ -9,8 +9,9 @@ namespace HockeyStats
     public class SinglePlayerStatTable : PlayerStatTable
     {
         private PlayerStats playerStats;
+        private string seasonType;
 
-        public SinglePlayerStatTable(DataGridView dataGridView, List<string> columnData)
+        public SinglePlayerStatTable(DataGridView dataGridView, List<string> columnData, string seasonType)
             : base(dataGridView, columnData)
         {
             try
@@ -18,18 +19,15 @@ namespace HockeyStats
                 dataGridView.Sort(dataGridView.Columns[Constants.SEASON], System.ComponentModel.ListSortDirection.Ascending);
             }
             catch (Exception) { }
+
+            this.seasonType = seasonType;
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;
         }
 
-        public void AddPlayerByPlayerStats(PlayerStats playerStats, string seasonType)
+        public void AddPlayerByPlayerStats(PlayerStats playerStats)
         {
             this.playerStats = playerStats;
-            UpdateRowData(seasonType);
-        }
-
-        public void ChangeSeasonType(string seasonType)
-        {
-            UpdateRowData(seasonType);
+            UpdateRowData();
         }
 
         public PlayerStats GetPlayerStats()
@@ -37,7 +35,23 @@ namespace HockeyStats
             return playerStats;
         }
 
-        private void UpdateRowData(string seasonType)
+        public override string GetSeasonType()
+        {
+            return seasonType;
+        }
+
+        public override void SetSeasonType(string newSeasonType)
+        {
+            seasonType = newSeasonType;
+            if (playerStats != null) { UpdateRowData(); }
+        }
+
+        public void ClearTable()
+        {
+            dataTable.Clear();
+        }
+
+        private void UpdateRowData()
         {
             dataTable.Rows.Clear();
             List<Dictionary<string, string>> dynamicColumnValues = playerStats.GetDynamicColumnValues(seasonType);
@@ -45,11 +59,6 @@ namespace HockeyStats
             {
                 AddRowToDataTable(dictOfDynamicColumnValues);
             }
-        }
-
-        public void ClearTable()
-        {
-            dataTable.Clear();
         }
 
         private void DataGridView_SelectionChanged(object sender, EventArgs e)

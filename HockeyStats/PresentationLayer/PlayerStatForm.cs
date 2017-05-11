@@ -20,7 +20,6 @@ namespace HockeyStats
         private PlayerConstantsStatTable middleTable;
         private SinglePlayerStatTable rightTable;
         private string currentDisplaySeason;
-        private string currentSeasonType;
         private bool listIsSaved;
         private bool tableHasBeenClicked;
 
@@ -34,7 +33,7 @@ namespace HockeyStats
             SetupLoadListDropDown();
             SetupSaveListButton();
             SetupCreateListButton();
-            SetupSelectSeasonTypeButton();
+            SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
             SetupSearchPlayerButton();
@@ -43,22 +42,21 @@ namespace HockeyStats
             SetupRemoveSelectedPlayerButton();
             SetupShowSelectedPlayer();
             SetupFormClosingHandler();
-            SetupListenForColumnResize();
-            SetupListenForTableClick();
+            SetupColumnResizeListener();
+            SetupTableClickListener();
         }
 
         private void LoadPlayerList(PlayerList playerListToLoad)
         {
             playerList = playerListToLoad;
             currentDisplaySeason = playerList.displaySeason;
-            currentSeasonType = playerList.seasonType;
             listNameLabel.Text = playerList.listName;
             if (topTable != null) { topTable.AbortFillDataTableThread(); }
 
-            topTable = new MultiPlayerStatTable(topTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason, playerList.seasonType);
+            topTable = new MultiPlayerStatTable(topTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason, playerList.primarySeasonType);
             if (leftTable == null) { leftTable = new SearchDataStatTable(leftTableDGV, Constants.DefaultSearchDataTableColumns); }
             middleTable = new PlayerConstantsStatTable(middleTableDGV);
-            rightTable = new SinglePlayerStatTable(rightTableDGV, playerList.secondaryColumnNames);
+            rightTable = new SinglePlayerStatTable(rightTableDGV, playerList.secondaryColumnNames, playerList.secondarySeasonType);
             
             RedrawColumnWidths(topTableDGV, playerList.GetPrimaryColumnWidth);
             RedrawColumnWidths(rightTableDGV, playerList.GetSecondaryColumnWidth);
@@ -111,7 +109,8 @@ namespace HockeyStats
                     string listName = TrimFileNameSuffix(fileName);
                     string listNameWithSuffix = listName + Constants.FILENAME_SUFFIX;
                     playerList.SetListName(listName);
-                    playerList.SetSeasonType(currentSeasonType);
+                    playerList.SetPrimarySeasonType(topTable.GetSeasonType());
+                    playerList.SetSecondarySeasonType(rightTable.GetSeasonType());
                     playerList.SetDisplaySeason(currentDisplaySeason);
                     playerList.SetPlayerIds(topTable.GetPlayerIds());
                     playerList.SetPrimaryColumns(topTableDGV.Columns);
@@ -139,30 +138,33 @@ namespace HockeyStats
             });
         }
 
-        private void SetupSelectSeasonTypeButton()
+        private void SetupSelectSeasonTypeButtons()
         {
-            selectSeasonTypeDropDown.Text = currentSeasonType;
-            ToolStripItemCollection dropDownItems = selectSeasonTypeDropDown.DropDownItems;
-            dropDownItems.Clear();
+            Action<ToolStripMenuItem, PlayerStatTable> setupButton = new Action<ToolStripMenuItem, PlayerStatTable>((ToolStripMenuItem menu, PlayerStatTable playerStatTable) => {
+                menu.Text = playerStatTable.GetSeasonType();
+                ToolStripItemCollection dropDownItems = menu.DropDownItems;
+                dropDownItems.Clear();
 
-            foreach (string seasonType in Constants.SeasonTypes)
-            {
-                EventHandler selectSeasonTypeHandler = new EventHandler((object sender, EventArgs e) => {
-                    topTable.ChangeSeasonType(seasonType);
-                    rightTable.ChangeSeasonType(seasonType);
-                    currentSeasonType = seasonType;
-                    RefreshDropDownLists();
-                    RedrawRowColors();
-                    SetListIsSaved(false);
-                });
-                dropDownItems.Add(seasonType, null, selectSeasonTypeHandler);
-                if (currentSeasonType == seasonType)
+                foreach (string seasonType in Constants.SeasonTypes)
                 {
-                    ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
+                    EventHandler selectSeasonTypeHandler = new EventHandler((object sender, EventArgs e) => {
+                        playerStatTable.SetSeasonType(seasonType);
+                        RefreshDropDownLists();
+                        RedrawRowColors();
+                        SetListIsSaved(false);
+                    });
+                    dropDownItems.Add(seasonType, null, selectSeasonTypeHandler);
+                    if (playerStatTable.GetSeasonType() == seasonType)
+                    {
+                        ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
+                    }
                 }
-            }
-        }
+            });
 
+            setupButton(selectPrimarySeasonTypeDropDown, topTable);
+            setupButton(selectSecondarySeasonTypeDropDown, rightTable);
+        }
+        
         private void SetupSelectSeasonButton()
         {
             selectSeasonDropDown.Text = currentDisplaySeason;
@@ -339,7 +341,7 @@ namespace HockeyStats
                 middleTable.AddPlayerByPlayerStats(existingPlayerStats);
 
                 rightTable.ClearTable();
-                rightTable.AddPlayerByPlayerStats(existingPlayerStats, currentSeasonType);
+                rightTable.AddPlayerByPlayerStats(existingPlayerStats);
 
                 HighlightDraftRowsInThirdTable(existingPlayerStats);
             });
@@ -357,7 +359,7 @@ namespace HockeyStats
                 middleTable.AddPlayerByPlayerStats(searchedPlayerStats);
 
                 rightTable.ClearTable();
-                rightTable.AddPlayerByPlayerStats(searchedPlayerStats, currentSeasonType);
+                rightTable.AddPlayerByPlayerStats(searchedPlayerStats);
 
                 HighlightDraftRowsInThirdTable(searchedPlayerStats);
             });
@@ -374,7 +376,7 @@ namespace HockeyStats
             });
         }
 
-        private void SetupListenForColumnResize()
+        private void SetupColumnResizeListener()
         {
             Action HandleResize = () =>
             {
@@ -395,7 +397,7 @@ namespace HockeyStats
             });
         }
 
-        private void SetupListenForTableClick()
+        private void SetupTableClickListener()
         {
             topTableDGV.MouseDown += new MouseEventHandler((object sender, MouseEventArgs e) =>
             {
@@ -428,7 +430,7 @@ namespace HockeyStats
         private void RefreshDropDownLists()
         {
             SetupLoadListDropDown();
-            SetupSelectSeasonTypeButton();
+            SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
         }
@@ -469,15 +471,22 @@ namespace HockeyStats
 
         private void RedrawRowColors()
         {
-            if (currentSeasonType == Constants.REGULAR_SEASON)
+            if (topTable.GetSeasonType() == Constants.REGULAR_SEASON)
             {
                 topTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+            }
+            else if (topTable.GetSeasonType() == Constants.PLAYOFFS)
+            {
+                topTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+            }
+
+            if (rightTable.GetSeasonType() == Constants.REGULAR_SEASON)
+            {
                 middleTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
                 rightTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
             }
-            else if (currentSeasonType == Constants.PLAYOFFS)
+            else if (rightTable.GetSeasonType() == Constants.PLAYOFFS)
             {
-                topTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
                 middleTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
                 rightTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
             }
