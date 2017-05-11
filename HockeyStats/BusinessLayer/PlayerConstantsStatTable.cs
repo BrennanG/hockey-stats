@@ -12,7 +12,7 @@ namespace HockeyStats
             : base(dataGridView, new List<string>() { "Key", "Value" })
         {
             dataGridView.ColumnHeadersVisible = false;
-            dataGridView.SelectionChanged += DataGridView_SelectionChanged;
+            DisableCellSelection();
         }
 
         public void AddPlayerByPlayerStats(PlayerStats playerStats)
@@ -35,14 +35,11 @@ namespace HockeyStats
             dataTable.Clear();
         }
 
-        private void DataGridView_SelectionChanged(object sender, EventArgs e)
+        private void DisableCellSelection()
         {
-            dataGridView.ClearSelection();
-        }
-
-        internal void AddPlayerByPlayerStats(object searchedPlayerStats)
-        {
-            throw new NotImplementedException();
+            dataGridView.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
+                dataGridView.ClearSelection();
+            });
         }
     }
 }

@@ -140,7 +140,7 @@ namespace HockeyStats
 
         private void SetupSelectSeasonTypeButtons()
         {
-            Action<ToolStripMenuItem, PlayerStatTable> setupButton = new Action<ToolStripMenuItem, PlayerStatTable>((ToolStripMenuItem menu, PlayerStatTable playerStatTable) => {
+            Action<ToolStripMenuItem, PlayerStatTable> SetupButton = new Action<ToolStripMenuItem, PlayerStatTable>((ToolStripMenuItem menu, PlayerStatTable playerStatTable) => {
                 menu.Text = playerStatTable.GetSeasonType();
                 ToolStripItemCollection dropDownItems = menu.DropDownItems;
                 dropDownItems.Clear();
@@ -161,8 +161,8 @@ namespace HockeyStats
                 }
             });
 
-            setupButton(selectPrimarySeasonTypeDropDown, topTable);
-            setupButton(selectSecondarySeasonTypeDropDown, rightTable);
+            SetupButton(selectPrimarySeasonTypeDropDown, topTable);
+            SetupButton(selectSecondarySeasonTypeDropDown, rightTable);
         }
         
         private void SetupSelectSeasonButton()
@@ -328,22 +328,26 @@ namespace HockeyStats
 
         private void SetupShowSelectedPlayer()
         {
+            Action<PlayerStats> ShowSelectedPlayer = new Action<PlayerStats>((PlayerStats playerStats) => {
+                middleTable.ClearTable();
+                middleTable.AddPlayerByPlayerStats(playerStats);
+
+                rightTable.ClearTable();
+                rightTable.AddPlayerByPlayerStats(playerStats);
+
+                HighlightDraftRowsInThirdTable(playerStats);
+            });
+
             topTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
                 if (topTableDGV.SelectedRows.Count != 1 || topTableDGV.Rows.Count < 1) { return; }
                 leftTableDGV.ClearSelection();
-                int rowIndex = topTableDGV.SelectedRows[0].Index;
 
+                int rowIndex = topTableDGV.SelectedRows[0].Index;
                 DataRow row = PlayerStatTable.GetDataRowFromDGVRow(topTableDGV.Rows[rowIndex]);
                 PlayerStats existingPlayerStats = topTable.GetPlayerStatsFromRow(row);
                 if (existingPlayerStats == null) { return; }
 
-                middleTable.ClearTable();
-                middleTable.AddPlayerByPlayerStats(existingPlayerStats);
-
-                rightTable.ClearTable();
-                rightTable.AddPlayerByPlayerStats(existingPlayerStats);
-
-                HighlightDraftRowsInThirdTable(existingPlayerStats);
+                ShowSelectedPlayer(existingPlayerStats);
             });
 
             leftTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
@@ -355,13 +359,7 @@ namespace HockeyStats
                 string playerId = leftTable.GetPlayerIdFromRow(row);
                 PlayerStats searchedPlayerStats = new PlayerStats(playerId);
 
-                middleTable.ClearTable();
-                middleTable.AddPlayerByPlayerStats(searchedPlayerStats);
-
-                rightTable.ClearTable();
-                rightTable.AddPlayerByPlayerStats(searchedPlayerStats);
-
-                HighlightDraftRowsInThirdTable(searchedPlayerStats);
+                ShowSelectedPlayer(searchedPlayerStats);
             });
         }
 

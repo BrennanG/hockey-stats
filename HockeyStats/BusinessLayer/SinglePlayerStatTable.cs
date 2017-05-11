@@ -21,7 +21,7 @@ namespace HockeyStats
             catch (Exception) { }
 
             this.seasonType = seasonType;
-            dataGridView.SelectionChanged += DataGridView_SelectionChanged;
+            DisableCellSelection();
         }
 
         public void AddPlayerByPlayerStats(PlayerStats playerStats)
@@ -61,9 +61,11 @@ namespace HockeyStats
             }
         }
 
-        private void DataGridView_SelectionChanged(object sender, EventArgs e)
+        private void DisableCellSelection()
         {
-            dataGridView.ClearSelection();
+            dataGridView.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
+                dataGridView.ClearSelection();
+            });
         }
     }
 }
