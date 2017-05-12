@@ -474,6 +474,7 @@ namespace HockeyStats
 
         private void HighlightDraftRowsInThirdTable(PlayerStats playerStats)
         {
+            if (playerStats == null) { return; }
             foreach (DataGridViewRow DGVRow in rightTableDGV.Rows)
             {
                 string season = DGVRow.Cells[Constants.SEASON].Value.ToString();

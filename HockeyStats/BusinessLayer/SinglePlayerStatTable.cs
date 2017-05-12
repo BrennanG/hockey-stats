@@ -43,16 +43,18 @@ namespace HockeyStats
         public override void SetSeasonType(string newSeasonType)
         {
             seasonType = newSeasonType;
-            if (playerStats != null) { UpdateRowData(); }
+            UpdateRowData();
         }
 
         public void ClearTable()
         {
+            playerStats = null;
             dataTable.Clear();
         }
 
         private void UpdateRowData()
         {
+            if (playerStats == null) { return; }
             dataTable.Rows.Clear();
             List<Dictionary<string, string>> dynamicColumnValues = playerStats.GetDynamicColumnValues(seasonType);
             foreach (Dictionary<string, string> dictOfDynamicColumnValues in dynamicColumnValues)
