@@ -22,6 +22,7 @@ namespace HockeyStats
         private string currentDisplaySeason;
         private bool listIsSaved;
         private bool tableHasBeenClicked;
+        private bool rowJustSelected = false;
 
         public PlayerStatForm()
         {
@@ -41,6 +42,7 @@ namespace HockeyStats
             SetupAddSelectedPlayerButton();
             SetupRemoveSelectedPlayerButton();
             SetupShowSelectedPlayer();
+            SetupUnselectPlayer();
             SetupFormClosingHandler();
             SetupColumnResizeListener();
             SetupTableClickListener();
@@ -242,6 +244,7 @@ namespace HockeyStats
                         MessageBox.Show("No Results Found.");
                     }
 
+                    rowJustSelected = false;
                     searchPlayerButton.Text = previousText;
                     searchPlayerButton.Enabled = true;
                     clearSearchButton.Enabled = true;
@@ -336,6 +339,7 @@ namespace HockeyStats
                 rightTable.AddPlayerByPlayerStats(playerStats);
 
                 HighlightDraftRowsInThirdTable(playerStats);
+                rowJustSelected = true;
             });
 
             topTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
@@ -360,6 +364,33 @@ namespace HockeyStats
                 PlayerStats searchedPlayerStats = new PlayerStats(playerId);
 
                 ShowSelectedPlayer(searchedPlayerStats);
+            });
+        }
+
+        private void SetupUnselectPlayer()
+        {
+            Action<DataGridView, int, MouseButtons> UnselectPlayer = new Action<DataGridView, int, MouseButtons>((DataGridView dataGridView, int rowIndex, MouseButtons button) => {
+                if (dataGridView.SelectedRows.Count != 1 || rowJustSelected)
+                {
+                    rowJustSelected = false;
+                    return;
+                }
+
+                if (button == MouseButtons.Left && dataGridView.SelectedRows[0].Index == rowIndex)
+                {
+                    ClearPlayerSelection();
+                    rowJustSelected = false;
+                }
+            });
+
+            topTableDGV.CellMouseUp += new DataGridViewCellMouseEventHandler((object sender, DataGridViewCellMouseEventArgs e) =>
+            {
+                UnselectPlayer(topTableDGV, e.RowIndex, e.Button);
+            });
+
+            leftTableDGV.CellMouseUp += new DataGridViewCellMouseEventHandler((object sender, DataGridViewCellMouseEventArgs e) =>
+            {
+                UnselectPlayer(leftTableDGV, e.RowIndex, e.Button);
             });
         }
 
@@ -397,30 +428,21 @@ namespace HockeyStats
 
         private void SetupTableClickListener()
         {
-            topTableDGV.MouseDown += new MouseEventHandler((object sender, MouseEventArgs e) =>
+            MouseEventHandler eventHandler = new MouseEventHandler((object sender, MouseEventArgs e) =>
             {
                 tableHasBeenClicked = true;
             });
 
-            leftTableDGV.MouseDown += new MouseEventHandler((object sender, MouseEventArgs e) =>
-            {
-                tableHasBeenClicked = true;
-            });
-
-            middleTableDGV.MouseDown += new MouseEventHandler((object sender, MouseEventArgs e) =>
-            {
-                tableHasBeenClicked = true;
-            });
-
-            rightTableDGV.MouseDown += new MouseEventHandler((object sender, MouseEventArgs e) =>
-            {
-                tableHasBeenClicked = true;
-            });
+            topTableDGV.MouseDown += eventHandler;
+            leftTableDGV.MouseDown += eventHandler;
+            middleTableDGV.MouseDown += eventHandler;
+            rightTableDGV.MouseDown += eventHandler;
         }
 
         private void ClearPlayerSelection()
         {
             topTableDGV.ClearSelection();
+            leftTableDGV.ClearSelection();
             middleTable.ClearTable();
             rightTable.ClearTable();
         }
