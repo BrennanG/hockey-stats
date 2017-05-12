@@ -32,7 +32,8 @@ namespace HockeyStats
             LoadPlayerList(defaultPlayerList);
             
             SetupLoadListDropDown();
-            SetupSaveListButton();
+            SetupSaveButton();
+            SetupSaveAsButton();
             SetupCreateListButton();
             SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
@@ -97,11 +98,30 @@ namespace HockeyStats
             }
         }
 
-        private void SetupSaveListButton()
+        private void SetupSaveButton()
+        {
+            saveToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
+            {
+                playerList.SetListName(playerList.listName);
+                playerList.SetPrimarySeasonType(topTable.GetSeasonType());
+                playerList.SetSecondarySeasonType(rightTable.GetSeasonType());
+                playerList.SetDisplaySeason(currentDisplaySeason);
+                playerList.SetPlayerIds(topTable.GetPlayerIds());
+                playerList.SetPrimaryColumns(topTableDGV.Columns);
+                playerList.SetPrimaryColumnWidths(topTableDGV.Columns);
+                playerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
+                Serializer.WritePlayerList<PlayerList>(playerList, playerList.listName + Constants.FILENAME_SUFFIX);
+                MessageBox.Show("Saved.");
+                RefreshDropDownLists();
+                SetListIsSaved(true);
+            });
+        }
+
+        private void SetupSaveAsButton()
         {
             saveFileDialog.Filter = "Player List|*" + Constants.FILENAME_SUFFIX;
             saveFileDialog.Title = "Save Player List";
-            saveListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
+            saveAsToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
                 saveFileDialog.FileName = playerList.listName;
                 DialogResult result = saveFileDialog.ShowDialog();
@@ -519,6 +539,7 @@ namespace HockeyStats
         {
             listIsSaved = boolean;
             listNameLabel.Text = (listIsSaved) ? playerList.listName : playerList.listName + "*";
+            saveToolStripMenuItem.Enabled = !boolean;
         }
 
         private void DisplayYesNoMessageBox(string message, Action yesAction = null, Action noAction = null)
