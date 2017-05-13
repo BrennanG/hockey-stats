@@ -12,8 +12,6 @@ namespace HockeyStats
 {
     public partial class PlayerStatForm : Form
     {
-        private const string defaultPlayerListName = "bluesProspectsShort";
-        
         PlayerList playerList = new PlayerList();
         private MultiPlayerStatTable topTable;
         private SearchDataStatTable leftTable;
@@ -28,15 +26,15 @@ namespace HockeyStats
         public PlayerStatForm()
         {
             InitializeComponent();
-
-            PlayerList defaultPlayerList = Serializer.ReadPlayerList<PlayerList>(defaultPlayerListName + Constants.FILENAME_SUFFIX);
-            LoadPlayerList(defaultPlayerList, defaultPlayerListName);
+            
+            LoadEmptyList();
             
             SetupLoadListDropDown();
             SetupSaveButton();
             SetupSaveAsButton();
             SetupCreateListButton();
-            SetupRenameListButton();
+            SetupDeleteListButton();
+            SetupRenameListLabel();
             SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
@@ -63,13 +61,22 @@ namespace HockeyStats
             if (leftTable == null) { leftTable = new SearchDataStatTable(leftTableDGV, Constants.DefaultSearchDataTableColumns); }
             middleTable = new PlayerConstantsStatTable(middleTableDGV);
             rightTable = new SinglePlayerStatTable(rightTableDGV, playerList.secondaryColumnNames, playerList.secondarySeasonType);
-            
+
+            RefreshDropDownLists();
             RedrawColumnWidths(topTableDGV, playerList.GetPrimaryColumnWidth);
             RedrawColumnWidths(rightTableDGV, playerList.GetSecondaryColumnWidth);
             RedrawRowColors();
 
             SetListIsSaved(true);
             tableHasBeenClicked = false;
+        }
+
+        private void LoadEmptyList()
+        {
+            PlayerList newPlayerList = new PlayerList();
+            newPlayerList.FillWithDefaults();
+            LoadPlayerList(newPlayerList, Constants.DEFAULT_LIST_NAME);
+            SetListIsSaved(true);
         }
 
         private void SetupLoadListDropDown()
@@ -105,8 +112,11 @@ namespace HockeyStats
         {
             saveToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                SaveList(currentListName);
-                MessageBox.Show("Saved List.");
+                if (currentListName != Constants.DEFAULT_LIST_NAME)
+                {
+                    SaveList(currentListName);
+                    MessageBox.Show("Saved List.");
+                }
             });
         }
 
@@ -116,12 +126,19 @@ namespace HockeyStats
             saveFileDialog.Title = "Save Player List";
             saveAsToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                saveFileDialog.FileName = currentListName;
+                saveFileDialog.FileName = (currentListName != Constants.DEFAULT_LIST_NAME) ? currentListName : "";
                 DialogResult result = saveFileDialog.ShowDialog();
                 if (result == DialogResult.OK || result == DialogResult.Yes)
                 {
                     string listName = TrimFileNameSuffix(Path.GetFileName(saveFileDialog.FileName));
-                    SaveList(listName);
+                    if (listName == Constants.DEFAULT_LIST_NAME)
+                    {
+                        MessageBox.Show("Invalid Name. The list was not saved.");
+                    }
+                    else
+                    {
+                        SaveList(listName);
+                    }
                 }
             });
         }
@@ -132,16 +149,27 @@ namespace HockeyStats
                 Action CreateList = () => {
                     PlayerList playerListToLoad = new PlayerList();
                     playerListToLoad.FillWithDefaults();
-                    LoadPlayerList(playerListToLoad, "New List");
-                    RefreshDropDownLists();
-                    SetListIsSaved(false);
+                    LoadEmptyList();
                 };
 
                 TriggerLeaveRequest(CreateList);
             });
         }
 
-        private void SetupRenameListButton()
+        private void SetupDeleteListButton()
+        {
+            Action DeleteList = () => {
+                File.Delete(currentListName + Constants.FILENAME_SUFFIX);
+                LoadEmptyList();
+            };
+
+            deleteListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) => {
+                string message = "Are you sure you want to delete this list? This cannot be undone.";
+                DisplayYesNoMessageBox(message, DeleteList);
+            });
+        }
+
+        private void SetupRenameListLabel()
         {
             listNameLabel.Click += new EventHandler((object sender, EventArgs e) => {
                 listNameLabel.Visible = false;
@@ -166,7 +194,11 @@ namespace HockeyStats
             renameListTextbox.KeyUp += new KeyEventHandler((object sender, KeyEventArgs e) => {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    File.Move(currentListName + Constants.FILENAME_SUFFIX, renameListTextbox.Text + Constants.FILENAME_SUFFIX); // Rename file if the listName is changed
+                    // Rename file if is exists and the listName has been changed
+                    if (File.Exists(currentListName + Constants.FILENAME_SUFFIX))
+                    {
+                        File.Move(currentListName + Constants.FILENAME_SUFFIX, renameListTextbox.Text + Constants.FILENAME_SUFFIX);
+                    }
 
                     currentListName = renameListTextbox.Text;
                     listNameLabel.Text = renameListTextbox.Text;
@@ -560,7 +592,26 @@ namespace HockeyStats
         {
             listIsSaved = boolean;
             listNameLabel.Text = (listIsSaved) ? currentListName : currentListName + "*";
-            saveToolStripMenuItem.Enabled = !boolean;
+
+            if (currentListName == Constants.DEFAULT_LIST_NAME)
+            {
+                deleteListToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                deleteListToolStripMenuItem.Enabled = true;
+            }
+
+            if (listIsSaved && currentListName == Constants.DEFAULT_LIST_NAME)
+            {
+                createListToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                createListToolStripMenuItem.Enabled = true;
+            }
+
+            saveToolStripMenuItem.Enabled = !boolean && currentListName != Constants.DEFAULT_LIST_NAME;
         }
 
         private void DisplayYesNoMessageBox(string message, Action yesAction = null, Action noAction = null)

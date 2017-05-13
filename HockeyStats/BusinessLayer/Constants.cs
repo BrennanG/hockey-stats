@@ -11,7 +11,7 @@ namespace HockeyStats
 
         public static readonly string FILENAME_SUFFIX_NO_XML = ".playerList";
         public static readonly string FILENAME_SUFFIX = ".playerList.xml";
-        public static readonly string DEFAULT_LIST_NAME = "NewList";
+        public static readonly string DEFAULT_LIST_NAME = "Untitled List";
 
         public static readonly string REGULAR_SEASON = "Regular Season";
         public static readonly string PLAYOFFS = "Playoffs";

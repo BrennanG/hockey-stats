@@ -27,6 +27,7 @@ namespace HockeyStats
         public void FillWithDefaults()
         {
             primarySeasonType = Constants.REGULAR_SEASON;
+            secondarySeasonType = Constants.REGULAR_SEASON;
             displaySeason = Constants.CurrentSeason;
             playerIds = new List<string>();
             primaryColumnNames = Constants.DefaultPrimaryColumns;
