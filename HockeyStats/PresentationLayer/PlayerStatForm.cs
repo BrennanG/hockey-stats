@@ -20,6 +20,7 @@ namespace HockeyStats
         private PlayerConstantsStatTable middleTable;
         private SinglePlayerStatTable rightTable;
         private string currentDisplaySeason;
+        private string currentListName;
         private bool listIsSaved;
         private bool tableHasBeenClicked;
         private bool rowJustSelected = false;
@@ -29,12 +30,13 @@ namespace HockeyStats
             InitializeComponent();
 
             PlayerList defaultPlayerList = Serializer.ReadPlayerList<PlayerList>(defaultPlayerListName + Constants.FILENAME_SUFFIX);
-            LoadPlayerList(defaultPlayerList);
+            LoadPlayerList(defaultPlayerList, defaultPlayerListName);
             
             SetupLoadListDropDown();
             SetupSaveButton();
             SetupSaveAsButton();
             SetupCreateListButton();
+            SetupRenameListButton();
             SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
@@ -49,11 +51,12 @@ namespace HockeyStats
             SetupTableClickListener();
         }
 
-        private void LoadPlayerList(PlayerList playerListToLoad)
+        private void LoadPlayerList(PlayerList playerListToLoad, string listName)
         {
             playerList = playerListToLoad;
             currentDisplaySeason = playerList.displaySeason;
-            listNameLabel.Text = playerList.listName;
+            this.currentListName = listName;
+            listNameLabel.Text = listName;
             if (topTable != null) { topTable.AbortFillDataTableThread(); }
 
             topTable = new MultiPlayerStatTable(topTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason, playerList.primarySeasonType);
@@ -83,7 +86,7 @@ namespace HockeyStats
                 PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>(listName + Constants.FILENAME_SUFFIX);
                 EventHandler selectPlayerListHandler = new EventHandler((object sender, EventArgs e) => {
                     Action LoadPlayer = () => {
-                        LoadPlayerList(playerListToLoad);
+                        LoadPlayerList(playerListToLoad, listName);
                         RefreshDropDownLists();
                     };
 
@@ -91,7 +94,7 @@ namespace HockeyStats
                 });
 
                 dropDownItems.Add(listName, null, selectPlayerListHandler);
-                if (playerList.listName == listName)
+                if (currentListName == listName)
                 {
                     ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
                 }
@@ -102,18 +105,8 @@ namespace HockeyStats
         {
             saveToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                playerList.SetListName(playerList.listName);
-                playerList.SetPrimarySeasonType(topTable.GetSeasonType());
-                playerList.SetSecondarySeasonType(rightTable.GetSeasonType());
-                playerList.SetDisplaySeason(currentDisplaySeason);
-                playerList.SetPlayerIds(topTable.GetPlayerIds());
-                playerList.SetPrimaryColumns(topTableDGV.Columns);
-                playerList.SetPrimaryColumnWidths(topTableDGV.Columns);
-                playerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
-                Serializer.WritePlayerList<PlayerList>(playerList, playerList.listName + Constants.FILENAME_SUFFIX);
-                MessageBox.Show("Saved.");
-                RefreshDropDownLists();
-                SetListIsSaved(true);
+                SaveList(currentListName);
+                MessageBox.Show("Saved List.");
             });
         }
 
@@ -123,24 +116,12 @@ namespace HockeyStats
             saveFileDialog.Title = "Save Player List";
             saveAsToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                saveFileDialog.FileName = playerList.listName;
+                saveFileDialog.FileName = currentListName;
                 DialogResult result = saveFileDialog.ShowDialog();
                 if (result == DialogResult.OK || result == DialogResult.Yes)
                 {
-                    string fileName = Path.GetFileName(saveFileDialog.FileName);
-                    string listName = TrimFileNameSuffix(fileName);
-                    string listNameWithSuffix = listName + Constants.FILENAME_SUFFIX;
-                    playerList.SetListName(listName);
-                    playerList.SetPrimarySeasonType(topTable.GetSeasonType());
-                    playerList.SetSecondarySeasonType(rightTable.GetSeasonType());
-                    playerList.SetDisplaySeason(currentDisplaySeason);
-                    playerList.SetPlayerIds(topTable.GetPlayerIds());
-                    playerList.SetPrimaryColumns(topTableDGV.Columns);
-                    playerList.SetPrimaryColumnWidths(topTableDGV.Columns);
-                    playerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
-                    Serializer.WritePlayerList<PlayerList>(playerList, listNameWithSuffix);
-                    RefreshDropDownLists();
-                    SetListIsSaved(true);
+                    string listName = TrimFileNameSuffix(Path.GetFileName(saveFileDialog.FileName));
+                    SaveList(listName);
                 }
             });
         }
@@ -151,12 +132,52 @@ namespace HockeyStats
                 Action CreateList = () => {
                     PlayerList playerListToLoad = new PlayerList();
                     playerListToLoad.FillWithDefaults();
-                    LoadPlayerList(playerListToLoad);
+                    LoadPlayerList(playerListToLoad, "New List");
                     RefreshDropDownLists();
                     SetListIsSaved(false);
                 };
 
                 TriggerLeaveRequest(CreateList);
+            });
+        }
+
+        private void SetupRenameListButton()
+        {
+            listNameLabel.Click += new EventHandler((object sender, EventArgs e) => {
+                listNameLabel.Visible = false;
+                renameListTextbox.Visible = true;
+                renameListTextbox.Enabled = true;
+                renameListTextbox.SetBounds(listNameLabel.Left, 1, 200, listNameLabel.Height);
+                renameListTextbox.Text = listNameLabel.Text;
+                renameListTextbox.Focus();
+            });
+
+            Action LeaveTextBox = () =>
+            {
+                renameListTextbox.Visible = false;
+                renameListTextbox.Enabled = false;
+                listNameLabel.Visible = true;
+            };
+
+            renameListTextbox.LostFocus += new EventHandler((object sender, EventArgs e) => {
+                LeaveTextBox();
+            });
+
+            renameListTextbox.KeyUp += new KeyEventHandler((object sender, KeyEventArgs e) => {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    File.Move(currentListName + Constants.FILENAME_SUFFIX, renameListTextbox.Text + Constants.FILENAME_SUFFIX); // Rename file if the listName is changed
+
+                    currentListName = renameListTextbox.Text;
+                    listNameLabel.Text = renameListTextbox.Text;
+                    RefreshDropDownLists();
+
+                    LeaveTextBox();
+                }
+                else if (e.KeyCode == Keys.Escape)
+                {
+                    LeaveTextBox();
+                }
             });
         }
 
@@ -538,7 +559,7 @@ namespace HockeyStats
         private void SetListIsSaved(bool boolean)
         {
             listIsSaved = boolean;
-            listNameLabel.Text = (listIsSaved) ? playerList.listName : playerList.listName + "*";
+            listNameLabel.Text = (listIsSaved) ? currentListName : currentListName + "*";
             saveToolStripMenuItem.Enabled = !boolean;
         }
 
@@ -577,6 +598,22 @@ namespace HockeyStats
             }
 
             return fullFileName;
+        }
+
+        private void SaveList(string listName)
+        {
+            playerList.SetPrimarySeasonType(topTable.GetSeasonType());
+            playerList.SetSecondarySeasonType(rightTable.GetSeasonType());
+            playerList.SetDisplaySeason(currentDisplaySeason);
+            playerList.SetPlayerIds(topTable.GetPlayerIds());
+            playerList.SetPrimaryColumns(topTableDGV.Columns);
+            playerList.SetPrimaryColumnWidths(topTableDGV.Columns);
+            playerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
+
+            Serializer.WritePlayerList<PlayerList>(playerList, listName + Constants.FILENAME_SUFFIX);
+            currentListName = listName;
+            RefreshDropDownLists();
+            SetListIsSaved(true);
         }
     }
 }

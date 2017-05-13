@@ -10,7 +10,6 @@ namespace HockeyStats
     [Serializable]
     public class PlayerList
     {
-        public string listName;
         public string primarySeasonType;
         public string secondarySeasonType;
         public string displaySeason;
@@ -27,7 +26,6 @@ namespace HockeyStats
 
         public void FillWithDefaults()
         {
-            listName = Constants.DEFAULT_LIST_NAME;
             primarySeasonType = Constants.REGULAR_SEASON;
             displaySeason = Constants.CurrentSeason;
             playerIds = new List<string>();
@@ -35,11 +33,6 @@ namespace HockeyStats
             secondaryColumnNames = Constants.DefaultSecondaryColumns;
             primaryColumnWidths = Constants.DefaultPrimaryColumnWidths;
             secondaryColumnWidths = Constants.DefaultSecondaryColumnWidths;
-        }
-
-        public void SetListName(string listName)
-        {
-            this.listName = listName;
         }
 
         public void AddPlayer(string playerId)
