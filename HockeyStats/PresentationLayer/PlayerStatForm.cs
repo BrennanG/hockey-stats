@@ -521,10 +521,10 @@ namespace HockeyStats
                 HandleResize();
             });
 
-            rightTableDGV.ColumnWidthChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
-            {
-                HandleResize();
-            });
+            //rightTableDGV.ColumnWidthChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
+            //{
+            //    HandleResize();
+            //});
         }
 
         private void SetupTableClickListener()

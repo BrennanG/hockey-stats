@@ -28,28 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
             this.topTableDGV = new System.Windows.Forms.DataGridView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.renameListTextbox = new System.Windows.Forms.TextBox();
             this.listNameLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.loadListDropDown = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveListDropDown = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addRemoveColumnDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSeasonDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.selectPrimarySeasonTypeDropDown = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.rightTableDGV = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -65,6 +59,13 @@
             this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.selectSecondarySeasonTypeDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadListDropDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveListDropDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setAsDefaultListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.topTableDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -90,19 +91,19 @@
             this.topTableDGV.AllowUserToAddRows = false;
             this.topTableDGV.AllowUserToDeleteRows = false;
             this.topTableDGV.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            this.topTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle25.BackColor = System.Drawing.Color.LightGray;
+            this.topTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle25;
             this.topTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.topTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.topTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.topTableDGV.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle26.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle26.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle26.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle26.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.topTableDGV.DefaultCellStyle = dataGridViewCellStyle26;
             this.topTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.topTableDGV.Location = new System.Drawing.Point(0, 24);
             this.topTableDGV.MultiSelect = false;
@@ -139,7 +140,7 @@
             // 
             this.renameListTextbox.Enabled = false;
             this.renameListTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.renameListTextbox.Location = new System.Drawing.Point(558, 0);
+            this.renameListTextbox.Location = new System.Drawing.Point(539, 0);
             this.renameListTextbox.Name = "renameListTextbox";
             this.renameListTextbox.Size = new System.Drawing.Size(100, 23);
             this.renameListTextbox.TabIndex = 3;
@@ -150,7 +151,7 @@
             this.listNameLabel.AutoSize = true;
             this.listNameLabel.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.listNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listNameLabel.Location = new System.Drawing.Point(463, 4);
+            this.listNameLabel.Location = new System.Drawing.Point(404, 3);
             this.listNameLabel.Name = "listNameLabel";
             this.listNameLabel.Size = new System.Drawing.Size(89, 20);
             this.listNameLabel.TabIndex = 2;
@@ -159,54 +160,16 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadListDropDown,
-            this.saveListDropDown,
-            this.createListToolStripMenuItem,
+            this.fileToolStripMenuItem,
             this.addRemoveColumnDropDown,
             this.selectSeasonDropDown,
-            this.selectPrimarySeasonTypeDropDown,
-            this.deleteListToolStripMenuItem,
-            this.setAsDefaultListToolStripMenuItem});
+            this.selectPrimarySeasonTypeDropDown});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
             this.menuStrip1.Size = new System.Drawing.Size(1084, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // loadListDropDown
-            // 
-            this.loadListDropDown.Name = "loadListDropDown";
-            this.loadListDropDown.Size = new System.Drawing.Size(66, 20);
-            this.loadListDropDown.Text = "Load List";
-            // 
-            // saveListDropDown
-            // 
-            this.saveListDropDown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem});
-            this.saveListDropDown.Name = "saveListDropDown";
-            this.saveListDropDown.Size = new System.Drawing.Size(64, 20);
-            this.saveListDropDown.Text = "Save List";
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Enabled = false;
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.saveAsToolStripMenuItem.Text = "Save As...";
-            // 
-            // createListToolStripMenuItem
-            // 
-            this.createListToolStripMenuItem.Name = "createListToolStripMenuItem";
-            this.createListToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
-            this.createListToolStripMenuItem.Text = "Create List";
             // 
             // addRemoveColumnDropDown
             // 
@@ -228,12 +191,6 @@
             this.selectPrimarySeasonTypeDropDown.Name = "selectPrimarySeasonTypeDropDown";
             this.selectPrimarySeasonTypeDropDown.Size = new System.Drawing.Size(118, 20);
             this.selectPrimarySeasonTypeDropDown.Text = "Select Season Type";
-            // 
-            // deleteListToolStripMenuItem
-            // 
-            this.deleteListToolStripMenuItem.Name = "deleteListToolStripMenuItem";
-            this.deleteListToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
-            this.deleteListToolStripMenuItem.Text = "Delete List";
             // 
             // tableLayoutPanel1
             // 
@@ -259,19 +216,19 @@
             this.rightTableDGV.AllowUserToAddRows = false;
             this.rightTableDGV.AllowUserToDeleteRows = false;
             this.rightTableDGV.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
-            this.rightTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle27.BackColor = System.Drawing.Color.LightGray;
+            this.rightTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle27;
             this.rightTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.rightTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.rightTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.rightTableDGV.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.rightTableDGV.DefaultCellStyle = dataGridViewCellStyle28;
             this.rightTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rightTableDGV.Location = new System.Drawing.Point(539, 35);
             this.rightTableDGV.Name = "rightTableDGV";
@@ -286,7 +243,7 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.40881F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.59119F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 127F));
             this.tableLayoutPanel3.Controls.Add(this.searchPlayerButton, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.searchPlayerTextbox, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.addSelectedPlayerButton, 3, 0);
@@ -302,9 +259,9 @@
             // searchPlayerButton
             // 
             this.searchPlayerButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.searchPlayerButton.Location = new System.Drawing.Point(212, 3);
+            this.searchPlayerButton.Location = new System.Drawing.Point(211, 3);
             this.searchPlayerButton.Name = "searchPlayerButton";
-            this.searchPlayerButton.Size = new System.Drawing.Size(105, 20);
+            this.searchPlayerButton.Size = new System.Drawing.Size(104, 20);
             this.searchPlayerButton.TabIndex = 1;
             this.searchPlayerButton.Text = "Search";
             this.searchPlayerButton.UseVisualStyleBackColor = true;
@@ -314,13 +271,13 @@
             this.searchPlayerTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.searchPlayerTextbox.Location = new System.Drawing.Point(3, 3);
             this.searchPlayerTextbox.Name = "searchPlayerTextbox";
-            this.searchPlayerTextbox.Size = new System.Drawing.Size(203, 20);
+            this.searchPlayerTextbox.Size = new System.Drawing.Size(202, 20);
             this.searchPlayerTextbox.TabIndex = 3;
             // 
             // addSelectedPlayerButton
             // 
             this.addSelectedPlayerButton.Enabled = false;
-            this.addSelectedPlayerButton.Location = new System.Drawing.Point(407, 3);
+            this.addSelectedPlayerButton.Location = new System.Drawing.Point(405, 3);
             this.addSelectedPlayerButton.Name = "addSelectedPlayerButton";
             this.addSelectedPlayerButton.Size = new System.Drawing.Size(111, 20);
             this.addSelectedPlayerButton.TabIndex = 4;
@@ -330,7 +287,7 @@
             // clearSearchButton
             // 
             this.clearSearchButton.Enabled = false;
-            this.clearSearchButton.Location = new System.Drawing.Point(323, 3);
+            this.clearSearchButton.Location = new System.Drawing.Point(321, 3);
             this.clearSearchButton.Name = "clearSearchButton";
             this.clearSearchButton.Size = new System.Drawing.Size(78, 20);
             this.clearSearchButton.TabIndex = 5;
@@ -359,19 +316,19 @@
             this.leftTableDGV.AllowUserToAddRows = false;
             this.leftTableDGV.AllowUserToDeleteRows = false;
             this.leftTableDGV.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.LightGray;
-            this.leftTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle29.BackColor = System.Drawing.Color.LightGray;
+            this.leftTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle29;
             this.leftTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.leftTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.leftTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.leftTableDGV.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle30.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle30.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle30.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle30.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.leftTableDGV.DefaultCellStyle = dataGridViewCellStyle30;
             this.leftTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.leftTableDGV.Location = new System.Drawing.Point(0, 0);
             this.leftTableDGV.Name = "leftTableDGV";
@@ -387,19 +344,19 @@
             this.middleTableDGV.AllowUserToDeleteRows = false;
             this.middleTableDGV.AllowUserToOrderColumns = true;
             this.middleTableDGV.AllowUserToResizeColumns = false;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.LightGray;
-            this.middleTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle31.BackColor = System.Drawing.Color.LightGray;
+            this.middleTableDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle31;
             this.middleTableDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.middleTableDGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.middleTableDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.middleTableDGV.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle32.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle32.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle32.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.middleTableDGV.DefaultCellStyle = dataGridViewCellStyle32;
             this.middleTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.middleTableDGV.Location = new System.Drawing.Point(0, 0);
             this.middleTableDGV.Name = "middleTableDGV";
@@ -452,10 +409,62 @@
             this.selectSecondarySeasonTypeDropDown.Size = new System.Drawing.Size(118, 20);
             this.selectSecondarySeasonTypeDropDown.Text = "Select Season Type";
             // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadListDropDown,
+            this.saveListDropDown,
+            this.createListToolStripMenuItem,
+            this.deleteListToolStripMenuItem,
+            this.setAsDefaultListToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // loadListDropDown
+            // 
+            this.loadListDropDown.Name = "loadListDropDown";
+            this.loadListDropDown.Size = new System.Drawing.Size(152, 22);
+            this.loadListDropDown.Text = "Load List";
+            // 
+            // saveListDropDown
+            // 
+            this.saveListDropDown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem,
+            this.saveAsToolStripMenuItem});
+            this.saveListDropDown.Name = "saveListDropDown";
+            this.saveListDropDown.Size = new System.Drawing.Size(168, 22);
+            this.saveListDropDown.Text = "Save List";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Enabled = false;
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Text = "Save As...";
+            // 
+            // createListToolStripMenuItem
+            // 
+            this.createListToolStripMenuItem.Name = "createListToolStripMenuItem";
+            this.createListToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.createListToolStripMenuItem.Text = "Create List";
+            // 
+            // deleteListToolStripMenuItem
+            // 
+            this.deleteListToolStripMenuItem.Name = "deleteListToolStripMenuItem";
+            this.deleteListToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.deleteListToolStripMenuItem.Text = "Delete List";
+            // 
             // setAsDefaultListToolStripMenuItem
             // 
             this.setAsDefaultListToolStripMenuItem.Name = "setAsDefaultListToolStripMenuItem";
-            this.setAsDefaultListToolStripMenuItem.Size = new System.Drawing.Size(113, 20);
+            this.setAsDefaultListToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.setAsDefaultListToolStripMenuItem.Text = "Set As Default List";
             // 
             // PlayerStatForm
@@ -503,9 +512,6 @@
         private System.Windows.Forms.DataGridView rightTableDGV;
         private System.Windows.Forms.DataGridView middleTableDGV;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem loadListDropDown;
-        private System.Windows.Forms.ToolStripMenuItem createListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveListDropDown;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem addRemoveColumnDropDown;
         private System.Windows.Forms.ToolStripMenuItem selectSeasonDropDown;
@@ -522,10 +528,14 @@
         private System.Windows.Forms.Button removeSelectedPlayerButton;
         private System.Windows.Forms.MenuStrip menuStrip2;
         private System.Windows.Forms.ToolStripMenuItem selectSecondarySeasonTypeDropDown;
+        private System.Windows.Forms.TextBox renameListTextbox;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadListDropDown;
+        private System.Windows.Forms.ToolStripMenuItem saveListDropDown;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteListToolStripMenuItem;
-        private System.Windows.Forms.TextBox renameListTextbox;
         private System.Windows.Forms.ToolStripMenuItem setAsDefaultListToolStripMenuItem;
     }
 }
