@@ -439,7 +439,7 @@ namespace HockeyStats
                 rightTable.ClearTable();
                 rightTable.AddPlayerByPlayerStats(playerStats);
 
-                HighlightDraftRowsInThirdTable(playerStats);
+                HighlightDraftRowsInRightTable(playerStats);
                 rowJustSelected = true;
             });
 
@@ -573,7 +573,7 @@ namespace HockeyStats
             }
         }
 
-        private void HighlightDraftRowsInThirdTable(PlayerStats playerStats)
+        private void HighlightDraftRowsInRightTable(PlayerStats playerStats)
         {
             if (playerStats == null) { return; }
             foreach (DataGridViewRow DGVRow in rightTableDGV.Rows)
@@ -582,11 +582,11 @@ namespace HockeyStats
                 string endYear = (season != String.Empty) ? season.Substring(5) : String.Empty;
                 if (endYear == playerStats.GetDraftYear())
                 {
-                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.Khaki;
+                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.Turquoise;
                 }
                 else if (endYear == playerStats.GetFirstYearOfDraftEligibility())
                 {
-                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.LightGreen;
+                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.DeepSkyBlue;
                 }
             }
         }
@@ -613,7 +613,7 @@ namespace HockeyStats
                 rightTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
             }
 
-            HighlightDraftRowsInThirdTable(rightTable.GetPlayerStats());
+            HighlightDraftRowsInRightTable(rightTable.GetPlayerStats());
         }
 
         private void SetListIsSaved(bool boolean)
