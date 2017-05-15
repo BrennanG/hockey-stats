@@ -204,7 +204,7 @@ namespace HockeyStats
                 renameListTextbox.Visible = true;
                 renameListTextbox.Enabled = true;
                 renameListTextbox.SetBounds(listNameLabel.Left, 1, 200, listNameLabel.Height);
-                renameListTextbox.Text = listNameLabel.Text;
+                renameListTextbox.Text = currentListName;
                 renameListTextbox.Focus();
             });
 
@@ -228,8 +228,16 @@ namespace HockeyStats
                         File.Move(currentListName + Constants.LIST_NAME_SUFFIX, renameListTextbox.Text + Constants.LIST_NAME_SUFFIX);
                     }
 
+                    // If the renamed list is the default list, update the default list with the new name
+                    if (configuration.defaultList == currentListName)
+                    {
+                        configuration.defaultList = renameListTextbox.Text;
+                        Serializer.WriteXML<Configuration>(configuration, Constants.CONFIGURATION_FILE_NAME);
+                    }
+
                     currentListName = renameListTextbox.Text;
-                    listNameLabel.Text = renameListTextbox.Text;
+                    string asterisk = (listNameLabel.Text.EndsWith("*")) ? "*": ""; // Add the asterisk back onto the label if necessary
+                    listNameLabel.Text = renameListTextbox.Text + asterisk;
                     RefreshDropDownLists();
 
                     LeaveTextBox();
