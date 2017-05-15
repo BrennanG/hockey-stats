@@ -13,6 +13,7 @@ namespace HockeyStats
     public partial class PlayerStatForm : Form
     {
         PlayerList playerList = new PlayerList();
+        Configuration configuration = new Configuration();
         private MultiPlayerStatTable topTable;
         private SearchDataStatTable leftTable;
         private PlayerConstantsStatTable middleTable;
@@ -27,13 +28,24 @@ namespace HockeyStats
         {
             InitializeComponent();
             
-            LoadEmptyList();
+            configuration = Serializer.ReadXML<Configuration>(Constants.CONFIGURATION_FILE_NAME);
+            string[] playerLists = GetPlayerListsInDirectory();
+            if (playerLists.Contains(configuration.defaultList + Constants.LIST_NAME_SUFFIX))
+            {
+                PlayerList playerList = Serializer.ReadXML<PlayerList>(configuration.defaultList + Constants.LIST_NAME_SUFFIX);
+                LoadPlayerList(playerList, configuration.defaultList);
+            }
+            else
+            {
+                LoadEmptyList();
+            }
             
             SetupLoadListDropDown();
             SetupSaveButton();
             SetupSaveAsButton();
             SetupCreateListButton();
             SetupDeleteListButton();
+            SetupSetAsDefaultListButton();
             SetupRenameListLabel();
             SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
@@ -53,7 +65,7 @@ namespace HockeyStats
         {
             playerList = playerListToLoad;
             currentDisplaySeason = playerList.displaySeason;
-            this.currentListName = listName;
+            currentListName = listName;
             listNameLabel.Text = listName;
             if (topTable != null) { topTable.AbortFillDataTableThread(); }
 
@@ -83,14 +95,13 @@ namespace HockeyStats
         {
             ToolStripItemCollection dropDownItems = loadListDropDown.DropDownItems;
             dropDownItems.Clear();
-            string[] playerListFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*" + Constants.FILENAME_SUFFIX);
-            foreach (string fileWithPath in playerListFiles)
+            string[] playerListFiles = GetPlayerListsInDirectory();
+            foreach (string file in playerListFiles)
             {
                 // Get the name without the file path or suffix
-                string file = Path.GetFileName(fileWithPath);
-                string listName = file.Substring(0, file.Length - Constants.FILENAME_SUFFIX.Length);
+                string listName = file.Substring(0, file.Length - Constants.LIST_NAME_SUFFIX.Length);
 
-                PlayerList playerListToLoad = Serializer.ReadPlayerList<PlayerList>(listName + Constants.FILENAME_SUFFIX);
+                PlayerList playerListToLoad = Serializer.ReadXML<PlayerList>(listName + Constants.LIST_NAME_SUFFIX);
                 EventHandler selectPlayerListHandler = new EventHandler((object sender, EventArgs e) => {
                     Action LoadPlayer = () => {
                         LoadPlayerList(playerListToLoad, listName);
@@ -122,7 +133,7 @@ namespace HockeyStats
 
         private void SetupSaveAsButton()
         {
-            saveFileDialog.Filter = "Player List|*" + Constants.FILENAME_SUFFIX;
+            saveFileDialog.Filter = "Player List|*" + Constants.LIST_NAME_SUFFIX;
             saveFileDialog.Title = "Save Player List";
             saveAsToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
@@ -159,13 +170,30 @@ namespace HockeyStats
         private void SetupDeleteListButton()
         {
             Action DeleteList = () => {
-                File.Delete(currentListName + Constants.FILENAME_SUFFIX);
+                File.Delete(currentListName + Constants.LIST_NAME_SUFFIX);
                 LoadEmptyList();
             };
 
             deleteListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) => {
                 string message = "Are you sure you want to delete this list? This cannot be undone.";
                 DisplayYesNoMessageBox(message, DeleteList);
+            });
+        }
+
+        private void SetupSetAsDefaultListButton()
+        {
+            setAsDefaultListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
+            {
+                if (configuration.defaultList == currentListName)
+                {
+                    MessageBox.Show("This is already the default list.");
+                }
+                else
+                {
+                    configuration.defaultList = currentListName;
+                    Serializer.WriteXML<Configuration>(configuration, Constants.CONFIGURATION_FILE_NAME);
+                    MessageBox.Show("Default list updated.");
+                }
             });
         }
 
@@ -195,9 +223,9 @@ namespace HockeyStats
                 if (e.KeyCode == Keys.Enter)
                 {
                     // Rename file if is exists and the listName has been changed
-                    if (File.Exists(currentListName + Constants.FILENAME_SUFFIX))
+                    if (File.Exists(currentListName + Constants.LIST_NAME_SUFFIX))
                     {
-                        File.Move(currentListName + Constants.FILENAME_SUFFIX, renameListTextbox.Text + Constants.FILENAME_SUFFIX);
+                        File.Move(currentListName + Constants.LIST_NAME_SUFFIX, renameListTextbox.Text + Constants.LIST_NAME_SUFFIX);
                     }
 
                     currentListName = renameListTextbox.Text;
@@ -641,11 +669,11 @@ namespace HockeyStats
 
         private string TrimFileNameSuffix(string fullFileName)
         {
-            if (fullFileName.EndsWith(Constants.FILENAME_SUFFIX)) { fullFileName = fullFileName.Remove(fullFileName.IndexOf(Constants.FILENAME_SUFFIX)); }
+            if (fullFileName.EndsWith(Constants.LIST_NAME_SUFFIX)) { fullFileName = fullFileName.Remove(fullFileName.IndexOf(Constants.LIST_NAME_SUFFIX)); }
 
-            while(fullFileName.EndsWith(Constants.FILENAME_SUFFIX_NO_XML))
+            while(fullFileName.EndsWith(Constants.LIST_NAME_SUFFIX_NO_XML))
             {
-                fullFileName = fullFileName.Remove(fullFileName.IndexOf(Constants.FILENAME_SUFFIX_NO_XML));
+                fullFileName = fullFileName.Remove(fullFileName.IndexOf(Constants.LIST_NAME_SUFFIX_NO_XML));
             }
 
             return fullFileName;
@@ -661,10 +689,23 @@ namespace HockeyStats
             playerList.SetPrimaryColumnWidths(topTableDGV.Columns);
             playerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
 
-            Serializer.WritePlayerList<PlayerList>(playerList, listName + Constants.FILENAME_SUFFIX);
+            Serializer.WriteXML<PlayerList>(playerList, listName + Constants.LIST_NAME_SUFFIX);
             currentListName = listName;
             RefreshDropDownLists();
             SetListIsSaved(true);
+        }
+
+        private string[] GetPlayerListsInDirectory()
+        {
+            string[] playerListFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*" + Constants.LIST_NAME_SUFFIX);
+            string[] playerListFileNames = new string[playerListFiles.Length];
+            int count = 0;
+            foreach (string fileWithPath in playerListFiles)
+            {
+                playerListFileNames[count] = Path.GetFileName(fileWithPath);
+                count++;
+            }
+            return playerListFileNames;
         }
     }
 }

@@ -9,8 +9,9 @@ namespace HockeyStats
     {
         public static readonly string ARE_YOU_SURE_LEAVE_MESSAGE = "This list has unsaved changes. Are you sure you want to leave?";
 
-        public static readonly string FILENAME_SUFFIX_NO_XML = ".playerList";
-        public static readonly string FILENAME_SUFFIX = ".playerList.xml";
+        public static readonly string CONFIGURATION_FILE_NAME = "configuration.xml";
+        public static readonly string LIST_NAME_SUFFIX_NO_XML = ".playerList";
+        public static readonly string LIST_NAME_SUFFIX = ".playerList.xml";
         public static readonly string DEFAULT_LIST_NAME = "Untitled List";
 
         public static readonly string REGULAR_SEASON = "Regular Season";

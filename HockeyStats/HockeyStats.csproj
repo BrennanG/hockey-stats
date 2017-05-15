@@ -59,6 +59,7 @@
     <Compile Include="DataLayer\Parser.cs" />
     <Compile Include="BusinessLayer\PlayerConstantsStatTable.cs" />
     <Compile Include="DataLayer\SearchDataParser.cs" />
+    <Compile Include="PresentationLayer\Configuration.cs" />
     <Compile Include="PresentationLayer\PlayerList.cs" />
     <Compile Include="PresentationLayer\PlayerStatForm.cs">
       <SubType>Form</SubType>

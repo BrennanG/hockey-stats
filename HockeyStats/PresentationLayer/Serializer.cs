@@ -16,7 +16,7 @@ namespace HockeyStats
         /// <typeparam name="T"></typeparam>
         /// <param name="serializableObject"></param>
         /// <param name="fileName"></param>
-        public static void WritePlayerList<T>(T serializableObject, string fileName)
+        public static void WriteXML<T>(T serializableObject, string fileName)
         {
             if (serializableObject == null) { return; }
 
@@ -46,7 +46,7 @@ namespace HockeyStats
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static T ReadPlayerList<T>(string fileName)
+        public static T ReadXML<T>(string fileName)
         {
             if (string.IsNullOrEmpty(fileName)) { return default(T); }
 
@@ -72,7 +72,7 @@ namespace HockeyStats
                     read.Close();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //Log exception here
             }
