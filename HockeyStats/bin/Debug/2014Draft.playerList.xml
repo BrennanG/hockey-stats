@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">  <primarySeasonType>Regular Season</primarySeasonType>
+<PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <primarySeasonType>Regular Season</primarySeasonType>
   <secondarySeasonType>Regular Season</secondarySeasonType>
   <displaySeason>2016-2017</displaySeason>
   <playerIds>
@@ -168,7 +169,7 @@
         <string>League</string>
       </key>
       <value>
-        <int>107</int>
+        <int>106</int>
       </value>
     </item>
     <item>

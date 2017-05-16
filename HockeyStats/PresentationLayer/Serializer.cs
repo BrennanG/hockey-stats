@@ -72,7 +72,7 @@ namespace HockeyStats
                     read.Close();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //Log exception here
             }

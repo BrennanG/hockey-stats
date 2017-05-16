@@ -60,6 +60,8 @@
     <Compile Include="BusinessLayer\PlayerConstantsStatTable.cs" />
     <Compile Include="DataLayer\SearchDataParser.cs" />
     <Compile Include="PresentationLayer\Configuration.cs" />
+    <Compile Include="PresentationLayer\UserInterfaceInitializers\MenuStripsInitializer.cs" />
+    <Compile Include="PresentationLayer\UserInterfaceInitializers\PlayerButtonsInitializer.cs" />
     <Compile Include="PresentationLayer\PlayerList.cs" />
     <Compile Include="PresentationLayer\PlayerStatForm.cs">
       <SubType>Form</SubType>
@@ -68,6 +70,7 @@
       <DependentUpon>PlayerStatForm.cs</DependentUpon>
     </Compile>
     <Compile Include="BusinessLayer\PlayerStatTable.cs" />
+    <Compile Include="PresentationLayer\UserInterfaceInitializers\PlayerStatTablesInitializer.cs" />
     <Compile Include="PresentationLayer\SerializableDictionary.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
