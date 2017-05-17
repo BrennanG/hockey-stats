@@ -219,7 +219,7 @@ namespace HockeyStats
                     EventHandler selectSeasonTypeHandler = new EventHandler((object sender, EventArgs e) => {
                         playerStatTable.SetSeasonType(seasonType);
                         RefreshDropDownLists();
-                        form.RedrawRowColors();
+                        form.playerStatTablesManager.RedrawRowColors();
                         form.SetListIsSaved(false);
                     });
                     dropDownItems.Add(seasonType, null, selectSeasonTypeHandler);
@@ -278,7 +278,7 @@ namespace HockeyStats
                         form.topTable.AddColumn(dropDownItem.Text, form.currentDisplaySeason);
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
-                    form.RedrawColumnWidths(topTableDGV, form.playerList.GetPrimaryColumnWidth);
+                    form.playerStatTablesManager.RedrawColumnWidths(topTableDGV, form.playerList.GetPrimaryColumnWidth);
                     form.SetListIsSaved(false);
                 });
                 dropDownItems.Add(columnName, null, selectColumnHandler);

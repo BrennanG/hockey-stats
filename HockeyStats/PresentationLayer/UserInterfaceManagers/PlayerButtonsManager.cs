@@ -73,9 +73,7 @@ namespace HockeyStats
             clearSearchButton.Click += new EventHandler((object sender, EventArgs e) => {
                 if (leftTableDGV.SelectedRows.Count == 1)
                 {
-                    form.middleTable.ClearTable();
-                    form.rightTable.ClearTable();
-                    form.ClearPlayerSelection();
+                    form.playerStatTablesManager.ClearPlayerSelection();
                 }
                 form.leftTable.ClearTable();
                 searchPlayerTextbox.Text = String.Empty;
@@ -125,7 +123,7 @@ namespace HockeyStats
                 string message = String.Format("Are you sure you want to remove {0} {1} from the list?", row[Constants.FIRST_NAME], row[Constants.LAST_NAME]);
                 Action RemovePlayer = () => {
                     form.topTable.RemoveRow(row);
-                    form.ClearPlayerSelection();
+                    form.playerStatTablesManager.ClearPlayerSelection();
                 };
                 form.DisplayYesNoMessageBox(message, RemovePlayer);
 

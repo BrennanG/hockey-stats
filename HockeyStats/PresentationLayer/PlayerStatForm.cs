@@ -12,9 +12,9 @@ namespace HockeyStats
 {
     public partial class PlayerStatForm : Form
     {
-        private MenuStripsManager menuStripsManager;
-        private PlayerButtonsManager playerButtonsManager;
-        private PlayerStatTablesManager playerStatTablesManager;
+        public MenuStripsManager menuStripsManager;
+        public PlayerButtonsManager playerButtonsManager;
+        public PlayerStatTablesManager playerStatTablesManager;
 
         public MultiPlayerStatTable topTable;
         public SearchDataStatTable leftTable;
@@ -144,18 +144,6 @@ namespace HockeyStats
             PlayerList newPlayerList = new PlayerList();
             newPlayerList.FillWithDefaults();
             LoadPlayerList(newPlayerList, Constants.DEFAULT_LIST_NAME);
-            SetListIsSaved(true);
-        }
-
-        private void SetupFormClosingHandler()
-        {
-            FormClosing += new FormClosingEventHandler((object sender, FormClosingEventArgs e) => {
-                Action CancelLeave = () =>
-                {
-                    e.Cancel = true;
-                };
-                TriggerLeaveRequest(null, CancelLeave);
-            });
         }
 
         public void SetListIsSaved(bool boolean)
@@ -220,6 +208,17 @@ namespace HockeyStats
                 count++;
             }
             return playerListFileNames;
+        }
+
+        private void SetupFormClosingHandler()
+        {
+            FormClosing += new FormClosingEventHandler((object sender, FormClosingEventArgs e) => {
+                Action CancelLeave = () =>
+                {
+                    e.Cancel = true;
+                };
+                TriggerLeaveRequest(null, CancelLeave);
+            });
         }
     }
 }
