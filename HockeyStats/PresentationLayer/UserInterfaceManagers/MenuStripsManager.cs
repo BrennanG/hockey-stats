@@ -13,18 +13,18 @@ namespace HockeyStats
         public ToolStripMenuItem loadListDropDown { get; set; }
         public ToolStripMenuItem saveToolStripMenuItem { get; set; }
         public ToolStripMenuItem saveAsToolStripMenuItem { get; set; }
-        public SaveFileDialog saveFileDialog { get; set; }
         public ToolStripMenuItem createListToolStripMenuItem { get; set; }
         public ToolStripMenuItem deleteListToolStripMenuItem { get; set; }
         public ToolStripMenuItem setAsDefaultListToolStripMenuItem { get; set; }
-        public Label listNameLabel { get; set; }
-        public TextBox renameListTextbox { get; set; }
         public ToolStripMenuItem selectPrimarySeasonTypeDropDown { get; set; }
         public ToolStripMenuItem selectSecondarySeasonTypeDropDown { get; set; }
         public ToolStripMenuItem selectSeasonDropDown { get; set; }
         public ToolStripMenuItem addRemoveColumnDropDown { get; set; }
         public DataGridView topTableDGV { get; set; }
         public DataGridView rightTableDGV { get; set; }
+        public SaveFileDialog saveFileDialog { get; set; }
+        public Label listNameLabel { get; set; }
+        public TextBox renameListTextbox { get; set; }
 
         public void Initialize()
         {
@@ -313,7 +313,7 @@ namespace HockeyStats
 
             Serializer.WriteXML<PlayerList>(form.playerList, listName + Constants.LIST_NAME_SUFFIX);
             form.currentListName = listName;
-            form.menuStripsInitializer.RefreshDropDownLists();
+            RefreshDropDownLists();
             form.SetListIsSaved(true);
         }
     }

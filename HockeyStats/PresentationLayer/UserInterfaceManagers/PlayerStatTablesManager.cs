@@ -22,6 +22,74 @@ namespace HockeyStats
             SetupColumnResizeListener();
         }
 
+        public void ClearPlayerSelection()
+        {
+            topTableDGV.ClearSelection();
+            leftTableDGV.ClearSelection();
+            form.middleTable.ClearTable();
+            form.rightTable.ClearTable();
+        }
+
+        public void RedrawColumnWidths(DataGridView dataGridView, Func<string, int> GetWidthFunction)
+        {
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                int width = GetWidthFunction(column.Name);
+                if (column.DisplayIndex != dataGridView.Columns.Count - 1 && width >= 0)
+                {
+                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    column.Width = width;
+                }
+                else
+                {
+                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+            }
+        }
+
+        public void RedrawRowColors()
+        {
+            if (form.topTable.GetSeasonType() == Constants.REGULAR_SEASON)
+            {
+                topTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+            }
+            else if (form.topTable.GetSeasonType() == Constants.PLAYOFFS)
+            {
+                topTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+            }
+
+            if (form.rightTable.GetSeasonType() == Constants.REGULAR_SEASON)
+            {
+                middleTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+                rightTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+            }
+            else if (form.rightTable.GetSeasonType() == Constants.PLAYOFFS)
+            {
+                middleTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+                rightTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+            }
+
+            HighlightDraftRowsInRightTable(form.rightTable.GetPlayerStats());
+        }
+
+        public void HighlightDraftRowsInRightTable(PlayerStats playerStats)
+        {
+            if (playerStats == null) { return; }
+            foreach (DataGridViewRow DGVRow in rightTableDGV.Rows)
+            {
+                string season = DGVRow.Cells[Constants.SEASON].Value.ToString();
+                string endYear = (season != String.Empty) ? season.Substring(5) : String.Empty;
+                if (endYear == playerStats.GetDraftYear())
+                {
+                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.Turquoise;
+                }
+                else if (endYear == playerStats.GetFirstYearOfDraftEligibility())
+                {
+                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.DeepSkyBlue;
+                }
+            }
+        }
+
         private void SetupShowSelectedPlayer()
         {
             Action<PlayerStats> ShowSelectedPlayer = new Action<PlayerStats>((PlayerStats playerStats) => {
@@ -31,7 +99,7 @@ namespace HockeyStats
                 form.rightTable.ClearTable();
                 form.rightTable.AddPlayerByPlayerStats(playerStats);
 
-                form.HighlightDraftRowsInRightTable(playerStats);
+                HighlightDraftRowsInRightTable(playerStats);
                 form.rowJustSelected = true;
             });
 
@@ -71,7 +139,7 @@ namespace HockeyStats
 
                 if (button == MouseButtons.Left && dataGridView.SelectedRows[0].Index == rowIndex)
                 {
-                    form.ClearPlayerSelection();
+                    ClearPlayerSelection();
                     form.rowJustSelected = false;
                 }
             });

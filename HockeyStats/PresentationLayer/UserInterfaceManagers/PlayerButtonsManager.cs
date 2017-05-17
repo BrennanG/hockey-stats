@@ -10,13 +10,13 @@ namespace HockeyStats
     public class PlayerButtonsManager
     {
         public PlayerStatForm form { get; set; }
-        public TextBox searchPlayerTextbox { get; set; }
         public Button searchPlayerButton { get; set; }
         public Button clearSearchButton { get; set; }
-        public DataGridView leftTableDGV { get; set; }
         public Button addSelectedPlayerButton { get; set; }
-        public DataGridView topTableDGV { get; set; }
         public Button removeSelectedPlayerButton { get; set; }
+        public DataGridView leftTableDGV { get; set; }
+        public DataGridView topTableDGV { get; set; }
+        public TextBox searchPlayerTextbox { get; set; }
 
         public void Initialize()
         {
