@@ -14,12 +14,15 @@ namespace HockeyStats
         public DataGridView leftTableDGV { get; set; }
         public DataGridView middleTableDGV { get; set; }
         public DataGridView rightTableDGV { get; set; }
+        public bool tableHasBeenClicked { get; set; }
 
         public void Initialize()
         {
             SetupShowSelectedPlayer();
             SetupUnshowUnselectedPlayer();
+            SetupListenForTableClick();
             SetupColumnResizeListener();
+            SetupColumnReorderListener();
         }
 
         public void ClearPlayerSelection()
@@ -155,29 +158,24 @@ namespace HockeyStats
             });
         }
 
-        private void SetupColumnResizeListener()
+        private void SetupListenForTableClick()
         {
             MouseEventHandler eventHandler = new MouseEventHandler((object sender, MouseEventArgs e) =>
             {
-                form.tableHasBeenClicked = true;
+                tableHasBeenClicked = true;
             });
 
             topTableDGV.MouseDown += eventHandler;
             leftTableDGV.MouseDown += eventHandler;
             middleTableDGV.MouseDown += eventHandler;
             rightTableDGV.MouseDown += eventHandler;
+        }
 
-            Action HandleResize = () =>
-            {
-                if (form.tableHasBeenClicked)
-                {
-                    form.SetListIsSaved(false);
-                }
-            };
-
+        private void SetupColumnResizeListener()
+        {
             topTableDGV.ColumnWidthChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
             {
-                HandleResize();
+                SetListIsSavedIfTableHasBeenClicked(false);
             });
 
             rightTableDGV.ColumnWidthChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
@@ -198,8 +196,29 @@ namespace HockeyStats
                     return;
                 }
 
-                HandleResize();
+                SetListIsSavedIfTableHasBeenClicked(false);
             });
+        }
+
+        private void SetupColumnReorderListener()
+        {
+            topTableDGV.ColumnDisplayIndexChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
+            {
+                SetListIsSavedIfTableHasBeenClicked(false);
+            });
+
+            rightTableDGV.ColumnDisplayIndexChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
+            {
+                SetListIsSavedIfTableHasBeenClicked(false);
+            });
+        }
+
+        private void SetListIsSavedIfTableHasBeenClicked(bool boolean)
+        {
+            if (tableHasBeenClicked)
+            {
+                form.SetListIsSaved(boolean);
+            }
         }
     }
 }

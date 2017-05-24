@@ -26,7 +26,6 @@ namespace HockeyStats
         public string currentDisplaySeason;
         public string currentListName;
         public bool listIsSaved;
-        public bool tableHasBeenClicked;
         public bool rowJustSelected = false;
 
         public PlayerStatForm()
@@ -122,7 +121,7 @@ namespace HockeyStats
             playerStatTablesManager.RedrawRowColors();
 
             SetListIsSaved(true);
-            tableHasBeenClicked = false;
+            playerStatTablesManager.tableHasBeenClicked = false;
         }
 
         public void LoadDefaultList()
