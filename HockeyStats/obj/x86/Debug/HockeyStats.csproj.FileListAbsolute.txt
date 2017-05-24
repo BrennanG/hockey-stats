@@ -15,3 +15,13 @@ C:\Users\Govreau\documents\visual studio 2010\Projects\HockeyStats\HockeyStats\o
 C:\Users\Govreau\Documents\Visual Studio 2010\Projects\HockeyStats\HockeyStats\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Govreau\Documents\Visual Studio 2010\Projects\HockeyStats\HockeyStats\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Govreau\Documents\Visual Studio 2010\Projects\HockeyStats\HockeyStats\obj\x86\Debug\HockeyStats.PlayerStatForm.resources
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\bin\Debug\HockeyStats.exe
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\bin\Debug\HockeyStats.pdb
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\bin\Debug\Newtonsoft.Json.dll
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\bin\Debug\Newtonsoft.Json.xml
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.csprojResolveAssemblyReference.cache
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.PlayerStatForm.resources
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.Properties.Resources.resources
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.csproj.GenerateResource.Cache
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.exe
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.pdb

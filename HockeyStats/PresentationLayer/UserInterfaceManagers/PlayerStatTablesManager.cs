@@ -180,10 +180,26 @@ namespace HockeyStats
                 HandleResize();
             });
 
-            //rightTableDGV.ColumnWidthChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
-            //{
-            //    HandleResize();
-            //});
+            rightTableDGV.ColumnWidthChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
+            {
+                // This stuff is necessary so when the scrollbar appears, the list is not made unsaved
+                DataGridViewColumn secondLastCol = new DataGridViewColumn();
+                foreach (DataGridViewColumn col in rightTableDGV.Columns)
+                {
+                    if (col.DisplayIndex == e.Column.DisplayIndex - 1)
+                    {
+                        secondLastCol = col;
+                        break;
+                    }
+                }
+
+                if (e.Column.DisplayIndex == rightTableDGV.Columns.Count - 1 && secondLastCol.Width == form.playerList.GetSecondaryColumnWidth(secondLastCol.Name))
+                {
+                    return;
+                }
+
+                HandleResize();
+            });
         }
     }
 }
