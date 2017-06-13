@@ -8,11 +8,11 @@ namespace HockeyStats
 {
     public class SinglePlayerStatTable : PlayerStatTable
     {
+        private PlayerList playerList;
         private PlayerStats playerStats;
-        private string seasonType;
 
-        public SinglePlayerStatTable(DataGridView dataGridView, List<string> columnData, string seasonType)
-            : base(dataGridView, columnData)
+        public SinglePlayerStatTable(DataGridView dataGridView, PlayerList playerList)
+            : base(dataGridView, playerList.secondaryColumnNames)
         {
             try
             {
@@ -20,7 +20,7 @@ namespace HockeyStats
             }
             catch (Exception) { }
 
-            this.seasonType = seasonType;
+            this.playerList = playerList;
             DisableCellSelection();
         }
 
@@ -37,12 +37,12 @@ namespace HockeyStats
 
         public override string GetSeasonType()
         {
-            return seasonType;
+            return playerList.secondarySeasonType;
         }
 
         public override void SetSeasonType(string newSeasonType)
         {
-            seasonType = newSeasonType;
+            playerList.SetSecondarySeasonType(newSeasonType);
             UpdateRowData();
         }
 
@@ -56,7 +56,7 @@ namespace HockeyStats
         {
             if (playerStats == null) { return; }
             dataTable.Rows.Clear();
-            List<Dictionary<string, string>> dynamicColumnValues = playerStats.GetDynamicColumnValues(seasonType);
+            List<Dictionary<string, string>> dynamicColumnValues = playerStats.GetDynamicColumnValues(playerList.secondarySeasonType);
             foreach (Dictionary<string, string> dictOfDynamicColumnValues in dynamicColumnValues)
             {
                 AddRowToDataTable(dictOfDynamicColumnValues);

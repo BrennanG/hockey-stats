@@ -278,7 +278,7 @@ namespace HockeyStats
                         form.topTable.AddColumn(dropDownItem.Text, form.currentDisplaySeason);
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
-                    form.playerStatTablesManager.RedrawColumnWidths(topTableDGV, form.playerList.GetPrimaryColumnWidth);
+                    form.playerStatTablesManager.RedrawColumnWidths(topTableDGV, form.lastSavedPlayerList.GetPrimaryColumnWidth);
                     form.SetListIsSaved(false);
                 });
                 dropDownItems.Add(columnName, null, selectColumnHandler);
@@ -303,15 +303,11 @@ namespace HockeyStats
 
         private void SaveList(string listName)
         {
-            form.playerList.SetPrimarySeasonType(form.topTable.GetSeasonType());
-            form.playerList.SetSecondarySeasonType(form.rightTable.GetSeasonType());
-            form.playerList.SetDisplaySeason(form.currentDisplaySeason);
-            form.playerList.SetPlayerIds(form.topTable.GetPlayerIds());
-            form.playerList.SetPrimaryColumns(topTableDGV.Columns);
-            form.playerList.SetPrimaryColumnWidths(topTableDGV.Columns);
-            form.playerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
+            form.currentPlayerList.SetPrimaryColumnWidths(topTableDGV.Columns);
+            form.currentPlayerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
 
-            Serializer.WriteXML<PlayerList>(form.playerList, listName + Constants.LIST_NAME_SUFFIX);
+            Serializer.WriteXML<PlayerList>(form.currentPlayerList, listName + Constants.LIST_NAME_SUFFIX);
+            form.lastSavedPlayerList = form.currentPlayerList.Clone();
             form.currentListName = listName;
             RefreshDropDownLists();
             form.SetListIsSaved(true);

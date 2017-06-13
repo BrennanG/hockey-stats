@@ -84,11 +84,11 @@ namespace HockeyStats
                 string endYear = (season != String.Empty) ? season.Substring(5) : String.Empty;
                 if (endYear == playerStats.GetDraftYear())
                 {
-                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.Turquoise;
+                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.DeepSkyBlue;
                 }
                 else if (endYear == playerStats.GetFirstYearOfDraftEligibility())
                 {
-                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.DeepSkyBlue;
+                    DGVRow.DefaultCellStyle.BackColor = System.Drawing.Color.Turquoise;
                 }
             }
         }
@@ -175,7 +175,12 @@ namespace HockeyStats
         {
             topTableDGV.ColumnWidthChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
             {
-                SetListIsSavedIfTableHasBeenClicked(false);
+                if (tableHasBeenClicked)
+                {
+                    form.currentPlayerList.SetPrimaryColumnWidths(topTableDGV.Columns);
+                    form.SetListIsSaved(false);
+                    tableHasBeenClicked = false;
+                }
             });
 
             rightTableDGV.ColumnWidthChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
@@ -190,13 +195,17 @@ namespace HockeyStats
                         break;
                     }
                 }
-
-                if (e.Column.DisplayIndex == rightTableDGV.Columns.Count - 1 && secondLastCol.Width == form.playerList.GetSecondaryColumnWidth(secondLastCol.Name))
+                if (e.Column.DisplayIndex == rightTableDGV.Columns.Count - 1 && secondLastCol.Width == form.currentPlayerList.GetSecondaryColumnWidth(secondLastCol.Name))
                 {
                     return;
                 }
 
-                SetListIsSavedIfTableHasBeenClicked(false);
+                if (tableHasBeenClicked)
+                {
+                    form.currentPlayerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
+                    form.SetListIsSaved(false);
+                    tableHasBeenClicked = false;
+                }
             });
         }
 
@@ -204,21 +213,23 @@ namespace HockeyStats
         {
             topTableDGV.ColumnDisplayIndexChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
             {
-                SetListIsSavedIfTableHasBeenClicked(false);
+                if (tableHasBeenClicked)
+                {
+                    form.currentPlayerList.SetPrimaryColumnNames(topTableDGV.Columns);
+                    form.SetListIsSaved(false);
+                    tableHasBeenClicked = false;
+                }
             });
 
             rightTableDGV.ColumnDisplayIndexChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
             {
-                SetListIsSavedIfTableHasBeenClicked(false);
+                if (tableHasBeenClicked)
+                {
+                    form.currentPlayerList.SetSecondaryColumnNames(rightTableDGV.Columns);
+                    form.SetListIsSaved(false);
+                    tableHasBeenClicked = false;
+                }
             });
-        }
-
-        private void SetListIsSavedIfTableHasBeenClicked(bool boolean)
-        {
-            if (tableHasBeenClicked)
-            {
-                form.SetListIsSaved(boolean);
-            }
         }
     }
 }

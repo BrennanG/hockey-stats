@@ -12,6 +12,29 @@ namespace HockeyStats
     public class SerializableDictionary<TKey, TValue>
     : Dictionary<TKey, TValue>, IXmlSerializable
     {
+        public bool Equals(SerializableDictionary<TKey, TValue> other)
+        {
+            if (this.Count != other.Count) { return false; }
+            foreach (KeyValuePair<TKey, TValue> entry in this)
+            {
+                if (!other.Contains(entry))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public SerializableDictionary<TKey, TValue> Clone()
+        {
+            SerializableDictionary<TKey, TValue> ret = new SerializableDictionary<TKey, TValue>();
+            foreach (KeyValuePair<TKey, TValue> entry in this)
+            {
+                ret.Add(entry.Key, entry.Value);
+            }
+            return ret;
+        }
+
         #region IXmlSerializable Members
         public System.Xml.Schema.XmlSchema GetSchema()
         {

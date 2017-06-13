@@ -24,6 +24,43 @@ namespace HockeyStats
             
         }
 
+        public bool Equals(PlayerList other)
+        {
+            return primarySeasonType == other.primarySeasonType
+                && secondarySeasonType == other.secondarySeasonType
+                && displaySeason == other.displaySeason
+                && playerIds.SequenceEqual(other.playerIds)
+                && primaryColumnNames.SequenceEqual(other.primaryColumnNames)
+                && secondaryColumnNames.SequenceEqual(other.secondaryColumnNames)
+                && primaryColumnWidths.Equals(other.primaryColumnWidths)
+                && secondaryColumnWidths.Equals(other.secondaryColumnWidths);
+        }
+
+        public PlayerList Clone()
+        {
+            PlayerList playerList = new PlayerList();
+            playerList.primarySeasonType = primarySeasonType;
+            playerList.secondarySeasonType = secondarySeasonType;
+            playerList.displaySeason = displaySeason;
+
+            string[] playerIds = new string[this.playerIds.Count];
+            this.playerIds.CopyTo(playerIds);
+            playerList.playerIds = playerIds.ToList();
+
+            string[] primaryColumnNames = new string[this.primaryColumnNames.Count];
+            this.primaryColumnNames.CopyTo(primaryColumnNames);
+            playerList.primaryColumnNames = primaryColumnNames.ToList();
+
+            string[] secondaryColumnNames = new string[this.secondaryColumnNames.Count];
+            this.secondaryColumnNames.CopyTo(secondaryColumnNames);
+            playerList.secondaryColumnNames = secondaryColumnNames.ToList();
+
+            playerList.primaryColumnWidths = primaryColumnWidths.Clone();
+            playerList.secondaryColumnWidths = secondaryColumnWidths.Clone();
+
+            return playerList;
+        }
+
         public void FillWithDefaults()
         {
             primarySeasonType = Constants.REGULAR_SEASON;
@@ -76,15 +113,14 @@ namespace HockeyStats
             this.playerIds = playerIds;
         }
 
-        public void SetPrimaryColumns(DataGridViewColumnCollection columns)
+        public void SetPrimaryColumnNames(DataGridViewColumnCollection columns)
         {
-            string[] columnNames = new string[columns.Count];
-            Dictionary<string, int> columnWidths = new Dictionary<string, int>();
-            foreach (DataGridViewColumn column in columns)
-            {
-                columnNames[column.DisplayIndex] = column.Name;
-            }
-            primaryColumnNames = columnNames.ToList();
+            SetColumnNames(columns, ref primaryColumnNames);
+        }
+
+        public void SetSecondaryColumnNames(DataGridViewColumnCollection columns)
+        {
+            SetColumnNames(columns, ref secondaryColumnNames);
         }
 
         public void SetPrimaryColumnWidths(DataGridViewColumnCollection columns)
@@ -105,6 +141,16 @@ namespace HockeyStats
         public int GetSecondaryColumnWidth(string columnName)
         {
             return GetColumnWidth(columnName, secondaryColumnWidths);
+        }
+
+        private void SetColumnNames(DataGridViewColumnCollection columns, ref List<string> originalColumnNames)
+        {
+            string[] columnNames = new string[columns.Count];
+            foreach (DataGridViewColumn column in columns)
+            {
+                columnNames[column.DisplayIndex] = column.Name;
+            }
+            originalColumnNames = columnNames.ToList();
         }
 
         private void SetColumnWidths(DataGridViewColumnCollection columns, SerializableDictionary<string, int> columnWidths)

@@ -49,7 +49,7 @@
             this.createListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setAsDefaultListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addRemoveColumnDropDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.primaryAddRemoveColumnDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSeasonDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.selectPrimarySeasonTypeDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -162,7 +162,7 @@
             this.menuStrip1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.addRemoveColumnDropDown,
+            this.primaryAddRemoveColumnDropDown,
             this.selectSeasonDropDown,
             this.selectPrimarySeasonTypeDropDown});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -230,12 +230,12 @@
             this.setAsDefaultListToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.setAsDefaultListToolStripMenuItem.Text = "Set As Default List";
             // 
-            // addRemoveColumnDropDown
+            // primaryAddRemoveColumnDropDown
             // 
-            this.addRemoveColumnDropDown.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.addRemoveColumnDropDown.Name = "addRemoveColumnDropDown";
-            this.addRemoveColumnDropDown.Size = new System.Drawing.Size(135, 20);
-            this.addRemoveColumnDropDown.Text = "Add/Remove Column";
+            this.primaryAddRemoveColumnDropDown.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.primaryAddRemoveColumnDropDown.Name = "primaryAddRemoveColumnDropDown";
+            this.primaryAddRemoveColumnDropDown.Size = new System.Drawing.Size(135, 20);
+            this.primaryAddRemoveColumnDropDown.Text = "Add/Remove Column";
             // 
             // selectSeasonDropDown
             // 
@@ -302,7 +302,7 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.40881F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.59119F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 129F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tableLayoutPanel3.Controls.Add(this.searchPlayerButton, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.searchPlayerTextbox, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.addSelectedPlayerButton, 3, 0);
@@ -318,7 +318,7 @@
             // searchPlayerButton
             // 
             this.searchPlayerButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.searchPlayerButton.Location = new System.Drawing.Point(210, 3);
+            this.searchPlayerButton.Location = new System.Drawing.Point(209, 3);
             this.searchPlayerButton.Name = "searchPlayerButton";
             this.searchPlayerButton.Size = new System.Drawing.Size(103, 20);
             this.searchPlayerButton.TabIndex = 1;
@@ -330,13 +330,13 @@
             this.searchPlayerTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.searchPlayerTextbox.Location = new System.Drawing.Point(3, 3);
             this.searchPlayerTextbox.Name = "searchPlayerTextbox";
-            this.searchPlayerTextbox.Size = new System.Drawing.Size(201, 20);
+            this.searchPlayerTextbox.Size = new System.Drawing.Size(200, 20);
             this.searchPlayerTextbox.TabIndex = 3;
             // 
             // addSelectedPlayerButton
             // 
             this.addSelectedPlayerButton.Enabled = false;
-            this.addSelectedPlayerButton.Location = new System.Drawing.Point(403, 3);
+            this.addSelectedPlayerButton.Location = new System.Drawing.Point(402, 3);
             this.addSelectedPlayerButton.Name = "addSelectedPlayerButton";
             this.addSelectedPlayerButton.Size = new System.Drawing.Size(124, 20);
             this.addSelectedPlayerButton.TabIndex = 4;
@@ -346,7 +346,7 @@
             // clearSearchButton
             // 
             this.clearSearchButton.Enabled = false;
-            this.clearSearchButton.Location = new System.Drawing.Point(319, 3);
+            this.clearSearchButton.Location = new System.Drawing.Point(318, 3);
             this.clearSearchButton.Name = "clearSearchButton";
             this.clearSearchButton.Size = new System.Drawing.Size(78, 20);
             this.clearSearchButton.TabIndex = 5;
@@ -516,7 +516,7 @@
         private System.Windows.Forms.DataGridView middleTableDGV;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private System.Windows.Forms.ToolStripMenuItem addRemoveColumnDropDown;
+        private System.Windows.Forms.ToolStripMenuItem primaryAddRemoveColumnDropDown;
         private System.Windows.Forms.ToolStripMenuItem selectSeasonDropDown;
         private System.Windows.Forms.Label listNameLabel;
         private System.Windows.Forms.ToolStripMenuItem selectPrimarySeasonTypeDropDown;

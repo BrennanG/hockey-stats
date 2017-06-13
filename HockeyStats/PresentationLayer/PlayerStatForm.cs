@@ -20,8 +20,9 @@ namespace HockeyStats
         public SearchDataStatTable leftTable;
         public PlayerConstantsStatTable middleTable;
         public SinglePlayerStatTable rightTable;
-        
-        public PlayerList playerList = new PlayerList();
+
+        public PlayerList currentPlayerList = new PlayerList();
+        public PlayerList lastSavedPlayerList = new PlayerList();
         public Configuration configuration = new Configuration();
         public string currentDisplaySeason;
         public string currentListName;
@@ -66,7 +67,7 @@ namespace HockeyStats
                 selectPrimarySeasonTypeDropDown = selectPrimarySeasonTypeDropDown,
                 selectSecondarySeasonTypeDropDown = selectSecondarySeasonTypeDropDown,
                 selectSeasonDropDown = selectSeasonDropDown,
-                addRemoveColumnDropDown = addRemoveColumnDropDown,
+                addRemoveColumnDropDown = primaryAddRemoveColumnDropDown,
                 topTableDGV = topTableDGV,
                 rightTableDGV = rightTableDGV,
                 saveFileDialog = saveFileDialog,
@@ -104,20 +105,21 @@ namespace HockeyStats
 
         public void LoadPlayerList(PlayerList playerListToLoad, string listName)
         {
-            playerList = playerListToLoad;
-            currentDisplaySeason = playerList.displaySeason;
+            currentPlayerList = playerListToLoad;
+            lastSavedPlayerList = currentPlayerList.Clone();
+            currentDisplaySeason = currentPlayerList.displaySeason;
             currentListName = listName;
             listNameLabel.Text = listName;
             if (topTable != null) { topTable.AbortFillDataTableThread(); }
 
-            topTable = new MultiPlayerStatTable(topTableDGV, playerList.primaryColumnNames, playerList.playerIds, playerList.displaySeason, playerList.primarySeasonType);
+            topTable = new MultiPlayerStatTable(topTableDGV, currentPlayerList);
             if (leftTable == null) { leftTable = new SearchDataStatTable(leftTableDGV, Constants.DefaultSearchDataTableColumns); }
             middleTable = new PlayerConstantsStatTable(middleTableDGV);
-            rightTable = new SinglePlayerStatTable(rightTableDGV, playerList.secondaryColumnNames, playerList.secondarySeasonType);
+            rightTable = new SinglePlayerStatTable(rightTableDGV, currentPlayerList);
 
             menuStripsManager.RefreshDropDownLists();
-            playerStatTablesManager.RedrawColumnWidths(topTableDGV, playerList.GetPrimaryColumnWidth);
-            playerStatTablesManager.RedrawColumnWidths(rightTableDGV, playerList.GetSecondaryColumnWidth);
+            playerStatTablesManager.RedrawColumnWidths(topTableDGV, lastSavedPlayerList.GetPrimaryColumnWidth);
+            playerStatTablesManager.RedrawColumnWidths(rightTableDGV, lastSavedPlayerList.GetSecondaryColumnWidth);
             playerStatTablesManager.RedrawRowColors();
 
             SetListIsSaved(true);
@@ -147,6 +149,10 @@ namespace HockeyStats
 
         public void SetListIsSaved(bool boolean)
         {
+            if (currentPlayerList.Equals(lastSavedPlayerList))
+            {
+                boolean = true;
+            }
             listIsSaved = boolean;
             listNameLabel.Text = (listIsSaved) ? currentListName : currentListName + "*";
 
