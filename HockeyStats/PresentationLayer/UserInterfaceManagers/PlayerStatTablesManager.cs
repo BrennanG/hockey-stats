@@ -213,7 +213,7 @@ namespace HockeyStats
         {
             topTableDGV.ColumnDisplayIndexChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
             {
-                if (tableHasBeenClicked)
+                if (tableHasBeenClicked && topTableDGV.Columns.Count == form.currentPlayerList.primaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetPrimaryColumnNames(topTableDGV.Columns);
                     form.SetListIsSaved(false);
@@ -223,7 +223,7 @@ namespace HockeyStats
 
             rightTableDGV.ColumnDisplayIndexChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
             {
-                if (tableHasBeenClicked)
+                if (tableHasBeenClicked && rightTableDGV.Columns.Count == form.currentPlayerList.secondaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetSecondaryColumnNames(rightTableDGV.Columns);
                     form.SetListIsSaved(false);

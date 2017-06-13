@@ -16,13 +16,13 @@
     <string>Assists/Sv%</string>
     <string>Total Points</string>
     <string>PPG</string>
+    <string>+/-</string>
     <string>League</string>
     <string>Team</string>
     <string>Draft Year</string>
     <string>Draft Round</string>
     <string>Draft Overall</string>
     <string>Position</string>
-    <string>Date of Birth</string>
   </primaryColumnNames>
   <secondaryColumnNames>
     <string>Season</string>
@@ -96,7 +96,7 @@
         <string>Position</string>
       </key>
       <value>
-        <int>49</int>
+        <int>-1</int>
       </value>
     </item>
     <item>
@@ -160,7 +160,7 @@
         <string>Height</string>
       </key>
       <value>
-        <int>36</int>
+        <int>-1</int>
       </value>
     </item>
     <item>
@@ -169,6 +169,14 @@
       </key>
       <value>
         <int>-1</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>+/-</string>
+      </key>
+      <value>
+        <int>32</int>
       </value>
     </item>
   </primaryColumnWidths>
