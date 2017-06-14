@@ -110,6 +110,7 @@ namespace HockeyStats
             currentDisplaySeason = currentPlayerList.displaySeason;
             currentListName = listName;
             listNameLabel.Text = listName;
+            playerStatTablesManager.tableHasBeenClicked = false;
             if (topTable != null) { topTable.AbortFillDataTableThread(); }
 
             topTable = new MultiPlayerStatTable(topTableDGV, currentPlayerList);
@@ -118,12 +119,11 @@ namespace HockeyStats
             rightTable = new SinglePlayerStatTable(rightTableDGV, currentPlayerList);
 
             menuStripsManager.RefreshDropDownLists();
-            playerStatTablesManager.RedrawColumnWidths(topTableDGV, lastSavedPlayerList.GetPrimaryColumnWidth);
-            playerStatTablesManager.RedrawColumnWidths(rightTableDGV, lastSavedPlayerList.GetSecondaryColumnWidth);
+            playerStatTablesManager.RedrawColumnWidths(topTableDGV, lastSavedPlayerList.GetPrimaryColumnWidth, currentPlayerList.SetPrimaryColumnWidths);
+            playerStatTablesManager.RedrawColumnWidths(rightTableDGV, lastSavedPlayerList.GetSecondaryColumnWidth, currentPlayerList.SetSecondaryColumnWidths);
             playerStatTablesManager.RedrawRowColors();
 
             SetListIsSaved(true);
-            playerStatTablesManager.tableHasBeenClicked = false;
         }
 
         public void LoadDefaultList()

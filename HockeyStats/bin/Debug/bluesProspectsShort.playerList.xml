@@ -93,10 +93,10 @@
     </item>
     <item>
       <key>
-        <string>Position</string>
+        <string>+/-</string>
       </key>
       <value>
-        <int>-1</int>
+        <int>32</int>
       </value>
     </item>
     <item>
@@ -112,7 +112,7 @@
         <string>Team</string>
       </key>
       <value>
-        <int>155</int>
+        <int>206</int>
       </value>
     </item>
     <item>
@@ -120,7 +120,7 @@
         <string>Draft Year</string>
       </key>
       <value>
-        <int>84</int>
+        <int>48</int>
       </value>
     </item>
     <item>
@@ -136,47 +136,15 @@
         <string>Draft Overall</string>
       </key>
       <value>
-        <int>93</int>
+        <int>90</int>
       </value>
     </item>
     <item>
       <key>
-        <string>Draft Team</string>
-      </key>
-      <value>
-        <int>79</int>
-      </value>
-    </item>
-    <item>
-      <key>
-        <string>Weight</string>
-      </key>
-      <value>
-        <int>37</int>
-      </value>
-    </item>
-    <item>
-      <key>
-        <string>Height</string>
+        <string>Position</string>
       </key>
       <value>
         <int>-1</int>
-      </value>
-    </item>
-    <item>
-      <key>
-        <string>Date of Birth</string>
-      </key>
-      <value>
-        <int>-1</int>
-      </value>
-    </item>
-    <item>
-      <key>
-        <string>+/-</string>
-      </key>
-      <value>
-        <int>32</int>
       </value>
     </item>
   </primaryColumnWidths>

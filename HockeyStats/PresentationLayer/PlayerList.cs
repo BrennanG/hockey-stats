@@ -155,6 +155,7 @@ namespace HockeyStats
 
         private void SetColumnWidths(DataGridViewColumnCollection columns, SerializableDictionary<string, int> columnWidths)
         {
+            columnWidths.Clear();
             foreach (DataGridViewColumn column in columns)
             {
                 columnWidths[column.Name] = (column.DisplayIndex != columns.Count - 1) ? column.Width : -1;

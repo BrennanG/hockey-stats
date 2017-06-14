@@ -140,7 +140,7 @@
         <string>Team</string>
       </key>
       <value>
-        <int>171</int>
+        <int>172</int>
       </value>
     </item>
     <item>
@@ -169,10 +169,10 @@
     </item>
     <item>
       <key>
-        <string>Draft Team</string>
+        <string>Position</string>
       </key>
       <value>
-        <int>-1</int>
+        <int>58</int>
       </value>
     </item>
     <item>
@@ -189,14 +189,6 @@
       </key>
       <value>
         <int>-1</int>
-      </value>
-    </item>
-    <item>
-      <key>
-        <string>Position</string>
-      </key>
-      <value>
-        <int>58</int>
       </value>
     </item>
   </primaryColumnWidths>

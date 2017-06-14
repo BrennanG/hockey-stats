@@ -33,7 +33,7 @@ namespace HockeyStats
             form.rightTable.ClearTable();
         }
 
-        public void RedrawColumnWidths(DataGridView dataGridView, Func<string, int> GetWidthFunction)
+        public void RedrawColumnWidths(DataGridView dataGridView, Func<string, int> GetWidthFunction, Action<DataGridViewColumnCollection> SetWidthsFunction)
         {
             foreach (DataGridViewColumn column in dataGridView.Columns)
             {
@@ -48,6 +48,7 @@ namespace HockeyStats
                     column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
+            SetWidthsFunction(dataGridView.Columns);
         }
 
         public void RedrawRowColors()
@@ -160,22 +161,17 @@ namespace HockeyStats
 
         private void SetupListenForTableClick()
         {
-            MouseEventHandler eventHandler = new MouseEventHandler((object sender, MouseEventArgs e) =>
+            topTableDGV.MouseDown += new MouseEventHandler((object sender, MouseEventArgs e) =>
             {
                 tableHasBeenClicked = true;
             });
-
-            topTableDGV.MouseDown += eventHandler;
-            leftTableDGV.MouseDown += eventHandler;
-            middleTableDGV.MouseDown += eventHandler;
-            rightTableDGV.MouseDown += eventHandler;
         }
 
         private void SetupColumnResizeListener()
         {
             topTableDGV.ColumnWidthChanged += new DataGridViewColumnEventHandler((object sender, DataGridViewColumnEventArgs e) =>
             {
-                if (tableHasBeenClicked)
+                if (tableHasBeenClicked && topTableDGV.Columns.Count == form.currentPlayerList.primaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetPrimaryColumnWidths(topTableDGV.Columns);
                     form.SetListIsSaved(false);
@@ -200,7 +196,7 @@ namespace HockeyStats
                     return;
                 }
 
-                if (tableHasBeenClicked)
+                if (tableHasBeenClicked && rightTableDGV.Columns.Count == form.currentPlayerList.secondaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
                     form.SetListIsSaved(false);

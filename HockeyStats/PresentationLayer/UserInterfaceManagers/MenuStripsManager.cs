@@ -278,7 +278,7 @@ namespace HockeyStats
                         form.topTable.AddColumn(dropDownItem.Text, form.currentDisplaySeason);
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
-                    form.playerStatTablesManager.RedrawColumnWidths(topTableDGV, form.lastSavedPlayerList.GetPrimaryColumnWidth);
+                    form.playerStatTablesManager.RedrawColumnWidths(topTableDGV, form.currentPlayerList.GetPrimaryColumnWidth, form.currentPlayerList.SetPrimaryColumnWidths);
                     form.SetListIsSaved(false);
                 });
                 dropDownItems.Add(columnName, null, selectColumnHandler);
