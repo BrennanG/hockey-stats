@@ -10,6 +10,8 @@ namespace HockeyStats
     [Serializable]
     public class PlayerList
     {
+        // When adding a new field: make sure to update FillWithDefaults(), Equals(), and Clone()
+        public bool isDraftList;
         public string primarySeasonType;
         public string secondarySeasonType;
         public string displaySeason;
@@ -26,7 +28,8 @@ namespace HockeyStats
 
         public bool Equals(PlayerList other)
         {
-            return primarySeasonType == other.primarySeasonType
+            return isDraftList == other.isDraftList
+                && primarySeasonType == other.primarySeasonType
                 && secondarySeasonType == other.secondarySeasonType
                 && displaySeason == other.displaySeason
                 && playerIds.SequenceEqual(other.playerIds)
@@ -39,6 +42,7 @@ namespace HockeyStats
         public PlayerList Clone()
         {
             PlayerList playerList = new PlayerList();
+            playerList.isDraftList = isDraftList;
             playerList.primarySeasonType = primarySeasonType;
             playerList.secondarySeasonType = secondarySeasonType;
             playerList.displaySeason = displaySeason;
@@ -63,9 +67,10 @@ namespace HockeyStats
 
         public void FillWithDefaults()
         {
+            isDraftList = false;
             primarySeasonType = Constants.REGULAR_SEASON;
             secondarySeasonType = Constants.REGULAR_SEASON;
-            displaySeason = Constants.CurrentSeason;
+            displaySeason = Constants.MostRecentSeason;
             playerIds = new List<string>();
             primaryColumnNames = Constants.DefaultPrimaryColumns;
             secondaryColumnNames = Constants.DefaultSecondaryColumns;
@@ -91,6 +96,11 @@ namespace HockeyStats
         public void RemovePrimaryColumn(string columnName)
         {
             primaryColumnNames.Remove(columnName);
+        }
+
+        public void SetIsDraftList(bool boolean)
+        {
+            isDraftList = boolean;
         }
 
         public void SetPrimarySeasonType(string seasonType)

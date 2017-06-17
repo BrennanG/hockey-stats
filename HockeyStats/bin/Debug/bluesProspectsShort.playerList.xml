@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <isDraftList>false</isDraftList>
   <primarySeasonType>Regular Season</primarySeasonType>
   <secondarySeasonType>Regular Season</secondarySeasonType>
   <displaySeason>2016-2017</displaySeason>
@@ -7,6 +8,7 @@
     <string>301349</string>
     <string>269034</string>
     <string>89411</string>
+    <string>156923</string>
   </playerIds>
   <primaryColumnNames>
     <string>First Name</string>

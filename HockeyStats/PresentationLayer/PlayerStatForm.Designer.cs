@@ -41,7 +41,7 @@
             this.renameListTextbox = new System.Windows.Forms.TextBox();
             this.listNameLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.loadListDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,6 +52,7 @@
             this.primaryAddRemoveColumnDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSeasonDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.selectPrimarySeasonTypeDropDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadDraftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.rightTableDGV = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -67,6 +68,7 @@
             this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.selectSecondarySeasonTypeDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.loadDraftNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.topTableDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -84,6 +86,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.middleTableDGV)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.loadDraftNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // topTableDGV
@@ -123,6 +126,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.loadDraftNumericUpDown);
             this.splitContainer1.Panel1.Controls.Add(this.renameListTextbox);
             this.splitContainer1.Panel1.Controls.Add(this.listNameLabel);
             this.splitContainer1.Panel1.Controls.Add(this.topTableDGV);
@@ -161,10 +165,11 @@
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
+            this.fileDropDown,
             this.primaryAddRemoveColumnDropDown,
             this.selectSeasonDropDown,
-            this.selectPrimarySeasonTypeDropDown});
+            this.selectPrimarySeasonTypeDropDown,
+            this.loadDraftToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
@@ -172,17 +177,17 @@
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // fileToolStripMenuItem
+            // fileDropDown
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileDropDown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadListDropDown,
             this.saveListDropDown,
             this.createListToolStripMenuItem,
             this.deleteListToolStripMenuItem,
             this.setAsDefaultListToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.fileDropDown.Name = "fileDropDown";
+            this.fileDropDown.Size = new System.Drawing.Size(37, 20);
+            this.fileDropDown.Text = "File";
             // 
             // loadListDropDown
             // 
@@ -203,13 +208,13 @@
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             // 
             // createListToolStripMenuItem
@@ -250,6 +255,12 @@
             this.selectPrimarySeasonTypeDropDown.Name = "selectPrimarySeasonTypeDropDown";
             this.selectPrimarySeasonTypeDropDown.Size = new System.Drawing.Size(118, 20);
             this.selectPrimarySeasonTypeDropDown.Text = "Select Season Type";
+            // 
+            // loadDraftToolStripMenuItem
+            // 
+            this.loadDraftToolStripMenuItem.Name = "loadDraftToolStripMenuItem";
+            this.loadDraftToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+            this.loadDraftToolStripMenuItem.Text = "Load Draft";
             // 
             // tableLayoutPanel1
             // 
@@ -302,7 +313,7 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.40881F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.59119F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 131F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             this.tableLayoutPanel3.Controls.Add(this.searchPlayerButton, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.searchPlayerTextbox, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.addSelectedPlayerButton, 3, 0);
@@ -318,9 +329,9 @@
             // searchPlayerButton
             // 
             this.searchPlayerButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.searchPlayerButton.Location = new System.Drawing.Point(209, 3);
+            this.searchPlayerButton.Location = new System.Drawing.Point(207, 3);
             this.searchPlayerButton.Name = "searchPlayerButton";
-            this.searchPlayerButton.Size = new System.Drawing.Size(102, 20);
+            this.searchPlayerButton.Size = new System.Drawing.Size(101, 20);
             this.searchPlayerButton.TabIndex = 1;
             this.searchPlayerButton.Text = "Search Player";
             this.searchPlayerButton.UseVisualStyleBackColor = true;
@@ -330,13 +341,13 @@
             this.searchPlayerTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.searchPlayerTextbox.Location = new System.Drawing.Point(3, 3);
             this.searchPlayerTextbox.Name = "searchPlayerTextbox";
-            this.searchPlayerTextbox.Size = new System.Drawing.Size(200, 20);
+            this.searchPlayerTextbox.Size = new System.Drawing.Size(198, 20);
             this.searchPlayerTextbox.TabIndex = 3;
             // 
             // addSelectedPlayerButton
             // 
             this.addSelectedPlayerButton.Enabled = false;
-            this.addSelectedPlayerButton.Location = new System.Drawing.Point(401, 3);
+            this.addSelectedPlayerButton.Location = new System.Drawing.Point(398, 3);
             this.addSelectedPlayerButton.Name = "addSelectedPlayerButton";
             this.addSelectedPlayerButton.Size = new System.Drawing.Size(124, 20);
             this.addSelectedPlayerButton.TabIndex = 4;
@@ -346,7 +357,7 @@
             // clearSearchButton
             // 
             this.clearSearchButton.Enabled = false;
-            this.clearSearchButton.Location = new System.Drawing.Point(317, 3);
+            this.clearSearchButton.Location = new System.Drawing.Point(314, 3);
             this.clearSearchButton.Name = "clearSearchButton";
             this.clearSearchButton.Size = new System.Drawing.Size(78, 20);
             this.clearSearchButton.TabIndex = 5;
@@ -469,6 +480,15 @@
             this.selectSecondarySeasonTypeDropDown.Size = new System.Drawing.Size(118, 20);
             this.selectSecondarySeasonTypeDropDown.Text = "Select Season Type";
             // 
+            // loadDraftNumericUpDown
+            // 
+            this.loadDraftNumericUpDown.BackColor = System.Drawing.SystemColors.Window;
+            this.loadDraftNumericUpDown.Location = new System.Drawing.Point(124, 3);
+            this.loadDraftNumericUpDown.Name = "loadDraftNumericUpDown";
+            this.loadDraftNumericUpDown.Size = new System.Drawing.Size(80, 20);
+            this.loadDraftNumericUpDown.TabIndex = 4;
+            this.loadDraftNumericUpDown.Visible = false;
+            // 
             // PlayerStatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -503,6 +523,7 @@
             this.tableLayoutPanel2.PerformLayout();
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.loadDraftNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -532,7 +553,7 @@
         private System.Windows.Forms.MenuStrip menuStrip2;
         private System.Windows.Forms.ToolStripMenuItem selectSecondarySeasonTypeDropDown;
         private System.Windows.Forms.TextBox renameListTextbox;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fileDropDown;
         private System.Windows.Forms.ToolStripMenuItem loadListDropDown;
         private System.Windows.Forms.ToolStripMenuItem saveListDropDown;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
@@ -540,6 +561,8 @@
         private System.Windows.Forms.ToolStripMenuItem createListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setAsDefaultListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadDraftToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown loadDraftNumericUpDown;
     }
 }
 

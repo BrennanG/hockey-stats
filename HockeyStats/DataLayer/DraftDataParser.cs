@@ -6,6 +6,7 @@ namespace HockeyStats
     {
         private JToken draftData;
         private JObject draftTeamObj;
+        private JObject playerObj;
 
         public DraftDataParser()
         {
@@ -19,8 +20,9 @@ namespace HockeyStats
             }
             else
             {
-                draftData = data.First;
+                draftData = data;
                 draftTeamObj = (JObject)draftData["team"];
+                playerObj = (JObject)draftData["player"];
             }
         }
 
@@ -31,6 +33,13 @@ namespace HockeyStats
             string date = (string)draftData["year"];
             string year = date.Substring(6, 4);
             AddToDict(key, year);
+        }
+
+        public string ReturnDraftYear()
+        {
+            string date = (string)draftData["year"];
+            string year = date.Substring(6, 4);
+            return year;
         }
 
         public void GetDraftRound(string key)
@@ -53,6 +62,13 @@ namespace HockeyStats
             if (draftData == null) { AddToDict(key, null); }
             string value = (string)draftTeamObj["name"];
             AddToDict(key, value);
+        }
+
+        // Stats from player object
+        public string ReturnPlayerId()
+        {
+            string value = (string)playerObj["id"];
+            return value;
         }
     }
 }

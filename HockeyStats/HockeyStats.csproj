@@ -51,13 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessLayer\Constants.cs" />
+    <Compile Include="BusinessLayer\DraftListManager.cs" />
     <Compile Include="BusinessLayer\PlayerStats.cs" />
-    <Compile Include="BusinessLayer\SearchDataStatTable.cs" />
+    <Compile Include="BusinessLayer\StatTables\SearchDataStatTable.cs" />
     <Compile Include="DataLayer\DraftDataParser.cs" />
     <Compile Include="DataLayer\EliteProspectsAPI.cs" />
-    <Compile Include="BusinessLayer\MultiPlayerStatTable.cs" />
+    <Compile Include="BusinessLayer\StatTables\MultiPlayerStatTable.cs" />
     <Compile Include="DataLayer\Parser.cs" />
-    <Compile Include="BusinessLayer\PlayerConstantsStatTable.cs" />
+    <Compile Include="BusinessLayer\StatTables\PlayerConstantsStatTable.cs" />
     <Compile Include="DataLayer\SearchDataParser.cs" />
     <Compile Include="PresentationLayer\Configuration.cs" />
     <Compile Include="PresentationLayer\UserInterfaceManagers\MenuStripsManager.cs" />
@@ -69,13 +70,13 @@
     <Compile Include="PresentationLayer\PlayerStatForm.Designer.cs">
       <DependentUpon>PlayerStatForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="BusinessLayer\PlayerStatTable.cs" />
+    <Compile Include="BusinessLayer\StatTables\PlayerStatTable.cs" />
     <Compile Include="PresentationLayer\UserInterfaceManagers\PlayerStatTablesManager.cs" />
     <Compile Include="PresentationLayer\SerializableDictionary.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PresentationLayer\Serializer.cs" />
-    <Compile Include="BusinessLayer\SinglePlayerStatTable.cs" />
+    <Compile Include="BusinessLayer\StatTables\SinglePlayerStatTable.cs" />
     <Compile Include="DataLayer\StatLineParser.cs" />
     <EmbeddedResource Include="PresentationLayer\PlayerStatForm.resx">
       <DependentUpon>PlayerStatForm.cs</DependentUpon>

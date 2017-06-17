@@ -8,5 +8,6 @@ namespace HockeyStats
     public class Configuration
     {
         public string defaultList;
+        public List<string> draftYears;
     }
 }

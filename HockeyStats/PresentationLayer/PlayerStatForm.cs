@@ -24,6 +24,7 @@ namespace HockeyStats
         public PlayerList currentPlayerList = new PlayerList();
         public PlayerList lastSavedPlayerList = new PlayerList();
         public Configuration configuration = new Configuration();
+
         public string currentDisplaySeason;
         public string currentListName;
         public bool listIsSaved;
@@ -51,6 +52,14 @@ namespace HockeyStats
         public void ReadConfigurationFile()
         {
             configuration = Serializer.ReadXML<Configuration>(Constants.CONFIGURATION_FILE_NAME);
+
+            // Check that the configuration file has been updated with the most recent draft year
+            string mostRecentDraftYear = DraftListManager.GetMostRecentDraftYear();
+            if (configuration.draftYears == null || configuration.draftYears.Count == 0 || configuration.draftYears[0] != mostRecentDraftYear)
+            {
+                configuration.draftYears = DraftListManager.GetAllDraftYears();
+                Serializer.WriteXML(configuration, Constants.CONFIGURATION_FILE_NAME);
+            }
         }
 
         public void CreateMenuStripsManager()
@@ -64,6 +73,7 @@ namespace HockeyStats
                 createListToolStripMenuItem = createListToolStripMenuItem,
                 deleteListToolStripMenuItem = deleteListToolStripMenuItem,
                 setAsDefaultListToolStripMenuItem = setAsDefaultListToolStripMenuItem,
+                loadDraftToolStripMenuItem = loadDraftToolStripMenuItem,
                 selectPrimarySeasonTypeDropDown = selectPrimarySeasonTypeDropDown,
                 selectSecondarySeasonTypeDropDown = selectSecondarySeasonTypeDropDown,
                 selectSeasonDropDown = selectSeasonDropDown,
@@ -72,7 +82,8 @@ namespace HockeyStats
                 rightTableDGV = rightTableDGV,
                 saveFileDialog = saveFileDialog,
                 listNameLabel = listNameLabel,
-                renameListTextbox = renameListTextbox
+                renameListTextbox = renameListTextbox,
+                loadDraftNumericUpDown = loadDraftNumericUpDown
             };
         }
 
@@ -149,6 +160,8 @@ namespace HockeyStats
 
         public void SetListIsSaved(bool boolean)
         {
+            if (lastSavedPlayerList.isDraftList) { return; }
+
             if (currentPlayerList.Equals(lastSavedPlayerList))
             {
                 boolean = true;

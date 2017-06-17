@@ -93,7 +93,25 @@ namespace HockeyStats
             Constants.DRAFT_OVERALL,
             Constants.DRAFT_TEAM,
         };
-        
+
+        public static List<string> DefaultDraftPrimaryColumns = new List<string>()
+        {
+            Constants.DRAFT_OVERALL,
+            Constants.DRAFT_TEAM,
+            Constants.FIRST_NAME,
+            Constants.LAST_NAME,
+            Constants.GAMES_PLAYED,
+            Constants.GOALS_GAA,
+            Constants.ASSISTS_SVP,
+            Constants.TOTAL_POINTS,
+            Constants.PPG,
+            Constants.POSITION,
+            Constants.LEAGUE,
+            Constants.TEAM,
+            Constants.HEIGHT,
+            Constants.WEIGHT
+        };
+
         public static List<string> DefaultSecondaryColumns = new List<string>()
         {
             Constants.SEASON,
@@ -112,7 +130,6 @@ namespace HockeyStats
             Constants.LAST_NAME,
             Constants.DATE_OF_BIRTH,
             Constants.LATEST_SEASON,
-            //Constants.LATEST_TEAM,
             //Constants.ID
         };
 
@@ -138,15 +155,33 @@ namespace HockeyStats
 
         public static readonly SerializableDictionary<string, int> DefaultPrimaryColumnWidths = GetDefaultPrimaryColumnWidths();
 
+        public static readonly SerializableDictionary<string, int> DefaultDraftPrimaryColumnWidths = new SerializableDictionary<string, int>()
+        {
+            { Constants.DRAFT_OVERALL, 46 },
+            { Constants.DRAFT_TEAM, 131 },
+            { Constants.FIRST_NAME, 82 },
+            { Constants.LAST_NAME, 83 },
+            { Constants.GAMES_PLAYED, 47 },
+            { Constants.GOALS_GAA, 39 },
+            { Constants.ASSISTS_SVP, 45 },
+            { Constants.TOTAL_POINTS, 41 },
+            { Constants.PPG, 53 },
+            { Constants.LEAGUE, 110 },
+            { Constants.TEAM, 176 },
+            { Constants.POSITION, 57 },
+            { Constants.HEIGHT, 56 },
+            { Constants.WEIGHT, -1 }
+        };
+
         public static readonly SerializableDictionary<string, int> DefaultSecondaryColumnWidths = new SerializableDictionary<string, int>()
         {
-            { Constants.SEASON, 65 },
-            { Constants.GAMES_PLAYED, 44 },
-            { Constants.GOALS_GAA, 38 },
-            { Constants.ASSISTS_SVP, 44 },
+            { Constants.SEASON, 67 },
+            { Constants.GAMES_PLAYED, 41 },
+            { Constants.GOALS_GAA, 42 },
+            { Constants.ASSISTS_SVP, 38 },
             { Constants.TOTAL_POINTS, 38 },
-            { Constants.PPG, 62 },
-            { Constants.LEAGUE, 130 },
+            { Constants.PPG, 39 },
+            { Constants.LEAGUE, 97 },
             { Constants.TEAM, -1 }
         };
 
@@ -156,7 +191,7 @@ namespace HockeyStats
             Constants.PLAYOFFS
         };
 
-        public static readonly string CurrentSeason = GetCurrentSeason();
+        public static readonly string MostRecentSeason = GetMostRecentSeason();
 
 
 
@@ -180,7 +215,7 @@ namespace HockeyStats
             return widths;
         }
 
-        private static string GetCurrentSeason()
+        private static string GetMostRecentSeason()
         {
             DateTime today = DateTime.Today;
             int seasonStart, seasonEnd;

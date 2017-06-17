@@ -139,7 +139,7 @@ namespace HockeyStats
         {
             JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
             JToken data = draftJson["data"];
-            draftDataParser.SetDraftData(data);
+            draftDataParser.SetDraftData(data == null ? null : data.First);
 
             JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
             foreach (JToken statLine in statsJson["data"])

@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <isDraftList>false</isDraftList>
   <primarySeasonType>Regular Season</primarySeasonType>
   <secondarySeasonType>Regular Season</secondarySeasonType>
   <displaySeason>2016-2017</displaySeason>
@@ -46,6 +47,7 @@
   <primaryColumnNames>
     <string>First Name</string>
     <string>Last Name</string>
+    <string>Position</string>
     <string>Games Played</string>
     <string>Goals/GAA</string>
     <string>Assists/Sv%</string>
@@ -56,7 +58,6 @@
     <string>Draft Year</string>
     <string>Draft Round</string>
     <string>Draft Overall</string>
-    <string>Position</string>
     <string>Height</string>
     <string>Weight</string>
   </primaryColumnNames>
@@ -172,7 +173,7 @@
         <string>Position</string>
       </key>
       <value>
-        <int>58</int>
+        <int>50</int>
       </value>
     </item>
     <item>
@@ -198,7 +199,7 @@
         <string>Season</string>
       </key>
       <value>
-        <int>65</int>
+        <int>63</int>
       </value>
     </item>
     <item>
@@ -222,7 +223,7 @@
         <string>Assists/Sv%</string>
       </key>
       <value>
-        <int>44</int>
+        <int>42</int>
       </value>
     </item>
     <item>
@@ -246,7 +247,7 @@
         <string>League</string>
       </key>
       <value>
-        <int>98</int>
+        <int>86</int>
       </value>
     </item>
     <item>

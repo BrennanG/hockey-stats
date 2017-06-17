@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace HockeyStats
         public ToolStripMenuItem createListToolStripMenuItem { get; set; }
         public ToolStripMenuItem deleteListToolStripMenuItem { get; set; }
         public ToolStripMenuItem setAsDefaultListToolStripMenuItem { get; set; }
+        public ToolStripMenuItem loadDraftToolStripMenuItem { get; set; }
         public ToolStripMenuItem selectPrimarySeasonTypeDropDown { get; set; }
         public ToolStripMenuItem selectSecondarySeasonTypeDropDown { get; set; }
         public ToolStripMenuItem selectSeasonDropDown { get; set; }
@@ -25,6 +27,7 @@ namespace HockeyStats
         public SaveFileDialog saveFileDialog { get; set; }
         public Label listNameLabel { get; set; }
         public TextBox renameListTextbox { get; set; }
+        public NumericUpDown loadDraftNumericUpDown { get; set; }
 
         public void Initialize()
         {
@@ -33,6 +36,7 @@ namespace HockeyStats
             SetupCreateListButton();
             SetupDeleteListButton();
             SetupSetAsDefaultListButton();
+            SetupLoadDraftButton();
             SetupRenameListLabel();
             SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
@@ -81,6 +85,11 @@ namespace HockeyStats
         {
             saveToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
+                if (form.lastSavedPlayerList.isDraftList)
+                {
+                    MessageBox.Show("Draft lists cannot be saved.");
+                    return;
+                }
                 if (form.currentListName != Constants.DEFAULT_LIST_NAME)
                 {
                     SaveList(form.currentListName);
@@ -92,6 +101,11 @@ namespace HockeyStats
             saveFileDialog.Title = "Save Player List";
             saveAsToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
+                if (form.lastSavedPlayerList.isDraftList)
+                {
+                    MessageBox.Show("Draft lists cannot be saved.");
+                    return;
+                }
                 saveFileDialog.FileName = (form.currentListName != Constants.DEFAULT_LIST_NAME) ? form.currentListName : "";
                 DialogResult result = saveFileDialog.ShowDialog();
                 if (result == DialogResult.OK || result == DialogResult.Yes)
@@ -132,6 +146,12 @@ namespace HockeyStats
 
             deleteListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
+                if (form.lastSavedPlayerList.isDraftList)
+                {
+                    MessageBox.Show("Draft lists cannot be deleted.");
+                    return;
+                }
+
                 string message = "Are you sure you want to delete this list? This cannot be undone.";
                 form.DisplayYesNoMessageBox(message, DeleteList);
             });
@@ -142,7 +162,11 @@ namespace HockeyStats
             setAsDefaultListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
                 Configuration configuration = form.configuration;
-                if (configuration.defaultList == form.currentListName)
+                if (form.lastSavedPlayerList.isDraftList)
+                {
+                    MessageBox.Show("Draft lists cannot be set as default lists.");
+                }
+                else if (configuration.defaultList == form.currentListName)
                 {
                     MessageBox.Show("This is already the default list.");
                 }
@@ -155,9 +179,61 @@ namespace HockeyStats
             });
         }
 
+        private void SetupLoadDraftButton()
+        {
+            List<string> draftYears = form.configuration.draftYears;
+            loadDraftNumericUpDown.Minimum = Int32.Parse(draftYears[draftYears.Count - 1]);
+            loadDraftNumericUpDown.Maximum = Int32.Parse(draftYears[0]);
+
+            bool choosingYear = false;
+
+            Action LeaveNumericUpDown = () =>
+            {
+                loadDraftNumericUpDown.Visible = false;
+                choosingYear = false;
+            };
+
+            loadDraftToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
+            {
+                if (!choosingYear)
+                {
+                    loadDraftNumericUpDown.Visible = true;
+                    loadDraftNumericUpDown.Value = loadDraftNumericUpDown.Maximum;
+                    loadDraftNumericUpDown.Focus();
+                    choosingYear = true;
+                }
+                else
+                {
+                    LeaveNumericUpDown();
+                }
+            });
+
+            loadDraftNumericUpDown.KeyUp += new KeyEventHandler((object sender, KeyEventArgs e) => {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    PlayerList playerList = new PlayerList();
+                    playerList.FillWithDefaults();
+                    playerList.SetIsDraftList(true);
+                    playerList.primaryColumnNames = Constants.DefaultDraftPrimaryColumns;
+                    playerList.primaryColumnWidths = Constants.DefaultDraftPrimaryColumnWidths;
+                    string year = loadDraftNumericUpDown.Value.ToString();
+                    playerList.playerIds = DraftListManager.GetPlayersInDraftYear(year);
+                    form.LoadPlayerList(playerList, year + " Draft");
+
+                    LeaveNumericUpDown();
+                }
+                else if (e.KeyCode == Keys.Escape)
+                {
+                    LeaveNumericUpDown();
+                }
+            });
+        }
+
         private void SetupRenameListLabel()
         {
             listNameLabel.Click += new EventHandler((object sender, EventArgs e) => {
+                if (form.lastSavedPlayerList.isDraftList) { return; }
+
                 listNameLabel.Visible = false;
                 renameListTextbox.Visible = true;
                 renameListTextbox.Enabled = true;
@@ -240,7 +316,7 @@ namespace HockeyStats
             ToolStripItemCollection dropDownItems = selectSeasonDropDown.DropDownItems;
             dropDownItems.Clear();
 
-            string[] years = Constants.CurrentSeason.Split('-');
+            string[] years = Constants.MostRecentSeason.Split('-');
             int startYear = Int32.Parse(years[0]);
             int endYear = Int32.Parse(years[1]);
 
