@@ -226,28 +226,33 @@ namespace HockeyStats
             KeyEventHandler keyEventHandler = new KeyEventHandler((object sender, KeyEventArgs e) => {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    PlayerList playerList = new PlayerList();
-                    playerList.FillWithDefaults();
-                    playerList.SetIsDraftList(true);
-                    playerList.primaryColumnNames = Constants.DefaultDraftPrimaryColumns;
-                    playerList.primaryColumnWidths = Constants.DefaultDraftPrimaryColumnWidths;
-                    string year = draftYearNumericUpDown.Value.ToString();
-                    int lowerRound = (int)draftRoundLowerNumericUpDown.Value;
-                    int upperRound = (int)draftRoundUpperNumericUpDown.Value;
-                    playerList.playerIds = DraftListManager.GetPlayersInDraftYear(year, lowerRound, upperRound);
-
-                    string listName = year + " Draft";
-                    if (lowerRound == upperRound)
+                    Action LoadPlayer = () =>
                     {
-                        listName += String.Format(" (Round {0})", lowerRound.ToString());
-                    }
-                    else
-                    {
-                        listName += String.Format(" (Rounds {0}-{1})", lowerRound.ToString(), upperRound.ToString());
-                    }
-                    form.LoadPlayerList(playerList, listName);
+                        PlayerList playerList = new PlayerList();
+                        playerList.FillWithDefaults();
+                        playerList.SetIsDraftList(true);
+                        playerList.primaryColumnNames = Constants.DefaultDraftPrimaryColumns;
+                        playerList.primaryColumnWidths = Constants.DefaultDraftPrimaryColumnWidths;
+                        string year = draftYearNumericUpDown.Value.ToString();
+                        int lowerRound = (int)draftRoundLowerNumericUpDown.Value;
+                        int upperRound = (int)draftRoundUpperNumericUpDown.Value;
+                        playerList.playerIds = DraftListManager.GetPlayersInDraftYear(year, lowerRound, upperRound);
 
-                    LeaveNumericUpDown();
+                        string listName = year + " Draft";
+                        if (lowerRound == upperRound)
+                        {
+                            listName += String.Format(" (Round {0})", lowerRound.ToString());
+                        }
+                        else
+                        {
+                            listName += String.Format(" (Rounds {0}-{1})", lowerRound.ToString(), upperRound.ToString());
+                        }
+                        form.LoadPlayerList(playerList, listName);
+
+                        LeaveNumericUpDown();
+                    };
+
+                    form.TriggerLeaveRequest(LoadPlayer);
                 }
                 else if (e.KeyCode == Keys.Escape)
                 {
