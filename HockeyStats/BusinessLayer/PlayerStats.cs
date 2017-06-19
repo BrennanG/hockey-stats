@@ -52,14 +52,18 @@ namespace HockeyStats
 
         public string GetCollapsedColumnValue(string season, string columnName, string seasonType)
         {
+            if (Constants.ConstantColumns.Contains(columnName))
+            {
+                return constantPlayerStats[columnName];
+            }
+
             Dictionary<string, List<Dictionary<string, string>>> playerStats = GetPlayerStatsForSeasonType(seasonType);
             if (playerStats == null || !playerStats.ContainsKey(season)) { return String.Empty; }
-
-            if (!playerStats.ContainsKey(season)) { return String.Empty; }
+            
             string collapsedColumn = String.Empty;
             foreach (Dictionary<string, string> dict in playerStats[season])
             {
-                if (collapsedColumn == String.Empty || Constants.ConstantColumns.Contains(columnName))
+                if (collapsedColumn == String.Empty)
                 {
                     collapsedColumn = dict[columnName];
                 }
