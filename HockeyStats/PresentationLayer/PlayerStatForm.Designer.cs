@@ -38,6 +38,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.topTableDGV = new System.Windows.Forms.DataGridView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.draftYearNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.renameListTextbox = new System.Windows.Forms.TextBox();
             this.listNameLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -68,12 +69,14 @@
             this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.selectSecondarySeasonTypeDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.loadDraftNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.draftRoundLowerNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.draftRoundUpperNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.topTableDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.draftYearNumericUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rightTableDGV)).BeginInit();
@@ -86,7 +89,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.middleTableDGV)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.loadDraftNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.draftRoundLowerNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.draftRoundUpperNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // topTableDGV
@@ -126,7 +130,9 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.loadDraftNumericUpDown);
+            this.splitContainer1.Panel1.Controls.Add(this.draftRoundUpperNumericUpDown);
+            this.splitContainer1.Panel1.Controls.Add(this.draftRoundLowerNumericUpDown);
+            this.splitContainer1.Panel1.Controls.Add(this.draftYearNumericUpDown);
             this.splitContainer1.Panel1.Controls.Add(this.renameListTextbox);
             this.splitContainer1.Panel1.Controls.Add(this.listNameLabel);
             this.splitContainer1.Panel1.Controls.Add(this.topTableDGV);
@@ -139,6 +145,15 @@
             this.splitContainer1.SplitterDistance = 456;
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 3;
+            // 
+            // loadDraftNumericUpDown
+            // 
+            this.draftYearNumericUpDown.BackColor = System.Drawing.SystemColors.Window;
+            this.draftYearNumericUpDown.Location = new System.Drawing.Point(124, 3);
+            this.draftYearNumericUpDown.Name = "loadDraftNumericUpDown";
+            this.draftYearNumericUpDown.Size = new System.Drawing.Size(80, 20);
+            this.draftYearNumericUpDown.TabIndex = 4;
+            this.draftYearNumericUpDown.Visible = false;
             // 
             // renameListTextbox
             // 
@@ -208,13 +223,13 @@
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             // 
             // createListToolStripMenuItem
@@ -313,7 +328,7 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.40881F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.59119F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
             this.tableLayoutPanel3.Controls.Add(this.searchPlayerButton, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.searchPlayerTextbox, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.addSelectedPlayerButton, 3, 0);
@@ -329,7 +344,7 @@
             // searchPlayerButton
             // 
             this.searchPlayerButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.searchPlayerButton.Location = new System.Drawing.Point(207, 3);
+            this.searchPlayerButton.Location = new System.Drawing.Point(206, 3);
             this.searchPlayerButton.Name = "searchPlayerButton";
             this.searchPlayerButton.Size = new System.Drawing.Size(101, 20);
             this.searchPlayerButton.TabIndex = 1;
@@ -341,13 +356,13 @@
             this.searchPlayerTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.searchPlayerTextbox.Location = new System.Drawing.Point(3, 3);
             this.searchPlayerTextbox.Name = "searchPlayerTextbox";
-            this.searchPlayerTextbox.Size = new System.Drawing.Size(198, 20);
+            this.searchPlayerTextbox.Size = new System.Drawing.Size(197, 20);
             this.searchPlayerTextbox.TabIndex = 3;
             // 
             // addSelectedPlayerButton
             // 
             this.addSelectedPlayerButton.Enabled = false;
-            this.addSelectedPlayerButton.Location = new System.Drawing.Point(398, 3);
+            this.addSelectedPlayerButton.Location = new System.Drawing.Point(397, 3);
             this.addSelectedPlayerButton.Name = "addSelectedPlayerButton";
             this.addSelectedPlayerButton.Size = new System.Drawing.Size(124, 20);
             this.addSelectedPlayerButton.TabIndex = 4;
@@ -357,7 +372,7 @@
             // clearSearchButton
             // 
             this.clearSearchButton.Enabled = false;
-            this.clearSearchButton.Location = new System.Drawing.Point(314, 3);
+            this.clearSearchButton.Location = new System.Drawing.Point(313, 3);
             this.clearSearchButton.Name = "clearSearchButton";
             this.clearSearchButton.Size = new System.Drawing.Size(78, 20);
             this.clearSearchButton.TabIndex = 5;
@@ -480,14 +495,21 @@
             this.selectSecondarySeasonTypeDropDown.Size = new System.Drawing.Size(118, 20);
             this.selectSecondarySeasonTypeDropDown.Text = "Select Season Type";
             // 
-            // loadDraftNumericUpDown
+            // draftRoundLowerNumericUpDown
             // 
-            this.loadDraftNumericUpDown.BackColor = System.Drawing.SystemColors.Window;
-            this.loadDraftNumericUpDown.Location = new System.Drawing.Point(124, 3);
-            this.loadDraftNumericUpDown.Name = "loadDraftNumericUpDown";
-            this.loadDraftNumericUpDown.Size = new System.Drawing.Size(80, 20);
-            this.loadDraftNumericUpDown.TabIndex = 4;
-            this.loadDraftNumericUpDown.Visible = false;
+            this.draftRoundLowerNumericUpDown.Location = new System.Drawing.Point(226, 3);
+            this.draftRoundLowerNumericUpDown.Name = "draftRoundLowerNumericUpDown";
+            this.draftRoundLowerNumericUpDown.Size = new System.Drawing.Size(43, 20);
+            this.draftRoundLowerNumericUpDown.TabIndex = 5;
+            this.draftRoundLowerNumericUpDown.Visible = false;
+            // 
+            // draftRoundUpperNumericUpDown
+            // 
+            this.draftRoundUpperNumericUpDown.Location = new System.Drawing.Point(275, 3);
+            this.draftRoundUpperNumericUpDown.Name = "draftRoundUpperNumericUpDown";
+            this.draftRoundUpperNumericUpDown.Size = new System.Drawing.Size(43, 20);
+            this.draftRoundUpperNumericUpDown.TabIndex = 6;
+            this.draftRoundUpperNumericUpDown.Visible = false;
             // 
             // PlayerStatForm
             // 
@@ -507,6 +529,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.draftYearNumericUpDown)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -523,7 +546,8 @@
             this.tableLayoutPanel2.PerformLayout();
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.loadDraftNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.draftRoundLowerNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.draftRoundUpperNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -562,7 +586,9 @@
         private System.Windows.Forms.ToolStripMenuItem deleteListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setAsDefaultListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadDraftToolStripMenuItem;
-        private System.Windows.Forms.NumericUpDown loadDraftNumericUpDown;
+        private System.Windows.Forms.NumericUpDown draftYearNumericUpDown;
+        private System.Windows.Forms.NumericUpDown draftRoundUpperNumericUpDown;
+        private System.Windows.Forms.NumericUpDown draftRoundLowerNumericUpDown;
     }
 }
 

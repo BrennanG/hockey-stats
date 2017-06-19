@@ -9,5 +9,6 @@ namespace HockeyStats
     {
         public string defaultList;
         public List<string> draftYears;
+        public SerializableDictionary<string, int> draftYearToNumberOfRoundsMap;
     }
 }

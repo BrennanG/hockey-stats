@@ -27,7 +27,9 @@ namespace HockeyStats
         public SaveFileDialog saveFileDialog { get; set; }
         public Label listNameLabel { get; set; }
         public TextBox renameListTextbox { get; set; }
-        public NumericUpDown loadDraftNumericUpDown { get; set; }
+        public NumericUpDown draftYearNumericUpDown { get; set; }
+        public NumericUpDown draftRoundLowerNumericUpDown { get; set; }
+        public NumericUpDown draftRoundUpperNumericUpDown { get; set; }
 
         public void Initialize()
         {
@@ -182,14 +184,19 @@ namespace HockeyStats
         private void SetupLoadDraftButton()
         {
             List<string> draftYears = form.configuration.draftYears;
-            loadDraftNumericUpDown.Minimum = Int32.Parse(draftYears[draftYears.Count - 1]);
-            loadDraftNumericUpDown.Maximum = Int32.Parse(draftYears[0]);
+            draftYearNumericUpDown.Minimum = Int32.Parse(draftYears[draftYears.Count - 1]);
+            draftYearNumericUpDown.Maximum = Int32.Parse(draftYears[0]);
+
+            draftRoundLowerNumericUpDown.Minimum = draftRoundUpperNumericUpDown.Minimum = 1;
+            draftRoundLowerNumericUpDown.Maximum = draftRoundUpperNumericUpDown.Maximum = 1;
 
             bool choosingYear = false;
 
             Action LeaveNumericUpDown = () =>
             {
-                loadDraftNumericUpDown.Visible = false;
+                draftYearNumericUpDown.Visible = false;
+                draftRoundLowerNumericUpDown.Visible = false;
+                draftRoundUpperNumericUpDown.Visible = false;
                 choosingYear = false;
             };
 
@@ -197,9 +204,17 @@ namespace HockeyStats
             {
                 if (!choosingYear)
                 {
-                    loadDraftNumericUpDown.Visible = true;
-                    loadDraftNumericUpDown.Value = loadDraftNumericUpDown.Maximum;
-                    loadDraftNumericUpDown.Focus();
+                    draftYearNumericUpDown.Visible = true;
+                    draftRoundLowerNumericUpDown.Visible = true;
+                    draftRoundUpperNumericUpDown.Visible = true;
+
+                    draftYearNumericUpDown.Value = draftYearNumericUpDown.Maximum;
+
+                    draftRoundLowerNumericUpDown.Maximum = draftRoundUpperNumericUpDown.Maximum = form.configuration.draftYearToNumberOfRoundsMap[draftYearNumericUpDown.Value.ToString()];
+                    draftRoundLowerNumericUpDown.Value = draftRoundLowerNumericUpDown.Minimum;
+                    draftRoundUpperNumericUpDown.Value = draftRoundUpperNumericUpDown.Maximum;
+
+                    draftYearNumericUpDown.Focus();
                     choosingYear = true;
                 }
                 else
@@ -208,7 +223,7 @@ namespace HockeyStats
                 }
             });
 
-            loadDraftNumericUpDown.KeyUp += new KeyEventHandler((object sender, KeyEventArgs e) => {
+            KeyEventHandler keyEventHandler = new KeyEventHandler((object sender, KeyEventArgs e) => {
                 if (e.KeyCode == Keys.Enter)
                 {
                     PlayerList playerList = new PlayerList();
@@ -216,9 +231,21 @@ namespace HockeyStats
                     playerList.SetIsDraftList(true);
                     playerList.primaryColumnNames = Constants.DefaultDraftPrimaryColumns;
                     playerList.primaryColumnWidths = Constants.DefaultDraftPrimaryColumnWidths;
-                    string year = loadDraftNumericUpDown.Value.ToString();
-                    playerList.playerIds = DraftListManager.GetPlayersInDraftYear(year);
-                    form.LoadPlayerList(playerList, year + " Draft");
+                    string year = draftYearNumericUpDown.Value.ToString();
+                    int lowerRound = (int)draftRoundLowerNumericUpDown.Value;
+                    int upperRound = (int)draftRoundUpperNumericUpDown.Value;
+                    playerList.playerIds = DraftListManager.GetPlayersInDraftYear(year, lowerRound, upperRound);
+
+                    string listName = year + " Draft";
+                    if (lowerRound == upperRound)
+                    {
+                        listName += String.Format(" (Round {0})", lowerRound.ToString());
+                    }
+                    else
+                    {
+                        listName += String.Format(" (Rounds {0}-{1})", lowerRound.ToString(), upperRound.ToString());
+                    }
+                    form.LoadPlayerList(playerList, listName);
 
                     LeaveNumericUpDown();
                 }
@@ -227,6 +254,34 @@ namespace HockeyStats
                     LeaveNumericUpDown();
                 }
             });
+            draftYearNumericUpDown.KeyUp += keyEventHandler;
+            draftRoundLowerNumericUpDown.KeyUp += keyEventHandler;
+            draftRoundUpperNumericUpDown.KeyUp += keyEventHandler;
+
+            // Updates the max and min round values when the selected draft year is changed
+            draftYearNumericUpDown.ValueChanged += new EventHandler((object sender, EventArgs e) =>
+            {
+                draftRoundLowerNumericUpDown.Maximum = form.configuration.draftYearToNumberOfRoundsMap[draftYearNumericUpDown.Value.ToString()];
+                draftRoundUpperNumericUpDown.Maximum = form.configuration.draftYearToNumberOfRoundsMap[draftYearNumericUpDown.Value.ToString()];
+                draftRoundLowerNumericUpDown.Value = Math.Min(draftRoundLowerNumericUpDown.Value, draftRoundLowerNumericUpDown.Maximum);
+                draftRoundUpperNumericUpDown.Value = Math.Min(draftRoundUpperNumericUpDown.Value, draftRoundUpperNumericUpDown.Maximum);
+            });
+
+            // Prevents the range's lower value from being higher that the upper value
+            decimal lastAllowableLowerValue = draftRoundLowerNumericUpDown.Minimum;
+            decimal lastAllowableUpperValue = draftRoundUpperNumericUpDown.Maximum;
+            EventHandler roundValueChecker = new EventHandler((object sender, EventArgs e) =>
+            {
+                if (draftRoundLowerNumericUpDown.Value > draftRoundUpperNumericUpDown.Value)
+                {
+                    draftRoundLowerNumericUpDown.Value = lastAllowableLowerValue;
+                    draftRoundUpperNumericUpDown.Value = lastAllowableUpperValue;
+                }
+                lastAllowableLowerValue = draftRoundLowerNumericUpDown.Value;
+                lastAllowableUpperValue = draftRoundUpperNumericUpDown.Value;
+            });
+            draftRoundLowerNumericUpDown.ValueChanged += roundValueChecker;
+            draftRoundUpperNumericUpDown.ValueChanged += roundValueChecker;
         }
 
         private void SetupRenameListLabel()

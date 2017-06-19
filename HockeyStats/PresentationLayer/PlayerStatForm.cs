@@ -58,6 +58,16 @@ namespace HockeyStats
             if (configuration.draftYears == null || configuration.draftYears.Count == 0 || configuration.draftYears[0] != mostRecentDraftYear)
             {
                 configuration.draftYears = DraftListManager.GetAllDraftYears();
+
+                if (configuration.draftYearToNumberOfRoundsMap == null) { configuration.draftYearToNumberOfRoundsMap = new SerializableDictionary<string, int>(); }
+                foreach (string draftYear in configuration.draftYears)
+                {
+                    if (!configuration.draftYearToNumberOfRoundsMap.ContainsKey(draftYear))
+                    {
+                        configuration.draftYearToNumberOfRoundsMap[draftYear] = DraftListManager.GetNumberOfRoundsInDraft(draftYear);
+                    }
+                }
+
                 Serializer.WriteXML(configuration, Constants.CONFIGURATION_FILE_NAME);
             }
         }
@@ -83,7 +93,9 @@ namespace HockeyStats
                 saveFileDialog = saveFileDialog,
                 listNameLabel = listNameLabel,
                 renameListTextbox = renameListTextbox,
-                loadDraftNumericUpDown = loadDraftNumericUpDown
+                draftYearNumericUpDown = draftYearNumericUpDown,
+                draftRoundLowerNumericUpDown = draftRoundLowerNumericUpDown,
+                draftRoundUpperNumericUpDown = draftRoundUpperNumericUpDown
             };
         }
 
