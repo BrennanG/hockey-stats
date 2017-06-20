@@ -25,3 +25,4 @@ C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey
 C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.csproj.GenerateResource.Cache
 C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.exe
 C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.pdb
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.LoadDraftModal.resources

@@ -61,6 +61,9 @@
     <Compile Include="BusinessLayer\StatTables\PlayerConstantsStatTable.cs" />
     <Compile Include="DataLayer\SearchDataParser.cs" />
     <Compile Include="PresentationLayer\Configuration.cs" />
+    <Compile Include="PresentationLayer\LoadDraftModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PresentationLayer\UserInterfaceManagers\MenuStripsManager.cs" />
     <Compile Include="PresentationLayer\UserInterfaceManagers\PlayerButtonsManager.cs" />
     <Compile Include="PresentationLayer\PlayerList.cs" />
@@ -78,6 +81,9 @@
     <Compile Include="PresentationLayer\Serializer.cs" />
     <Compile Include="BusinessLayer\StatTables\SinglePlayerStatTable.cs" />
     <Compile Include="DataLayer\StatLineParser.cs" />
+    <EmbeddedResource Include="PresentationLayer\LoadDraftModal.resx">
+      <DependentUpon>LoadDraftModal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PresentationLayer\PlayerStatForm.resx">
       <DependentUpon>PlayerStatForm.cs</DependentUpon>
     </EmbeddedResource>
