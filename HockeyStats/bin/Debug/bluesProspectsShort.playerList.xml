@@ -9,7 +9,6 @@
     <string>269034</string>
     <string>89411</string>
     <string>156923</string>
-    <string>21228</string>
   </playerIds>
   <primaryColumnNames>
     <string>First Name</string>
@@ -120,18 +119,18 @@
     </item>
     <item>
       <key>
-        <string>Draft Year</string>
-      </key>
-      <value>
-        <int>75</int>
-      </value>
-    </item>
-    <item>
-      <key>
         <string>Position</string>
       </key>
       <value>
         <int>66</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Draft Year</string>
+      </key>
+      <value>
+        <int>75</int>
       </value>
     </item>
     <item>

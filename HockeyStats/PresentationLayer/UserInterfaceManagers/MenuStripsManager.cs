@@ -143,7 +143,7 @@ namespace HockeyStats
             Action DeleteList = () =>
             {
                 File.Delete(form.currentListName + Constants.LIST_NAME_SUFFIX);
-                form.LoadEmptyList();
+                form.LoadDefaultOrEmptyList();
             };
 
             deleteListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>

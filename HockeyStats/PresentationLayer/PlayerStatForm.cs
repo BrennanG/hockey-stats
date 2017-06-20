@@ -33,6 +33,7 @@ namespace HockeyStats
         public PlayerStatForm()
         {
             InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
 
             ReadConfigurationFile();
 
@@ -40,7 +41,7 @@ namespace HockeyStats
             CreatePlayerButtonsManager();
             CreatePlayerStatTablesManager();
 
-            LoadDefaultList();
+            LoadDefaultOrEmptyList();
 
             menuStripsManager.Initialize();
             playerButtonsManager.Initialize();
@@ -150,7 +151,7 @@ namespace HockeyStats
             SetListIsSaved(true);
         }
 
-        public void LoadDefaultList()
+        public void LoadDefaultOrEmptyList()
         {
             string[] playerListsInDirectory = GetPlayerListsInDirectory();
             if (playerListsInDirectory.Contains(configuration.defaultList + Constants.LIST_NAME_SUFFIX))
