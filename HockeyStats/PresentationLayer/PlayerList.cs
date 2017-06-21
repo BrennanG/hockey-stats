@@ -23,7 +23,20 @@ namespace HockeyStats
 
         public PlayerList()
         {
-            
+
+        }
+
+        public void FillWithDefaults()
+        {
+            isDraftList = false;
+            primarySeasonType = Constants.REGULAR_SEASON;
+            secondarySeasonType = Constants.REGULAR_SEASON;
+            displaySeason = Constants.MostRecentSeason;
+            playerIds = new List<string>();
+            primaryColumnNames = Constants.DefaultPrimaryColumns;
+            secondaryColumnNames = Constants.DefaultSecondaryColumns;
+            primaryColumnWidths = Constants.DefaultPrimaryColumnWidths;
+            secondaryColumnWidths = Constants.DefaultSecondaryColumnWidths;
         }
 
         public bool Equals(PlayerList other)
@@ -63,19 +76,6 @@ namespace HockeyStats
             playerList.secondaryColumnWidths = secondaryColumnWidths.Clone();
 
             return playerList;
-        }
-
-        public void FillWithDefaults()
-        {
-            isDraftList = false;
-            primarySeasonType = Constants.REGULAR_SEASON;
-            secondarySeasonType = Constants.REGULAR_SEASON;
-            displaySeason = Constants.MostRecentSeason;
-            playerIds = new List<string>();
-            primaryColumnNames = Constants.DefaultPrimaryColumns;
-            secondaryColumnNames = Constants.DefaultSecondaryColumns;
-            primaryColumnWidths = Constants.DefaultPrimaryColumnWidths;
-            secondaryColumnWidths = Constants.DefaultSecondaryColumnWidths;
         }
 
         public void AddPlayer(string playerId)

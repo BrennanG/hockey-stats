@@ -246,21 +246,26 @@ namespace HockeyStats
                         if (dgv.Columns.Contains(Constants.TEAM) && column == dgv.Columns[Constants.TEAM].Index && row >= 0)
                         {
                             string[] teamNames = dgv[column, row].Value.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                            if (teamNames.Count() == 1 && String.IsNullOrWhiteSpace(teamNames[0])) { return; }
                             foreach (string teamName in teamNames)
                             {
                                 EventHandler eventHandler = new EventHandler((object sender2, EventArgs e2) =>
                                 {
-                                    DataRow dataRow = PlayerStatTable.GetDataRowFromDGVRow(dgv.Rows[row]);
-                                    PlayerStats playerStats = PlayerStatsGetters(dataRow);
-                                    string season = (dgv.Columns.Contains(Constants.SEASON)) ? dgv.Rows[row].Cells[Constants.SEASON].Value.ToString() : form.currentPlayerList.displaySeason;
-                                    string teamId = playerStats.GetTeamId(season, teamName);
+                                    Action loadTeam = () =>
+                                    {
+                                        DataRow dataRow = PlayerStatTable.GetDataRowFromDGVRow(dgv.Rows[row]);
+                                        PlayerStats playerStats = PlayerStatsGetters(dataRow);
+                                        string season = (dgv.Columns.Contains(Constants.SEASON)) ? dgv.Rows[row].Cells[Constants.SEASON].Value.ToString() : form.currentPlayerList.displaySeason;
+                                        string teamId = playerStats.GetTeamId(season, teamName);
 
-                                    List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
-                                    PlayerList playerList = new PlayerList();
-                                    playerList.FillWithDefaults();
-                                    playerList.SetPlayerIds(playerIds);
-                                    playerList.SetDisplaySeason(season);
-                                    form.LoadPlayerList(playerList, teamName);
+                                        List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
+                                        PlayerList playerList = new PlayerList();
+                                        playerList.FillWithDefaults();
+                                        playerList.SetPlayerIds(playerIds);
+                                        playerList.SetDisplaySeason(season);
+                                        form.LoadPlayerList(playerList, teamName);
+                                    };
+                                    form.TriggerLeaveRequest(loadTeam);
                                 });
                                 MenuItem item = new MenuItem(teamName, eventHandler);
                                 menu.MenuItems.Add(item);

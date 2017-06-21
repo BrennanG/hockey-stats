@@ -86,8 +86,12 @@ namespace HockeyStats
             Constants.ASSISTS_SVP,
             Constants.TOTAL_POINTS,
             Constants.PPG,
-            Constants.POSITION,
+            Constants.PLUS_MINUS,
             Constants.LEAGUE,
+            Constants.TEAM,
+            Constants.POSITION,
+            Constants.HEIGHT,
+            Constants.WEIGHT,
             Constants.DRAFT_YEAR,
             Constants.DRAFT_ROUND,
             Constants.DRAFT_OVERALL,
@@ -153,7 +157,26 @@ namespace HockeyStats
 
         public static readonly List<string> AllPossibleColumnsAlphebetized = GetAllPossibleColumnsAlphebetized();
 
-        public static readonly SerializableDictionary<string, int> DefaultPrimaryColumnWidths = GetDefaultPrimaryColumnWidths();
+        public static readonly SerializableDictionary<string, int> DefaultPrimaryColumnWidths = new SerializableDictionary<string, int>()
+        {
+            { Constants.FIRST_NAME, 83 },
+            { Constants.LAST_NAME, 83 },
+            { Constants.GAMES_PLAYED, 44 },
+            { Constants.GOALS_GAA, 38 },
+            { Constants.ASSISTS_SVP, 45 },
+            { Constants.TOTAL_POINTS, 40 },
+            { Constants.PPG, 43 },
+            { Constants.PLUS_MINUS, 32 },
+            { Constants.LEAGUE, 102 },
+            { Constants.TEAM, 152 },
+            { Constants.POSITION, 50 },
+            { Constants.HEIGHT, 46 },
+            { Constants.WEIGHT, 46 },
+            { Constants.DRAFT_YEAR, 42 },
+            { Constants.DRAFT_OVERALL, 47 },
+            { Constants.DRAFT_ROUND, 46 },
+            { Constants.DRAFT_TEAM, -1 }
+        };
 
         public static readonly SerializableDictionary<string, int> DefaultDraftPrimaryColumnWidths = new SerializableDictionary<string, int>()
         {
@@ -203,16 +226,6 @@ namespace HockeyStats
             List<string> copyAsList = copy.ToList();
             copyAsList.Sort();
             return copyAsList;
-        }
-
-        public static SerializableDictionary<string, int> GetDefaultPrimaryColumnWidths()
-        {
-            SerializableDictionary<string, int> widths = new SerializableDictionary<string, int>();
-            foreach (string column in AllPossibleColumns)
-            {
-                widths.Add(column, 83);
-            }
-            return widths;
         }
 
         private static string GetMostRecentSeason()
