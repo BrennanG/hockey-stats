@@ -153,6 +153,16 @@ namespace HockeyStats
             AddToDict(key, value);
         }
 
+        public string ReturnTeamName()
+        {
+            return (string)teamObj["name"];
+        }
+
+        public string ReturnTeamId()
+        {
+            return (string)teamObj["id"];
+        }
+
         // Stats from league object
         public void GetLeagueName(string key)
         {

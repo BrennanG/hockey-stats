@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -23,6 +24,7 @@ namespace HockeyStats
             SetupListenForTableClick();
             SetupColumnResizeListener();
             SetupColumnReorderListener();
+            SetupRightClickListener();
         }
 
         public void ClearPlayerSelection()
@@ -224,6 +226,41 @@ namespace HockeyStats
                     form.currentPlayerList.SetSecondaryColumnNames(rightTableDGV.Columns);
                     form.SetListIsSaved(false);
                     tableHasBeenClicked = false;
+                }
+            });
+        }
+
+        private void SetupRightClickListener()
+        {
+            topTableDGV.MouseClick += new MouseEventHandler((object sender, MouseEventArgs e) =>
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    ContextMenu menu = new ContextMenu();
+
+                    int row = topTableDGV.HitTest(e.X, e.Y).RowIndex;
+                    int column = topTableDGV.HitTest(e.X, e.Y).ColumnIndex;
+                    
+                    // If a cell in the "Team" column is right clicked
+                    if (form.topTable.ContainsColumn(Constants.TEAM) && column == topTableDGV.Columns[Constants.TEAM].Index && row >= 0)
+                    {
+                        string[] teams = topTableDGV[column, row].Value.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                        foreach (string team in teams)
+                        {
+                            EventHandler eventHandler = new EventHandler((object sender2, EventArgs e2) =>
+                            {
+                                DataRow dataRow = PlayerStatTable.GetDataRowFromDGVRow(topTableDGV.Rows[row]);
+                                PlayerStats playerStats = form.topTable.GetPlayerStatsFromRow(dataRow);
+                                string teamId = playerStats.GetTeamId(form.currentPlayerList.displaySeason, team);
+
+
+                            });
+                            MenuItem item = new MenuItem(team, eventHandler);
+                            menu.MenuItems.Add(item);
+                        }
+
+                        menu.Show(topTableDGV, new Point(e.X, e.Y));
+                    }
                 }
             });
         }

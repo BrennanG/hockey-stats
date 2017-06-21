@@ -19,12 +19,13 @@
     <string>Total Points</string>
     <string>PPG</string>
     <string>+/-</string>
-    <string>League</string>
     <string>Team</string>
+    <string>League</string>
     <string>Position</string>
     <string>Draft Year</string>
     <string>Draft Overall</string>
     <string>Draft Round</string>
+    <string>Draft Team</string>
   </primaryColumnNames>
   <secondaryColumnNames>
     <string>Season</string>
@@ -103,18 +104,18 @@
     </item>
     <item>
       <key>
-        <string>League</string>
+        <string>Team</string>
       </key>
       <value>
-        <int>102</int>
+        <int>152</int>
       </value>
     </item>
     <item>
       <key>
-        <string>Team</string>
+        <string>League</string>
       </key>
       <value>
-        <int>206</int>
+        <int>102</int>
       </value>
     </item>
     <item>
@@ -144,6 +145,14 @@
     <item>
       <key>
         <string>Draft Round</string>
+      </key>
+      <value>
+        <int>56</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Draft Team</string>
       </key>
       <value>
         <int>-1</int>
@@ -204,7 +213,7 @@
         <string>League</string>
       </key>
       <value>
-        <int>97</int>
+        <int>76</int>
       </value>
     </item>
     <item>

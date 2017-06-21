@@ -8,10 +8,13 @@ namespace HockeyStats
 {
     public class PlayerStats
     {
-        // Map from year (as a string) to list of stat lines for that year
+        // Map from season to list of stat lines for that year
         private Dictionary<string, List<Dictionary<string, string>>> regularSeasonPlayerStats = new Dictionary<string, List<Dictionary<string, string>>>();
         private Dictionary<string, List<Dictionary<string, string>>> playoffsPlayerStats = new Dictionary<string, List<Dictionary<string, string>>>();
+
+        private Dictionary<string, Dictionary<string, string>> teamIds = new Dictionary<string, Dictionary<string, string>>();
         private Dictionary<string, string> constantPlayerStats = new Dictionary<string, string>();
+
         private string playerId;
 
         private Dictionary<string, Action> getStatMap;
@@ -139,6 +142,11 @@ namespace HockeyStats
             }
         }
 
+        public string GetTeamId(string year, string teamName)
+        {
+            return teamIds[year][teamName];
+        }
+
         private void FillPlayerStats()
         {
             JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
@@ -154,17 +162,23 @@ namespace HockeyStats
                 if (!Constants.SeasonTypes.Contains(seasonType)) { continue; }
                 Dictionary<string, List<Dictionary<string, string>>> playerStatsToFill = GetPlayerStatsForSeasonType(seasonType);
                 
-                string year = statLineParser.ReturnYear();
-                if (!playerStatsToFill.ContainsKey(year))
+                string season = statLineParser.ReturnYear();
+                if (!playerStatsToFill.ContainsKey(season))
                 {
-                    playerStatsToFill[year] = new List<Dictionary<string, string>>();
+                    playerStatsToFill[season] = new List<Dictionary<string, string>>();
                 }
                 Dictionary<string, string> dict = new Dictionary<string, string>();
-                playerStatsToFill[year].Add(dict);
+                playerStatsToFill[season].Add(dict);
                 FillDictWithStats(dict);
+
+                if (!teamIds.ContainsKey(season))
+                {
+                    teamIds[season] = new Dictionary<string, string>();
+                }
+                teamIds[season][statLineParser.ReturnTeamName()] = statLineParser.ReturnTeamId();
             }
         }
-
+        
         private void FillConstantPlayerStats()
         {
             Dictionary<string, string> firstDictWithData = new Dictionary<string, string>();
