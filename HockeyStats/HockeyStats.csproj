@@ -54,6 +54,7 @@
     <Compile Include="BusinessLayer\DraftListManager.cs" />
     <Compile Include="BusinessLayer\PlayerStats.cs" />
     <Compile Include="BusinessLayer\StatTables\SearchDataStatTable.cs" />
+    <Compile Include="BusinessLayer\TeamListManager.cs" />
     <Compile Include="DataLayer\DraftDataParser.cs" />
     <Compile Include="DataLayer\EliteProspectsAPI.cs" />
     <Compile Include="BusinessLayer\StatTables\MultiPlayerStatTable.cs" />

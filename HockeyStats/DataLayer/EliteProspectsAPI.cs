@@ -7,7 +7,7 @@ namespace HockeyStats
 {
     public class EliteProspectsAPI
     {
-        private static string key = System.Environment.GetEnvironmentVariable("EP_API_KEY", System.EnvironmentVariableTarget.User);
+        private static string key = Environment.GetEnvironmentVariable("EP_API_KEY", System.EnvironmentVariableTarget.User);
 
         // Gets stats for a specific player
         public static JObject GetPlayerStats(string playerId)
@@ -20,6 +20,13 @@ namespace HockeyStats
         public static JObject SearchPlayer(string playerName)
         {
             string requestString = "http://api.eliteprospects.com:80/beta/search?q=" + playerName + "&type=player&limit=25&apikey=" + key;
+            return GetEliteProspectsData(requestString);
+        }
+
+        // Returns the player IDs of every player on the team during the given season
+        public static JObject GetPlayerIdsOnTeam(string teamId, string season)
+        {
+            string requestString = "http://api.eliteprospects.com:80/beta/teams/" + teamId + "/playerstats?season=" + season + "&limit=200&fields=player.id&sort=TP:desc&apikey=" + key;
             return GetEliteProspectsData(requestString);
         }
 

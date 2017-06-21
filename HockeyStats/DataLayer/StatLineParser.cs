@@ -146,6 +146,11 @@ namespace HockeyStats
             AddToDict(key, value);
         }
 
+        public string ReturnId()
+        {
+            return (string)playerObj["id"];
+        }
+
         // Stats from team object
         public void GetTeamName(string key)
         {

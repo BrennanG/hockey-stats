@@ -244,18 +244,24 @@ namespace HockeyStats
                     // If a cell in the "Team" column is right clicked
                     if (form.topTable.ContainsColumn(Constants.TEAM) && column == topTableDGV.Columns[Constants.TEAM].Index && row >= 0)
                     {
-                        string[] teams = topTableDGV[column, row].Value.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                        foreach (string team in teams)
+                        string[] teamNames = topTableDGV[column, row].Value.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                        foreach (string teamName in teamNames)
                         {
                             EventHandler eventHandler = new EventHandler((object sender2, EventArgs e2) =>
                             {
                                 DataRow dataRow = PlayerStatTable.GetDataRowFromDGVRow(topTableDGV.Rows[row]);
                                 PlayerStats playerStats = form.topTable.GetPlayerStatsFromRow(dataRow);
-                                string teamId = playerStats.GetTeamId(form.currentPlayerList.displaySeason, team);
+                                string season = form.currentPlayerList.displaySeason;
+                                string teamId = playerStats.GetTeamId(season, teamName);
 
-
+                                List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
+                                PlayerList playerList = new PlayerList();
+                                playerList.FillWithDefaults();
+                                playerList.SetPlayerIds(playerIds);
+                                playerList.SetDisplaySeason(season);
+                                form.LoadPlayerList(playerList, teamName);
                             });
-                            MenuItem item = new MenuItem(team, eventHandler);
+                            MenuItem item = new MenuItem(teamName, eventHandler);
                             menu.MenuItems.Add(item);
                         }
 
