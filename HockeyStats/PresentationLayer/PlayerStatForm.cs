@@ -93,10 +93,7 @@ namespace HockeyStats
                 rightTableDGV = rightTableDGV,
                 saveFileDialog = saveFileDialog,
                 listNameLabel = listNameLabel,
-                renameListTextbox = renameListTextbox,
-                draftYearNumericUpDown = draftYearNumericUpDown,
-                draftRoundLowerNumericUpDown = draftRoundLowerNumericUpDown,
-                draftRoundUpperNumericUpDown = draftRoundUpperNumericUpDown
+                renameListTextbox = renameListTextbox
             };
         }
 

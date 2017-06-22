@@ -27,9 +27,6 @@ namespace HockeyStats
         public SaveFileDialog saveFileDialog { get; set; }
         public Label listNameLabel { get; set; }
         public TextBox renameListTextbox { get; set; }
-        public NumericUpDown draftYearNumericUpDown { get; set; }
-        public NumericUpDown draftRoundLowerNumericUpDown { get; set; }
-        public NumericUpDown draftRoundUpperNumericUpDown { get; set; }
 
         public void Initialize()
         {
