@@ -1,67 +1,15 @@
 <?xml version="1.0"?>
 <PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <isDraftList>false</isDraftList>
+  <listType>GeneralList</listType>
+  <listStatus>Saved</listStatus>
   <primarySeasonType>Regular Season</primarySeasonType>
   <secondarySeasonType>Regular Season</secondarySeasonType>
   <displaySeason>2016-2017</displaySeason>
   <playerIds>
-    <string>24787</string>
-    <string>33907</string>
-    <string>460</string>
-    <string>11317</string>
-    <string>11123</string>
-    <string>11460</string>
-    <string>10212</string>
+    <string>301349</string>
+    <string>269034</string>
     <string>89411</string>
-    <string>3637</string>
-    <string>156923</string>
-    <string>8042</string>
-    <string>9512</string>
-    <string>59478</string>
-    <string>9097</string>
-    <string>3659</string>
-    <string>14003</string>
-    <string>6014</string>
-    <string>108659</string>
-    <string>65564</string>
-    <string>21228</string>
-    <string>33907</string>
-    <string>460</string>
-    <string>9227</string>
-    <string>59478</string>
-    <string>2621</string>
-    <string>24787</string>
-    <string>89411</string>
-    <string>39225</string>
-    <string>242077</string>
-    <string>3637</string>
-    <string>12524</string>
-    <string>11317</string>
-    <string>8042</string>
-    <string>10212</string>
-    <string>75015</string>
-    <string>6014</string>
-    <string>50291</string>
-    <string>9097</string>
-    <string>9227</string>
-    <string>11123</string>
-    <string>38054</string>
-    <string>65564</string>
-    <string>108659</string>
-    <string>26385</string>
-    <string>9206</string>
-    <string>50291</string>
-    <string>12524</string>
-    <string>3659</string>
-    <string>242077</string>
-    <string>45347</string>
-    <string>2621</string>
-    <string>14003</string>
-    <string>9512</string>
-    <string>90250</string>
-    <string>24819</string>
-    <string>17522</string>
-    <string>17522</string>
+    <string>161816</string>
   </playerIds>
   <primaryColumnNames>
     <string>First Name</string>
@@ -72,14 +20,14 @@
     <string>Total Points</string>
     <string>PPG</string>
     <string>+/-</string>
-    <string>League</string>
     <string>Team</string>
+    <string>League</string>
     <string>Position</string>
     <string>Height</string>
     <string>Weight</string>
     <string>Draft Year</string>
-    <string>Draft Round</string>
     <string>Draft Overall</string>
+    <string>Draft Round</string>
     <string>Draft Team</string>
   </primaryColumnNames>
   <secondaryColumnNames>
@@ -159,18 +107,18 @@
     </item>
     <item>
       <key>
-        <string>League</string>
+        <string>Team</string>
       </key>
       <value>
-        <int>102</int>
+        <int>138</int>
       </value>
     </item>
     <item>
       <key>
-        <string>Team</string>
+        <string>League</string>
       </key>
       <value>
-        <int>116</int>
+        <int>100</int>
       </value>
     </item>
     <item>
@@ -207,18 +155,18 @@
     </item>
     <item>
       <key>
-        <string>Draft Round</string>
-      </key>
-      <value>
-        <int>46</int>
-      </value>
-    </item>
-    <item>
-      <key>
         <string>Draft Overall</string>
       </key>
       <value>
         <int>47</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Draft Round</string>
+      </key>
+      <value>
+        <int>46</int>
       </value>
     </item>
     <item>
@@ -268,7 +216,7 @@
         <string>Total Points</string>
       </key>
       <value>
-        <int>38</int>
+        <int>39</int>
       </value>
     </item>
     <item>
@@ -276,7 +224,7 @@
         <string>PPG</string>
       </key>
       <value>
-        <int>39</int>
+        <int>48</int>
       </value>
     </item>
     <item>
@@ -284,7 +232,7 @@
         <string>League</string>
       </key>
       <value>
-        <int>97</int>
+        <int>76</int>
       </value>
     </item>
     <item>

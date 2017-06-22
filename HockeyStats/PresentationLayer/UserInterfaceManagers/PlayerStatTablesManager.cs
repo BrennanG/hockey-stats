@@ -176,7 +176,7 @@ namespace HockeyStats
                 if (tableHasBeenClicked && topTableDGV.Columns.Count == form.currentPlayerList.primaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetPrimaryColumnWidths(topTableDGV.Columns);
-                    form.SetListIsSaved(false);
+                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
                     tableHasBeenClicked = false;
                 }
             });
@@ -201,7 +201,7 @@ namespace HockeyStats
                 if (tableHasBeenClicked && rightTableDGV.Columns.Count == form.currentPlayerList.secondaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
-                    form.SetListIsSaved(false);
+                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
                     tableHasBeenClicked = false;
                 }
             });
@@ -214,7 +214,7 @@ namespace HockeyStats
                 if (tableHasBeenClicked && topTableDGV.Columns.Count == form.currentPlayerList.primaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetPrimaryColumnNames(topTableDGV.Columns);
-                    form.SetListIsSaved(false);
+                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
                     tableHasBeenClicked = false;
                 }
             });
@@ -224,7 +224,7 @@ namespace HockeyStats
                 if (tableHasBeenClicked && rightTableDGV.Columns.Count == form.currentPlayerList.secondaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetSecondaryColumnNames(rightTableDGV.Columns);
-                    form.SetListIsSaved(false);
+                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
                     tableHasBeenClicked = false;
                 }
             });
@@ -262,6 +262,7 @@ namespace HockeyStats
                                         List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
                                         PlayerList playerList = new PlayerList();
                                         playerList.FillWithDefaults();
+                                        playerList.SetListType(PlayerList.ListType.TeamList);
                                         playerList.SetPlayerIds(playerIds);
                                         playerList.SetDisplaySeason(season);
                                         form.LoadPlayerList(playerList, listName);

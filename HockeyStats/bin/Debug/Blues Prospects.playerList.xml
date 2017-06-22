@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <PlayerList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <isDraftList>false</isDraftList>
+  <listType>GeneralList</listType>
+  <listStatus>Saved</listStatus>
   <primarySeasonType>Regular Season</primarySeasonType>
   <secondarySeasonType>Regular Season</secondarySeasonType>
   <displaySeason>2016-2017</displaySeason>
@@ -90,6 +91,14 @@
     </item>
     <item>
       <key>
+        <string>Position</string>
+      </key>
+      <value>
+        <int>50</int>
+      </value>
+    </item>
+    <item>
+      <key>
         <string>Games Played</string>
       </key>
       <value>
@@ -133,7 +142,7 @@
         <string>League</string>
       </key>
       <value>
-        <int>101</int>
+        <int>102</int>
       </value>
     </item>
     <item>
@@ -166,14 +175,6 @@
       </key>
       <value>
         <int>71</int>
-      </value>
-    </item>
-    <item>
-      <key>
-        <string>Position</string>
-      </key>
-      <value>
-        <int>50</int>
       </value>
     </item>
     <item>

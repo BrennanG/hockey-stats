@@ -87,11 +87,6 @@ namespace HockeyStats
         {
             saveToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                if (form.lastSavedPlayerList.isDraftList)
-                {
-                    MessageBox.Show("Draft lists cannot be saved.");
-                    return;
-                }
                 if (form.currentListName != Constants.DEFAULT_LIST_NAME)
                 {
                     SaveList(form.currentListName);
@@ -103,11 +98,6 @@ namespace HockeyStats
             saveFileDialog.Title = "Save Player List";
             saveAsToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                if (form.lastSavedPlayerList.isDraftList)
-                {
-                    MessageBox.Show("Draft lists cannot be saved.");
-                    return;
-                }
                 saveFileDialog.FileName = (form.currentListName != Constants.DEFAULT_LIST_NAME) ? form.currentListName : "";
                 DialogResult result = saveFileDialog.ShowDialog();
                 if (result == DialogResult.OK || result == DialogResult.Yes)
@@ -148,9 +138,9 @@ namespace HockeyStats
 
             deleteListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                if (form.lastSavedPlayerList.isDraftList)
+                if (form.currentPlayerList.listStatus == PlayerList.ListStatus.Generated)
                 {
-                    MessageBox.Show("Draft lists cannot be deleted.");
+                    MessageBox.Show("This is a Generated List that has not been saved. It cannot be deleted.");
                     return;
                 }
 
@@ -164,9 +154,9 @@ namespace HockeyStats
             setAsDefaultListToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
                 Configuration configuration = form.configuration;
-                if (form.lastSavedPlayerList.isDraftList)
+                if (form.currentPlayerList.listStatus == PlayerList.ListStatus.Generated)
                 {
-                    MessageBox.Show("Draft lists cannot be set as default lists.");
+                    MessageBox.Show("This is a Generated List that has not been saved. It cannot be set as default.");
                 }
                 else if (configuration.defaultList == form.currentListName)
                 {
@@ -193,7 +183,7 @@ namespace HockeyStats
         private void SetupRenameListLabel()
         {
             listNameLabel.Click += new EventHandler((object sender, EventArgs e) => {
-                if (form.lastSavedPlayerList.isDraftList) { return; }
+                if (form.lastSavedPlayerList.listStatus == PlayerList.ListStatus.Generated) { return; }
 
                 listNameLabel.Visible = false;
                 renameListTextbox.Visible = true;
@@ -257,7 +247,7 @@ namespace HockeyStats
                         playerStatTable.SetSeasonType(seasonType);
                         RefreshDropDownLists();
                         form.playerStatTablesManager.RedrawRowColors();
-                        form.SetListIsSaved(false);
+                        form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
                     });
                     dropDownItems.Add(seasonType, null, selectSeasonTypeHandler);
                     if (playerStatTable.GetSeasonType() == seasonType)
@@ -288,7 +278,7 @@ namespace HockeyStats
                     form.topTable.ChangeDisplaySeason(season);
                     form.currentDisplaySeason = season;
                     RefreshDropDownLists();
-                    form.SetListIsSaved(false);
+                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
                 });
                 dropDownItems.Add(season, null, selectSeasonHandler);
                 if (form.currentDisplaySeason == season)
@@ -316,7 +306,7 @@ namespace HockeyStats
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
                     form.playerStatTablesManager.RedrawColumnWidths(topTableDGV, form.currentPlayerList.GetPrimaryColumnWidth, form.currentPlayerList.SetPrimaryColumnWidths);
-                    form.SetListIsSaved(false);
+                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
                 });
                 dropDownItems.Add(columnName, null, selectColumnHandler);
                 if (form.topTable.ContainsColumn(columnName))
@@ -343,11 +333,12 @@ namespace HockeyStats
             form.currentPlayerList.SetPrimaryColumnWidths(topTableDGV.Columns);
             form.currentPlayerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
 
+            form.currentPlayerList.SetListStatus(PlayerList.ListStatus.Saved);
             Serializer.WriteXML<PlayerList>(form.currentPlayerList, listName + Constants.LIST_NAME_SUFFIX);
             form.lastSavedPlayerList = form.currentPlayerList.Clone();
             form.currentListName = listName;
             RefreshDropDownLists();
-            form.SetListIsSaved(true);
+            form.SetListIsSaved(PlayerList.ListStatus.Saved);
         }
     }
 }

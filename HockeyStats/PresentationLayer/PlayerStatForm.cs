@@ -27,7 +27,6 @@ namespace HockeyStats
 
         public string currentDisplaySeason;
         public string currentListName;
-        public bool listIsSaved;
         public bool rowJustSelected = false;
 
         public PlayerStatForm()
@@ -148,7 +147,7 @@ namespace HockeyStats
             playerStatTablesManager.RedrawColumnWidths(rightTableDGV, lastSavedPlayerList.GetSecondaryColumnWidth, currentPlayerList.SetSecondaryColumnWidths);
             playerStatTablesManager.RedrawRowColors();
 
-            SetListIsSaved(true);
+            SetListIsSaved(PlayerList.ListStatus.Saved);
         }
 
         public void LoadDefaultOrEmptyList()
@@ -172,16 +171,16 @@ namespace HockeyStats
             LoadPlayerList(newPlayerList, Constants.DEFAULT_LIST_NAME);
         }
 
-        public void SetListIsSaved(bool boolean)
+        public void SetListIsSaved(PlayerList.ListStatus status)
         {
-            if (lastSavedPlayerList.isDraftList) { return; }
+            if (lastSavedPlayerList.listStatus == PlayerList.ListStatus.Generated) { return; }
 
             if (currentPlayerList.Equals(lastSavedPlayerList))
             {
-                boolean = true;
+                status = PlayerList.ListStatus.Saved;
             }
-            listIsSaved = boolean;
-            listNameLabel.Text = (listIsSaved) ? currentListName : currentListName + "*";
+            currentPlayerList.SetListStatus(status);
+            listNameLabel.Text = (currentPlayerList.listStatus == PlayerList.ListStatus.Saved) ? currentListName : currentListName + "*";
 
             if (currentListName == Constants.DEFAULT_LIST_NAME)
             {
@@ -192,7 +191,7 @@ namespace HockeyStats
                 deleteListToolStripMenuItem.Enabled = true;
             }
 
-            if (listIsSaved && currentListName == Constants.DEFAULT_LIST_NAME)
+            if (currentPlayerList.listStatus == PlayerList.ListStatus.Saved && currentListName == Constants.DEFAULT_LIST_NAME)
             {
                 createListToolStripMenuItem.Enabled = false;
             }
@@ -201,7 +200,7 @@ namespace HockeyStats
                 createListToolStripMenuItem.Enabled = true;
             }
 
-            saveToolStripMenuItem.Enabled = !boolean && currentListName != Constants.DEFAULT_LIST_NAME;
+            saveToolStripMenuItem.Enabled = currentPlayerList.listStatus != PlayerList.ListStatus.Saved && currentListName != Constants.DEFAULT_LIST_NAME;
         }
 
         public void DisplayYesNoMessageBox(string message, Action yesAction = null, Action noAction = null)
@@ -219,7 +218,7 @@ namespace HockeyStats
 
         public void TriggerLeaveRequest(Action leaveAction = null, Action stayAction = null)
         {
-            if (!listIsSaved)
+            if (currentPlayerList.listStatus == PlayerList.ListStatus.Unsaved)
             {
                 DisplayYesNoMessageBox(Constants.ARE_YOU_SURE_LEAVE_MESSAGE, leaveAction, stayAction);
             }

@@ -81,7 +81,7 @@ namespace HockeyStats
 
                 PlayerList playerList = new PlayerList();
                 playerList.FillWithDefaults();
-                playerList.SetIsDraftList(true);
+                playerList.SetListType(PlayerList.ListType.DraftList);
                 playerList.primaryColumnNames = Constants.DefaultDraftPrimaryColumns;
                 playerList.primaryColumnWidths = Constants.DefaultDraftPrimaryColumnWidths;
                 string year = draftYearNumericUpDown.Value.ToString();

@@ -91,18 +91,32 @@ namespace HockeyStats
             // Adding logic to the button
             addSelectedPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
                 if (leftTableDGV.SelectedRows.Count != 1) { return; }
+                
+                Action AddPlayer = () =>
+                {
+                    string previousText = addSelectedPlayerButton.Text;
+                    addSelectedPlayerButton.Text = "Adding Player...";
+                    addSelectedPlayerButton.Enabled = false;
 
-                string previousText = addSelectedPlayerButton.Text;
-                addSelectedPlayerButton.Text = "Adding Player...";
-                addSelectedPlayerButton.Enabled = false;
+                    int rowIndex = leftTableDGV.SelectedRows[0].Index;
+                    DataGridViewRow row = leftTableDGV.Rows[rowIndex];
+                    string playerId = form.leftTable.GetPlayerIdFromRow(row);
+                    form.topTable.AddRow(playerId);
 
-                int rowIndex = leftTableDGV.SelectedRows[0].Index;
-                DataGridViewRow row = leftTableDGV.Rows[rowIndex];
-                string playerId = form.leftTable.GetPlayerIdFromRow(row);
-                form.topTable.AddRow(playerId);
-
-                addSelectedPlayerButton.Text = previousText;
-                form.SetListIsSaved(false);
+                    addSelectedPlayerButton.Text = previousText;
+                    form.currentPlayerList.SetListType(PlayerList.ListType.GeneralList);
+                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
+                };
+                
+                if (form.currentPlayerList.listType != PlayerList.ListType.GeneralList)
+                {
+                    string message = String.Format("Are you sure you want to add a player to this list? Doing so will change the list type to General.");
+                    form.DisplayYesNoMessageBox(message, AddPlayer);
+                }
+                else
+                {
+                    AddPlayer();
+                }
             });
         }
 
@@ -121,13 +135,18 @@ namespace HockeyStats
                 DataRow row = MultiPlayerStatTable.GetDataRowFromDGVRow(topTableDGV.Rows[rowIndex]);
 
                 string message = String.Format("Are you sure you want to remove {0} {1} from the list?", row[Constants.FIRST_NAME], row[Constants.LAST_NAME]);
+                if (form.currentPlayerList.listType != PlayerList.ListType.GeneralList)
+                {
+                    message = String.Format("Are you sure you want to remove {0} {1} from the list? Doing so will change the list type to General.", row[Constants.FIRST_NAME], row[Constants.LAST_NAME]);
+                }
                 Action RemovePlayer = () => {
                     form.topTable.RemoveRow(row);
                     form.playerStatTablesManager.ClearPlayerSelection();
+
+                    form.currentPlayerList.SetListType(PlayerList.ListType.GeneralList);
+                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
                 };
                 form.DisplayYesNoMessageBox(message, RemovePlayer);
-
-                form.SetListIsSaved(false);
             });
         }
     }

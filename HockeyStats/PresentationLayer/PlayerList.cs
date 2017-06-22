@@ -10,8 +10,12 @@ namespace HockeyStats
     [Serializable]
     public class PlayerList
     {
+        public enum ListType { GeneralList, DraftList, TeamList };
+        public enum ListStatus { Saved, Unsaved, Generated };
+
         // When adding a new field: make sure to update FillWithDefaults(), Equals(), and Clone()
-        public bool isDraftList;
+        public ListType listType;
+        public ListStatus listStatus;
         public string primarySeasonType;
         public string secondarySeasonType;
         public string displaySeason;
@@ -28,7 +32,8 @@ namespace HockeyStats
 
         public void FillWithDefaults()
         {
-            isDraftList = false;
+            listType = ListType.GeneralList;
+            listStatus = ListStatus.Generated;
             primarySeasonType = Constants.REGULAR_SEASON;
             secondarySeasonType = Constants.REGULAR_SEASON;
             displaySeason = Constants.MostRecentSeason;
@@ -41,7 +46,8 @@ namespace HockeyStats
 
         public bool Equals(PlayerList other)
         {
-            return isDraftList == other.isDraftList
+            return listType == other.listType
+                && listStatus == other.listStatus
                 && primarySeasonType == other.primarySeasonType
                 && secondarySeasonType == other.secondarySeasonType
                 && displaySeason == other.displaySeason
@@ -55,7 +61,8 @@ namespace HockeyStats
         public PlayerList Clone()
         {
             PlayerList playerList = new PlayerList();
-            playerList.isDraftList = isDraftList;
+            playerList.listType = listType;
+            playerList.listStatus = listStatus;
             playerList.primarySeasonType = primarySeasonType;
             playerList.secondarySeasonType = secondarySeasonType;
             playerList.displaySeason = displaySeason;
@@ -98,9 +105,14 @@ namespace HockeyStats
             primaryColumnNames.Remove(columnName);
         }
 
-        public void SetIsDraftList(bool boolean)
+        public void SetListType(ListType type)
         {
-            isDraftList = boolean;
+            listType = type;
+        }
+
+        public void SetListStatus(ListStatus status)
+        {
+            listStatus = status;
         }
 
         public void SetPrimarySeasonType(string seasonType)
