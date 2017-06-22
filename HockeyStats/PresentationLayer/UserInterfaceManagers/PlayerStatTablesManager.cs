@@ -249,13 +249,14 @@ namespace HockeyStats
                             if (teamNames.Count() == 1 && String.IsNullOrWhiteSpace(teamNames[0])) { return; }
                             foreach (string teamName in teamNames)
                             {
+                                string season = (dgv.Columns.Contains(Constants.SEASON)) ? dgv.Rows[row].Cells[Constants.SEASON].Value.ToString() : form.currentPlayerList.displaySeason;
+                                string listName = teamName + " (" + season + ")";
                                 EventHandler eventHandler = new EventHandler((object sender2, EventArgs e2) =>
                                 {
                                     Action loadTeam = () =>
                                     {
                                         DataRow dataRow = PlayerStatTable.GetDataRowFromDGVRow(dgv.Rows[row]);
                                         PlayerStats playerStats = PlayerStatsGetters(dataRow);
-                                        string season = (dgv.Columns.Contains(Constants.SEASON)) ? dgv.Rows[row].Cells[Constants.SEASON].Value.ToString() : form.currentPlayerList.displaySeason;
                                         string teamId = playerStats.GetTeamId(season, teamName);
 
                                         List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
@@ -263,11 +264,11 @@ namespace HockeyStats
                                         playerList.FillWithDefaults();
                                         playerList.SetPlayerIds(playerIds);
                                         playerList.SetDisplaySeason(season);
-                                        form.LoadPlayerList(playerList, teamName);
+                                        form.LoadPlayerList(playerList, listName);
                                     };
                                     form.TriggerLeaveRequest(loadTeam);
                                 });
-                                MenuItem item = new MenuItem(teamName, eventHandler);
+                                MenuItem item = new MenuItem(listName, eventHandler);
                                 menu.MenuItems.Add(item);
                             }
 
