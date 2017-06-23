@@ -54,7 +54,10 @@ namespace HockeyStats
 
         public void RefreshListTypeLabel()
         {
-            listTypeLabel.Text = form.currentPlayerList.listType.ToString();
+            string listType = form.currentPlayerList.listType.ToString();
+            listType = listType.Replace("List", "");
+            listType += " List";
+            listTypeLabel.Text = listType;
         }
 
         private void SetupLoadListDropDown()
