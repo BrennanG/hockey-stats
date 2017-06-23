@@ -270,7 +270,7 @@ namespace HockeyStats
 
         private void SetupSelectSeasonButton()
         {
-            selectSeasonDropDown.Text = form.currentDisplaySeason;
+            selectSeasonDropDown.Text = form.currentPlayerList.displaySeason;
             ToolStripItemCollection dropDownItems = selectSeasonDropDown.DropDownItems;
             dropDownItems.Clear();
 
@@ -283,12 +283,12 @@ namespace HockeyStats
                 string season = String.Format("{0}-{1}", startYear - i, endYear - i);
                 EventHandler selectSeasonHandler = new EventHandler((object sender, EventArgs e) => {
                     form.topTable.ChangeDisplaySeason(season);
-                    form.currentDisplaySeason = season;
+                    form.currentPlayerList.SetDisplaySeason(season);
                     RefreshDropDownLists();
                     form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
                 });
                 dropDownItems.Add(season, null, selectSeasonHandler);
-                if (form.currentDisplaySeason == season)
+                if (form.currentPlayerList.displaySeason == season)
                 {
                     ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
                 }
@@ -309,7 +309,7 @@ namespace HockeyStats
                     }
                     else
                     {
-                        form.topTable.AddColumn(dropDownItem.Text, form.currentDisplaySeason);
+                        form.topTable.AddColumn(dropDownItem.Text, form.currentPlayerList.displaySeason);
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
                     form.playerStatTablesManager.RedrawColumnWidths(topTableDGV, form.currentPlayerList.GetPrimaryColumnWidth, form.currentPlayerList.SetPrimaryColumnWidths);

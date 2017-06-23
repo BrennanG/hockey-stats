@@ -24,8 +24,7 @@ namespace HockeyStats
         public PlayerList currentPlayerList = new PlayerList();
         public PlayerList lastSavedPlayerList = new PlayerList();
         public Configuration configuration = new Configuration();
-
-        public string currentDisplaySeason;
+        
         public string currentListName;
         public bool rowJustSelected = false;
 
@@ -129,7 +128,6 @@ namespace HockeyStats
         {
             currentPlayerList = playerListToLoad;
             lastSavedPlayerList = currentPlayerList.Clone();
-            currentDisplaySeason = currentPlayerList.displaySeason;
             currentListName = listName;
             listNameLabel.Text = listName;
             playerStatTablesManager.tableHasBeenClicked = false;
