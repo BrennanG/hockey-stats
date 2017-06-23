@@ -92,6 +92,7 @@ namespace HockeyStats
                 topTableDGV = topTableDGV,
                 rightTableDGV = rightTableDGV,
                 saveFileDialog = saveFileDialog,
+                listTypeLabel = listTypeLabel,
                 listNameLabel = listNameLabel,
                 renameListTextbox = renameListTextbox
             };
@@ -140,6 +141,7 @@ namespace HockeyStats
             rightTable = new SinglePlayerStatTable(rightTableDGV, currentPlayerList);
 
             menuStripsManager.RefreshDropDownLists();
+            menuStripsManager.RefreshListTypeLabel();
             playerStatTablesManager.RedrawColumnWidths(topTableDGV, lastSavedPlayerList.GetPrimaryColumnWidth, currentPlayerList.SetPrimaryColumnWidths);
             playerStatTablesManager.RedrawColumnWidths(rightTableDGV, lastSavedPlayerList.GetSecondaryColumnWidth, currentPlayerList.SetSecondaryColumnWidths);
             playerStatTablesManager.RedrawRowColors();

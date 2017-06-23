@@ -105,6 +105,7 @@ namespace HockeyStats
 
                     addSelectedPlayerButton.Text = previousText;
                     form.currentPlayerList.SetListType(PlayerList.ListType.GeneralList);
+                    form.menuStripsManager.RefreshListTypeLabel();
                     form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
                 };
                 
@@ -145,6 +146,7 @@ namespace HockeyStats
 
                     form.currentPlayerList.SetListType(PlayerList.ListType.GeneralList);
                     form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
+                    form.menuStripsManager.RefreshListTypeLabel();
                 };
                 form.DisplayYesNoMessageBox(message, RemovePlayer);
             });

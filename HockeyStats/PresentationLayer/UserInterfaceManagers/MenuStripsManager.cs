@@ -25,6 +25,7 @@ namespace HockeyStats
         public DataGridView topTableDGV { get; set; }
         public DataGridView rightTableDGV { get; set; }
         public SaveFileDialog saveFileDialog { get; set; }
+        public Label listTypeLabel { get; set; }
         public Label listNameLabel { get; set; }
         public TextBox renameListTextbox { get; set; }
 
@@ -36,6 +37,7 @@ namespace HockeyStats
             SetupDeleteListButton();
             SetupSetAsDefaultListButton();
             SetupLoadDraftButton();
+            RefreshListTypeLabel();
             SetupRenameListLabel();
             SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
@@ -48,6 +50,11 @@ namespace HockeyStats
             SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
             SetupAddRemoveColumnButton();
+        }
+
+        public void RefreshListTypeLabel()
+        {
+            listTypeLabel.Text = form.currentPlayerList.listType.ToString();
         }
 
         private void SetupLoadListDropDown()
