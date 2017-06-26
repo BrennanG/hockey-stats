@@ -12,7 +12,7 @@ namespace HockeyStats
         // Gets stats for a specific player
         public static JObject GetPlayerStats(string playerId)
         {
-            string requestString = "http://api.eliteprospects.com:80/beta/players/" + playerId + "/stats?apikey=" + key;
+            string requestString = "http://api.eliteprospects.com:80/beta/players/" + playerId + "/stats?limit=200&apikey=" + key;
             return GetEliteProspectsData(requestString);
         }
 
