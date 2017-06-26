@@ -47,7 +47,6 @@ namespace HockeyStats
         public bool Equals(PlayerList other)
         {
             return listType == other.listType
-                && listStatus == other.listStatus
                 && primarySeasonType == other.primarySeasonType
                 && secondarySeasonType == other.secondarySeasonType
                 && displaySeason == other.displaySeason
