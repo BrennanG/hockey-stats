@@ -69,7 +69,7 @@ namespace HockeyStats
             string requestString = "http://api.eliteprospects.com:80/beta/drafts?limit=1&filter=round%3D" + round.ToString() + "%26draftType.name%3DNHL%20Entry%20Draft%26year%3D" + year + "-01-01T00%3A00%3A00.000Z&apikey=" + key;
             return GetEliteProspectsData(requestString);
         }
-
+        
         private static JObject GetEliteProspectsData(string requestString)
         {
             WebRequest request = WebRequest.Create(requestString);

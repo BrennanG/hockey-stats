@@ -12,14 +12,17 @@ namespace HockeyStats
         {
             StatLineParser statLineParser = new StatLineParser();
             JObject playerIdsJson = EliteProspectsAPI.GetPlayerIdsOnTeam(teamId, season);
-            List<string> playerIds = new List<string>();
+            //List<string> playerIds = new List<string>();
+            HashSet<string> playerIds2 = new HashSet<string>();
             foreach (JToken playerIdData in playerIdsJson["data"])
             {
                 statLineParser.SetStatLine(playerIdData);
                 string playerId = statLineParser.ReturnId();
-                playerIds.Add(playerId);
+                //playerIds.Add(playerId);
+                if (!playerIds2.Contains(playerId)) { playerIds2.Add(playerId); }
             }
-            return playerIds;
+            return playerIds2.ToList();
+            //return playerIds;
         }
     }
 }
