@@ -65,7 +65,11 @@ namespace HockeyStats
             {
                 if (!configuration.draftYearToNumberOfRoundsMap.ContainsKey(draftYear))
                 {
-                    configuration.draftYearToNumberOfRoundsMap[draftYear] = DraftListManager.GetNumberOfRoundsInDraft(draftYear);
+                    int numOfRounds = DraftListManager.GetNumberOfRoundsInDraft(draftYear);
+                    if (numOfRounds > 1)
+                    {
+                        configuration.draftYearToNumberOfRoundsMap[draftYear] = numOfRounds;
+                    }
                 }
             }
 

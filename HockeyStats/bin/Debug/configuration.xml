@@ -2,6 +2,7 @@
 <Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <defaultList>Blues Prospects (Short)</defaultList>
   <draftYears>
+    <string>2017</string>
     <string>2016</string>
     <string>2015</string>
     <string>2014</string>
@@ -488,6 +489,14 @@
       </key>
       <value>
         <int>4</int>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>2017</string>
+      </key>
+      <value>
+        <int>7</int>
       </value>
     </item>
   </draftYearToNumberOfRoundsMap>
