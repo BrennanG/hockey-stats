@@ -61,6 +61,12 @@
     <Compile Include="DataLayer\Parser.cs" />
     <Compile Include="BusinessLayer\StatTables\PlayerConstantsStatTable.cs" />
     <Compile Include="DataLayer\SearchDataParser.cs" />
+    <Compile Include="PresentationLayer\ChangeSeasonModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PresentationLayer\ChangeSeasonModal.Designer.cs">
+      <DependentUpon>ChangeSeasonModal.cs</DependentUpon>
+    </Compile>
     <Compile Include="PresentationLayer\Configuration.cs" />
     <Compile Include="PresentationLayer\LoadDraftModal.cs">
       <SubType>Form</SubType>
@@ -82,6 +88,9 @@
     <Compile Include="PresentationLayer\Serializer.cs" />
     <Compile Include="BusinessLayer\StatTables\SinglePlayerStatTable.cs" />
     <Compile Include="DataLayer\StatLineParser.cs" />
+    <EmbeddedResource Include="PresentationLayer\ChangeSeasonModal.resx">
+      <DependentUpon>ChangeSeasonModal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PresentationLayer\LoadDraftModal.resx">
       <DependentUpon>LoadDraftModal.cs</DependentUpon>
     </EmbeddedResource>

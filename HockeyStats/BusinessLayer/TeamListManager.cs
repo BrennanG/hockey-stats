@@ -17,9 +17,21 @@ namespace HockeyStats
             {
                 statLineParser.SetStatLine(playerIdData);
                 string playerId = statLineParser.ReturnId();
-                if (!playerIds.Contains(playerId)) { playerIds.Add(playerId); }
+                playerIds.Add(playerId);
             }
             return playerIds.ToList();
+        }
+
+        public static List<string> GetTeamSeasons(string teamId)
+        {
+            JObject teamSeasons = EliteProspectsAPI.GetTeamSeasons(teamId);
+            HashSet<string> seasonNames = new HashSet<string>();
+            foreach (JToken seasonData in teamSeasons["data"])
+            {
+                string seasonName = seasonData["name"].ToString();
+                seasonNames.Add(seasonName);
+            }
+            return seasonNames.ToList();
         }
     }
 }

@@ -97,7 +97,8 @@ namespace HockeyStats
                 saveFileDialog = saveFileDialog,
                 listTypeLabel = listTypeLabel,
                 listNameLabel = listNameLabel,
-                renameListTextbox = renameListTextbox
+                renameListTextbox = renameListTextbox,
+                changeSeasonButton = changeSeasonButton
             };
         }
 
@@ -143,7 +144,7 @@ namespace HockeyStats
             rightTable = new SinglePlayerStatTable(rightTableDGV, currentPlayerList);
 
             menuStripsManager.RefreshDropDownLists();
-            menuStripsManager.RefreshListTypeLabel();
+            menuStripsManager.RefreshListType();
             playerStatTablesManager.RedrawColumnWidths(topTableDGV, lastSavedPlayerList.GetPrimaryColumnWidth, currentPlayerList.SetPrimaryColumnWidths);
             playerStatTablesManager.RedrawColumnWidths(rightTableDGV, lastSavedPlayerList.GetSecondaryColumnWidth, currentPlayerList.SetSecondaryColumnWidths);
             playerStatTablesManager.RedrawRowColors();

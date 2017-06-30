@@ -28,6 +28,7 @@ namespace HockeyStats
         public Label listTypeLabel { get; set; }
         public Label listNameLabel { get; set; }
         public TextBox renameListTextbox { get; set; }
+        public Button changeSeasonButton { get; set; }
 
         public void Initialize()
         {
@@ -37,7 +38,8 @@ namespace HockeyStats
             SetupDeleteListButton();
             SetupSetAsDefaultListButton();
             SetupLoadDraftButton();
-            RefreshListTypeLabel();
+            RefreshListType();
+            SetupChangeSeasonButton();
             SetupRenameListLabel();
             SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
@@ -58,6 +60,23 @@ namespace HockeyStats
             listType = listType.Replace("List", "");
             listType += " List";
             listTypeLabel.Text = listType;
+        }
+
+        public void RefreshListType()
+        {
+            RefreshListTypeLabel();
+            changeSeasonButton.Visible = false;
+
+            switch (form.currentPlayerList.listType)
+            {
+                case PlayerList.ListType.GeneralList:
+                    break;
+                case PlayerList.ListType.DraftList:
+                    break;
+                case PlayerList.ListType.TeamList:
+                    changeSeasonButton.Visible = true;
+                    break;
+            }
         }
 
         private void SetupLoadListDropDown()
@@ -184,6 +203,15 @@ namespace HockeyStats
             {
                 LoadDraftModal loadDraftModal = new LoadDraftModal(form);
                 loadDraftModal.ShowDialog();
+            });
+        }
+
+        private void SetupChangeSeasonButton()
+        {
+            changeSeasonButton.Click += new EventHandler((object sender, EventArgs e) =>
+            {
+                ChangeSeasonModal changeSeasonModal = new ChangeSeasonModal(form);
+                changeSeasonModal.ShowDialog();
             });
         }
 

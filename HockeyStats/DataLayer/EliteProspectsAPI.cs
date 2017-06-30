@@ -7,12 +7,12 @@ namespace HockeyStats
 {
     public class EliteProspectsAPI
     {
-        private static string key = Environment.GetEnvironmentVariable("EP_API_KEY", System.EnvironmentVariableTarget.User);
+        private static string key = Environment.GetEnvironmentVariable("EP_API_KEY", EnvironmentVariableTarget.User);
 
         // Gets stats for a specific player
         public static JObject GetPlayerStats(string playerId)
         {
-            string requestString = "http://api.eliteprospects.com:80/beta/players/" + playerId + "/stats?limit=200&apikey=" + key;
+            string requestString = "http://api.eliteprospects.com:80/beta/players/" + playerId + "/stats?limit=500&apikey=" + key;
             return GetEliteProspectsData(requestString);
         }
 
@@ -26,7 +26,14 @@ namespace HockeyStats
         // Returns the player IDs of every player on the team during the given season
         public static JObject GetPlayerIdsOnTeam(string teamId, string season)
         {
-            string requestString = "http://api.eliteprospects.com:80/beta/teams/" + teamId + "/playerstats?season=" + season + "&limit=200&fields=player.id&sort=TP:desc&apikey=" + key;
+            string requestString = "http://api.eliteprospects.com:80/beta/teams/" + teamId + "/playerstats?season=" + season + "&limit=500&fields=player.id&sort=TP:desc&apikey=" + key;
+            return GetEliteProspectsData(requestString);
+        }
+
+        // Returns all seasons that the team has participated in
+        public static JObject GetTeamSeasons(string teamId)
+        {
+            string requestString = "http://api.eliteprospects.com:80/beta/teams/" + teamId + "/seasons?apikey=" + key;
             return GetEliteProspectsData(requestString);
         }
 
