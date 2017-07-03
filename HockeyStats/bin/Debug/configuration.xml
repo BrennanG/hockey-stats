@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <defaultList>St. Louis Blues (2016-2017)</defaultList>
+  <defaultList>Blues Prospects (Short)</defaultList>
   <draftYears>
     <string>2017</string>
     <string>2016</string>

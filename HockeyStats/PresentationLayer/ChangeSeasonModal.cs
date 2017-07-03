@@ -26,7 +26,7 @@ namespace HockeyStats
 
         private void SetupChangeSeasonDomainUpDown()
         {
-            List<string> seasons = TeamListManager.GetTeamSeasons("74");
+            List<string> seasons = TeamListManager.GetTeamSeasons(parent.currentPlayerList.teamId);
             foreach (string season in seasons)
             {
                 changeSeasonDomainUpDown.Items.Add(season);
@@ -38,7 +38,15 @@ namespace HockeyStats
         {
             Action ChangeSeason = () =>
             {
-                
+                string teamId = parent.currentPlayerList.teamId;
+                string season = changeSeasonDomainUpDown.Text;
+                List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
+                parent.currentPlayerList.SetPlayerIds(playerIds);
+                if (parent.currentPlayerList.listStatus == PlayerList.ListStatus.Generated)
+                {
+                    parent.currentListName = parent.currentListName.Substring(0, parent.currentListName.LastIndexOf('(') + 1) + season + ")";
+                }
+                parent.LoadPlayerList(parent.currentPlayerList, parent.currentListName);
 
                 Close();
             };

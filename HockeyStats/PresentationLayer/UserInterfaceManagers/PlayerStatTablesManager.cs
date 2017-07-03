@@ -263,6 +263,7 @@ namespace HockeyStats
                                         PlayerList playerList = new PlayerList();
                                         playerList.FillWithDefaults();
                                         playerList.SetListType(PlayerList.ListType.TeamList);
+                                        playerList.SetTeamId(teamId);
                                         playerList.SetPlayerIds(playerIds);
                                         playerList.SetDisplaySeason(season);
                                         form.LoadPlayerList(playerList, listName);
