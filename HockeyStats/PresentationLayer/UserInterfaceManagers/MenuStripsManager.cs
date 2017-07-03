@@ -66,6 +66,7 @@ namespace HockeyStats
         {
             RefreshListTypeLabel();
             changeSeasonButton.Visible = false;
+            selectSeasonDropDown.Enabled = true;
 
             switch (form.currentPlayerList.listType)
             {
@@ -75,6 +76,7 @@ namespace HockeyStats
                     break;
                 case PlayerList.ListType.TeamList:
                     changeSeasonButton.Visible = true;
+                    selectSeasonDropDown.Enabled = false;
                     break;
             }
         }

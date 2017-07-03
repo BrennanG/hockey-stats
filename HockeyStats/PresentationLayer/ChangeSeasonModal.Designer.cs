@@ -65,6 +65,7 @@
             // 
             this.changeSeasonDomainUpDown.Location = new System.Drawing.Point(15, 25);
             this.changeSeasonDomainUpDown.Name = "changeSeasonDomainUpDown";
+            this.changeSeasonDomainUpDown.ReadOnly = true;
             this.changeSeasonDomainUpDown.Size = new System.Drawing.Size(120, 20);
             this.changeSeasonDomainUpDown.TabIndex = 4;
             this.changeSeasonDomainUpDown.Text = "Season";

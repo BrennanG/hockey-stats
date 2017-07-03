@@ -13,6 +13,7 @@ namespace HockeyStats
             StatLineParser statLineParser = new StatLineParser();
             JObject playerIdsJson = EliteProspectsAPI.GetPlayerIdsOnTeam(teamId, season);
             HashSet<string> playerIds = new HashSet<string>();
+            if (playerIdsJson["data"] == null) { return playerIds.ToList(); }
             foreach (JToken playerIdData in playerIdsJson["data"])
             {
                 statLineParser.SetStatLine(playerIdData);
