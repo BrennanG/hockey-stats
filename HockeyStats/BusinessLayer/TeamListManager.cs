@@ -34,5 +34,18 @@ namespace HockeyStats
             }
             return seasonNames.ToList();
         }
+
+        public static string GetTeamName(string teamId)
+        {
+            JObject teamData = EliteProspectsAPI.GetTeamData(teamId);
+            try
+            {
+                return teamData["data"]["name"].ToString();
+            }
+            catch
+            {
+                return "";
+            }
+        }
     }
 }

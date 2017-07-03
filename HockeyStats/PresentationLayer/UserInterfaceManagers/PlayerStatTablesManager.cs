@@ -176,7 +176,7 @@ namespace HockeyStats
                 if (tableHasBeenClicked && topTableDGV.Columns.Count == form.currentPlayerList.primaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetPrimaryColumnWidths(topTableDGV.Columns);
-                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
+                    form.SetListStatus(PlayerList.ListStatus.Unsaved);
                     tableHasBeenClicked = false;
                 }
             });
@@ -201,7 +201,7 @@ namespace HockeyStats
                 if (tableHasBeenClicked && rightTableDGV.Columns.Count == form.currentPlayerList.secondaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
-                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
+                    form.SetListStatus(PlayerList.ListStatus.Unsaved);
                     tableHasBeenClicked = false;
                 }
             });
@@ -214,7 +214,7 @@ namespace HockeyStats
                 if (tableHasBeenClicked && topTableDGV.Columns.Count == form.currentPlayerList.primaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetPrimaryColumnNames(topTableDGV.Columns);
-                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
+                    form.SetListStatus(PlayerList.ListStatus.Unsaved);
                     tableHasBeenClicked = false;
                 }
             });
@@ -224,7 +224,7 @@ namespace HockeyStats
                 if (tableHasBeenClicked && rightTableDGV.Columns.Count == form.currentPlayerList.secondaryColumnNames.Count)
                 {
                     form.currentPlayerList.SetSecondaryColumnNames(rightTableDGV.Columns);
-                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
+                    form.SetListStatus(PlayerList.ListStatus.Unsaved);
                     tableHasBeenClicked = false;
                 }
             });

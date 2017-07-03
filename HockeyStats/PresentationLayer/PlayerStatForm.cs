@@ -149,7 +149,7 @@ namespace HockeyStats
             playerStatTablesManager.RedrawColumnWidths(rightTableDGV, lastSavedPlayerList.GetSecondaryColumnWidth, currentPlayerList.SetSecondaryColumnWidths);
             playerStatTablesManager.RedrawRowColors();
 
-            SetListIsSaved(PlayerList.ListStatus.Saved);
+            SetListStatus(PlayerList.ListStatus.Saved);
         }
 
         public void LoadDefaultOrEmptyList()
@@ -173,7 +173,7 @@ namespace HockeyStats
             LoadPlayerList(newPlayerList, Constants.DEFAULT_LIST_NAME);
         }
 
-        public void SetListIsSaved(PlayerList.ListStatus status)
+        public void SetListStatus(PlayerList.ListStatus status)
         {
             if (lastSavedPlayerList.listStatus == PlayerList.ListStatus.Generated) { return; }
 

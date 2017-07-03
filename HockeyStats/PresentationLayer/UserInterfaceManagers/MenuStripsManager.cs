@@ -284,7 +284,7 @@ namespace HockeyStats
                         playerStatTable.SetSeasonType(seasonType);
                         RefreshDropDownLists();
                         form.playerStatTablesManager.RedrawRowColors();
-                        form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
+                        form.SetListStatus(PlayerList.ListStatus.Unsaved);
                     });
                     dropDownItems.Add(seasonType, null, selectSeasonTypeHandler);
                     if (playerStatTable.GetSeasonType() == seasonType)
@@ -315,7 +315,7 @@ namespace HockeyStats
                     form.topTable.ChangeDisplaySeason(season);
                     form.currentPlayerList.SetDisplaySeason(season);
                     RefreshDropDownLists();
-                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
+                    form.SetListStatus(PlayerList.ListStatus.Unsaved);
                 });
                 dropDownItems.Add(season, null, selectSeasonHandler);
                 if (form.currentPlayerList.displaySeason == season)
@@ -343,7 +343,7 @@ namespace HockeyStats
                     }
                     dropDownItem.Checked = !dropDownItem.Checked;
                     form.playerStatTablesManager.RedrawColumnWidths(topTableDGV, form.currentPlayerList.GetPrimaryColumnWidth, form.currentPlayerList.SetPrimaryColumnWidths);
-                    form.SetListIsSaved(PlayerList.ListStatus.Unsaved);
+                    form.SetListStatus(PlayerList.ListStatus.Unsaved);
                 });
                 dropDownItems.Add(columnName, null, selectColumnHandler);
                 if (form.topTable.ContainsColumn(columnName))
@@ -375,7 +375,7 @@ namespace HockeyStats
             form.lastSavedPlayerList = form.currentPlayerList.Clone();
             form.currentListName = listName;
             RefreshDropDownLists();
-            form.SetListIsSaved(PlayerList.ListStatus.Saved);
+            form.SetListStatus(PlayerList.ListStatus.Saved);
         }
     }
 }

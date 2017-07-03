@@ -31,18 +31,7 @@ namespace HockeyStats
             {
                 changeSeasonDomainUpDown.Items.Add(season);
             }
-            changeSeasonDomainUpDown.Text = seasons.First();
-
-            //string season = Constants.MostRecentSeason;
-            //while (season != "1899-1900")
-            //{
-            //    changeSeasonDomainUpDown.Items.Add(season);
-            //    string[] splitValues = season.Split('-');
-            //    string lowerValue = (Int32.Parse(splitValues[0]) - 1).ToString();
-            //    string upperValue = splitValues[0];
-            //    season = String.Format("{0}-{1}", lowerValue, upperValue);
-            //}
-            //changeSeasonDomainUpDown.Text = Constants.MostRecentSeason;
+            changeSeasonDomainUpDown.Text = parent.currentPlayerList.displaySeason;
         }
 
         private void SetupButtons()
@@ -63,6 +52,11 @@ namespace HockeyStats
                 {
                     parent.currentListName = parent.currentListName.Substring(0, parent.currentListName.LastIndexOf('(') + 1) + season + ")";
                 }
+                else
+                {
+                    parent.currentListName = String.Format("{0} ({1})", TeamListManager.GetTeamName(teamId), season);
+                }
+                parent.currentPlayerList.SetListStatus(PlayerList.ListStatus.Generated);
                 parent.LoadPlayerList(parent.currentPlayerList, parent.currentListName);
 
                 Close();

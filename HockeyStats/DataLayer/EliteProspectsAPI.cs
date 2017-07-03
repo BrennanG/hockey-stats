@@ -23,6 +23,13 @@ namespace HockeyStats
             return GetEliteProspectsData(requestString);
         }
 
+        // Returns the team's general data (no stats/rosters)
+        public static JObject GetTeamData(string teamId)
+        {
+            string requestString = "http://api.eliteprospects.com:80/beta/teams/" + teamId + "?apikey=" + key;
+            return GetEliteProspectsData(requestString);
+        }
+
         // Returns the player IDs of every player on the team during the given season
         public static JObject GetPlayerIdsOnTeam(string teamId, string season)
         {
