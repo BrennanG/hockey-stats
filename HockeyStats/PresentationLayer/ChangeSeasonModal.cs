@@ -40,7 +40,7 @@ namespace HockeyStats
             {
                 changeSeasonDomainUpDown.Items.Add(season);
             }
-            changeSeasonDomainUpDown.Text = parent.currentPlayerList.displaySeason;
+            changeSeasonDomainUpDown.SelectedIndex = changeSeasonDomainUpDown.Items.IndexOf(parent.currentPlayerList.displaySeason);
         }
 
         private void SetupButtons(Action confirmAction)
