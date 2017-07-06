@@ -18,7 +18,7 @@ namespace HockeyStats
         // Needs to be a class, because you can only lock on instances of classes
         public class AbortThread { public bool abort; };
         public AbortThread abortThread = new AbortThread() { abort = false };
-
+        
         public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList)
             : base(dataGridView, playerList.primaryColumnNames)
         {

@@ -42,7 +42,7 @@
             this.listTypeLabel = new System.Windows.Forms.Label();
             this.renameListTextbox = new System.Windows.Forms.TextBox();
             this.listNameLabel = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.topMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.loadListDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListDropDown = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,7 +75,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.topMenuStrip.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rightTableDGV)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
@@ -131,7 +131,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.renameListTextbox);
             this.splitContainer1.Panel1.Controls.Add(this.listNameLabel);
             this.splitContainer1.Panel1.Controls.Add(this.topTableDGV);
-            this.splitContainer1.Panel1.Controls.Add(this.menuStrip1);
+            this.splitContainer1.Panel1.Controls.Add(this.topMenuStrip);
             // 
             // splitContainer1.Panel2
             // 
@@ -183,21 +183,21 @@
             this.listNameLabel.TabIndex = 2;
             this.listNameLabel.Text = "List Name";
             // 
-            // menuStrip1
+            // topMenuStrip
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.topMenuStrip.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.topMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileDropDown,
             this.primaryAddRemoveColumnDropDown,
             this.selectSeasonDropDown,
             this.selectPrimarySeasonTypeDropDown,
             this.loadDraftToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1084, 24);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
+            this.topMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.topMenuStrip.Name = "topMenuStrip";
+            this.topMenuStrip.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+            this.topMenuStrip.Size = new System.Drawing.Size(1084, 24);
+            this.topMenuStrip.TabIndex = 1;
+            this.topMenuStrip.Text = "menuStrip1";
             // 
             // fileDropDown
             // 
@@ -335,7 +335,7 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.40881F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.59119F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 139F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 140F));
             this.tableLayoutPanel3.Controls.Add(this.searchPlayerButton, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.searchPlayerTextbox, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.addSelectedPlayerButton, 3, 0);
@@ -353,7 +353,7 @@
             this.searchPlayerButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.searchPlayerButton.Location = new System.Drawing.Point(203, 3);
             this.searchPlayerButton.Name = "searchPlayerButton";
-            this.searchPlayerButton.Size = new System.Drawing.Size(100, 20);
+            this.searchPlayerButton.Size = new System.Drawing.Size(99, 20);
             this.searchPlayerButton.TabIndex = 1;
             this.searchPlayerButton.Text = "Search Player";
             this.searchPlayerButton.UseVisualStyleBackColor = true;
@@ -369,7 +369,7 @@
             // addSelectedPlayerButton
             // 
             this.addSelectedPlayerButton.Enabled = false;
-            this.addSelectedPlayerButton.Location = new System.Drawing.Point(393, 3);
+            this.addSelectedPlayerButton.Location = new System.Drawing.Point(392, 3);
             this.addSelectedPlayerButton.Name = "addSelectedPlayerButton";
             this.addSelectedPlayerButton.Size = new System.Drawing.Size(124, 20);
             this.addSelectedPlayerButton.TabIndex = 4;
@@ -379,7 +379,7 @@
             // clearSearchButton
             // 
             this.clearSearchButton.Enabled = false;
-            this.clearSearchButton.Location = new System.Drawing.Point(309, 3);
+            this.clearSearchButton.Location = new System.Drawing.Point(308, 3);
             this.clearSearchButton.Name = "clearSearchButton";
             this.clearSearchButton.Size = new System.Drawing.Size(78, 20);
             this.clearSearchButton.TabIndex = 5;
@@ -510,7 +510,7 @@
             this.ClientSize = new System.Drawing.Size(1084, 861);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.topMenuStrip;
             this.MaximizeBox = false;
             this.Name = "PlayerStatForm";
             this.Text = "Hockey Stats";
@@ -520,8 +520,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.topMenuStrip.ResumeLayout(false);
+            this.topMenuStrip.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rightTableDGV)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
@@ -547,7 +547,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.DataGridView rightTableDGV;
         private System.Windows.Forms.DataGridView middleTableDGV;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip topMenuStrip;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem primaryAddRemoveColumnDropDown;
         private System.Windows.Forms.ToolStripMenuItem selectSeasonDropDown;

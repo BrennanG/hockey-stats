@@ -81,6 +81,16 @@ namespace HockeyStats
             }
         }
 
+        public void SetListLabel(string listName)
+        {
+            listNameLabel.Text = listName;
+            listNameLabel.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            while (listNameLabel.Bounds.IntersectsWith(selectPrimarySeasonTypeDropDown.Bounds))
+            {
+                listNameLabel.Font = new Font("Microsoft Sans Serif", listNameLabel.Font.Size - 1, FontStyle.Bold);
+            }
+        }
+
         private void SetupLoadListDropDown()
         {
             ToolStripItemCollection loadListDropDownItems = loadListDropDown.DropDownItems;
@@ -289,7 +299,7 @@ namespace HockeyStats
 
                     form.currentListName = renameListTextbox.Text;
                     string asterisk = (listNameLabel.Text.EndsWith("*")) ? "*" : ""; // Add the asterisk back onto the label if necessary
-                    listNameLabel.Text = renameListTextbox.Text + asterisk;
+                    SetListLabel(renameListTextbox.Text + asterisk);
                     RefreshDropDownLists();
 
                     LeaveTextBox();

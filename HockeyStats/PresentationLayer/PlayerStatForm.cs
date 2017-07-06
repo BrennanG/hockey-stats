@@ -7,6 +7,7 @@ using System.Threading;
 using System.IO;
 using System.Linq;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace HockeyStats
 {
@@ -134,7 +135,8 @@ namespace HockeyStats
             currentPlayerList = playerListToLoad;
             lastSavedPlayerList = currentPlayerList.Clone();
             currentListName = listName;
-            listNameLabel.Text = listName;
+            menuStripsManager.SetListLabel(listName);
+
             playerStatTablesManager.tableHasBeenClicked = false;
             if (topTable != null) { topTable.AbortFillDataTableThread(); }
 
@@ -182,7 +184,8 @@ namespace HockeyStats
                 status = PlayerList.ListStatus.Saved;
             }
             currentPlayerList.SetListStatus(status);
-            listNameLabel.Text = (currentPlayerList.listStatus == PlayerList.ListStatus.Saved) ? currentListName : currentListName + "*";
+            string listName = (currentPlayerList.listStatus == PlayerList.ListStatus.Saved) ? currentListName : currentListName + "*";
+            menuStripsManager.SetListLabel(listName);
 
             if (currentListName == Constants.DEFAULT_LIST_NAME)
             {
