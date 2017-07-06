@@ -19,14 +19,23 @@ namespace HockeyStats
 
             this.parent = parent;
             StartPosition = FormStartPosition.CenterParent;
-
-            SetupChangeSeasonDomainUpDown();
-            SetupButtons();
         }
 
-        private void SetupChangeSeasonDomainUpDown()
+        public void ShowDialog(Action confirmAction, List<string> seasons)
         {
-            List<string> seasons = TeamListManager.GetTeamSeasons(parent.currentPlayerList.teamId);
+            SetupChangeSeasonDomainUpDown(seasons);
+            SetupButtons(confirmAction);
+
+            base.ShowDialog();
+        }
+
+        public string GetDomainUpDownText()
+        {
+            return changeSeasonDomainUpDown.Text;
+        }
+
+        private void SetupChangeSeasonDomainUpDown(List<string> seasons)
+        {
             foreach (string season in seasons)
             {
                 changeSeasonDomainUpDown.Items.Add(season);
@@ -34,44 +43,18 @@ namespace HockeyStats
             changeSeasonDomainUpDown.Text = parent.currentPlayerList.displaySeason;
         }
 
-        private void SetupButtons()
+        private void SetupButtons(Action confirmAction)
         {
-            Action ChangeSeason = () =>
-            {
-                string teamId = parent.currentPlayerList.teamId;
-                string season = changeSeasonDomainUpDown.Text;
-                List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
-                if (playerIds.Count == 0)
-                {
-                    MessageBox.Show("The team did not play/exist in the " + season + " season");
-                    return;
-                }
-                parent.currentPlayerList.SetPlayerIds(playerIds);
-                parent.currentPlayerList.SetDisplaySeason(season);
-                if (parent.currentPlayerList.listStatus == PlayerList.ListStatus.Generated)
-                {
-                    parent.currentListName = parent.currentListName.Substring(0, parent.currentListName.LastIndexOf('(') + 1) + season + ")";
-                }
-                else
-                {
-                    parent.currentListName = String.Format("{0} ({1})", TeamListManager.GetTeamName(teamId), season);
-                }
-                parent.currentPlayerList.SetListStatus(PlayerList.ListStatus.Generated);
-                parent.LoadPlayerList(parent.currentPlayerList, parent.currentListName);
-
-                Close();
-            };
-
             changeSeasonDomainUpDown.KeyUp += new KeyEventHandler((object sender, KeyEventArgs e) => {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    parent.TriggerLeaveRequest(ChangeSeason);
+                    confirmAction();
                 }
             });
 
             changeSeasonButton.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                parent.TriggerLeaveRequest(ChangeSeason);
+                confirmAction();
             });
 
             cancelButton.Click += new EventHandler((object sender, EventArgs e) =>

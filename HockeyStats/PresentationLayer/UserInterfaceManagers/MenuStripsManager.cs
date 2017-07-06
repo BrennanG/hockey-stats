@@ -213,7 +213,37 @@ namespace HockeyStats
             changeSeasonButton.Click += new EventHandler((object sender, EventArgs e) =>
             {
                 ChangeSeasonModal changeSeasonModal = new ChangeSeasonModal(form);
-                changeSeasonModal.ShowDialog();
+                List<string> seasons = TeamListManager.GetTeamSeasons(form.currentPlayerList.teamId);
+                Action ChangeSeason = () =>
+                {
+                    form.TriggerLeaveRequest(() =>
+                    {
+                        string teamId = form.currentPlayerList.teamId;
+                        string season = changeSeasonModal.GetDomainUpDownText();
+                        List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
+                        if (playerIds.Count == 0)
+                        {
+                            MessageBox.Show("The team did not play/exist in the " + season + " season");
+                            return;
+                        }
+                        form.currentPlayerList.SetPlayerIds(playerIds);
+                        form.currentPlayerList.SetDisplaySeason(season);
+                        if (form.currentPlayerList.listStatus == PlayerList.ListStatus.Generated)
+                        {
+                            form.currentListName = form.currentListName.Substring(0, form.currentListName.LastIndexOf('(') + 1) + season + ")";
+                        }
+                        else
+                        {
+                            form.currentListName = String.Format("{0} ({1})", TeamListManager.GetTeamName(teamId), season);
+                        }
+                        form.currentPlayerList.SetListStatus(PlayerList.ListStatus.Generated);
+                        form.LoadPlayerList(form.currentPlayerList, form.currentListName);
+
+                        changeSeasonModal.Close();
+                    });
+                    
+                };
+                changeSeasonModal.ShowDialog(ChangeSeason, seasons);
             });
         }
 
@@ -323,6 +353,34 @@ namespace HockeyStats
                     ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
                 }
             }
+
+            // Add the "Other" option
+            EventHandler selectOtherHandler = new EventHandler((object sender, EventArgs e) =>
+            {
+                ChangeSeasonModal changeSeasonModal = new ChangeSeasonModal(form);
+                List<string> seasons = new List<string>();
+                string loopSeason = Constants.MostRecentSeason;
+                while (loopSeason != "1924-1925")
+                {
+                    seasons.Add(loopSeason);
+                    string[] splitValues = loopSeason.Split('-');
+                    string lowerValue = (Int32.Parse(splitValues[0]) - 1).ToString();
+                    string upperValue = splitValues[0];
+                    loopSeason = String.Format("{0}-{1}", lowerValue, upperValue);
+                }
+                Action ChangeSeason = () =>
+                {
+                    string season = changeSeasonModal.GetDomainUpDownText();
+                    form.topTable.ChangeDisplaySeason(season);
+                    form.currentPlayerList.SetDisplaySeason(season);
+                    RefreshDropDownLists();
+                    form.SetListStatus(PlayerList.ListStatus.Unsaved);
+
+                    changeSeasonModal.Close();
+                };
+                changeSeasonModal.ShowDialog(ChangeSeason, seasons);
+            });
+            dropDownItems.Add("Other", null, selectOtherHandler);
         }
 
         private void SetupAddRemoveColumnButton()
