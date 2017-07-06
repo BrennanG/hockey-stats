@@ -15,6 +15,10 @@ namespace HockeyStats
         private Dictionary<int, PlayerStats> rowHashToPlayerStatsMap = new Dictionary<int, PlayerStats>();
         private Thread fillDataTableThread;
 
+        // Needs to be a class, because you can only lock on instances of classes
+        public class AbortThread { public bool abort; };
+        public AbortThread abortThread = new AbortThread() { abort = false };
+
         public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList)
             : base(dataGridView, playerList.primaryColumnNames)
         {
@@ -91,13 +95,9 @@ namespace HockeyStats
 
         public void AbortFillDataTableThread()
         {
-            if (fillDataTableThread != null && fillDataTableThread.ThreadState == ThreadState.Running)
+            lock (abortThread)
             {
-                fillDataTableThread.Abort();
-            }
-            while (fillDataTableThread.ThreadState != ThreadState.Aborted && fillDataTableThread.ThreadState != ThreadState.Stopped)
-            {
-                // loop until it's aborted
+                abortThread.abort = true;
             }
         }
 
@@ -140,11 +140,22 @@ namespace HockeyStats
 
         private void FillDataTable(List<string> playerIds)
         {
+            lock (abortThread)
+            {
+                abortThread.abort = false;
+            }
             string[] copyOfPlayerIds = new string[playerIds.Count];
             playerIds.CopyTo(copyOfPlayerIds);
             foreach (string playerId in copyOfPlayerIds)
             {
                 AddPlayerById(playerId);
+                lock(abortThread)
+                {
+                    if (abortThread.abort)
+                    {
+                        break;
+                    }
+                }
             }
         }
     }
