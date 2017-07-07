@@ -106,6 +106,13 @@ namespace HockeyStats
                 {
                     Action LoadPlayer = () =>
                     {
+                        // If it's the current/upcoming season, more players could be added as the season progresses, so get the full roster again
+                        if (playerListToLoad.listType == PlayerList.ListType.TeamList && playerListToLoad.displaySeason == Constants.MostRecentSeason)
+                        {
+                            playerListToLoad.SetPlayerIds(TeamListManager.GetPlayerIdsOnTeam(playerListToLoad.teamId, playerListToLoad.displaySeason));
+                            Serializer.WriteXML(playerListToLoad, listName + Constants.LIST_NAME_SUFFIX);
+                        }
+
                         form.LoadPlayerList(playerListToLoad, listName);
                         RefreshDropDownLists();
                     };
