@@ -12,28 +12,47 @@ namespace HockeyStats
     public partial class FilterModal : Form
     {
         PlayerStatForm parent;
+        Filter filter;
 
-        public FilterModal(PlayerStatForm parent)
+        public FilterModal(PlayerStatForm parent, Filter filter)
         {
             InitializeComponent();
 
             this.parent = parent;
+            this.filter = filter;
             StartPosition = FormStartPosition.CenterParent;
         }
 
-        public void ShowDialog(Action confirmAction, List<string> leagues)
+        public void ShowDialog(Action confirmAction)
         {
-            SetupDropDowns(leagues);
+            SetupDropDowns();
             SetupButtons(confirmAction);
 
             base.ShowDialog();
         }
 
-        private void SetupDropDowns(List<string> seasons)
+        private void SetupDropDowns()
         {
-            foreach (string season in seasons)
+            foreach (string league in filter.GetAllLeagues())
             {
-                filterLeaguesDropDown.DropDownItems.Add(season);
+                EventHandler selectLeagueHandler = new EventHandler((object sender, EventArgs e) => {
+                    ToolStripMenuItem dropDownItem = (ToolStripMenuItem)sender;
+                    if (dropDownItem.Checked)
+                    {
+                        filter.FilterOutLeague(league);
+                    }
+                    else
+                    {
+                        filter.FilterInLeague(league);
+                    }
+                    dropDownItem.Checked = !dropDownItem.Checked;
+                });
+                filterLeaguesDropDown.DropDownItems.Add(league, null, selectLeagueHandler);
+
+                if (!filter.LeagueIsFilteredOut(league))
+                {
+                    ((ToolStripMenuItem)filterLeaguesDropDown.DropDownItems[filterLeaguesDropDown.DropDownItems.Count - 1]).Checked = true;
+                }
             }
         }
 

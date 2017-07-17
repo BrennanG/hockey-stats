@@ -432,10 +432,14 @@ namespace HockeyStats
 
         private void SetupFilterButton()
         {
+            form.filter.OnFilterChange(() => { form.topTable.ApplyFilter(form.filter); });
+
             filterToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                FilterModal filterModal = new FilterModal(form);
-                filterModal.ShowDialog(null, form.topTable.GetLeaguesBySeason(form.currentPlayerList.displaySeason));
+                List<string> leagues = form.topTable.GetLeaguesBySeason(form.currentPlayerList.displaySeason);
+                form.filter.SetAllLeagues(leagues);
+                FilterModal filterModal = new FilterModal(form, form.filter);
+                filterModal.ShowDialog(null);
             });
         }
 

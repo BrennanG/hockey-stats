@@ -54,7 +54,7 @@ namespace HockeyStats
             return returnDict;
         }
 
-        public string GetCollapsedColumnValue(string season, string columnName, string seasonType)
+        public string GetCollapsedColumnValue(string season, string columnName, string seasonType, Filter filter = null)
         {
             if (Constants.ConstantColumns.Contains(columnName))
             {
@@ -67,6 +67,8 @@ namespace HockeyStats
             string collapsedColumn = String.Empty;
             foreach (Dictionary<string, string> dict in playerStats[season])
             {
+                if (filter != null && filter.LeagueIsFilteredOut(dict[Constants.LEAGUE])) { continue; }
+
                 if (collapsedColumn == String.Empty)
                 {
                     collapsedColumn = dict[columnName];

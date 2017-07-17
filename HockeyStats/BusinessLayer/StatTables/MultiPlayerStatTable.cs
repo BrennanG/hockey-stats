@@ -65,6 +65,24 @@ namespace HockeyStats
             playerList.RemovePrimaryColumn(columnName);
         }
 
+        public void ApplyFilter(Filter filter)
+        {
+            foreach (DataGridViewRow dgvRow in dataGridView.Rows)
+            {
+                DataRow row = GetDataRowFromDGVRow(dgvRow);
+                PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
+
+                foreach (string column in Constants.DynamicColumns)
+                {
+                    try
+                    {
+                        row[column] = playerStats.GetCollapsedColumnValue(playerList.displaySeason, column, playerList.primarySeasonType, filter);
+                    }
+                    catch { }
+                }
+            }
+        }
+
         public void ChangeDisplaySeason(string displaySeason)
         {
             playerList.SetDisplaySeason(displaySeason);

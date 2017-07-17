@@ -61,6 +61,7 @@
     <Compile Include="DataLayer\Parser.cs" />
     <Compile Include="BusinessLayer\StatTables\PlayerConstantsStatTable.cs" />
     <Compile Include="DataLayer\SearchDataParser.cs" />
+    <Compile Include="PresentationLayer\Filter.cs" />
     <Compile Include="PresentationLayer\Forms\ChangeSeasonModal.cs">
       <SubType>Form</SubType>
     </Compile>
