@@ -12,6 +12,7 @@ namespace HockeyStats
         private Dictionary<string, List<Dictionary<string, string>>> regularSeasonPlayerStats = new Dictionary<string, List<Dictionary<string, string>>>();
         private Dictionary<string, List<Dictionary<string, string>>> playoffsPlayerStats = new Dictionary<string, List<Dictionary<string, string>>>();
 
+        private Dictionary<string, HashSet<string>> leaguesBySeason = new Dictionary<string, HashSet<string>>();
         private Dictionary<string, Dictionary<string, string>> teamIds = new Dictionary<string, Dictionary<string, string>>();
         private Dictionary<string, string> constantPlayerStats = new Dictionary<string, string>();
 
@@ -147,6 +148,11 @@ namespace HockeyStats
             return teamIds[year][teamName];
         }
 
+        public Dictionary<string, HashSet<string>> GetLeaguesBySeason()
+        {
+            return leaguesBySeason;
+        }
+
         private void FillPlayerStats()
         {
             JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
@@ -176,6 +182,12 @@ namespace HockeyStats
                     teamIds[season] = new Dictionary<string, string>();
                 }
                 teamIds[season][statLineParser.ReturnTeamName()] = statLineParser.ReturnTeamId();
+                
+                if (!leaguesBySeason.ContainsKey(season))
+                {
+                    leaguesBySeason[season] = new HashSet<string>();
+                }
+                leaguesBySeason[season].Add(statLineParser.ReturnLeagueName());
             }
         }
         

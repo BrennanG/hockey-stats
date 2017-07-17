@@ -21,7 +21,8 @@ namespace HockeyStats
         public ToolStripMenuItem selectPrimarySeasonTypeDropDown { get; set; }
         public ToolStripMenuItem selectSecondarySeasonTypeDropDown { get; set; }
         public ToolStripMenuItem selectSeasonDropDown { get; set; }
-        public ToolStripMenuItem addRemoveColumnDropDown { get; set; }
+        public ToolStripMenuItem selectColumnsDropDown { get; set; }
+        public ToolStripMenuItem filterToolStripMenuItem { get; set; }
         public DataGridView topTableDGV { get; set; }
         public DataGridView rightTableDGV { get; set; }
         public SaveFileDialog saveFileDialog { get; set; }
@@ -43,7 +44,8 @@ namespace HockeyStats
             SetupRenameListLabel();
             SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
-            SetupAddRemoveColumnButton();
+            SetupSelectColumnsButton();
+            SetupFilterButton();
         }
 
         public void RefreshDropDownLists()
@@ -51,7 +53,7 @@ namespace HockeyStats
             SetupLoadListDropDown();
             SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
-            SetupAddRemoveColumnButton();
+            SetupSelectColumnsButton();
         }
 
         public void RefreshListTypeLabel()
@@ -400,9 +402,9 @@ namespace HockeyStats
             dropDownItems.Add("Other", null, selectOtherHandler);
         }
 
-        private void SetupAddRemoveColumnButton()
+        private void SetupSelectColumnsButton()
         {
-            ToolStripItemCollection dropDownItems = addRemoveColumnDropDown.DropDownItems;
+            ToolStripItemCollection dropDownItems = selectColumnsDropDown.DropDownItems;
             dropDownItems.Clear();
             foreach (string columnName in Constants.AllPossibleColumnsAlphebetized)
             {
@@ -426,6 +428,15 @@ namespace HockeyStats
                     ((ToolStripMenuItem)dropDownItems[dropDownItems.Count - 1]).Checked = true;
                 }
             }
+        }
+
+        private void SetupFilterButton()
+        {
+            filterToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
+            {
+                FilterModal filterModal = new FilterModal(form);
+                filterModal.ShowDialog(null, form.topTable.GetLeaguesBySeason(form.currentPlayerList.displaySeason));
+            });
         }
 
         private string TrimFileNameSuffix(string fullFileName)

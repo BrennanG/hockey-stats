@@ -61,23 +61,29 @@
     <Compile Include="DataLayer\Parser.cs" />
     <Compile Include="BusinessLayer\StatTables\PlayerConstantsStatTable.cs" />
     <Compile Include="DataLayer\SearchDataParser.cs" />
-    <Compile Include="PresentationLayer\ChangeSeasonModal.cs">
+    <Compile Include="PresentationLayer\Forms\ChangeSeasonModal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PresentationLayer\ChangeSeasonModal.Designer.cs">
+    <Compile Include="PresentationLayer\Forms\ChangeSeasonModal.Designer.cs">
       <DependentUpon>ChangeSeasonModal.cs</DependentUpon>
     </Compile>
     <Compile Include="PresentationLayer\Configuration.cs" />
-    <Compile Include="PresentationLayer\LoadDraftModal.cs">
+    <Compile Include="PresentationLayer\Forms\FilterModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PresentationLayer\Forms\FilterModal.Designer.cs">
+      <DependentUpon>FilterModal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PresentationLayer\Forms\LoadDraftModal.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PresentationLayer\UserInterfaceManagers\MenuStripsManager.cs" />
     <Compile Include="PresentationLayer\UserInterfaceManagers\PlayerButtonsManager.cs" />
     <Compile Include="PresentationLayer\PlayerList.cs" />
-    <Compile Include="PresentationLayer\PlayerStatForm.cs">
+    <Compile Include="PresentationLayer\Forms\PlayerStatForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PresentationLayer\PlayerStatForm.Designer.cs">
+    <Compile Include="PresentationLayer\Forms\PlayerStatForm.Designer.cs">
       <DependentUpon>PlayerStatForm.cs</DependentUpon>
     </Compile>
     <Compile Include="BusinessLayer\StatTables\PlayerStatTable.cs" />
@@ -88,13 +94,16 @@
     <Compile Include="PresentationLayer\Serializer.cs" />
     <Compile Include="BusinessLayer\StatTables\SinglePlayerStatTable.cs" />
     <Compile Include="DataLayer\StatLineParser.cs" />
-    <EmbeddedResource Include="PresentationLayer\ChangeSeasonModal.resx">
+    <EmbeddedResource Include="PresentationLayer\Forms\ChangeSeasonModal.resx">
       <DependentUpon>ChangeSeasonModal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PresentationLayer\LoadDraftModal.resx">
+    <EmbeddedResource Include="PresentationLayer\Forms\FilterModal.resx">
+      <DependentUpon>FilterModal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PresentationLayer\Forms\LoadDraftModal.resx">
       <DependentUpon>LoadDraftModal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PresentationLayer\PlayerStatForm.resx">
+    <EmbeddedResource Include="PresentationLayer\Forms\PlayerStatForm.resx">
       <DependentUpon>PlayerStatForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
