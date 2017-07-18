@@ -144,31 +144,23 @@ namespace HockeyStats
             DataRow newDataRow = AddRowToDataTable(collapsedYear);
             rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
 
-            Dictionary<string, HashSet<string>> leaguesBySeason = playerStats.GetLeaguesBySeason();
-            foreach (string season in leaguesBySeason.Keys)
+            Action<Dictionary<string, HashSet<string>>, Dictionary<string, HashSet<string>>> FillValuesInTable = 
+                (Dictionary<string, HashSet<string>> valuesInTable, Dictionary<string, HashSet<string>> filterValuesBySeason) =>
             {
-                if (!leaguesInTableBySeason.ContainsKey(season))
+                foreach (string season in filterValuesBySeason.Keys)
                 {
-                    leaguesInTableBySeason[season] = leaguesBySeason[season];
+                    if (!valuesInTable.ContainsKey(season))
+                    {
+                        valuesInTable[season] = filterValuesBySeason[season];
+                    }
+                    else
+                    {
+                        valuesInTable[season].UnionWith(filterValuesBySeason[season]);
+                    }
                 }
-                else
-                {
-                    leaguesInTableBySeason[season].UnionWith(leaguesBySeason[season]);
-                }
-            }
-
-            Dictionary<string, HashSet<string>> teamsBySeason = playerStats.GetTeamsBySeason();
-            foreach (string season in teamsBySeason.Keys)
-            {
-                if (!teamsInTableBySeason.ContainsKey(season))
-                {
-                    teamsInTableBySeason[season] = teamsBySeason[season];
-                }
-                else
-                {
-                    teamsInTableBySeason[season].UnionWith(teamsBySeason[season]);
-                }
-            }
+            };
+            FillValuesInTable(leaguesInTableBySeason, playerStats.GetLeaguesBySeason());
+            FillValuesInTable(teamsInTableBySeason, playerStats.GetTeamsBySeason());
         }
 
         private void UpdateRowData()

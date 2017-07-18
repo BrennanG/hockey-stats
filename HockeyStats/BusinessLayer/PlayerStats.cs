@@ -190,18 +190,17 @@ namespace HockeyStats
                     teamIds[season] = new Dictionary<string, string>();
                 }
                 teamIds[season][statLineParser.ReturnTeamName()] = statLineParser.ReturnTeamId();
-                
-                if (!leaguesBySeason.ContainsKey(season))
-                {
-                    leaguesBySeason[season] = new HashSet<string>();
-                }
-                leaguesBySeason[season].Add(statLineParser.ReturnLeagueName());
 
-                if (!teamsBySeason.ContainsKey(season))
+                Action<Dictionary<string, HashSet<string>>, string> AddValueToFilterDict = (Dictionary<string, HashSet<string>> filterDict, string filterValue) =>
                 {
-                    teamsBySeason[season] = new HashSet<string>();
-                }
-                teamsBySeason[season].Add(statLineParser.ReturnTeamName());
+                    if (!filterDict.ContainsKey(season))
+                    {
+                        filterDict[season] = new HashSet<string>();
+                    }
+                    filterDict[season].Add(filterValue);
+                };
+                AddValueToFilterDict(leaguesBySeason, statLineParser.ReturnLeagueName());
+                AddValueToFilterDict(teamsBySeason, statLineParser.ReturnTeamName());
             }
         }
         

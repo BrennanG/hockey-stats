@@ -25,69 +25,53 @@ namespace HockeyStats
 
         public void ShowDialog(Action confirmAction)
         {
-            SetupDropDowns();
+            SetupDropDown(filterLeaguesDropDown, filter.GetAllLeagues(), filter.LeagueIsFilteredOut);
+            SetupDropDown(filterTeamsDropDown, filter.GetAllTeams(), filter.TeamIsFilteredOut);
+
             SetupButtons(confirmAction);
 
             base.ShowDialog();
         }
 
-        private void SetupDropDowns()
+        private void SetupDropDown(ToolStripMenuItem filterDropDown, List<string> allPossibleValues, Func<string, bool> CheckIfFilteredOut)
         {
-            foreach (string league in filter.GetAllLeagues())
+            foreach (string possibleValue in allPossibleValues)
             {
-                EventHandler selectLeagueHandler = new EventHandler((object sender, EventArgs e) => {
+                EventHandler itemSelectedHandler = new EventHandler((object sender, EventArgs e) => {
                     ToolStripMenuItem dropDownItem = (ToolStripMenuItem)sender;
                     dropDownItem.Checked = !dropDownItem.Checked;
                 });
-                filterLeaguesDropDown.DropDownItems.Add(league, null, selectLeagueHandler);
+                filterDropDown.DropDownItems.Add(possibleValue, null, itemSelectedHandler);
 
-                if (!filter.LeagueIsFilteredOut(league))
+                if (!CheckIfFilteredOut(possibleValue))
                 {
-                    ((ToolStripMenuItem)filterLeaguesDropDown.DropDownItems[filterLeaguesDropDown.DropDownItems.Count - 1]).Checked = true;
-                }
-            }
-
-            foreach (string team in filter.GetAllTeams())
-            {
-                EventHandler selectTeamHandler = new EventHandler((object sender, EventArgs e) => {
-                    ToolStripMenuItem dropDownItem = (ToolStripMenuItem)sender;
-                    dropDownItem.Checked = !dropDownItem.Checked;
-                });
-                filterTeamsDropDown.DropDownItems.Add(team, null, selectTeamHandler);
-
-                if (!filter.TeamIsFilteredOut(team))
-                {
-                    ((ToolStripMenuItem)filterTeamsDropDown.DropDownItems[filterTeamsDropDown.DropDownItems.Count - 1]).Checked = true;
+                    ((ToolStripMenuItem)filterDropDown.DropDownItems[filterDropDown.DropDownItems.Count - 1]).Checked = true;
                 }
             }
         }
 
         private void SetupButtons(Action confirmAction)
         {
+            Action<ToolStripMenuItem, Action<string>, Action<string>> ApplyFilters = (ToolStripMenuItem filterDropDown, Action<string> filterIn, Action<string> filterOut) =>
+            {
+                foreach (ToolStripMenuItem item in filterDropDown.DropDownItems)
+                {
+                    if (item.Checked)
+                    {
+                        filterIn(item.Text);
+                    }
+                    else
+                    {
+                        filterOut(item.Text);
+                    }
+                }
+            };
+
             applyFiltersButton.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                foreach (ToolStripMenuItem item in filterLeaguesDropDown.DropDownItems)
-                {
-                    if (item.Checked)
-                    {
-                        filter.FilterInLeague(item.Text);
-                    }
-                    else
-                    {
-                        filter.FilterOutLeague(item.Text);
-                    }
-                }
-                foreach (ToolStripMenuItem item in filterTeamsDropDown.DropDownItems)
-                {
-                    if (item.Checked)
-                    {
-                        filter.FilterInTeam(item.Text);
-                    }
-                    else
-                    {
-                        filter.FilterOutTeam(item.Text);
-                    }
-                }
+                ApplyFilters(filterLeaguesDropDown, filter.FilterInLeague, filter.FilterOutLeague);
+                ApplyFilters(filterTeamsDropDown, filter.FilterInTeam, filter.FilterOutTeam);
+                
                 confirmAction();
                 Close();
             });
