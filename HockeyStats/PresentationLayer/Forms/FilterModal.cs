@@ -37,14 +37,6 @@ namespace HockeyStats
             {
                 EventHandler selectLeagueHandler = new EventHandler((object sender, EventArgs e) => {
                     ToolStripMenuItem dropDownItem = (ToolStripMenuItem)sender;
-                    if (dropDownItem.Checked)
-                    {
-                        filter.FilterOutLeague(league);
-                    }
-                    else
-                    {
-                        filter.FilterInLeague(league);
-                    }
                     dropDownItem.Checked = !dropDownItem.Checked;
                 });
                 filterLeaguesDropDown.DropDownItems.Add(league, null, selectLeagueHandler);
@@ -58,7 +50,27 @@ namespace HockeyStats
 
         private void SetupButtons(Action confirmAction)
         {
-            
+            applyFiltersButton.Click += new EventHandler((object sender, EventArgs e) =>
+            {
+                foreach (ToolStripMenuItem item in filterLeaguesDropDown.DropDownItems)
+                {
+                    if (item.Checked)
+                    {
+                        filter.FilterInLeague(item.Text);
+                    }
+                    else
+                    {
+                        filter.FilterOutLeague(item.Text);
+                    }
+                }
+                confirmAction();
+                Close();
+            });
+
+            cancelButton.Click += new EventHandler((object sender, EventArgs e) =>
+            {
+                Close();
+            });
         }
     }
 }
