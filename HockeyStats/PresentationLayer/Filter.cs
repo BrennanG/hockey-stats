@@ -9,6 +9,8 @@ namespace HockeyStats
     {
         private List<string> allLeagues = new List<string>();
         private HashSet<string> filteredOutLeagues = new HashSet<string>();
+        private List<string> allTeams = new List<string>();
+        private HashSet<string> filteredOutTeams = new HashSet<string>();
         private List<Action> onFilterChange = new List<Action>();
 
         public Filter()
@@ -41,6 +43,33 @@ namespace HockeyStats
         public bool LeagueIsFilteredOut(string league)
         {
             return filteredOutLeagues.Contains(league);
+        }
+
+        public List<string> GetAllTeams()
+        {
+            return allTeams;
+        }
+
+        public void SetAllTeams(List<string> teams)
+        {
+            allTeams = teams;
+        }
+
+        public void FilterOutTeam(string team)
+        {
+            filteredOutTeams.Add(team);
+            PerformFilterChangeActions();
+        }
+
+        public void FilterInTeam(string team)
+        {
+            filteredOutTeams.Remove(team); // HashSets don't thow exceptions if not found
+            PerformFilterChangeActions();
+        }
+
+        public bool TeamIsFilteredOut(string team)
+        {
+            return filteredOutTeams.Contains(team);
         }
 
         public void OnFilterChange(Action action)

@@ -14,6 +14,7 @@ namespace HockeyStats
         private PlayerList playerList;
         private Dictionary<int, PlayerStats> rowHashToPlayerStatsMap = new Dictionary<int, PlayerStats>();
         private Dictionary<string, HashSet<string>> leaguesInTableBySeason = new Dictionary<string, HashSet<string>>();
+        private Dictionary<string, HashSet<string>> teamsInTableBySeason = new Dictionary<string, HashSet<string>>();
         private Thread fillDataTableThread;
 
         // Needs to be a class, because you can only lock on instances of classes
@@ -117,6 +118,11 @@ namespace HockeyStats
             return leaguesInTableBySeason.ContainsKey(season) ? leaguesInTableBySeason[season].ToList() : new List<string>();
         }
 
+        public List<string> GetTeamsBySeason(string season)
+        {
+            return teamsInTableBySeason.ContainsKey(season) ? teamsInTableBySeason[season].ToList() : new List<string>();
+        }
+
         public void AbortFillDataTableThread()
         {
             lock (abortThread)
@@ -148,6 +154,19 @@ namespace HockeyStats
                 else
                 {
                     leaguesInTableBySeason[season].UnionWith(leaguesBySeason[season]);
+                }
+            }
+
+            Dictionary<string, HashSet<string>> teamsBySeason = playerStats.GetTeamsBySeason();
+            foreach (string season in teamsBySeason.Keys)
+            {
+                if (!teamsInTableBySeason.ContainsKey(season))
+                {
+                    teamsInTableBySeason[season] = teamsBySeason[season];
+                }
+                else
+                {
+                    teamsInTableBySeason[season].UnionWith(teamsBySeason[season]);
                 }
             }
         }

@@ -46,6 +46,20 @@ namespace HockeyStats
                     ((ToolStripMenuItem)filterLeaguesDropDown.DropDownItems[filterLeaguesDropDown.DropDownItems.Count - 1]).Checked = true;
                 }
             }
+
+            foreach (string team in filter.GetAllTeams())
+            {
+                EventHandler selectTeamHandler = new EventHandler((object sender, EventArgs e) => {
+                    ToolStripMenuItem dropDownItem = (ToolStripMenuItem)sender;
+                    dropDownItem.Checked = !dropDownItem.Checked;
+                });
+                filterTeamsDropDown.DropDownItems.Add(team, null, selectTeamHandler);
+
+                if (!filter.TeamIsFilteredOut(team))
+                {
+                    ((ToolStripMenuItem)filterTeamsDropDown.DropDownItems[filterTeamsDropDown.DropDownItems.Count - 1]).Checked = true;
+                }
+            }
         }
 
         private void SetupButtons(Action confirmAction)
@@ -61,6 +75,17 @@ namespace HockeyStats
                     else
                     {
                         filter.FilterOutLeague(item.Text);
+                    }
+                }
+                foreach (ToolStripMenuItem item in filterTeamsDropDown.DropDownItems)
+                {
+                    if (item.Checked)
+                    {
+                        filter.FilterInTeam(item.Text);
+                    }
+                    else
+                    {
+                        filter.FilterOutTeam(item.Text);
                     }
                 }
                 confirmAction();
