@@ -12,9 +12,9 @@ namespace HockeyStats
     public partial class FilterModal : Form
     {
         PlayerStatForm parent;
-        Filter filter;
+        FilterManager filter;
 
-        public FilterModal(PlayerStatForm parent, Filter filter)
+        public FilterModal(PlayerStatForm parent, FilterManager filter)
         {
             InitializeComponent();
 
@@ -25,15 +25,15 @@ namespace HockeyStats
 
         public void ShowDialog(Action confirmAction)
         {
-            SetupDropDown(filterLeaguesDropDown, filter.GetAllLeagues(), filter.LeagueIsFilteredOut);
-            SetupDropDown(filterTeamsDropDown, filter.GetAllTeams(), filter.TeamIsFilteredOut);
+            SetupDropDown(filterLeaguesDropDown, filter.GetAllValues(FilterManager.FilterType.League), FilterManager.FilterType.League);
+            SetupDropDown(filterTeamsDropDown, filter.GetAllValues(FilterManager.FilterType.Team), FilterManager.FilterType.Team);
 
             SetupButtons(confirmAction);
 
             base.ShowDialog();
         }
 
-        private void SetupDropDown(ToolStripMenuItem filterDropDown, List<string> allPossibleValues, Func<string, bool> CheckIfFilteredOut)
+        private void SetupDropDown(ToolStripMenuItem filterDropDown, List<string> allPossibleValues, FilterManager.FilterType filterType)
         {
             foreach (string possibleValue in allPossibleValues)
             {
@@ -43,7 +43,7 @@ namespace HockeyStats
                 });
                 filterDropDown.DropDownItems.Add(possibleValue, null, itemSelectedHandler);
 
-                if (!CheckIfFilteredOut(possibleValue))
+                if (!filter.ValueIsFilteredOut(filterType, possibleValue))
                 {
                     ((ToolStripMenuItem)filterDropDown.DropDownItems[filterDropDown.DropDownItems.Count - 1]).Checked = true;
                 }
@@ -52,25 +52,25 @@ namespace HockeyStats
 
         private void SetupButtons(Action confirmAction)
         {
-            Action<ToolStripMenuItem, Action<string>, Action<string>> ApplyFilters = (ToolStripMenuItem filterDropDown, Action<string> filterIn, Action<string> filterOut) =>
+            Action<ToolStripMenuItem, FilterManager.FilterType> ApplyFilters = (ToolStripMenuItem filterDropDown, FilterManager.FilterType filterType) =>
             {
                 foreach (ToolStripMenuItem item in filterDropDown.DropDownItems)
                 {
                     if (item.Checked)
                     {
-                        filterIn(item.Text);
+                        filter.FilterInValue(filterType, item.Text);
                     }
                     else
                     {
-                        filterOut(item.Text);
+                        filter.FilterOutValue(filterType, item.Text);
                     }
                 }
             };
 
             applyFiltersButton.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                ApplyFilters(filterLeaguesDropDown, filter.FilterInLeague, filter.FilterOutLeague);
-                ApplyFilters(filterTeamsDropDown, filter.FilterInTeam, filter.FilterOutTeam);
+                ApplyFilters(filterLeaguesDropDown, FilterManager.FilterType.League);
+                ApplyFilters(filterTeamsDropDown, FilterManager.FilterType.Team);
                 
                 confirmAction();
                 Close();

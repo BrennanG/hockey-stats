@@ -26,7 +26,7 @@ namespace HockeyStats
         public PlayerList lastSavedPlayerList = new PlayerList();
         public Configuration configuration = new Configuration();
 
-        public Filter filter = new Filter();
+        public FilterManager filter = new FilterManager();
 
         public string currentListName;
         public bool rowJustSelected = false;

@@ -434,13 +434,13 @@ namespace HockeyStats
         {
             filterToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                Action<Func<string, List<string>>, Action<List<string>>> SetAllPossibleValues = (Func<string, List<string>> GetValuesBySeason, Action<List<string>> SetValues) =>
+                Action<Func<string, List<string>>, FilterManager.FilterType> SetAllPossibleValues = (Func<string, List<string>> GetValuesBySeason, FilterManager.FilterType filterType) =>
                 {
                     List<string> values = GetValuesBySeason(form.currentPlayerList.displaySeason);
-                    SetValues(values);
+                    form.filter.SetAllValues(filterType, values);
                 };
-                SetAllPossibleValues(form.topTable.GetLeaguesBySeason, form.filter.SetAllLeagues);
-                SetAllPossibleValues(form.topTable.GetTeamsBySeason, form.filter.SetAllTeams);
+                SetAllPossibleValues(form.topTable.GetLeaguesBySeason, FilterManager.FilterType.League);
+                SetAllPossibleValues(form.topTable.GetTeamsBySeason, FilterManager.FilterType.Team);
 
                 FilterModal filterModal = new FilterModal(form, form.filter);
                 filterModal.ShowDialog(() =>

@@ -13,10 +13,13 @@ namespace HockeyStats
     {
         private PlayerList playerList;
         private Dictionary<int, PlayerStats> rowHashToPlayerStatsMap = new Dictionary<int, PlayerStats>();
+
         private Dictionary<string, HashSet<string>> leaguesInTableBySeason = new Dictionary<string, HashSet<string>>();
         private Dictionary<string, HashSet<string>> teamsInTableBySeason = new Dictionary<string, HashSet<string>>();
+        private Dictionary<FilterManager.FilterType, Dictionary<string, HashSet<string>>> filterMap;
+        private FilterManager currentFilter;
+
         private Thread fillDataTableThread;
-        private Filter currentFilter;
         public class AbortThread { public bool abort; }; // Needs to be a class, because you can only lock on instances of classes
         public AbortThread abortThread = new AbortThread() { abort = false };
         
@@ -24,6 +27,12 @@ namespace HockeyStats
             : base(dataGridView, playerList.primaryColumnNames)
         {
             this.playerList = playerList;
+
+            filterMap = new Dictionary<FilterManager.FilterType, Dictionary<string, HashSet<string>>>
+            {
+                { FilterManager.FilterType.League, leaguesInTableBySeason },
+                { FilterManager.FilterType.Team, teamsInTableBySeason }
+            };
 
             // Fill the table in a separate thread so the GUI will be displayed while the data is loading
             fillDataTableThread = new Thread(() => FillDataTable(playerList.playerIds));
@@ -43,44 +52,9 @@ namespace HockeyStats
             PlayerStats removedPlayerStats = GetPlayerStatsFromRow(row);
             string playerId = removedPlayerStats.GetPlayerId();
             playerList.RemovePlayer(playerId);
-            
-            // Update leagues in table
-            leaguesInTableBySeason = new Dictionary<string, HashSet<string>>();
-            foreach (DataRow dataRow in dataTable.Rows)
-            {
-                PlayerStats playerStats = GetPlayerStatsFromRow(dataRow);
-                foreach (KeyValuePair<string, HashSet<string>> leaguesBySeason in playerStats.GetLeaguesBySeason())
-                {
-                    string season = leaguesBySeason.Key;
-                    foreach(string league in leaguesBySeason.Value)
-                    {
-                        if (!leaguesInTableBySeason.ContainsKey(season))
-                        {
-                            leaguesInTableBySeason[season] = new HashSet<string>();
-                        }
-                        leaguesInTableBySeason[season].Add(league);
-                    }
-                }
-            }
 
-            // Update teams in table
-            teamsInTableBySeason = new Dictionary<string, HashSet<string>>();
-            foreach (DataRow dataRow in dataTable.Rows)
-            {
-                PlayerStats playerStats = GetPlayerStatsFromRow(dataRow);
-                foreach (KeyValuePair<string, HashSet<string>> teamsBySeason in playerStats.GetTeamsBySeason())
-                {
-                    string season = teamsBySeason.Key;
-                    foreach (string team in teamsBySeason.Value)
-                    {
-                        if (!teamsInTableBySeason.ContainsKey(season))
-                        {
-                            teamsInTableBySeason[season] = new HashSet<string>();
-                        }
-                        teamsInTableBySeason[season].Add(team);
-                    }
-                }
-            }
+            UpdateFilterValuesInTable(FilterManager.FilterType.League);
+            UpdateFilterValuesInTable(FilterManager.FilterType.Team);
         }
 
         public void AddColumn(string columnName, string season)
@@ -103,7 +77,7 @@ namespace HockeyStats
             playerList.RemovePrimaryColumn(columnName);
         }
 
-        public void ApplyFilterToAllRows(Filter filter)
+        public void ApplyFilterToAllRows(FilterManager filter)
         {
             currentFilter = filter;
             foreach (DataGridViewRow dgvRow in dataGridView.Rows)
@@ -190,11 +164,11 @@ namespace HockeyStats
                     }
                 }
             };
-            FillValuesInTable(leaguesInTableBySeason, playerStats.GetLeaguesBySeason());
-            FillValuesInTable(teamsInTableBySeason, playerStats.GetTeamsBySeason());
+            FillValuesInTable(leaguesInTableBySeason, playerStats.GetValuesBySeason(FilterManager.FilterType.League));
+            FillValuesInTable(teamsInTableBySeason, playerStats.GetValuesBySeason(FilterManager.FilterType.Team));
         }
 
-        private void ApplyFilterToDataRow(DataRow dataRow, Filter filter, PlayerStats playerStats = null)
+        private void ApplyFilterToDataRow(DataRow dataRow, FilterManager filter, PlayerStats playerStats = null)
         {
             if (filter == null) { return; }
             playerStats = (playerStats == null) ? rowHashToPlayerStatsMap[dataRow.GetHashCode()] : playerStats;
@@ -206,6 +180,28 @@ namespace HockeyStats
                     dataRow[column] = playerStats.GetCollapsedColumnValue(playerList.displaySeason, column, playerList.primarySeasonType, filter);
                 }
                 catch { }
+            }
+        }
+
+        private void UpdateFilterValuesInTable(FilterManager.FilterType filterType)
+        {
+            Dictionary<string, HashSet<string>> valuesInTableBySeason = filterMap[filterType];
+            valuesInTableBySeason.Clear();
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                PlayerStats playerStats = GetPlayerStatsFromRow(dataRow);
+                foreach (KeyValuePair<string, HashSet<string>> valuesBySeason in playerStats.GetValuesBySeason(filterType))
+                {
+                    string season = valuesBySeason.Key;
+                    foreach (string value in valuesBySeason.Value)
+                    {
+                        if (!valuesInTableBySeason.ContainsKey(season))
+                        {
+                            valuesInTableBySeason[season] = new HashSet<string>();
+                        }
+                        valuesInTableBySeason[season].Add(value);
+                    }
+                }
             }
         }
 

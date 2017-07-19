@@ -14,6 +14,8 @@ namespace HockeyStats
 
         private Dictionary<string, HashSet<string>> leaguesBySeason = new Dictionary<string, HashSet<string>>();
         private Dictionary<string, HashSet<string>> teamsBySeason = new Dictionary<string, HashSet<string>>();
+        private Dictionary<FilterManager.FilterType, Dictionary<string, HashSet<string>>> filterMap;
+
         private Dictionary<string, Dictionary<string, string>> teamIds = new Dictionary<string, Dictionary<string, string>>();
         private Dictionary<string, string> constantPlayerStats = new Dictionary<string, string>();
 
@@ -27,6 +29,12 @@ namespace HockeyStats
         {
             this.playerId = playerId;
             getStatMap = FillGetStatMap();
+            filterMap = new Dictionary<FilterManager.FilterType, Dictionary<string, HashSet<string>>>
+            {
+                { FilterManager.FilterType.League, leaguesBySeason },
+                { FilterManager.FilterType.Team, teamsBySeason }
+            };
+
             FillPlayerStats();
             FillConstantPlayerStats();
         }
@@ -55,7 +63,7 @@ namespace HockeyStats
             return returnDict;
         }
 
-        public string GetCollapsedColumnValue(string season, string columnName, string seasonType, Filter filter = null)
+        public string GetCollapsedColumnValue(string season, string columnName, string seasonType, FilterManager filter = null)
         {
             if (Constants.ConstantColumns.Contains(columnName))
             {
@@ -68,7 +76,10 @@ namespace HockeyStats
             string collapsedColumn = String.Empty;
             foreach (Dictionary<string, string> dict in playerStats[season])
             {
-                if (filter != null && (filter.LeagueIsFilteredOut(dict[Constants.LEAGUE]) || filter.TeamIsFilteredOut(dict[Constants.TEAM]))) { continue; }
+                if (filter != null &&
+                    (filter.ValueIsFilteredOut(FilterManager.FilterType.League, dict[Constants.LEAGUE])
+                    || filter.ValueIsFilteredOut(FilterManager.FilterType.Team, dict[Constants.TEAM])))
+                { continue; }
 
                 if (collapsedColumn == String.Empty)
                 {
@@ -151,29 +162,16 @@ namespace HockeyStats
             return teamIds[year][teamName];
         }
 
-        public Dictionary<string, HashSet<string>> GetLeaguesBySeason()
+        public Dictionary<string, HashSet<string>> GetValuesBySeason(FilterManager.FilterType filterType)
         {
+            Dictionary<string, HashSet<string>> valuesBySeason = filterMap[filterType];
             Dictionary<string, HashSet<string>> clone = new Dictionary<string, HashSet<string>>();
-            foreach (string season in leaguesBySeason.Keys)
+            foreach (string season in valuesBySeason.Keys)
             {
                 clone[season] = new HashSet<string>();
-                foreach (string league in leaguesBySeason[season])
+                foreach (string value in valuesBySeason[season])
                 {
-                    clone[season].Add(league);
-                }
-            }
-            return clone;
-        }
-
-        public Dictionary<string, HashSet<string>> GetTeamsBySeason()
-        {
-            Dictionary<string, HashSet<string>> clone = new Dictionary<string, HashSet<string>>();
-            foreach (string season in teamsBySeason.Keys)
-            {
-                clone[season] = new HashSet<string>();
-                foreach (string team in teamsBySeason[season])
-                {
-                    clone[season].Add(team);
+                    clone[season].Add(value);
                 }
             }
             return clone;
@@ -296,7 +294,6 @@ namespace HockeyStats
             map.Add(Constants.DRAFT_ROUND, () => draftDataParser.GetDraftRound(Constants.DRAFT_ROUND));
             map.Add(Constants.DRAFT_OVERALL, () => draftDataParser.GetDraftOverall(Constants.DRAFT_OVERALL));
             map.Add(Constants.DRAFT_TEAM, () => draftDataParser.GetDraftTeamName(Constants.DRAFT_TEAM));
-            //map.Add(Constants.ID, () => statLineParser.GetId(Constants.ID));
             return map;
         }
     }
