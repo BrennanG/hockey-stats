@@ -16,9 +16,8 @@ namespace HockeyStats
         private Dictionary<string, HashSet<string>> leaguesInTableBySeason = new Dictionary<string, HashSet<string>>();
         private Dictionary<string, HashSet<string>> teamsInTableBySeason = new Dictionary<string, HashSet<string>>();
         private Thread fillDataTableThread;
-
-        // Needs to be a class, because you can only lock on instances of classes
-        public class AbortThread { public bool abort; };
+        private Filter currentFilter;
+        public class AbortThread { public bool abort; }; // Needs to be a class, because you can only lock on instances of classes
         public AbortThread abortThread = new AbortThread() { abort = false };
         
         public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList)
@@ -41,9 +40,47 @@ namespace HockeyStats
         {
             dataTable.Rows.Remove(row);
 
-            PlayerStats playerStats = GetPlayerStatsFromRow(row);
-            string playerId = playerStats.GetPlayerId();
+            PlayerStats removedPlayerStats = GetPlayerStatsFromRow(row);
+            string playerId = removedPlayerStats.GetPlayerId();
             playerList.RemovePlayer(playerId);
+            
+            // Update leagues in table
+            leaguesInTableBySeason = new Dictionary<string, HashSet<string>>();
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                PlayerStats playerStats = GetPlayerStatsFromRow(dataRow);
+                foreach (KeyValuePair<string, HashSet<string>> leaguesBySeason in playerStats.GetLeaguesBySeason())
+                {
+                    string season = leaguesBySeason.Key;
+                    foreach(string league in leaguesBySeason.Value)
+                    {
+                        if (!leaguesInTableBySeason.ContainsKey(season))
+                        {
+                            leaguesInTableBySeason[season] = new HashSet<string>();
+                        }
+                        leaguesInTableBySeason[season].Add(league);
+                    }
+                }
+            }
+
+            // Update teams in table
+            teamsInTableBySeason = new Dictionary<string, HashSet<string>>();
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                PlayerStats playerStats = GetPlayerStatsFromRow(dataRow);
+                foreach (KeyValuePair<string, HashSet<string>> teamsBySeason in playerStats.GetTeamsBySeason())
+                {
+                    string season = teamsBySeason.Key;
+                    foreach (string team in teamsBySeason.Value)
+                    {
+                        if (!teamsInTableBySeason.ContainsKey(season))
+                        {
+                            teamsInTableBySeason[season] = new HashSet<string>();
+                        }
+                        teamsInTableBySeason[season].Add(team);
+                    }
+                }
+            }
         }
 
         public void AddColumn(string columnName, string season)
@@ -66,21 +103,13 @@ namespace HockeyStats
             playerList.RemovePrimaryColumn(columnName);
         }
 
-        public void ApplyFilter(Filter filter)
+        public void ApplyFilterToAllRows(Filter filter)
         {
+            currentFilter = filter;
             foreach (DataGridViewRow dgvRow in dataGridView.Rows)
             {
                 DataRow row = GetDataRowFromDGVRow(dgvRow);
-                PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
-
-                foreach (string column in Constants.DynamicColumns)
-                {
-                    try
-                    {
-                        row[column] = playerStats.GetCollapsedColumnValue(playerList.displaySeason, column, playerList.primarySeasonType, filter);
-                    }
-                    catch { }
-                }
+                ApplyFilterToDataRow(row, currentFilter);
             }
         }
 
@@ -143,10 +172,12 @@ namespace HockeyStats
             Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displaySeason, playerList.primarySeasonType);
             DataRow newDataRow = AddRowToDataTable(collapsedYear);
             rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
+            ApplyFilterToDataRow(newDataRow, currentFilter, playerStats);
 
             Action<Dictionary<string, HashSet<string>>, Dictionary<string, HashSet<string>>> FillValuesInTable = 
                 (Dictionary<string, HashSet<string>> valuesInTable, Dictionary<string, HashSet<string>> filterValuesBySeason) =>
             {
+                rowHashToPlayerStatsMap.Count();
                 foreach (string season in filterValuesBySeason.Keys)
                 {
                     if (!valuesInTable.ContainsKey(season))
@@ -161,6 +192,21 @@ namespace HockeyStats
             };
             FillValuesInTable(leaguesInTableBySeason, playerStats.GetLeaguesBySeason());
             FillValuesInTable(teamsInTableBySeason, playerStats.GetTeamsBySeason());
+        }
+
+        private void ApplyFilterToDataRow(DataRow dataRow, Filter filter, PlayerStats playerStats = null)
+        {
+            if (filter == null) { return; }
+            playerStats = (playerStats == null) ? rowHashToPlayerStatsMap[dataRow.GetHashCode()] : playerStats;
+
+            foreach (string column in Constants.DynamicColumns)
+            {
+                try
+                {
+                    dataRow[column] = playerStats.GetCollapsedColumnValue(playerList.displaySeason, column, playerList.primarySeasonType, filter);
+                }
+                catch { }
+            }
         }
 
         private void UpdateRowData()

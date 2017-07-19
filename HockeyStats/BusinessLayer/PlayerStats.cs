@@ -153,12 +153,30 @@ namespace HockeyStats
 
         public Dictionary<string, HashSet<string>> GetLeaguesBySeason()
         {
-            return leaguesBySeason;
+            Dictionary<string, HashSet<string>> clone = new Dictionary<string, HashSet<string>>();
+            foreach (string season in leaguesBySeason.Keys)
+            {
+                clone[season] = new HashSet<string>();
+                foreach (string league in leaguesBySeason[season])
+                {
+                    clone[season].Add(league);
+                }
+            }
+            return clone;
         }
 
         public Dictionary<string, HashSet<string>> GetTeamsBySeason()
         {
-            return teamsBySeason;
+            Dictionary<string, HashSet<string>> clone = new Dictionary<string, HashSet<string>>();
+            foreach (string season in teamsBySeason.Keys)
+            {
+                clone[season] = new HashSet<string>();
+                foreach (string team in teamsBySeason[season])
+                {
+                    clone[season].Add(team);
+                }
+            }
+            return clone;
         }
 
         private void FillPlayerStats()
