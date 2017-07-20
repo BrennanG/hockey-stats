@@ -27,6 +27,7 @@ namespace HockeyStats
         {
             SetupDropDown(filterLeaguesDropDown, filter.GetAllValues(FilterManager.FilterType.League), FilterManager.FilterType.League);
             SetupDropDown(filterTeamsDropDown, filter.GetAllValues(FilterManager.FilterType.Team), FilterManager.FilterType.Team);
+            SetupDropDown(filterDraftTeamsDropDown, filter.GetAllValues(FilterManager.FilterType.DraftTeam), FilterManager.FilterType.DraftTeam);
 
             SetupButtons(confirmAction);
 
@@ -71,7 +72,8 @@ namespace HockeyStats
             {
                 ApplyFilters(filterLeaguesDropDown, FilterManager.FilterType.League);
                 ApplyFilters(filterTeamsDropDown, FilterManager.FilterType.Team);
-                
+                ApplyFilters(filterDraftTeamsDropDown, FilterManager.FilterType.DraftTeam);
+
                 confirmAction();
                 Close();
             });

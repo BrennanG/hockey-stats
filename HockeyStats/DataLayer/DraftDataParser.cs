@@ -64,6 +64,12 @@ namespace HockeyStats
             AddToDict(key, value);
         }
 
+        public string ReturnDraftTeamName()
+        {
+            if (draftData == null) { return ""; }
+            return (string)draftTeamObj["name"];
+        }
+
         // Stats from player object
         public string ReturnPlayerId()
         {

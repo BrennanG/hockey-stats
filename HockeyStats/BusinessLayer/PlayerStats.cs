@@ -14,6 +14,7 @@ namespace HockeyStats
 
         private Dictionary<string, HashSet<string>> leaguesBySeason = new Dictionary<string, HashSet<string>>();
         private Dictionary<string, HashSet<string>> teamsBySeason = new Dictionary<string, HashSet<string>>();
+        private Dictionary<string, HashSet<string>> draftTeamsBySeason = new Dictionary<string, HashSet<string>>();
         private Dictionary<FilterManager.FilterType, Dictionary<string, HashSet<string>>> filterMap;
 
         private Dictionary<string, Dictionary<string, string>> teamIds = new Dictionary<string, Dictionary<string, string>>();
@@ -32,7 +33,8 @@ namespace HockeyStats
             filterMap = new Dictionary<FilterManager.FilterType, Dictionary<string, HashSet<string>>>
             {
                 { FilterManager.FilterType.League, leaguesBySeason },
-                { FilterManager.FilterType.Team, teamsBySeason }
+                { FilterManager.FilterType.Team, teamsBySeason },
+                { FilterManager.FilterType.DraftTeam, draftTeamsBySeason }
             };
 
             FillPlayerStats();
@@ -182,6 +184,7 @@ namespace HockeyStats
             JObject draftJson = EliteProspectsAPI.GetPlayerDraftData(playerId);
             JToken data = draftJson["data"];
             draftDataParser.SetDraftData(data == null ? null : data.First);
+            string draftTeam = draftDataParser.ReturnDraftTeamName();
 
             JObject statsJson = EliteProspectsAPI.GetPlayerStats(playerId);
             foreach (JToken statLine in statsJson["data"])
@@ -217,6 +220,7 @@ namespace HockeyStats
                 };
                 AddValueToFilterDict(leaguesBySeason, statLineParser.ReturnLeagueName());
                 AddValueToFilterDict(teamsBySeason, statLineParser.ReturnTeamName());
+                AddValueToFilterDict(draftTeamsBySeason, draftTeam);
             }
         }
         

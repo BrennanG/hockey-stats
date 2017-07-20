@@ -16,6 +16,7 @@ namespace HockeyStats
 
         private Dictionary<string, HashSet<string>> leaguesInTableBySeason = new Dictionary<string, HashSet<string>>();
         private Dictionary<string, HashSet<string>> teamsInTableBySeason = new Dictionary<string, HashSet<string>>();
+        private Dictionary<string, HashSet<string>> draftTeamsInTableBySeason = new Dictionary<string, HashSet<string>>();
         private Dictionary<FilterManager.FilterType, Dictionary<string, HashSet<string>>> filterMap;
         private FilterManager currentFilter;
 
@@ -31,7 +32,8 @@ namespace HockeyStats
             filterMap = new Dictionary<FilterManager.FilterType, Dictionary<string, HashSet<string>>>
             {
                 { FilterManager.FilterType.League, leaguesInTableBySeason },
-                { FilterManager.FilterType.Team, teamsInTableBySeason }
+                { FilterManager.FilterType.Team, teamsInTableBySeason },
+                { FilterManager.FilterType.DraftTeam, draftTeamsInTableBySeason }
             };
 
             // Fill the table in a separate thread so the GUI will be displayed while the data is loading
@@ -55,6 +57,7 @@ namespace HockeyStats
 
             UpdateFilterValuesInTable(FilterManager.FilterType.League);
             UpdateFilterValuesInTable(FilterManager.FilterType.Team);
+            UpdateFilterValuesInTable(FilterManager.FilterType.DraftTeam);
         }
 
         public void AddColumn(string columnName, string season)
@@ -116,14 +119,10 @@ namespace HockeyStats
             }
         }
 
-        public List<string> GetLeaguesBySeason(string season)
+        public List<string> GetValuesBySeason(FilterManager.FilterType filterType, string season)
         {
-            return leaguesInTableBySeason.ContainsKey(season) ? leaguesInTableBySeason[season].ToList() : new List<string>();
-        }
-
-        public List<string> GetTeamsBySeason(string season)
-        {
-            return teamsInTableBySeason.ContainsKey(season) ? teamsInTableBySeason[season].ToList() : new List<string>();
+            Dictionary<string, HashSet<string>> valuesInTableBySeason = filterMap[filterType];
+            return valuesInTableBySeason.ContainsKey(season) ? valuesInTableBySeason[season].ToList() : new List<string>();
         }
 
         public void AbortFillDataTableThread()
@@ -166,6 +165,7 @@ namespace HockeyStats
             };
             FillValuesInTable(leaguesInTableBySeason, playerStats.GetValuesBySeason(FilterManager.FilterType.League));
             FillValuesInTable(teamsInTableBySeason, playerStats.GetValuesBySeason(FilterManager.FilterType.Team));
+            FillValuesInTable(draftTeamsInTableBySeason, playerStats.GetValuesBySeason(FilterManager.FilterType.DraftTeam));
         }
 
         private void ApplyFilterToDataRow(DataRow dataRow, FilterManager filter, PlayerStats playerStats = null)
