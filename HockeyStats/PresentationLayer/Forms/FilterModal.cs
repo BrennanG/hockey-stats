@@ -49,6 +49,27 @@ namespace HockeyStats
                     ((ToolStripMenuItem)filterDropDown.DropDownItems[filterDropDown.DropDownItems.Count - 1]).Checked = true;
                 }
             }
+
+            Action<bool> ChangeSelectionOfAllValues = (bool boolean) =>
+            {
+                foreach (ToolStripMenuItem item in filterDropDown.DropDownItems)
+                {
+                    if (item.Text == "Select All" || item.Text == "Unselect All") { continue; }
+                    item.Checked = boolean;
+                }
+            };
+
+            filterDropDown.DropDownItems.Add("Select All", null, new EventHandler((object sender, EventArgs e) =>
+            {
+                ChangeSelectionOfAllValues(true);
+            }))
+            .BackColor = Color.LightGray;
+
+            filterDropDown.DropDownItems.Add("Unselect All", null, new EventHandler((object sender, EventArgs e) =>
+            {
+                ChangeSelectionOfAllValues(false);
+            }))
+            .BackColor = Color.LightGray;
         }
 
         private void SetupButtons(Action confirmAction)
@@ -57,6 +78,7 @@ namespace HockeyStats
             {
                 foreach (ToolStripMenuItem item in filterDropDown.DropDownItems)
                 {
+                    if (item.Text == "Select All" || item.Text == "Unselect All") { continue; }
                     if (item.Checked)
                     {
                         filter.FilterInValue(filterType, item.Text);

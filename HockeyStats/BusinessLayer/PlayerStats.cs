@@ -80,7 +80,8 @@ namespace HockeyStats
             {
                 if (filter != null &&
                     (filter.ValueIsFilteredOut(FilterManager.FilterType.League, dict[Constants.LEAGUE])
-                    || filter.ValueIsFilteredOut(FilterManager.FilterType.Team, dict[Constants.TEAM])))
+                    || filter.ValueIsFilteredOut(FilterManager.FilterType.Team, dict[Constants.TEAM])
+                    || filter.ValueIsFilteredOut(FilterManager.FilterType.DraftTeam, dict[Constants.DRAFT_TEAM])))
                 { continue; }
 
                 if (collapsedColumn == String.Empty)
