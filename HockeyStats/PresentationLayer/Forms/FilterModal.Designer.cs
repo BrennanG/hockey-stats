@@ -31,9 +31,10 @@
             this.filterMenuStrip = new System.Windows.Forms.MenuStrip();
             this.filterLeaguesDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.filterTeamsDropDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterDraftTeamsDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.applyFiltersButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.filterDraftTeamsDropDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearFiltersButton = new System.Windows.Forms.Button();
             this.filterMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,9 +45,9 @@
             this.filterLeaguesDropDown,
             this.filterTeamsDropDown,
             this.filterDraftTeamsDropDown});
-            this.filterMenuStrip.Location = new System.Drawing.Point(9, 40);
+            this.filterMenuStrip.Location = new System.Drawing.Point(28, 35);
             this.filterMenuStrip.Name = "filterMenuStrip";
-            this.filterMenuStrip.Size = new System.Drawing.Size(205, 24);
+            this.filterMenuStrip.Size = new System.Drawing.Size(297, 24);
             this.filterMenuStrip.TabIndex = 0;
             this.filterMenuStrip.Text = "Leagues";
             // 
@@ -62,9 +63,15 @@
             this.filterTeamsDropDown.Size = new System.Drawing.Size(53, 20);
             this.filterTeamsDropDown.Text = "Teams";
             // 
+            // filterDraftTeamsDropDown
+            // 
+            this.filterDraftTeamsDropDown.Name = "filterDraftTeamsDropDown";
+            this.filterDraftTeamsDropDown.Size = new System.Drawing.Size(82, 20);
+            this.filterDraftTeamsDropDown.Text = "Draft Teams";
+            // 
             // applyFiltersButton
             // 
-            this.applyFiltersButton.Location = new System.Drawing.Point(58, 126);
+            this.applyFiltersButton.Location = new System.Drawing.Point(10, 125);
             this.applyFiltersButton.Name = "applyFiltersButton";
             this.applyFiltersButton.Size = new System.Drawing.Size(75, 23);
             this.applyFiltersButton.TabIndex = 1;
@@ -73,25 +80,29 @@
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(139, 126);
+            this.cancelButton.Location = new System.Drawing.Point(172, 126);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 2;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
-            // filterDraftTeamsDropDown
+            // clearFiltersButton
             // 
-            this.filterDraftTeamsDropDown.Name = "filterDraftTeamsDropDown";
-            this.filterDraftTeamsDropDown.Size = new System.Drawing.Size(82, 20);
-            this.filterDraftTeamsDropDown.Text = "Draft Teams";
+            this.clearFiltersButton.Location = new System.Drawing.Point(91, 125);
+            this.clearFiltersButton.Name = "clearFiltersButton";
+            this.clearFiltersButton.Size = new System.Drawing.Size(75, 23);
+            this.clearFiltersButton.TabIndex = 3;
+            this.clearFiltersButton.Text = "Clear Filters";
+            this.clearFiltersButton.UseVisualStyleBackColor = true;
             // 
             // FilterModal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(224, 161);
+            this.ClientSize = new System.Drawing.Size(259, 160);
+            this.Controls.Add(this.clearFiltersButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.applyFiltersButton);
             this.Controls.Add(this.filterMenuStrip);
@@ -117,5 +128,6 @@
         private System.Windows.Forms.Button applyFiltersButton;
         private System.Windows.Forms.ToolStripMenuItem filterDraftTeamsDropDown;
         private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.Button clearFiltersButton;
     }
 }

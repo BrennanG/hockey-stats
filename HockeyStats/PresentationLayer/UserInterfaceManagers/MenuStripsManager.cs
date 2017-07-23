@@ -446,7 +446,7 @@ namespace HockeyStats
                 FilterModal filterModal = new FilterModal(form, form.filter);
                 filterModal.ShowDialog(() =>
                 {
-                    form.topTable.ApplyFilterToAllRows(form.filter);
+                    form.topTable.SetFilter(form.filter);
                 });
             });
         }

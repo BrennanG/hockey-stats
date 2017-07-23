@@ -57,6 +57,13 @@ namespace HockeyStats
         {
             return filterMap[type].filteredOutValues.Contains(value);
         }
+
+        public bool AnyValueIsFilteredOut()
+        {
+            return leagueFilter.filteredOutValues.Count > 0
+                || teamFilter.filteredOutValues.Count > 0
+                || draftTeamFilter.filteredOutValues.Count > 0;
+        }
         
         public void OnFilterChange(Action action)
         {

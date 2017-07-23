@@ -41,7 +41,7 @@ namespace HockeyStats
             FillConstantPlayerStats();
         }
 
-        public Dictionary<string, string> GetCollapsedYear(string season, string seasonType)
+        public Dictionary<string, string> GetCollapsedYear(string season, string seasonType, FilterManager filter = null)
         {
             Dictionary<string, List<Dictionary<string, string>>> playerStats = GetPlayerStatsForSeasonType(seasonType);
             if (playerStats == null || !playerStats.ContainsKey(season)) { return constantPlayerStats;  }
@@ -51,6 +51,12 @@ namespace HockeyStats
             {
                 foreach (string columnName in Constants.AllPossibleColumns)
                 {
+                    if (Constants.DynamicColumns.Contains(columnName) && filter != null &&
+                    (filter.ValueIsFilteredOut(FilterManager.FilterType.League, loopDict[Constants.LEAGUE])
+                    || filter.ValueIsFilteredOut(FilterManager.FilterType.Team, loopDict[Constants.TEAM])
+                    || filter.ValueIsFilteredOut(FilterManager.FilterType.DraftTeam, loopDict[Constants.DRAFT_TEAM])))
+                    { continue; }
+
                     string junk;
                     if (returnDict.TryGetValue(columnName, out junk) && Constants.DynamicColumns.Contains(columnName) && columnName != Constants.SEASON)
                     {

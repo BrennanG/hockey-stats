@@ -100,6 +100,30 @@ namespace HockeyStats
                 Close();
             });
 
+            Action<ToolStripMenuItem, FilterManager.FilterType> ClearFilters = (ToolStripMenuItem filterDropDown, FilterManager.FilterType filterType) =>
+            {
+                foreach (ToolStripMenuItem item in filterDropDown.DropDownItems)
+                {
+                    if (item.Text == "Select All" || item.Text == "Unselect All") { continue; }
+                    if (filter.ValueIsFilteredOut(filterType, item.Text))
+                    {
+                        filter.FilterInValue(filterType, item.Text);
+                    }
+                    item.Checked = true;
+                }
+            };
+
+            if (!filter.AnyValueIsFilteredOut()) { clearFiltersButton.Enabled = false; }
+            clearFiltersButton.Click += new EventHandler((object sender, EventArgs e) =>
+            {
+                ClearFilters(filterLeaguesDropDown, FilterManager.FilterType.League);
+                ClearFilters(filterTeamsDropDown, FilterManager.FilterType.Team);
+                ClearFilters(filterDraftTeamsDropDown, FilterManager.FilterType.DraftTeam);
+
+                confirmAction();
+                Close();
+            });
+
             cancelButton.Click += new EventHandler((object sender, EventArgs e) =>
             {
                 Close();

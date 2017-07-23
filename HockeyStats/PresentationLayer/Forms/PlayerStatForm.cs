@@ -139,6 +139,7 @@ namespace HockeyStats
             lastSavedPlayerList = currentPlayerList.Clone();
             currentListName = listName;
             menuStripsManager.SetListLabel(listName);
+            filter = new FilterManager();
 
             playerStatTablesManager.tableHasBeenClicked = false;
             if (topTable != null) { topTable.AbortFillDataTableThread(); }
