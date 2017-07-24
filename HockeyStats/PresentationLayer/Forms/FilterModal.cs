@@ -25,6 +25,10 @@ namespace HockeyStats
 
         public void ShowDialog(Action confirmAction)
         {
+            SetupCheckBox(FilterManager.FilterType.League, autoFilterOutLeaguesCheckBox);
+            SetupCheckBox(FilterManager.FilterType.Team, autoFilterOutTeamsCheckBox);
+            SetupCheckBox(FilterManager.FilterType.DraftTeam, autoFilterOutDraftTeamsCheckBox);
+
             SetupDropDown(filterLeaguesDropDown, filter.GetAllValues(FilterManager.FilterType.League), FilterManager.FilterType.League);
             SetupDropDown(filterTeamsDropDown, filter.GetAllValues(FilterManager.FilterType.Team), FilterManager.FilterType.Team);
             SetupDropDown(filterDraftTeamsDropDown, filter.GetAllValues(FilterManager.FilterType.DraftTeam), FilterManager.FilterType.DraftTeam);
@@ -32,6 +36,15 @@ namespace HockeyStats
             SetupButtons(confirmAction);
 
             base.ShowDialog();
+        }
+
+        private void SetupCheckBox(FilterManager.FilterType filterType, CheckBox checkBox)
+        {
+            checkBox.Checked = filter.IsAutoFilterOut(filterType);
+            checkBox.CheckedChanged += new EventHandler((object sender, EventArgs e) =>
+            {
+                filter.SetAutoFilterOut(filterType, checkBox.Checked);
+            });
         }
 
         private void SetupDropDown(ToolStripMenuItem filterDropDown, List<string> allPossibleValues, FilterManager.FilterType filterType)

@@ -13,6 +13,7 @@ namespace HockeyStats
         {
             public List<string> allPossibleValues = new List<string>();
             public HashSet<string> filteredOutValues = new HashSet<string>();
+            public bool autoFilterOut = false;
         };
 
         private Filter leagueFilter = new Filter();
@@ -56,6 +57,16 @@ namespace HockeyStats
         public bool ValueIsFilteredOut(FilterType type, string value)
         {
             return filterMap[type].filteredOutValues.Contains(value);
+        }
+
+        public bool IsAutoFilterOut(FilterType type)
+        {
+            return filterMap[type].autoFilterOut;
+        }
+
+        public void SetAutoFilterOut(FilterType type, bool boolean)
+        {
+            filterMap[type].autoFilterOut = boolean;
         }
 
         public bool AnyValueIsFilteredOut()

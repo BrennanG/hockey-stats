@@ -43,6 +43,22 @@ namespace HockeyStats
             PlayerStats removedPlayerStats = GetPlayerStatsFromRow(row);
             string playerId = removedPlayerStats.GetPlayerId();
             playerList.RemovePlayer(playerId);
+
+            Action<FilterManager.FilterType, string> UpdateFilterManager = (FilterManager.FilterType filterType, string collapsedValues) =>
+            {
+                foreach (string value in collapsedValues.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
+                {
+                    filter.FilterInValue(filterType, value);
+                }
+            };
+            UpdateFilterManager(FilterManager.FilterType.League,
+                removedPlayerStats.GetCollapsedColumnValue(playerList.displaySeason, Constants.LEAGUE, playerList.primarySeasonType));
+
+            UpdateFilterManager(FilterManager.FilterType.Team,
+                removedPlayerStats.GetCollapsedColumnValue(playerList.displaySeason, Constants.TEAM, playerList.primarySeasonType));
+
+            UpdateFilterManager(FilterManager.FilterType.DraftTeam,
+                removedPlayerStats.GetCollapsedColumnValue(playerList.displaySeason, Constants.DRAFT_TEAM, playerList.primarySeasonType));
         }
 
         public void AddColumn(string columnName, string season)
@@ -104,7 +120,7 @@ namespace HockeyStats
             }
         }
 
-        public List<string> GetValuesBySeason(FilterManager.FilterType filterType, string season)
+        public List<string> GetFilterableValuesBySeason(FilterManager.FilterType filterType, string season)
         {
             HashSet<string> valuesInTable = new HashSet<string>();
             foreach (DataRow row in dataTable.Rows)
@@ -140,6 +156,24 @@ namespace HockeyStats
             Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displaySeason, playerList.primarySeasonType);
             DataRow newDataRow = AddRowToDataTable(collapsedYear);
             rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
+
+            Action<FilterManager.FilterType, string> HandleAutoFilter = (FilterManager.FilterType filterType, string column) =>
+            {
+                if (filter != null && filter.IsAutoFilterOut(filterType))
+                {
+                    foreach (string value in collapsedYear[column].Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
+                    {
+                        if (!filter.GetAllValues(filterType).Contains(value))
+                        {
+                            filter.FilterOutValue(filterType, value);
+                        }
+                    }
+                }
+            };
+            HandleAutoFilter(FilterManager.FilterType.League, Constants.LEAGUE);
+            HandleAutoFilter(FilterManager.FilterType.Team, Constants.TEAM);
+            HandleAutoFilter(FilterManager.FilterType.DraftTeam, Constants.DRAFT_TEAM);
+
             ApplyFilterToDataRow(newDataRow, playerStats);
         }
 

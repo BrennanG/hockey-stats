@@ -436,7 +436,15 @@ namespace HockeyStats
             {
                 Action<FilterManager.FilterType> SetAllPossibleValues = (FilterManager.FilterType filterType) =>
                 {
-                    List<string> values = form.topTable.GetValuesBySeason(filterType, form.currentPlayerList.displaySeason);
+                    List<string> values = form.topTable.GetFilterableValuesBySeason(filterType, form.currentPlayerList.displaySeason);
+                    //if (form.filter.autoFilterOut)
+                    //{
+                    //    List<string> newValues = values.Where((string value) => !form.filter.GetAllValues(filterType).Contains(value)).ToList();
+                    //    foreach (string newValue in newValues)
+                    //    {
+                    //        form.filter.FilterOutValue(filterType, newValue);
+                    //    }
+                    //}
                     form.filter.SetAllValues(filterType, values);
                 };
                 SetAllPossibleValues(FilterManager.FilterType.League);

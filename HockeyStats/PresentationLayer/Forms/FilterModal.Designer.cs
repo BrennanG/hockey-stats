@@ -35,6 +35,9 @@
             this.applyFiltersButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.clearFiltersButton = new System.Windows.Forms.Button();
+            this.autoFilterOutLeaguesCheckBox = new System.Windows.Forms.CheckBox();
+            this.autoFilterOutTeamsCheckBox = new System.Windows.Forms.CheckBox();
+            this.autoFilterOutDraftTeamsCheckBox = new System.Windows.Forms.CheckBox();
             this.filterMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,9 +48,9 @@
             this.filterLeaguesDropDown,
             this.filterTeamsDropDown,
             this.filterDraftTeamsDropDown});
-            this.filterMenuStrip.Location = new System.Drawing.Point(28, 35);
+            this.filterMenuStrip.Location = new System.Drawing.Point(22, 9);
             this.filterMenuStrip.Name = "filterMenuStrip";
-            this.filterMenuStrip.Size = new System.Drawing.Size(297, 24);
+            this.filterMenuStrip.Size = new System.Drawing.Size(205, 24);
             this.filterMenuStrip.TabIndex = 0;
             this.filterMenuStrip.Text = "Leagues";
             // 
@@ -96,12 +99,45 @@
             this.clearFiltersButton.Text = "Clear Filters";
             this.clearFiltersButton.UseVisualStyleBackColor = true;
             // 
+            // autoFilterOutLeaguesCheckBox
+            // 
+            this.autoFilterOutLeaguesCheckBox.AutoSize = true;
+            this.autoFilterOutLeaguesCheckBox.Location = new System.Drawing.Point(22, 53);
+            this.autoFilterOutLeaguesCheckBox.Name = "autoFilterOutLeaguesCheckBox";
+            this.autoFilterOutLeaguesCheckBox.Size = new System.Drawing.Size(195, 17);
+            this.autoFilterOutLeaguesCheckBox.TabIndex = 4;
+            this.autoFilterOutLeaguesCheckBox.Text = "Automatically filter out new Leagues";
+            this.autoFilterOutLeaguesCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // autoFilterOutTeamsCheckBox
+            // 
+            this.autoFilterOutTeamsCheckBox.AutoSize = true;
+            this.autoFilterOutTeamsCheckBox.Location = new System.Drawing.Point(22, 76);
+            this.autoFilterOutTeamsCheckBox.Name = "autoFilterOutTeamsCheckBox";
+            this.autoFilterOutTeamsCheckBox.Size = new System.Drawing.Size(186, 17);
+            this.autoFilterOutTeamsCheckBox.TabIndex = 5;
+            this.autoFilterOutTeamsCheckBox.Text = "Automatically filter out new Teams";
+            this.autoFilterOutTeamsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // autoFilterOutDraftTeamsCheckBox
+            // 
+            this.autoFilterOutDraftTeamsCheckBox.AutoSize = true;
+            this.autoFilterOutDraftTeamsCheckBox.Location = new System.Drawing.Point(22, 99);
+            this.autoFilterOutDraftTeamsCheckBox.Name = "autoFilterOutDraftTeamsCheckBox";
+            this.autoFilterOutDraftTeamsCheckBox.Size = new System.Drawing.Size(212, 17);
+            this.autoFilterOutDraftTeamsCheckBox.TabIndex = 6;
+            this.autoFilterOutDraftTeamsCheckBox.Text = "Automatically filter out new Draft Teams";
+            this.autoFilterOutDraftTeamsCheckBox.UseVisualStyleBackColor = true;
+            // 
             // FilterModal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.ClientSize = new System.Drawing.Size(259, 160);
+            this.Controls.Add(this.autoFilterOutDraftTeamsCheckBox);
+            this.Controls.Add(this.autoFilterOutTeamsCheckBox);
+            this.Controls.Add(this.autoFilterOutLeaguesCheckBox);
             this.Controls.Add(this.clearFiltersButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.applyFiltersButton);
@@ -129,5 +165,8 @@
         private System.Windows.Forms.ToolStripMenuItem filterDraftTeamsDropDown;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button clearFiltersButton;
+        private System.Windows.Forms.CheckBox autoFilterOutLeaguesCheckBox;
+        private System.Windows.Forms.CheckBox autoFilterOutTeamsCheckBox;
+        private System.Windows.Forms.CheckBox autoFilterOutDraftTeamsCheckBox;
     }
 }
