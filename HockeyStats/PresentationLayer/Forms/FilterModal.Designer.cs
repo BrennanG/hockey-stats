@@ -102,7 +102,7 @@
             // autoFilterOutLeaguesCheckBox
             // 
             this.autoFilterOutLeaguesCheckBox.AutoSize = true;
-            this.autoFilterOutLeaguesCheckBox.Location = new System.Drawing.Point(22, 53);
+            this.autoFilterOutLeaguesCheckBox.Location = new System.Drawing.Point(22, 45);
             this.autoFilterOutLeaguesCheckBox.Name = "autoFilterOutLeaguesCheckBox";
             this.autoFilterOutLeaguesCheckBox.Size = new System.Drawing.Size(195, 17);
             this.autoFilterOutLeaguesCheckBox.TabIndex = 4;
@@ -112,7 +112,7 @@
             // autoFilterOutTeamsCheckBox
             // 
             this.autoFilterOutTeamsCheckBox.AutoSize = true;
-            this.autoFilterOutTeamsCheckBox.Location = new System.Drawing.Point(22, 76);
+            this.autoFilterOutTeamsCheckBox.Location = new System.Drawing.Point(22, 68);
             this.autoFilterOutTeamsCheckBox.Name = "autoFilterOutTeamsCheckBox";
             this.autoFilterOutTeamsCheckBox.Size = new System.Drawing.Size(186, 17);
             this.autoFilterOutTeamsCheckBox.TabIndex = 5;
@@ -122,7 +122,7 @@
             // autoFilterOutDraftTeamsCheckBox
             // 
             this.autoFilterOutDraftTeamsCheckBox.AutoSize = true;
-            this.autoFilterOutDraftTeamsCheckBox.Location = new System.Drawing.Point(22, 99);
+            this.autoFilterOutDraftTeamsCheckBox.Location = new System.Drawing.Point(22, 91);
             this.autoFilterOutDraftTeamsCheckBox.Name = "autoFilterOutDraftTeamsCheckBox";
             this.autoFilterOutDraftTeamsCheckBox.Size = new System.Drawing.Size(212, 17);
             this.autoFilterOutDraftTeamsCheckBox.TabIndex = 6;
