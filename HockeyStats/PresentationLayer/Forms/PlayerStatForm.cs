@@ -102,7 +102,7 @@ namespace HockeyStats
                 listTypeLabel = listTypeLabel,
                 listNameLabel = listNameLabel,
                 renameListTextbox = renameListTextbox,
-                changeSeasonButton = changeSeasonButton
+                changeTeamSeasonButton = changeSeasonButton
             };
         }
 

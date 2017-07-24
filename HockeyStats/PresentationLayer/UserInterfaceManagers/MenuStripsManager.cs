@@ -29,7 +29,7 @@ namespace HockeyStats
         public Label listTypeLabel { get; set; }
         public Label listNameLabel { get; set; }
         public TextBox renameListTextbox { get; set; }
-        public Button changeSeasonButton { get; set; }
+        public Button changeTeamSeasonButton { get; set; }
 
         public void Initialize()
         {
@@ -40,7 +40,7 @@ namespace HockeyStats
             SetupSetAsDefaultListButton();
             SetupLoadDraftButton();
             RefreshListType();
-            SetupChangeSeasonButton();
+            SetupChangeTeamSeasonButton();
             SetupRenameListLabel();
             SetupSelectSeasonTypeButtons();
             SetupSelectSeasonButton();
@@ -67,7 +67,7 @@ namespace HockeyStats
         public void RefreshListType()
         {
             RefreshListTypeLabel();
-            changeSeasonButton.Visible = false;
+            changeTeamSeasonButton.Visible = false;
             selectSeasonDropDown.Enabled = true;
 
             switch (form.currentPlayerList.listType)
@@ -77,7 +77,7 @@ namespace HockeyStats
                 case PlayerList.ListType.DraftList:
                     break;
                 case PlayerList.ListType.TeamList:
-                    changeSeasonButton.Visible = true;
+                    changeTeamSeasonButton.Visible = true;
                     selectSeasonDropDown.Enabled = false;
                     break;
             }
@@ -227,18 +227,18 @@ namespace HockeyStats
             });
         }
 
-        private void SetupChangeSeasonButton()
+        private void SetupChangeTeamSeasonButton()
         {
-            changeSeasonButton.Click += new EventHandler((object sender, EventArgs e) =>
+            changeTeamSeasonButton.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                ChangeSeasonModal changeSeasonModal = new ChangeSeasonModal(form);
+                ChangeSeasonModal changeTeamSeasonModal = new ChangeSeasonModal(form);
                 List<string> seasons = TeamListManager.GetTeamSeasons(form.currentPlayerList.teamId);
-                Action ChangeSeason = () =>
+                Action ChangeTeamSeason = () =>
                 {
                     form.TriggerLeaveRequest(() =>
                     {
                         string teamId = form.currentPlayerList.teamId;
-                        string season = changeSeasonModal.GetDomainUpDownText();
+                        string season = changeTeamSeasonModal.GetDomainUpDownText();
                         List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
                         if (playerIds.Count == 0)
                         {
@@ -258,11 +258,11 @@ namespace HockeyStats
                         form.currentPlayerList.SetListStatus(PlayerList.ListStatus.Generated);
                         form.LoadPlayerList(form.currentPlayerList, form.currentListName);
 
-                        changeSeasonModal.Close();
+                        changeTeamSeasonModal.Close();
                     });
                     
                 };
-                changeSeasonModal.ShowDialog(ChangeSeason, seasons);
+                changeTeamSeasonModal.ShowDialog(ChangeTeamSeason, seasons);
             });
         }
 
