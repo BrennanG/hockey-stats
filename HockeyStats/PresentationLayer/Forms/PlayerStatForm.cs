@@ -36,6 +36,8 @@ namespace HockeyStats
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
 
+            topTableDGV.DoubleBuffered(true);
+
             ReadConfigurationFile();
 
             CreateMenuStripsManager();

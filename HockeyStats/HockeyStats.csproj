@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLayer\Constants.cs" />
+    <Compile Include="Utilities\Constants.cs" />
     <Compile Include="BusinessLayer\DraftListManager.cs" />
     <Compile Include="BusinessLayer\PlayerStats.cs" />
     <Compile Include="BusinessLayer\StatTables\SearchDataStatTable.cs" />
@@ -89,12 +89,13 @@
     </Compile>
     <Compile Include="BusinessLayer\StatTables\PlayerStatTable.cs" />
     <Compile Include="PresentationLayer\UserInterfaceManagers\PlayerStatTablesManager.cs" />
-    <Compile Include="PresentationLayer\SerializableDictionary.cs" />
+    <Compile Include="Utilities\SerializableDictionary.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PresentationLayer\Serializer.cs" />
     <Compile Include="BusinessLayer\StatTables\SinglePlayerStatTable.cs" />
     <Compile Include="DataLayer\StatLineParser.cs" />
+    <Compile Include="Utilities\ExtensionMethods.cs" />
     <EmbeddedResource Include="PresentationLayer\Forms\ChangeSeasonModal.resx">
       <DependentUpon>ChangeSeasonModal.cs</DependentUpon>
     </EmbeddedResource>
