@@ -18,7 +18,7 @@ namespace HockeyStats
 
         private Thread fillDataTableThread;
         public class AbortThread { public bool abort; }; // Needs to be a class, because you can only lock on instances of classes
-        public AbortThread abortThread = new AbortThread() { abort = false };
+        private AbortThread abortThread = new AbortThread() { abort = false };
         
         public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList)
             : base(dataGridView, playerList.primaryColumnNames)
@@ -120,6 +120,11 @@ namespace HockeyStats
             }
         }
 
+        public int GetMostRecentRowIndex()
+        {
+            return dataTable.Rows.Count - 1;
+        }
+
         public List<string> GetFilterableValuesBySeason(FilterManager.FilterType filterType, string season)
         {
             HashSet<string> valuesInTable = new HashSet<string>();
@@ -134,6 +139,17 @@ namespace HockeyStats
                 }
             }
             return valuesInTable.ToList();
+        }
+
+        public void AutoFilterOutAllRowsAfterRow(int rowIndex)
+        {
+            for (int i = rowIndex + 1; i < dataTable.Rows.Count; i++)
+            {
+                DataRow row = dataTable.Rows[i];
+                PlayerStats playerStats = GetPlayerStatsFromRow(row);
+                HandleAutoFilterForPlayer(playerStats);
+                ApplyFilterToDataRow(row);
+            }
         }
 
         public void AbortFillDataTableThread()
@@ -157,7 +173,7 @@ namespace HockeyStats
             DataRow newDataRow = AddRowToDataTable(collapsedYear);
             rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
             
-            HandleAutoFilterForRow(playerStats);
+            HandleAutoFilterForPlayer(playerStats);
             ApplyFilterToDataRow(newDataRow, playerStats);
         }
 
@@ -176,7 +192,7 @@ namespace HockeyStats
             }
         }
 
-        private void HandleAutoFilterForRow(PlayerStats playerStats)
+        private void HandleAutoFilterForPlayer(PlayerStats playerStats)
         {
             Action<FilterManager.FilterType, string> HandleAutoFilter = (FilterManager.FilterType filterType, string column) =>
             {
@@ -204,7 +220,7 @@ namespace HockeyStats
             foreach (DataRow row in copyOfRows)
             {
                 PlayerStats playerStats = rowHashToPlayerStatsMap[row.GetHashCode()];
-                HandleAutoFilterForRow(playerStats);
+                HandleAutoFilterForPlayer(playerStats);
                 Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displaySeason, playerList.primarySeasonType, filter);
                 foreach (DataColumn column in dataTable.Columns)
                 {

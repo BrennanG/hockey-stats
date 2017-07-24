@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -443,11 +444,15 @@ namespace HockeyStats
                 SetAllPossibleValues(FilterManager.FilterType.Team);
                 SetAllPossibleValues(FilterManager.FilterType.DraftTeam);
 
+                int mostRecentRowIndex = form.topTable.GetMostRecentRowIndex();
+
                 FilterModal filterModal = new FilterModal(form, form.filter);
                 filterModal.ShowDialog(() =>
                 {
                     form.topTable.SetFilter(form.filter);
                 });
+
+                form.topTable.AutoFilterOutAllRowsAfterRow(mostRecentRowIndex);
             });
         }
 
