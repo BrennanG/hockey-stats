@@ -109,7 +109,7 @@
         <string>Team</string>
       </key>
       <value>
-        <int>138</int>
+        <int>148</int>
       </value>
     </item>
     <item>
@@ -117,7 +117,7 @@
         <string>League</string>
       </key>
       <value>
-        <int>100</int>
+        <int>95</int>
       </value>
     </item>
     <item>
@@ -243,4 +243,31 @@
       </value>
     </item>
   </secondaryColumnWidths>
+  <leagueFilterValues>
+    <allPossibleValues>
+      <string>AHL</string>
+      <string>NCAA</string>
+      <string>WJC-20</string>
+      <string>OHL</string>
+    </allPossibleValues>
+    <filteredOutValues />
+    <autoFilterOut>false</autoFilterOut>
+  </leagueFilterValues>
+  <teamFilterValues>
+    <allPossibleValues>
+      <string>Chicago Wolves</string>
+      <string>Univ. of Connecticut</string>
+      <string>USA U20</string>
+      <string>Sarnia Sting</string>
+    </allPossibleValues>
+    <filteredOutValues />
+    <autoFilterOut>false</autoFilterOut>
+  </teamFilterValues>
+  <draftTeamFilterValues>
+    <allPossibleValues>
+      <string>St. Louis Blues</string>
+    </allPossibleValues>
+    <filteredOutValues />
+    <autoFilterOut>false</autoFilterOut>
+  </draftTeamFilterValues>
 </PlayerList>

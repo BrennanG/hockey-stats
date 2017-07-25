@@ -29,9 +29,9 @@ namespace HockeyStats
             SetupCheckBox(FilterManager.FilterType.Team, autoFilterOutTeamsCheckBox);
             SetupCheckBox(FilterManager.FilterType.DraftTeam, autoFilterOutDraftTeamsCheckBox);
 
-            SetupDropDown(filterLeaguesDropDown, filter.GetAllValues(FilterManager.FilterType.League), FilterManager.FilterType.League);
-            SetupDropDown(filterTeamsDropDown, filter.GetAllValues(FilterManager.FilterType.Team), FilterManager.FilterType.Team);
-            SetupDropDown(filterDraftTeamsDropDown, filter.GetAllValues(FilterManager.FilterType.DraftTeam), FilterManager.FilterType.DraftTeam);
+            SetupDropDown(filterLeaguesDropDown, filter.GetAllPossibleValues(FilterManager.FilterType.League), FilterManager.FilterType.League);
+            SetupDropDown(filterTeamsDropDown, filter.GetAllPossibleValues(FilterManager.FilterType.Team), FilterManager.FilterType.Team);
+            SetupDropDown(filterDraftTeamsDropDown, filter.GetAllPossibleValues(FilterManager.FilterType.DraftTeam), FilterManager.FilterType.DraftTeam);
 
             SetupButtons(confirmAction);
 

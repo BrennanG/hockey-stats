@@ -4,6 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace HockeyStats
 {
@@ -12,6 +15,30 @@ namespace HockeyStats
     {
         public enum ListType { GeneralList, DraftList, TeamList };
         public enum ListStatus { Saved, Unsaved, Generated };
+
+        [Serializable]
+        public class FilterValues
+        {
+            public List<string> allPossibleValues = new List<string>();
+            public List<string> filteredOutValues = new List<string>();
+            public bool autoFilterOut = false;
+
+            public bool Equals(FilterValues other)
+            {
+                return allPossibleValues.SequenceEqual(other.allPossibleValues)
+                    && filteredOutValues.SequenceEqual(other.filteredOutValues)
+                    && autoFilterOut == other.autoFilterOut;
+            }
+
+            public FilterValues Clone()
+            {
+                FilterValues clone = new FilterValues();
+                clone.allPossibleValues = new List<string>(allPossibleValues);
+                clone.filteredOutValues = new List<string>(filteredOutValues);
+                clone.autoFilterOut = autoFilterOut;
+                return clone;
+            }
+        };
 
         // When adding a new field: make sure to update FillWithDefaults(), Equals(), and Clone()
         public ListType listType;
@@ -25,10 +52,12 @@ namespace HockeyStats
         public List<string> secondaryColumnNames;
         public SerializableDictionary<string, int> primaryColumnWidths;
         public SerializableDictionary<string, int> secondaryColumnWidths;
+        public FilterValues leagueFilterValues = new FilterValues();
+        public FilterValues teamFilterValues = new FilterValues();
+        public FilterValues draftTeamFilterValues = new FilterValues();
 
         public PlayerList()
         {
-
         }
 
         public void FillWithDefaults()
@@ -44,6 +73,9 @@ namespace HockeyStats
             secondaryColumnNames = Constants.DefaultSecondaryColumns;
             primaryColumnWidths = Constants.DefaultPrimaryColumnWidths;
             secondaryColumnWidths = Constants.DefaultSecondaryColumnWidths;
+            leagueFilterValues = new FilterValues();
+            teamFilterValues = new FilterValues();
+            draftTeamFilterValues = new FilterValues();
         }
 
         public bool Equals(PlayerList other)
@@ -57,7 +89,10 @@ namespace HockeyStats
                 && primaryColumnNames.SequenceEqual(other.primaryColumnNames)
                 && secondaryColumnNames.SequenceEqual(other.secondaryColumnNames)
                 && primaryColumnWidths.Equals(other.primaryColumnWidths)
-                && secondaryColumnWidths.Equals(other.secondaryColumnWidths);
+                && secondaryColumnWidths.Equals(other.secondaryColumnWidths)
+                && ((leagueFilterValues == null && other.leagueFilterValues == null) || leagueFilterValues.Equals(other.leagueFilterValues))
+                && ((teamFilterValues == null && other.teamFilterValues == null) || teamFilterValues.Equals(other.teamFilterValues))
+                && ((draftTeamFilterValues == null && other.draftTeamFilterValues == null) || draftTeamFilterValues.Equals(other.draftTeamFilterValues));
         }
 
         public PlayerList Clone()
@@ -84,6 +119,10 @@ namespace HockeyStats
 
             playerList.primaryColumnWidths = primaryColumnWidths.Clone();
             playerList.secondaryColumnWidths = secondaryColumnWidths.Clone();
+
+            playerList.leagueFilterValues = leagueFilterValues?.Clone();
+            playerList.teamFilterValues = teamFilterValues?.Clone();
+            playerList.draftTeamFilterValues = draftTeamFilterValues?.Clone();
 
             return playerList;
         }
@@ -172,6 +211,105 @@ namespace HockeyStats
         public int GetSecondaryColumnWidth(string columnName)
         {
             return GetColumnWidth(columnName, secondaryColumnWidths);
+        }
+
+        public List<string> GetAllPossibleValues(FilterManager.FilterType filterType)
+        {
+            switch (filterType)
+            {
+                case FilterManager.FilterType.League:
+                    return new List<string>(leagueFilterValues.allPossibleValues);
+                case FilterManager.FilterType.Team:
+                    return new List<string>(teamFilterValues.allPossibleValues);
+                case FilterManager.FilterType.DraftTeam:
+                    return new List<string>(draftTeamFilterValues.allPossibleValues);
+                default:
+                    throw new Exception("Case not listed for FilterType");
+            }
+        }
+
+        public void SetAllPossibleValues(FilterManager.FilterType filterType, List<string> allPossibleValues)
+        {
+            switch (filterType)
+            {
+                case FilterManager.FilterType.League:
+                    leagueFilterValues.allPossibleValues = new List<string>(allPossibleValues);
+                    break;
+                case FilterManager.FilterType.Team:
+                    teamFilterValues.allPossibleValues = new List<string>(allPossibleValues);
+                    break;
+                case FilterManager.FilterType.DraftTeam:
+                    draftTeamFilterValues.allPossibleValues = new List<string>(allPossibleValues);
+                    break;
+                default:
+                    throw new Exception("Case not listed for FilterType");
+            }
+        }
+
+        public HashSet<string> GetFilteredOutValues(FilterManager.FilterType filterType)
+        {
+            switch (filterType)
+            {
+                case FilterManager.FilterType.League:
+                    return new HashSet<string>(leagueFilterValues.filteredOutValues);
+                case FilterManager.FilterType.Team:
+                    return new HashSet<string>(teamFilterValues.filteredOutValues);
+                case FilterManager.FilterType.DraftTeam:
+                    return new HashSet<string>(draftTeamFilterValues.filteredOutValues);
+                default:
+                    throw new Exception("Case not listed for FilterType");
+            }
+        }
+
+        public void SetFilteredOutValues(FilterManager.FilterType filterType, HashSet<string> filteredOutValues)
+        {
+            switch (filterType)
+            {
+                case FilterManager.FilterType.League:
+                    leagueFilterValues.filteredOutValues = filteredOutValues.ToList();
+                    break;
+                case FilterManager.FilterType.Team:
+                    teamFilterValues.filteredOutValues = filteredOutValues.ToList();
+                    break;
+                case FilterManager.FilterType.DraftTeam:
+                    draftTeamFilterValues.filteredOutValues = filteredOutValues.ToList();
+                    break;
+                default:
+                    throw new Exception("Case not listed for FilterType");
+            }
+        }
+
+        public bool GetAutoFilterOut(FilterManager.FilterType filterType)
+        {
+            switch (filterType)
+            {
+                case FilterManager.FilterType.League:
+                    return leagueFilterValues.autoFilterOut;
+                case FilterManager.FilterType.Team:
+                    return teamFilterValues.autoFilterOut;
+                case FilterManager.FilterType.DraftTeam:
+                    return draftTeamFilterValues.autoFilterOut;
+                default:
+                    throw new Exception("Case not listed for FilterType");
+            }
+        }
+
+        public void SetAutoFilterOut(FilterManager.FilterType filterType, bool autoFilterOut)
+        {
+            switch (filterType)
+            {
+                case FilterManager.FilterType.League:
+                    leagueFilterValues.autoFilterOut = autoFilterOut;
+                    break;
+                case FilterManager.FilterType.Team:
+                    teamFilterValues.autoFilterOut = autoFilterOut;
+                    break;
+                case FilterManager.FilterType.DraftTeam:
+                    draftTeamFilterValues.autoFilterOut = autoFilterOut;
+                    break;
+                default:
+                    throw new Exception("Case not listed for FilterType");
+            }
         }
 
         private void SetColumnNames(DataGridViewColumnCollection columns, ref List<string> originalColumnNames)

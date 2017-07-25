@@ -32,7 +32,29 @@ namespace HockeyStats
             };
         }
 
-        public List<string> GetAllValues(FilterType type)
+        public FilterManager(PlayerList playerList)
+        {
+            leagueFilter.allPossibleValues = playerList.GetAllPossibleValues(FilterType.League);
+            teamFilter.allPossibleValues = playerList.GetAllPossibleValues(FilterType.Team);
+            draftTeamFilter.allPossibleValues = playerList.GetAllPossibleValues(FilterType.DraftTeam);
+
+            leagueFilter.filteredOutValues = playerList.GetFilteredOutValues(FilterType.League);
+            teamFilter.filteredOutValues = playerList.GetFilteredOutValues(FilterType.Team);
+            draftTeamFilter.filteredOutValues = playerList.GetFilteredOutValues(FilterType.DraftTeam);
+
+            leagueFilter.autoFilterOut = playerList.GetAutoFilterOut(FilterType.League);
+            teamFilter.autoFilterOut = playerList.GetAutoFilterOut(FilterType.Team);
+            draftTeamFilter.autoFilterOut = playerList.GetAutoFilterOut(FilterType.DraftTeam);
+
+            filterMap = new Dictionary<FilterType, Filter>
+            {
+                {FilterType.League, leagueFilter},
+                {FilterType.Team, teamFilter},
+                {FilterType.DraftTeam, draftTeamFilter},
+            };
+        }
+
+        public List<string> GetAllPossibleValues(FilterType type)
         {
             return filterMap[type].allPossibleValues;
         }
@@ -52,6 +74,11 @@ namespace HockeyStats
         {
             filterMap[type].filteredOutValues.Remove(value); // HashSets don't thow exceptions if not found
             PerformFilterChangeActions();
+        }
+
+        public HashSet<string> GetFilteredOutValues(FilterType type)
+        {
+            return filterMap[type].filteredOutValues;
         }
 
         public bool ValueIsFilteredOut(FilterType type, string value)

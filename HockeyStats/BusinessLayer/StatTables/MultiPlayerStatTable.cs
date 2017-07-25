@@ -20,10 +20,11 @@ namespace HockeyStats
         public class AbortThread { public bool abort; }; // Needs to be a class, because you can only lock on instances of classes
         private AbortThread abortThread = new AbortThread() { abort = false };
         
-        public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList)
+        public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList, FilterManager filter)
             : base(dataGridView, playerList.primaryColumnNames)
         {
             this.playerList = playerList;
+            this.filter = filter;
 
             // Fill the table in a separate thread so the GUI will be displayed while the data is loading
             fillDataTableThread = new Thread(() => FillDataTable(playerList.playerIds));
@@ -168,13 +169,13 @@ namespace HockeyStats
         private void AddPlayerById(string playerId)
         {
             PlayerStats playerStats = new PlayerStats(playerId);
-
-            Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displaySeason, playerList.primarySeasonType);
+            HandleAutoFilterForPlayer(playerStats);
+            Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displaySeason, playerList.primarySeasonType, filter);
             DataRow newDataRow = AddRowToDataTable(collapsedYear);
             rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
             
-            HandleAutoFilterForPlayer(playerStats);
-            ApplyFilterToDataRow(newDataRow, playerStats);
+            //HandleAutoFilterForPlayer(playerStats);
+            //ApplyFilterToDataRow(newDataRow, playerStats);
         }
 
         private void ApplyFilterToDataRow(DataRow dataRow, PlayerStats playerStats = null)
@@ -201,7 +202,7 @@ namespace HockeyStats
                 {
                     foreach (string value in valuesBySeason[playerList.displaySeason].ToList())
                     {
-                        if (!filter.GetAllValues(filterType).Contains(value))
+                        if (!filter.GetAllPossibleValues(filterType).Contains(value))
                         {
                             filter.FilterOutValue(filterType, value);
                         }

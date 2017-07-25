@@ -141,12 +141,12 @@ namespace HockeyStats
             lastSavedPlayerList = currentPlayerList.Clone();
             currentListName = listName;
             menuStripsManager.SetListLabel(listName);
-            filter = new FilterManager();
+            filter = new FilterManager(currentPlayerList);
 
             playerStatTablesManager.tableHasBeenClicked = false;
             if (topTable != null) { topTable.AbortFillDataTableThread(); }
 
-            topTable = new MultiPlayerStatTable(topTableDGV, currentPlayerList);
+            topTable = new MultiPlayerStatTable(topTableDGV, currentPlayerList, filter);
             if (leftTable == null) { leftTable = new SearchDataStatTable(leftTableDGV, Constants.DefaultSearchDataTableColumns); }
             middleTable = new PlayerConstantsStatTable(middleTableDGV);
             rightTable = new SinglePlayerStatTable(rightTableDGV, currentPlayerList);

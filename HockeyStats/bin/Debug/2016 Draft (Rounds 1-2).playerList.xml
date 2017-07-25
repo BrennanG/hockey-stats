@@ -274,4 +274,75 @@
       </value>
     </item>
   </secondaryColumnWidths>
+  <leagueFilterValues>
+    <allPossibleValues>
+      <string>NHL</string>
+      <string>WCup</string>
+      <string>International</string>
+      <string>QMJHL</string>
+      <string>WJC-20</string>
+      <string>AHL</string>
+      <string>WC</string>
+      <string>EHT</string>
+      <string>OHL</string>
+      <string>International-Jr</string>
+      <string>NCAA</string>
+    </allPossibleValues>
+    <filteredOutValues>
+      <string>WC</string>
+      <string>NCAA</string>
+      <string>AHL</string>
+      <string>International-Jr</string>
+      <string>OHL</string>
+      <string>WCup</string>
+      <string>International</string>
+      <string>QMJHL</string>
+      <string>WJC-20</string>
+      <string>EHT</string>
+      <string>WHL</string>
+    </filteredOutValues>
+    <autoFilterOut>true</autoFilterOut>
+  </leagueFilterValues>
+  <teamFilterValues>
+    <allPossibleValues>
+      <string>Toronto Maple Leafs</string>
+      <string>Team North America</string>
+      <string>Winnipeg Jets</string>
+      <string>Finland</string>
+      <string>Finland (all)</string>
+      <string>Cape Breton Screaming Eagles</string>
+      <string>Blainville-Boisbriand Armada</string>
+      <string>Canada U20</string>
+      <string>Edmonton Oilers</string>
+      <string>Bakersfield Condors</string>
+      <string>London Knights</string>
+      <string>Finland U20 (all)</string>
+      <string>Finland U20</string>
+      <string>Calgary Flames</string>
+      <string>USA U20</string>
+      <string>USA</string>
+      <string>Boston Univ.</string>
+      <string>Arizona Coyotes</string>
+      <string>Rochester Americans</string>
+      <string>Sweden U20</string>
+      <string>Sweden U20 (all)</string>
+      <string>Buffalo Sabres</string>
+    </allPossibleValues>
+    <filteredOutValues />
+    <autoFilterOut>false</autoFilterOut>
+  </teamFilterValues>
+  <draftTeamFilterValues>
+    <allPossibleValues>
+      <string>Toronto Maple Leafs</string>
+      <string>Winnipeg Jets</string>
+      <string>Columbus Blue Jackets</string>
+      <string>Edmonton Oilers</string>
+      <string>Vancouver Canucks</string>
+      <string>Calgary Flames</string>
+      <string>Arizona Coyotes</string>
+      <string>Buffalo Sabres</string>
+    </allPossibleValues>
+    <filteredOutValues />
+    <autoFilterOut>false</autoFilterOut>
+  </draftTeamFilterValues>
 </PlayerList>

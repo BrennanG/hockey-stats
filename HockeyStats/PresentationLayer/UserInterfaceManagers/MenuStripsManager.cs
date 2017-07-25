@@ -450,6 +450,20 @@ namespace HockeyStats
                 filterModal.ShowDialog(() =>
                 {
                     form.topTable.SetFilter(form.filter);
+
+                    form.currentPlayerList.SetAllPossibleValues(FilterManager.FilterType.League, form.filter.GetAllPossibleValues(FilterManager.FilterType.League));
+                    form.currentPlayerList.SetAllPossibleValues(FilterManager.FilterType.Team, form.filter.GetAllPossibleValues(FilterManager.FilterType.Team));
+                    form.currentPlayerList.SetAllPossibleValues(FilterManager.FilterType.DraftTeam, form.filter.GetAllPossibleValues(FilterManager.FilterType.DraftTeam));
+
+                    form.currentPlayerList.SetFilteredOutValues(FilterManager.FilterType.League, form.filter.GetFilteredOutValues(FilterManager.FilterType.League));
+                    form.currentPlayerList.SetFilteredOutValues(FilterManager.FilterType.Team, form.filter.GetFilteredOutValues(FilterManager.FilterType.Team));
+                    form.currentPlayerList.SetFilteredOutValues(FilterManager.FilterType.DraftTeam, form.filter.GetFilteredOutValues(FilterManager.FilterType.DraftTeam));
+
+                    form.currentPlayerList.SetAutoFilterOut(FilterManager.FilterType.League, form.filter.IsAutoFilterOut(FilterManager.FilterType.League));
+                    form.currentPlayerList.SetAutoFilterOut(FilterManager.FilterType.Team, form.filter.IsAutoFilterOut(FilterManager.FilterType.Team));
+                    form.currentPlayerList.SetAutoFilterOut(FilterManager.FilterType.DraftTeam, form.filter.IsAutoFilterOut(FilterManager.FilterType.DraftTeam));
+
+                    form.SetListStatus(PlayerList.ListStatus.Unsaved);
                 });
 
                 form.topTable.AutoFilterOutAllRowsAfterRow(mostRecentRowIndex);
