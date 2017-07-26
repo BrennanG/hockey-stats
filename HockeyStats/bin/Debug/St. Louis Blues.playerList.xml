@@ -13,22 +13,22 @@
     <string>460</string>
     <string>6014</string>
     <string>41621</string>
+    <string>89411</string>
     <string>3659</string>
     <string>24819</string>
     <string>33907</string>
     <string>8855</string>
     <string>312823</string>
-    <string>89411</string>
     <string>12524</string>
     <string>2621</string>
     <string>242077</string>
     <string>24787</string>
-    <string>46980</string>
     <string>108659</string>
     <string>59478</string>
     <string>11317</string>
     <string>10212</string>
     <string>14739</string>
+    <string>46980</string>
     <string>9097</string>
     <string>65564</string>
     <string>9227</string>
@@ -266,4 +266,19 @@
       </value>
     </item>
   </secondaryColumnWidths>
+  <leagueFilterValues>
+    <allPossibleValues />
+    <filteredOutValues />
+    <autoFilterOut>false</autoFilterOut>
+  </leagueFilterValues>
+  <teamFilterValues>
+    <allPossibleValues />
+    <filteredOutValues />
+    <autoFilterOut>false</autoFilterOut>
+  </teamFilterValues>
+  <draftTeamFilterValues>
+    <allPossibleValues />
+    <filteredOutValues />
+    <autoFilterOut>false</autoFilterOut>
+  </draftTeamFilterValues>
 </PlayerList>

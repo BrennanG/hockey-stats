@@ -232,50 +232,25 @@ namespace HockeyStats
 
         private void SetupRightClickListener()
         {
-            Action<DataGridView, Func<DataRow, PlayerStats>> HandleClick = new Action<DataGridView, Func<DataRow, PlayerStats>>((DataGridView dgv, Func<DataRow, PlayerStats> PlayerStatsGetters) => {
+            Action<DataGridView, Func<DataRow, PlayerStats>> HandleClick = new Action<DataGridView, Func<DataRow, PlayerStats>>((DataGridView dgv, Func<DataRow, PlayerStats> PlayerStatsGetter) => {
                 dgv.MouseClick += new MouseEventHandler((object sender, MouseEventArgs e) =>
                 {
-                    if (e.Button == MouseButtons.Right)
+                    if (e.Button != MouseButtons.Right) { return; }
+
+                    int row = dgv.HitTest(e.X, e.Y).RowIndex;
+                    int column = dgv.HitTest(e.X, e.Y).ColumnIndex;
+                    if (row < 0) { return; }
+
+                    // If a cell in the "Team" column is right clicked
+                    if (dgv.Columns.Contains(Constants.TEAM) && column == dgv.Columns[Constants.TEAM].Index)
                     {
-                        ContextMenu menu = new ContextMenu();
-
-                        int row = dgv.HitTest(e.X, e.Y).RowIndex;
-                        int column = dgv.HitTest(e.X, e.Y).ColumnIndex;
-
-                        // If a cell in the "Team" column is right clicked
-                        if (dgv.Columns.Contains(Constants.TEAM) && column == dgv.Columns[Constants.TEAM].Index && row >= 0)
-                        {
-                            string[] teamNames = dgv[column, row].Value.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                            if (teamNames.Count() == 1 && String.IsNullOrWhiteSpace(teamNames[0])) { return; }
-                            foreach (string teamName in teamNames)
-                            {
-                                string season = (dgv.Columns.Contains(Constants.SEASON)) ? dgv.Rows[row].Cells[Constants.SEASON].Value.ToString() : form.currentPlayerList.displaySeason;
-                                string listName = teamName + " (" + season + ")";
-                                EventHandler eventHandler = new EventHandler((object sender2, EventArgs e2) =>
-                                {
-                                    Action loadTeam = () =>
-                                    {
-                                        DataRow dataRow = PlayerStatTable.GetDataRowFromDGVRow(dgv.Rows[row]);
-                                        PlayerStats playerStats = PlayerStatsGetters(dataRow);
-                                        string teamId = playerStats.GetTeamId(season, teamName);
-
-                                        List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
-                                        PlayerList playerList = new PlayerList();
-                                        playerList.FillWithDefaults();
-                                        playerList.SetListType(PlayerList.ListType.TeamList);
-                                        playerList.SetTeamId(teamId);
-                                        playerList.SetPlayerIds(playerIds);
-                                        playerList.SetDisplaySeason(season);
-                                        form.LoadPlayerList(playerList, listName);
-                                    };
-                                    form.TriggerLeaveRequest(loadTeam);
-                                });
-                                MenuItem item = new MenuItem(listName, eventHandler);
-                                menu.MenuItems.Add(item);
-                            }
-
-                            menu.Show(dgv, new Point(e.X, e.Y));
-                        }
+                        OpenLoadTeamsRightClickMenu(dgv, row, column, PlayerStatsGetter, e);
+                    }
+                    // If a cell in the "First Name" or "Last Name" column is right clicked
+                    else if ((dgv.Columns.Contains(Constants.FIRST_NAME) && column == dgv.Columns[Constants.FIRST_NAME].Index)
+                        || (dgv.Columns.Contains(Constants.LAST_NAME) && column == dgv.Columns[Constants.LAST_NAME].Index))
+                    {
+                        OpenAddPlayerToListRightClickMenu(dgv, row, PlayerStatsGetter, e);
                     }
                 });
             });
@@ -288,6 +263,72 @@ namespace HockeyStats
             {
                 return form.rightTable.GetPlayerStats();
             });
+        }
+
+        private void OpenLoadTeamsRightClickMenu(DataGridView dgv, int row, int column, Func<DataRow, PlayerStats> PlayerStatsGetter, MouseEventArgs e)
+        {
+            ContextMenu menu = new ContextMenu();
+            string[] teamNames = dgv[column, row].Value.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            if (teamNames.Count() == 1 && String.IsNullOrWhiteSpace(teamNames[0])) { return; }
+            foreach (string teamName in teamNames)
+            {
+                string season = (dgv.Columns.Contains(Constants.SEASON)) ? dgv.Rows[row].Cells[Constants.SEASON].Value.ToString() : form.currentPlayerList.displaySeason;
+                string listName = teamName + " (" + season + ")";
+                EventHandler eventHandler = new EventHandler((object sender2, EventArgs e2) =>
+                {
+                    Action loadTeam = () =>
+                    {
+                        DataRow dataRow = PlayerStatTable.GetDataRowFromDGVRow(dgv.Rows[row]);
+                        PlayerStats playerStats = PlayerStatsGetter(dataRow);
+                        string teamId = playerStats.GetTeamId(season, teamName);
+
+                        List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
+                        PlayerList playerList = new PlayerList();
+                        playerList.FillWithDefaults();
+                        playerList.SetListType(PlayerList.ListType.TeamList);
+                        playerList.SetTeamId(teamId);
+                        playerList.SetPlayerIds(playerIds);
+                        playerList.SetDisplaySeason(season);
+                        form.LoadPlayerList(playerList, listName);
+                    };
+                    form.TriggerLeaveRequest(loadTeam);
+                });
+                MenuItem item = new MenuItem(listName, eventHandler);
+                menu.MenuItems.Add(item);
+            }
+
+            menu.Show(dgv, new Point(e.X, e.Y));
+        }
+
+        private void OpenAddPlayerToListRightClickMenu(DataGridView dgv, int row, Func<DataRow, PlayerStats> PlayerStatsGetter, MouseEventArgs e)
+        {
+            ContextMenu menu = new ContextMenu();
+            string[] listNames = form.GetPlayerListsInDirectory();
+            if (listNames.Count() < 1) { return; }
+            foreach (string listName in listNames)
+            {
+                if (listName == form.currentListName) { return; }
+
+                DataRow dataRow = PlayerStatTable.GetDataRowFromDGVRow(dgv.Rows[row]);
+                PlayerStats playerStats = PlayerStatsGetter(dataRow);
+                Dictionary<string, string> columnValues = playerStats.GetConstantColumnValues();
+                string firstName = (columnValues.ContainsKey(Constants.FIRST_NAME)) ? columnValues[Constants.FIRST_NAME] : String.Empty;
+                string lastName = (columnValues.ContainsKey(Constants.LAST_NAME)) ? columnValues[Constants.LAST_NAME] : String.Empty;
+
+                EventHandler eventHandler = new EventHandler((object sender2, EventArgs e2) =>
+                {
+                    string playerId = playerStats.GetPlayerId();
+
+                    PlayerList playerList = Serializer.ReadXML<PlayerList>(listName);
+                    playerList.AddPlayer(playerId);
+                    Serializer.WriteXML(playerList, listName);
+                    MessageBox.Show(String.Format("{0} {1} was added to list: {2}", firstName, lastName, listName));
+                });
+                MenuItem item = new MenuItem(String.Format("Add {0} {1} to list: {2}", firstName, lastName, listName), eventHandler);
+                menu.MenuItems.Add(item);
+            }
+
+            menu.Show(dgv, new Point(e.X, e.Y));
         }
     }
 }

@@ -104,11 +104,12 @@ namespace HockeyStats
                 // Get the name without the file path or suffix
                 string listName = file.Substring(0, file.Length - Constants.LIST_NAME_SUFFIX.Length);
 
-                PlayerList playerListToLoad = Serializer.ReadXML<PlayerList>(listName + Constants.LIST_NAME_SUFFIX);
                 EventHandler selectPlayerListHandler = new EventHandler((object sender, EventArgs e) =>
                 {
                     Action LoadPlayer = () =>
                     {
+                        PlayerList playerListToLoad = Serializer.ReadXML<PlayerList>(listName + Constants.LIST_NAME_SUFFIX);
+
                         // If it's the current/upcoming season, more players could be added as the season progresses, so get the full roster again
                         if (playerListToLoad.listType == PlayerList.ListType.TeamList && playerListToLoad.displaySeason == Constants.MostRecentSeason)
                         {
