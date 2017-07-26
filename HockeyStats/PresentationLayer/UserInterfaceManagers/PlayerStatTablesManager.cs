@@ -127,7 +127,7 @@ namespace HockeyStats
 
                 int rowIndex = leftTableDGV.SelectedRows[0].Index;
                 DataGridViewRow row = leftTableDGV.Rows[rowIndex];
-                string playerId = form.leftTable.GetPlayerIdFromRow(row);
+                string playerId = form.leftTable.GetIdFromRow(row);
                 PlayerStats searchedPlayerStats = new PlayerStats(playerId);
 
                 ShowSelectedPlayer(searchedPlayerStats);

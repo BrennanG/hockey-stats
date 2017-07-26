@@ -79,6 +79,14 @@ namespace HockeyStats
             dataGridView.Columns[dataGridView.Columns.Count - 1].ToolTipText = columnName;
         }
 
+        protected void AddColumns(List<string> columnNames)
+        {
+            foreach (string columnName in columnNames)
+            {
+                AddColumn(columnName);
+            }
+        }
+
         private void InitializeTable(List<string> columnNames)
         {
             dataGridView.Columns.Clear();

@@ -10,62 +10,80 @@ namespace HockeyStats
     public class PlayerButtonsManager
     {
         public PlayerStatForm form { get; set; }
-        public Button searchPlayerButton { get; set; }
+        public Button searchButton { get; set; }
         public Button clearSearchButton { get; set; }
         public Button addSelectedPlayerButton { get; set; }
         public Button removeSelectedPlayerButton { get; set; }
         public DataGridView leftTableDGV { get; set; }
         public DataGridView topTableDGV { get; set; }
-        public TextBox searchPlayerTextbox { get; set; }
+        public TextBox searchTextbox { get; set; }
+        public DomainUpDown searchTypeDomainUpDown { get; set; }
 
         public void Initialize()
         {
-            SetupSearchPlayerButton();
+            SetupSearchButton();
+            SetupSearchTypeDomainUpDown();
             SetupClearSearchButton();
             SetupAddSelectedPlayerButton();
             SetupRemoveSelectedPlayerButton();
         }
 
-        private void SetupSearchPlayerButton()
+        private void SetupSearchButton()
         {
-            Action SearchPlayer = () => {
-                string playerName = searchPlayerTextbox.Text;
-                if (String.IsNullOrWhiteSpace(playerName) || playerName.Contains("'") || playerName.Contains("\""))
+            Action Search = () => {
+                string textboxValue = searchTextbox.Text;
+                if (String.IsNullOrWhiteSpace(textboxValue) || textboxValue.Contains("'") || textboxValue.Contains("\""))
                 {
                     MessageBox.Show("Invalid Search.");
-                    searchPlayerTextbox.Text = "";
+                    searchTextbox.Text = "";
                 }
                 else
                 {
-                    string previousText = searchPlayerButton.Text;
-                    searchPlayerButton.Text = "Searching...";
-                    searchPlayerButton.Enabled = false;
+                    string previousText = searchButton.Text;
+                    searchButton.Text = "Searching...";
+                    searchButton.Enabled = false;
                     clearSearchButton.Enabled = false;
 
-                    bool successful = form.leftTable.DisplayPlayerSearch(playerName);
+                    bool successful = false;
+                    if (searchTypeDomainUpDown.SelectedItem.ToString() == "Player")
+                    {
+                        successful = form.leftTable.DisplayPlayerSearch(textboxValue);
+                    }
+                    else if (searchTypeDomainUpDown.SelectedItem.ToString() == "Team")
+                    {
+                        //successful = form.leftTable.DisplayTeamSearch(textboxValue);
+                    }
+
                     if (!successful)
                     {
                         MessageBox.Show("No Results Found.");
                     }
 
                     form.rowJustSelected = false;
-                    searchPlayerButton.Text = previousText;
-                    searchPlayerButton.Enabled = true;
+                    searchButton.Text = previousText;
+                    searchButton.Enabled = true;
                     clearSearchButton.Enabled = true;
                 }
             };
 
-            searchPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
-                SearchPlayer();
+            searchButton.Click += new EventHandler((object sender, EventArgs e) => {
+                Search();
             });
 
             // Listen for Enter key when textbox is selected
-            searchPlayerTextbox.KeyUp += new KeyEventHandler((object sender, KeyEventArgs e) => {
+            searchTextbox.KeyUp += new KeyEventHandler((object sender, KeyEventArgs e) => {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    SearchPlayer();
+                    Search();
                 }
             });
+        }
+
+        private void SetupSearchTypeDomainUpDown()
+        {
+            searchTypeDomainUpDown.Items.Add("Player");
+            searchTypeDomainUpDown.Items.Add("Team");
+            searchTypeDomainUpDown.SelectedItem = searchTypeDomainUpDown.Items[0];
         }
 
         private void SetupClearSearchButton()
@@ -76,7 +94,7 @@ namespace HockeyStats
                     form.playerStatTablesManager.ClearPlayerSelection();
                 }
                 form.leftTable.ClearTable();
-                searchPlayerTextbox.Text = String.Empty;
+                searchTextbox.Text = String.Empty;
                 clearSearchButton.Enabled = false;
             });
         }
@@ -100,7 +118,7 @@ namespace HockeyStats
 
                     int rowIndex = leftTableDGV.SelectedRows[0].Index;
                     DataGridViewRow row = leftTableDGV.Rows[rowIndex];
-                    string playerId = form.leftTable.GetPlayerIdFromRow(row);
+                    string playerId = form.leftTable.GetIdFromRow(row);
                     form.topTable.AddRow(playerId);
 
                     addSelectedPlayerButton.Text = previousText;

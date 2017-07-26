@@ -113,13 +113,14 @@ namespace HockeyStats
             playerButtonsManager = new PlayerButtonsManager()
             {
                 form = this,
-                searchPlayerButton = searchPlayerButton,
+                searchButton = searchButton,
                 clearSearchButton = clearSearchButton,
                 addSelectedPlayerButton = addSelectedPlayerButton,
                 removeSelectedPlayerButton = removeSelectedPlayerButton,
                 leftTableDGV = leftTableDGV,
                 topTableDGV = topTableDGV,
-                searchPlayerTextbox = searchPlayerTextbox
+                searchTextbox = searchTextbox,
+                searchTypeDomainUpDown = searchTypeDomainUpDown
             };
         }
 
@@ -147,7 +148,7 @@ namespace HockeyStats
             if (topTable != null) { topTable.AbortFillDataTableThread(); }
 
             topTable = new MultiPlayerStatTable(topTableDGV, currentPlayerList, filter);
-            if (leftTable == null) { leftTable = new SearchDataStatTable(leftTableDGV, Constants.DefaultSearchDataTableColumns); }
+            if (leftTable == null) { leftTable = new SearchDataStatTable(leftTableDGV, Constants.DefaultSearchPlayerDataTableColumns); }
             middleTable = new PlayerConstantsStatTable(middleTableDGV);
             rightTable = new SinglePlayerStatTable(rightTableDGV, currentPlayerList);
 
