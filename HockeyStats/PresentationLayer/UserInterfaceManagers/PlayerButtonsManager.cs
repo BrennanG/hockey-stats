@@ -51,7 +51,7 @@ namespace HockeyStats
                     }
                     else if (searchTypeDomainUpDown.SelectedItem.ToString() == "Team")
                     {
-                        //successful = form.leftTable.DisplayTeamSearch(textboxValue);
+                        successful = form.leftTable.DisplayTeamSearch(textboxValue);
                     }
 
                     if (!successful)

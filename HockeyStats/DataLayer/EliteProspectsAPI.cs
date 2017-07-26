@@ -17,9 +17,16 @@ namespace HockeyStats
         }
 
         // Searches for the given player name
-        public static JObject SearchPlayer(string playerName)
+        public static JObject SearchForPlayer(string playerName)
         {
             string requestString = "http://api.eliteprospects.com:80/beta/search?q=" + playerName + "&type=player&limit=25&apikey=" + key;
+            return GetEliteProspectsData(requestString);
+        }
+
+        // Searches for the given team name
+        public static JObject SearchForTeam(string teamName)
+        {
+            string requestString = "http://api.eliteprospects.com:80/beta/search?q=" + teamName + "&type=team&limit=25&apikey=" + key;
             return GetEliteProspectsData(requestString);
         }
 

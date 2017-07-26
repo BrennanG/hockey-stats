@@ -10,6 +10,7 @@ namespace HockeyStats
     {
         private JToken searchData;
         private JObject latestPlayerStats;
+        private JObject latestTeamStats;
 
         public SearchDataParser()
         {
@@ -18,7 +19,8 @@ namespace HockeyStats
         public void SetSearchData(JToken searchData)
         {
             this.searchData = searchData;
-            latestPlayerStats = (JObject)this.searchData["latestPlayerStats"];
+            latestPlayerStats = (searchData["latestPlayerStats"] == null) ? null : (JObject)searchData["latestPlayerStats"];
+            latestTeamStats = (searchData["latestTeamStats"] == null) ? null : (JObject)searchData["latestTeamStats"];
         }
 
         public void GetFirstName(string key)
@@ -66,6 +68,38 @@ namespace HockeyStats
             try
             {
                 value = (string)latestPlayerStats["team"]["name"];
+            }
+            catch
+            {
+                value = "";
+            }
+            if (value == "")
+            {
+                try
+                {
+                    value = (string)searchData["name"];
+                }
+                catch
+                {
+                    value = "";
+                }
+            }
+            AddToDict(key, value);
+        }
+
+        public void GetLatestLeague(string key)
+        {
+            string value;
+            try
+            {
+                if (latestTeamStats["league"]["parentLeague"] != null)
+                {
+                    value = (string)latestTeamStats["league"]["parentLeague"]["name"];
+                }
+                else
+                {
+                    value = (string)latestTeamStats["league"]["name"];
+                }
             }
             catch
             {
