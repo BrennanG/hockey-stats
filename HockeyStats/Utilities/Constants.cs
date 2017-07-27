@@ -43,6 +43,8 @@ namespace HockeyStats
         public static readonly string DRAFT_TEAM = "Draft Team";
         public static readonly string ID = "ID";
 
+        public static readonly int PlayerStatsCacheCapacity = 1000;
+
         public static readonly List<string> AllPossibleColumns = new List<string>()
         {
             Constants.FIRST_NAME,

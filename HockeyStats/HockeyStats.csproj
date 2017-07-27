@@ -89,6 +89,7 @@
     </Compile>
     <Compile Include="BusinessLayer\StatTables\PlayerStatTable.cs" />
     <Compile Include="PresentationLayer\UserInterfaceManagers\PlayerStatTablesManager.cs" />
+    <Compile Include="Utilities\RollingDictionary.cs" />
     <Compile Include="Utilities\SerializableDictionary.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

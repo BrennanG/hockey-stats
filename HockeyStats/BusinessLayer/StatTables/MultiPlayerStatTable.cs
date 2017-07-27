@@ -13,11 +13,12 @@ namespace HockeyStats
     {
         private PlayerList playerList;
         private Dictionary<int, PlayerStats> rowHashToPlayerStatsMap = new Dictionary<int, PlayerStats>();
+        private static RollingDictionary<string, PlayerStats> playerStatsCache = new RollingDictionary<string, PlayerStats>(Constants.PlayerStatsCacheCapacity);
         
         private FilterManager filter;
 
         private Thread fillDataTableThread;
-        public class AbortThread { public bool abort; }; // Needs to be a class, because you can only lock on instances of classes
+        private class AbortThread { public bool abort; }; // Needs to be a class, because you can only lock on instances of classes
         private AbortThread abortThread = new AbortThread() { abort = false };
         
         public MultiPlayerStatTable(DataGridView dataGridView, PlayerList playerList, FilterManager filter)
@@ -169,14 +170,12 @@ namespace HockeyStats
 
         private void AddPlayerById(string playerId)
         {
-            PlayerStats playerStats = new PlayerStats(playerId);
+            PlayerStats playerStats = (playerStatsCache.ContainsKey(playerId)) ? playerStatsCache.GetValue(playerId) : new PlayerStats(playerId);
             HandleAutoFilterForPlayer(playerStats);
             Dictionary<string, string> collapsedYear = playerStats.GetCollapsedYear(playerList.displaySeason, playerList.primarySeasonType, filter);
             DataRow newDataRow = AddRowToDataTable(collapsedYear);
             rowHashToPlayerStatsMap[newDataRow.GetHashCode()] = playerStats;
-            
-            //HandleAutoFilterForPlayer(playerStats);
-            //ApplyFilterToDataRow(newDataRow, playerStats);
+            if (!playerStatsCache.ContainsKey(playerId)) { playerStatsCache.Add(playerId, playerStats); }
         }
 
         private void ApplyFilterToDataRow(DataRow dataRow, PlayerStats playerStats = null)
