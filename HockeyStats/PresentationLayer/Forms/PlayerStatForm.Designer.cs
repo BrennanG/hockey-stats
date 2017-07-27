@@ -61,8 +61,9 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.searchButton = new System.Windows.Forms.Button();
             this.searchTextbox = new System.Windows.Forms.TextBox();
-            this.addSelectedPlayerButton = new System.Windows.Forms.Button();
+            this.addPlayerOrLoadTeamButton = new System.Windows.Forms.Button();
             this.clearSearchButton = new System.Windows.Forms.Button();
+            this.searchTypeDomainUpDown = new System.Windows.Forms.DomainUpDown();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.leftTableDGV = new System.Windows.Forms.DataGridView();
             this.middleTableDGV = new System.Windows.Forms.DataGridView();
@@ -71,7 +72,6 @@
             this.rightMenuStrip = new System.Windows.Forms.MenuStrip();
             this.selectSecondarySeasonTypeDropDown = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.searchTypeDomainUpDown = new System.Windows.Forms.DomainUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.topTableDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -346,10 +346,10 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.34201F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 82F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 119F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel3.Controls.Add(this.searchButton, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.searchTextbox, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.addSelectedPlayerButton, 4, 0);
+            this.tableLayoutPanel3.Controls.Add(this.addPlayerOrLoadTeamButton, 4, 0);
             this.tableLayoutPanel3.Controls.Add(this.clearSearchButton, 3, 0);
             this.tableLayoutPanel3.Controls.Add(this.searchTypeDomainUpDown, 2, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -363,7 +363,7 @@
             // searchButton
             // 
             this.searchButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.searchButton.Location = new System.Drawing.Point(185, 3);
+            this.searchButton.Location = new System.Drawing.Point(184, 3);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(81, 20);
             this.searchButton.TabIndex = 1;
@@ -375,28 +375,38 @@
             this.searchTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.searchTextbox.Location = new System.Drawing.Point(3, 3);
             this.searchTextbox.Name = "searchTextbox";
-            this.searchTextbox.Size = new System.Drawing.Size(176, 20);
+            this.searchTextbox.Size = new System.Drawing.Size(175, 20);
             this.searchTextbox.TabIndex = 3;
             // 
-            // addSelectedPlayerButton
+            // addPlayerOrLoadTeamButton
             // 
-            this.addSelectedPlayerButton.Enabled = false;
-            this.addSelectedPlayerButton.Location = new System.Drawing.Point(413, 3);
-            this.addSelectedPlayerButton.Name = "addSelectedPlayerButton";
-            this.addSelectedPlayerButton.Size = new System.Drawing.Size(114, 20);
-            this.addSelectedPlayerButton.TabIndex = 4;
-            this.addSelectedPlayerButton.Text = "Add Selected Player";
-            this.addSelectedPlayerButton.UseVisualStyleBackColor = true;
+            this.addPlayerOrLoadTeamButton.Enabled = false;
+            this.addPlayerOrLoadTeamButton.Location = new System.Drawing.Point(412, 3);
+            this.addPlayerOrLoadTeamButton.Name = "addPlayerOrLoadTeamButton";
+            this.addPlayerOrLoadTeamButton.Size = new System.Drawing.Size(114, 20);
+            this.addPlayerOrLoadTeamButton.TabIndex = 4;
+            this.addPlayerOrLoadTeamButton.Text = "Add Selected Player";
+            this.addPlayerOrLoadTeamButton.UseVisualStyleBackColor = true;
             // 
             // clearSearchButton
             // 
             this.clearSearchButton.Enabled = false;
-            this.clearSearchButton.Location = new System.Drawing.Point(331, 3);
+            this.clearSearchButton.Location = new System.Drawing.Point(330, 3);
             this.clearSearchButton.Name = "clearSearchButton";
             this.clearSearchButton.Size = new System.Drawing.Size(76, 20);
             this.clearSearchButton.TabIndex = 5;
             this.clearSearchButton.Text = "Clear Search";
             this.clearSearchButton.UseVisualStyleBackColor = true;
+            // 
+            // searchTypeDomainUpDown
+            // 
+            this.searchTypeDomainUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.searchTypeDomainUpDown.Location = new System.Drawing.Point(271, 3);
+            this.searchTypeDomainUpDown.Name = "searchTypeDomainUpDown";
+            this.searchTypeDomainUpDown.ReadOnly = true;
+            this.searchTypeDomainUpDown.Size = new System.Drawing.Size(53, 20);
+            this.searchTypeDomainUpDown.TabIndex = 6;
+            this.searchTypeDomainUpDown.Text = "Player";
             // 
             // splitContainer2
             // 
@@ -435,6 +445,7 @@
             this.leftTableDGV.DefaultCellStyle = dataGridViewCellStyle6;
             this.leftTableDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.leftTableDGV.Location = new System.Drawing.Point(0, 0);
+            this.leftTableDGV.MultiSelect = false;
             this.leftTableDGV.Name = "leftTableDGV";
             this.leftTableDGV.ReadOnly = true;
             this.leftTableDGV.RowHeadersVisible = false;
@@ -514,15 +525,6 @@
             this.selectSecondarySeasonTypeDropDown.Size = new System.Drawing.Size(118, 20);
             this.selectSecondarySeasonTypeDropDown.Text = "Select Season Type";
             // 
-            // searchTypeDomainUpDown
-            // 
-            this.searchTypeDomainUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.searchTypeDomainUpDown.Location = new System.Drawing.Point(272, 3);
-            this.searchTypeDomainUpDown.Name = "searchTypeDomainUpDown";
-            this.searchTypeDomainUpDown.Size = new System.Drawing.Size(53, 20);
-            this.searchTypeDomainUpDown.TabIndex = 6;
-            this.searchTypeDomainUpDown.Text = "Player";
-            // 
             // PlayerStatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -579,7 +581,7 @@
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.TextBox searchTextbox;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.Button addSelectedPlayerButton;
+        private System.Windows.Forms.Button addPlayerOrLoadTeamButton;
         private System.Windows.Forms.Button clearSearchButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button removeSelectedPlayerButton;

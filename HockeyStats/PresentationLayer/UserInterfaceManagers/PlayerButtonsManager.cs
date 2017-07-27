@@ -12,7 +12,7 @@ namespace HockeyStats
         public PlayerStatForm form { get; set; }
         public Button searchButton { get; set; }
         public Button clearSearchButton { get; set; }
-        public Button addSelectedPlayerButton { get; set; }
+        public Button addPlayerOrLoadTeamButton { get; set; }
         public Button removeSelectedPlayerButton { get; set; }
         public DataGridView leftTableDGV { get; set; }
         public DataGridView topTableDGV { get; set; }
@@ -24,7 +24,7 @@ namespace HockeyStats
             SetupSearchButton();
             SetupSearchTypeDomainUpDown();
             SetupClearSearchButton();
-            SetupAddSelectedPlayerButton();
+            SetupAddPlayerOrLoadTeamButton();
             SetupRemoveSelectedPlayerButton();
         }
 
@@ -99,42 +99,76 @@ namespace HockeyStats
             });
         }
 
-        private void SetupAddSelectedPlayerButton()
+        private void SetupAddPlayerOrLoadTeamButton()
         {
+            // Changing the button's text depending on the search type
+            searchTypeDomainUpDown.SelectedItemChanged += new EventHandler((object sender, EventArgs e) =>
+            {
+                if (searchTypeDomainUpDown.SelectedItem.ToString() == "Player")
+                {
+                    addPlayerOrLoadTeamButton.Text = "Add Selected Player";
+                }
+                else if (searchTypeDomainUpDown.SelectedItem.ToString() == "Team")
+                {
+                    addPlayerOrLoadTeamButton.Text = "Load Selected Team";
+                }
+            });
+
             // Enabling and disabling the button
             leftTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
-                addSelectedPlayerButton.Enabled = (leftTableDGV.SelectedRows.Count == 1);
+                addPlayerOrLoadTeamButton.Enabled = (leftTableDGV.SelectedRows.Count == 1);
             });
 
             // Adding logic to the button
-            addSelectedPlayerButton.Click += new EventHandler((object sender, EventArgs e) => {
+            addPlayerOrLoadTeamButton.Click += new EventHandler((object sender, EventArgs e) => {
                 if (leftTableDGV.SelectedRows.Count != 1) { return; }
-                
-                Action AddPlayer = () =>
+                string searchType = searchTypeDomainUpDown.SelectedItem.ToString();
+
+                Action AddPlayerOrLoadTeam = () =>
                 {
-                    string previousText = addSelectedPlayerButton.Text;
-                    addSelectedPlayerButton.Text = "Adding Player...";
-                    addSelectedPlayerButton.Enabled = false;
+                    string previousText = addPlayerOrLoadTeamButton.Text;
+                    addPlayerOrLoadTeamButton.Text = "Working...";
+                    addPlayerOrLoadTeamButton.Enabled = false;
 
                     int rowIndex = leftTableDGV.SelectedRows[0].Index;
                     DataGridViewRow row = leftTableDGV.Rows[rowIndex];
-                    string playerId = form.leftTable.GetIdFromRow(row);
-                    form.topTable.AddRow(playerId);
+                    string id = form.leftTable.GetIdFromRow(row);
 
-                    addSelectedPlayerButton.Text = previousText;
-                    form.currentPlayerList.SetListType(PlayerList.ListType.GeneralList);
-                    form.menuStripsManager.RefreshListType();
-                    form.SetListStatus(PlayerList.ListStatus.Unsaved);
+                    if (searchType == "Player")
+                    {
+                        form.topTable.AddRow(id);
+                        form.currentPlayerList.SetListType(PlayerList.ListType.GeneralList);
+                        form.menuStripsManager.RefreshListType();
+                        form.SetListStatus(PlayerList.ListStatus.Unsaved);
+                    }
+                    else if (searchType == "Team")
+                    {
+                        string season = Constants.MostRecentSeason;
+                        List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(id, season);
+                        PlayerList playerList = new PlayerList();
+                        playerList.FillWithDefaults();
+                        playerList.SetListType(PlayerList.ListType.TeamList);
+                        playerList.SetTeamId(id);
+                        playerList.SetPlayerIds(playerIds);
+                        playerList.SetDisplaySeason(season);
+                        form.LoadPlayerList(playerList, row.Cells[Constants.TEAM].Value.ToString() + " (" + season + ")");
+                    }
+                    
+                    addPlayerOrLoadTeamButton.Text = previousText;
                 };
                 
-                if (form.currentPlayerList.listType != PlayerList.ListType.GeneralList)
+                if (searchType == "Player" && form.currentPlayerList.listType != PlayerList.ListType.GeneralList)
                 {
                     string message = String.Format("Are you sure you want to add a player to this list? Doing so will change the list type to General.");
-                    form.DisplayYesNoMessageBox(message, AddPlayer);
+                    form.DisplayYesNoMessageBox(message, AddPlayerOrLoadTeam);
+                }
+                else if (searchType == "Team")
+                {
+                    form.TriggerLeaveRequest(AddPlayerOrLoadTeam);
                 }
                 else
                 {
-                    AddPlayer();
+                    AddPlayerOrLoadTeam();
                 }
             });
         }

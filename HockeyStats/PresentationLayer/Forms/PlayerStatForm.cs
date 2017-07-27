@@ -115,7 +115,7 @@ namespace HockeyStats
                 form = this,
                 searchButton = searchButton,
                 clearSearchButton = clearSearchButton,
-                addSelectedPlayerButton = addSelectedPlayerButton,
+                addPlayerOrLoadTeamButton = addPlayerOrLoadTeamButton,
                 removeSelectedPlayerButton = removeSelectedPlayerButton,
                 leftTableDGV = leftTableDGV,
                 topTableDGV = topTableDGV,

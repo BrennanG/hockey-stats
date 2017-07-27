@@ -9,8 +9,12 @@ namespace HockeyStats
 {
     public class SearchDataStatTable : PlayerStatTable
     {
+        public enum SearchType { Player, Team }
+
         private List<Dictionary<string, string>> dictToIdMap;
         private static SearchDataParser searchDataParser = new SearchDataParser();
+
+        public SearchType searchType = SearchType.Player;
 
         public SearchDataStatTable(DataGridView dataGridView, List<string> columnNames)
             : base(dataGridView, new List<string>())
@@ -19,6 +23,7 @@ namespace HockeyStats
 
         public bool DisplayPlayerSearch(string playerName)
         {
+            searchType = SearchType.Player;
             ClearTable();
             AddColumns(Constants.DefaultSearchPlayerDataTableColumns);
             dataTable.DefaultView.Sort = String.Empty; // Reset the sorting incase a prior search was sorted
@@ -46,6 +51,7 @@ namespace HockeyStats
 
         public bool DisplayTeamSearch(string teamName)
         {
+            searchType = SearchType.Team;
             ClearTable();
             AddColumns(Constants.DefaultSearchTeamDataTableColumns);
             dictToIdMap = new List<Dictionary<string, string>>();
@@ -57,7 +63,7 @@ namespace HockeyStats
                 searchDataParser.SetSearchData(searchData);
                 searchDataParser.SetDictionaryToFill(dict);
 
-                searchDataParser.GetLatestTeam(Constants.LATEST_TEAM);
+                searchDataParser.GetLatestTeam(Constants.TEAM);
                 searchDataParser.GetLatestLeague(Constants.LEAGUE);
                 searchDataParser.GetId(Constants.ID);
 
@@ -70,7 +76,7 @@ namespace HockeyStats
         public string GetIdFromRow(DataGridViewRow row)
         {
             Dictionary<string, string> dict;
-            try
+            if (searchType == SearchType.Player)
             {
                 dict = dictToIdMap.Find(d =>
                     d[Constants.FIRST_NAME] == (string)row.Cells[Constants.FIRST_NAME].Value
@@ -79,10 +85,10 @@ namespace HockeyStats
                     && d[Constants.LATEST_SEASON] == (string)row.Cells[Constants.LATEST_SEASON].Value
                 );
             }
-            catch
+            else
             {
                 dict = dictToIdMap.Find(d =>
-                    d[Constants.LATEST_TEAM] == (string)row.Cells[Constants.LATEST_TEAM].Value
+                    d[Constants.TEAM] == (string)row.Cells[Constants.TEAM].Value
                     && d[Constants.LEAGUE] == (string)row.Cells[Constants.LEAGUE].Value
                 );
             }

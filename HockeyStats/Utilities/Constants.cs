@@ -136,7 +136,7 @@ namespace HockeyStats
 
         public static List<string> DefaultSearchTeamDataTableColumns = new List<string>()
         {
-            Constants.LATEST_TEAM,
+            Constants.TEAM,
             Constants.LEAGUE
         };
 

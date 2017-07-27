@@ -125,12 +125,25 @@ namespace HockeyStats
                 if (leftTableDGV.SelectedRows.Count != 1 || leftTableDGV.Rows.Count < 1) { return; }
                 topTableDGV.ClearSelection();
 
-                int rowIndex = leftTableDGV.SelectedRows[0].Index;
-                DataGridViewRow row = leftTableDGV.Rows[rowIndex];
-                string playerId = form.leftTable.GetIdFromRow(row);
-                PlayerStats searchedPlayerStats = new PlayerStats(playerId);
+                if (form.leftTable.searchType == SearchDataStatTable.SearchType.Player)
+                {
+                    int rowIndex = leftTableDGV.SelectedRows[0].Index;
+                    DataGridViewRow row = leftTableDGV.Rows[rowIndex];
+                    string playerId = form.leftTable.GetIdFromRow(row);
+                    PlayerStats searchedPlayerStats = new PlayerStats(playerId);
 
-                ShowSelectedPlayer(searchedPlayerStats);
+                    ShowSelectedPlayer(searchedPlayerStats);
+                }
+                else if (form.leftTable.searchType == SearchDataStatTable.SearchType.Team)
+                {
+                    int rowIndex = leftTableDGV.SelectedRows[0].Index;
+                    DataGridViewRow row = leftTableDGV.Rows[rowIndex];
+                    string teamId = form.leftTable.GetIdFromRow(row);
+
+                    form.middleTable.ClearTable();
+                    form.rightTable.ClearTable();
+                    form.rowJustSelected = true;
+                }
             });
         }
 

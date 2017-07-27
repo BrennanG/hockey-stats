@@ -47,6 +47,7 @@ namespace HockeyStats
 
             Action<FilterManager.FilterType, string> UpdateFilterManager = (FilterManager.FilterType filterType, string collapsedValues) =>
             {
+                if (collapsedValues == null) { return; }
                 foreach (string value in collapsedValues.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
                 {
                     filter.FilterInValue(filterType, value);
