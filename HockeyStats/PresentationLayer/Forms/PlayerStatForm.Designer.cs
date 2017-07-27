@@ -38,6 +38,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.topTableDGV = new System.Windows.Forms.DataGridView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.forwardButton = new System.Windows.Forms.Button();
+            this.backButton = new System.Windows.Forms.Button();
             this.changeSeasonButton = new System.Windows.Forms.Button();
             this.listTypeLabel = new System.Windows.Forms.Label();
             this.renameListTextbox = new System.Windows.Forms.TextBox();
@@ -128,6 +130,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.forwardButton);
+            this.splitContainer1.Panel1.Controls.Add(this.backButton);
             this.splitContainer1.Panel1.Controls.Add(this.changeSeasonButton);
             this.splitContainer1.Panel1.Controls.Add(this.listTypeLabel);
             this.splitContainer1.Panel1.Controls.Add(this.renameListTextbox);
@@ -142,6 +146,28 @@
             this.splitContainer1.SplitterDistance = 456;
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 3;
+            // 
+            // forwardButton
+            // 
+            this.forwardButton.Enabled = false;
+            this.forwardButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.forwardButton.Location = new System.Drawing.Point(151, 2);
+            this.forwardButton.Name = "forwardButton";
+            this.forwardButton.Size = new System.Drawing.Size(29, 21);
+            this.forwardButton.TabIndex = 7;
+            this.forwardButton.Text = ">";
+            this.forwardButton.UseVisualStyleBackColor = true;
+            // 
+            // backButton
+            // 
+            this.backButton.Enabled = false;
+            this.backButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backButton.Location = new System.Drawing.Point(119, 2);
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(29, 21);
+            this.backButton.TabIndex = 6;
+            this.backButton.Text = "<";
+            this.backButton.UseVisualStyleBackColor = true;
             // 
             // changeSeasonButton
             // 
@@ -158,7 +184,7 @@
             this.listTypeLabel.AutoSize = true;
             this.listTypeLabel.Cursor = System.Windows.Forms.Cursors.Default;
             this.listTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listTypeLabel.Location = new System.Drawing.Point(179, 3);
+            this.listTypeLabel.Location = new System.Drawing.Point(186, 3);
             this.listTypeLabel.Name = "listTypeLabel";
             this.listTypeLabel.Size = new System.Drawing.Size(81, 20);
             this.listTypeLabel.TabIndex = 4;
@@ -346,7 +372,7 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.58427F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 82F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 121F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 122F));
             this.tableLayoutPanel3.Controls.Add(this.searchButton, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.searchTextbox, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.addPlayerOrLoadTeamButton, 4, 0);
@@ -601,6 +627,8 @@
         private System.Windows.Forms.Button changeSeasonButton;
         private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
         private System.Windows.Forms.DomainUpDown searchTypeDomainUpDown;
+        private System.Windows.Forms.Button forwardButton;
+        private System.Windows.Forms.Button backButton;
     }
 }
 

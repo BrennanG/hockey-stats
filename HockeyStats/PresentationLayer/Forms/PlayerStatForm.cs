@@ -27,8 +27,8 @@ namespace HockeyStats
         public Configuration configuration = new Configuration();
 
         public FilterManager filter = new FilterManager();
-
-        public string currentListName;
+        public HistoryManager<PlayerList> historyManager = new HistoryManager<PlayerList>();
+        
         public bool rowJustSelected = false;
 
         public PlayerStatForm()
@@ -104,6 +104,8 @@ namespace HockeyStats
                 listTypeLabel = listTypeLabel,
                 listNameLabel = listNameLabel,
                 renameListTextbox = renameListTextbox,
+                backButton = backButton,
+                forwardButton = forwardButton,
                 changeTeamSeasonButton = changeSeasonButton
             };
         }
@@ -136,12 +138,11 @@ namespace HockeyStats
             };
         }
 
-        public void LoadPlayerList(PlayerList playerListToLoad, string listName)
+        public void LoadPlayerList(PlayerList playerListToLoad, bool fromHistory = false)
         {
             currentPlayerList = playerListToLoad;
             lastSavedPlayerList = currentPlayerList.Clone();
-            currentListName = listName;
-            menuStripsManager.SetListLabel(listName);
+            menuStripsManager.SetListLabel(currentPlayerList.listName);
             filter = new FilterManager(currentPlayerList);
 
             playerStatTablesManager.tableHasBeenClicked = false;
@@ -159,6 +160,9 @@ namespace HockeyStats
             playerStatTablesManager.RedrawRowColors();
 
             SetListStatus(PlayerList.ListStatus.Saved);
+
+            if (!fromHistory) { historyManager.AddItem(lastSavedPlayerList); }
+            menuStripsManager.UpdateBackAndForwardButtons();
         }
 
         public void LoadDefaultOrEmptyList()
@@ -167,7 +171,7 @@ namespace HockeyStats
             if (playerListsInDirectory.Contains(configuration.defaultList + Constants.LIST_NAME_SUFFIX))
             {
                 PlayerList playerList = Serializer.ReadXML<PlayerList>(configuration.defaultList + Constants.LIST_NAME_SUFFIX);
-                LoadPlayerList(playerList, configuration.defaultList);
+                LoadPlayerList(playerList);
             }
             else
             {
@@ -179,7 +183,7 @@ namespace HockeyStats
         {
             PlayerList newPlayerList = new PlayerList();
             newPlayerList.FillWithDefaults();
-            LoadPlayerList(newPlayerList, Constants.DEFAULT_LIST_NAME);
+            LoadPlayerList(newPlayerList);
         }
 
         public void SetListStatus(PlayerList.ListStatus status)
@@ -191,6 +195,7 @@ namespace HockeyStats
                 status = PlayerList.ListStatus.Saved;
             }
             currentPlayerList.SetListStatus(status);
+            string currentListName = currentPlayerList.listName;
             string listName = (currentPlayerList.listStatus == PlayerList.ListStatus.Saved) ? currentListName : currentListName + "*";
             menuStripsManager.SetListLabel(listName);
 

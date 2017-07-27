@@ -30,8 +30,10 @@ namespace HockeyStats
         public Label listTypeLabel { get; set; }
         public Label listNameLabel { get; set; }
         public TextBox renameListTextbox { get; set; }
+        public Button backButton { get; set; }
+        public Button forwardButton { get; set; }
         public Button changeTeamSeasonButton { get; set; }
-
+        
         public void Initialize()
         {
             SetupLoadListDropDown();
@@ -39,6 +41,7 @@ namespace HockeyStats
             SetupCreateListButton();
             SetupDeleteListButton();
             SetupSetAsDefaultListButton();
+            SetupBackAndForwardButtons();
             SetupLoadDraftButton();
             RefreshListType();
             SetupChangeTeamSeasonButton();
@@ -94,6 +97,12 @@ namespace HockeyStats
             }
         }
 
+        public void UpdateBackAndForwardButtons()
+        {
+            backButton.Enabled = form.historyManager.CanMoveBack();
+            forwardButton.Enabled = form.historyManager.CanMoveForward();
+        }
+
         private void SetupLoadListDropDown()
         {
             ToolStripItemCollection loadListDropDownItems = loadListDropDown.DropDownItems;
@@ -117,7 +126,7 @@ namespace HockeyStats
                             Serializer.WriteXML(playerListToLoad, listName + Constants.LIST_NAME_SUFFIX);
                         }
 
-                        form.LoadPlayerList(playerListToLoad, listName);
+                        form.LoadPlayerList(playerListToLoad);
                         RefreshDropDownLists();
                     };
 
@@ -125,7 +134,7 @@ namespace HockeyStats
                 });
 
                 loadListDropDownItems.Add(listName, null, selectPlayerListHandler);
-                if (form.currentListName == listName)
+                if (form.currentPlayerList.listName == listName)
                 {
                     ((ToolStripMenuItem)loadListDropDownItems[loadListDropDownItems.Count - 1]).Checked = true;
                 }
@@ -136,9 +145,9 @@ namespace HockeyStats
         {
             saveToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                if (form.currentListName != Constants.DEFAULT_LIST_NAME)
+                if (form.currentPlayerList.listName != Constants.DEFAULT_LIST_NAME)
                 {
-                    SaveList(form.currentListName);
+                    SaveList(form.currentPlayerList);
                     MessageBox.Show("Saved List.");
                 }
             });
@@ -147,7 +156,7 @@ namespace HockeyStats
             saveFileDialog.Title = "Save Player List";
             saveAsToolStripMenuItem.Click += new EventHandler((object sender, EventArgs e) =>
             {
-                saveFileDialog.FileName = (form.currentListName != Constants.DEFAULT_LIST_NAME) ? form.currentListName : "";
+                saveFileDialog.FileName = (form.currentPlayerList.listName != Constants.DEFAULT_LIST_NAME) ? form.currentPlayerList.listName : "";
                 DialogResult result = saveFileDialog.ShowDialog();
                 if (result == DialogResult.OK || result == DialogResult.Yes)
                 {
@@ -158,7 +167,8 @@ namespace HockeyStats
                     }
                     else
                     {
-                        SaveList(listName);
+                        form.currentPlayerList.listName = listName;
+                        SaveList(form.currentPlayerList);
                     }
                 }
             });
@@ -181,7 +191,7 @@ namespace HockeyStats
         {
             Action DeleteList = () =>
             {
-                File.Delete(form.currentListName + Constants.LIST_NAME_SUFFIX);
+                File.Delete(form.currentPlayerList.listName + Constants.LIST_NAME_SUFFIX);
                 form.LoadDefaultOrEmptyList();
             };
 
@@ -207,16 +217,37 @@ namespace HockeyStats
                 {
                     MessageBox.Show("This is a Generated List that has not been saved. It cannot be set as default.");
                 }
-                else if (configuration.defaultList == form.currentListName)
+                else if (configuration.defaultList == form.currentPlayerList.listName)
                 {
                     MessageBox.Show("This is already the default list.");
                 }
                 else
                 {
-                    configuration.defaultList = form.currentListName;
+                    configuration.defaultList = form.currentPlayerList.listName;
                     Serializer.WriteXML<Configuration>(configuration, Constants.CONFIGURATION_FILE_NAME);
                     MessageBox.Show("Default list updated.");
                 }
+            });
+        }
+
+        private void SetupBackAndForwardButtons()
+        {
+            backButton.Click += new EventHandler((object sender, EventArgs e) =>
+            {
+                form.TriggerLeaveRequest(() =>
+                {
+                    PlayerList previousPlayerList = form.historyManager.MoveToPreviousItem();
+                    form.LoadPlayerList(previousPlayerList.Clone(), true);
+                });
+            });
+
+            forwardButton.Click += new EventHandler((object sender, EventArgs e) =>
+            {
+                form.TriggerLeaveRequest(() =>
+                {
+                    PlayerList nextPlayerList = form.historyManager.MoveToNextItem();
+                    form.LoadPlayerList(nextPlayerList.Clone(), true);
+                });
             });
         }
 
@@ -239,6 +270,7 @@ namespace HockeyStats
                 {
                     form.TriggerLeaveRequest(() =>
                     {
+                        string listName = form.currentPlayerList.listName;
                         string teamId = form.currentPlayerList.teamId;
                         string season = changeTeamSeasonModal.GetDomainUpDownText();
                         List<string> playerIds = TeamListManager.GetPlayerIdsOnTeam(teamId, season);
@@ -251,14 +283,14 @@ namespace HockeyStats
                         form.currentPlayerList.SetDisplaySeason(season);
                         if (form.currentPlayerList.listStatus == PlayerList.ListStatus.Generated)
                         {
-                            form.currentListName = form.currentListName.Substring(0, form.currentListName.LastIndexOf('(') + 1) + season + ")";
+                            form.currentPlayerList.listName = listName.Substring(0, listName.LastIndexOf('(') + 1) + season + ")";
                         }
                         else
                         {
-                            form.currentListName = String.Format("{0} ({1})", TeamListManager.GetTeamName(teamId), season);
+                            form.currentPlayerList.listName = String.Format("{0} ({1})", TeamListManager.GetTeamName(teamId), season);
                         }
                         form.currentPlayerList.SetListStatus(PlayerList.ListStatus.Generated);
-                        form.LoadPlayerList(form.currentPlayerList, form.currentListName);
+                        form.LoadPlayerList(form.currentPlayerList);
 
                         changeTeamSeasonModal.Close();
                     });
@@ -277,7 +309,7 @@ namespace HockeyStats
                 renameListTextbox.Visible = true;
                 renameListTextbox.Enabled = true;
                 renameListTextbox.SetBounds(listNameLabel.Left, 1, 200, listNameLabel.Height);
-                renameListTextbox.Text = form.currentListName;
+                renameListTextbox.Text = form.currentPlayerList.listName;
                 renameListTextbox.Focus();
             });
 
@@ -295,20 +327,23 @@ namespace HockeyStats
             renameListTextbox.KeyUp += new KeyEventHandler((object sender, KeyEventArgs e) => {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    // Rename file if is exists and the listName has been changed
-                    if (File.Exists(form.currentListName + Constants.LIST_NAME_SUFFIX))
+                    // Rename file if it exists and the listName has been changed
+                    if (File.Exists(form.currentPlayerList.listName + Constants.LIST_NAME_SUFFIX))
                     {
-                        File.Move(form.currentListName + Constants.LIST_NAME_SUFFIX, renameListTextbox.Text + Constants.LIST_NAME_SUFFIX);
+                        File.Move(form.currentPlayerList.listName + Constants.LIST_NAME_SUFFIX, renameListTextbox.Text + Constants.LIST_NAME_SUFFIX);
                     }
 
                     // If the renamed list is the default list, update the default list with the new name
-                    if (form.configuration.defaultList == form.currentListName)
+                    if (form.configuration.defaultList == form.currentPlayerList.listName)
                     {
                         form.configuration.defaultList = renameListTextbox.Text;
                         Serializer.WriteXML<Configuration>(form.configuration, Constants.CONFIGURATION_FILE_NAME);
                     }
 
-                    form.currentListName = renameListTextbox.Text;
+                    form.currentPlayerList.listName = renameListTextbox.Text;
+                    form.lastSavedPlayerList.listName = renameListTextbox.Text;
+                    Serializer.WriteXML<PlayerList>(form.lastSavedPlayerList, form.lastSavedPlayerList.listName + Constants.LIST_NAME_SUFFIX);
+
                     string asterisk = (listNameLabel.Text.EndsWith("*")) ? "*" : ""; // Add the asterisk back onto the label if necessary
                     SetListLabel(renameListTextbox.Text + asterisk);
                     RefreshDropDownLists();
@@ -483,15 +518,15 @@ namespace HockeyStats
             return fullFileName;
         }
 
-        private void SaveList(string listName)
+        private void SaveList(PlayerList playerList)
         {
-            form.currentPlayerList.SetPrimaryColumnWidths(topTableDGV.Columns);
-            form.currentPlayerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
+            playerList.SetPrimaryColumnWidths(topTableDGV.Columns);
+            playerList.SetSecondaryColumnWidths(rightTableDGV.Columns);
 
-            form.currentPlayerList.SetListStatus(PlayerList.ListStatus.Saved);
-            Serializer.WriteXML<PlayerList>(form.currentPlayerList, listName + Constants.LIST_NAME_SUFFIX);
-            form.lastSavedPlayerList = form.currentPlayerList.Clone();
-            form.currentListName = listName;
+            playerList.SetListStatus(PlayerList.ListStatus.Saved);
+            Serializer.WriteXML<PlayerList>(playerList, playerList.listName + Constants.LIST_NAME_SUFFIX);
+            form.lastSavedPlayerList = playerList.Clone();
+            form.historyManager.UpdateCurrentItem(form.lastSavedPlayerList);
             RefreshDropDownLists();
             form.SetListStatus(PlayerList.ListStatus.Saved);
         }

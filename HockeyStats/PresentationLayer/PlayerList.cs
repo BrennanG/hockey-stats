@@ -41,6 +41,7 @@ namespace HockeyStats
         };
 
         // When adding a new field: make sure to update FillWithDefaults(), Equals(), and Clone()
+        public string listName;
         public ListType listType;
         public ListStatus listStatus;
         public string teamId;
@@ -62,6 +63,7 @@ namespace HockeyStats
 
         public void FillWithDefaults()
         {
+            listName = Constants.DEFAULT_LIST_NAME;
             listType = ListType.GeneralList;
             listStatus = ListStatus.Generated;
             teamId = null;
@@ -80,7 +82,8 @@ namespace HockeyStats
 
         public bool Equals(PlayerList other)
         {
-            return listType == other.listType
+            return listName == other.listName
+                && listType == other.listType
                 && teamId == other.teamId
                 && primarySeasonType == other.primarySeasonType
                 && secondarySeasonType == other.secondarySeasonType
@@ -98,6 +101,7 @@ namespace HockeyStats
         public PlayerList Clone()
         {
             PlayerList playerList = new PlayerList();
+            playerList.listName = listName;
             playerList.listType = listType;
             playerList.listStatus = listStatus;
             playerList.teamId = teamId;

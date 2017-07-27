@@ -152,7 +152,8 @@ namespace HockeyStats
                         playerList.SetTeamId(id);
                         playerList.SetPlayerIds(playerIds);
                         playerList.SetDisplaySeason(season);
-                        form.LoadPlayerList(playerList, row.Cells[Constants.TEAM].Value.ToString() + " (" + season + ")");
+                        playerList.listName = row.Cells[Constants.TEAM].Value.ToString() + " (" + season + ")";
+                        form.LoadPlayerList(playerList);
                     }
                     
                     addPlayerOrLoadTeamButton.Text = previousText;

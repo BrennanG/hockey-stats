@@ -302,7 +302,8 @@ namespace HockeyStats
                         playerList.SetTeamId(teamId);
                         playerList.SetPlayerIds(playerIds);
                         playerList.SetDisplaySeason(season);
-                        form.LoadPlayerList(playerList, listName);
+                        playerList.listName = listName;
+                        form.LoadPlayerList(playerList);
                     };
                     form.TriggerLeaveRequest(loadTeam);
                 });
@@ -320,7 +321,7 @@ namespace HockeyStats
             if (listNames.Count() < 1) { return; }
             foreach (string listName in listNames)
             {
-                if (listName == form.currentListName) { return; }
+                if (listName == form.currentPlayerList.listName) { return; }
 
                 DataRow dataRow = PlayerStatTable.GetDataRowFromDGVRow(dgv.Rows[row]);
                 PlayerStats playerStats = PlayerStatsGetter(dataRow);

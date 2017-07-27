@@ -98,7 +98,8 @@ namespace HockeyStats
                 {
                     listName += String.Format(" (Rounds {0}-{1})", lowerRound.ToString(), upperRound.ToString());
                 }
-                parent.LoadPlayerList(playerList, listName);
+                playerList.listName = listName;
+                parent.LoadPlayerList(playerList);
 
                 Close();
             };
