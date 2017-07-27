@@ -84,6 +84,20 @@ namespace HockeyStats
             searchTypeDomainUpDown.Items.Add("Player");
             searchTypeDomainUpDown.Items.Add("Team");
             searchTypeDomainUpDown.SelectedItem = searchTypeDomainUpDown.Items[0];
+
+            searchTypeDomainUpDown.SelectedItemChanged += new EventHandler((object sender, EventArgs e) =>
+            {
+                if (searchTypeDomainUpDown.SelectedItem.ToString() == "Player")
+                {
+                    addPlayerOrLoadTeamButton.Text = "Add Selected Player";
+                    searchButton.Text = "Search Player";
+                }
+                else if (searchTypeDomainUpDown.SelectedItem.ToString() == "Team")
+                {
+                    addPlayerOrLoadTeamButton.Text = "Load Selected Team";
+                    searchButton.Text = "Search Team";
+                }
+            });
         }
 
         private void SetupClearSearchButton()
@@ -101,19 +115,6 @@ namespace HockeyStats
 
         private void SetupAddPlayerOrLoadTeamButton()
         {
-            // Changing the button's text depending on the search type
-            searchTypeDomainUpDown.SelectedItemChanged += new EventHandler((object sender, EventArgs e) =>
-            {
-                if (searchTypeDomainUpDown.SelectedItem.ToString() == "Player")
-                {
-                    addPlayerOrLoadTeamButton.Text = "Add Selected Player";
-                }
-                else if (searchTypeDomainUpDown.SelectedItem.ToString() == "Team")
-                {
-                    addPlayerOrLoadTeamButton.Text = "Load Selected Team";
-                }
-            });
-
             // Enabling and disabling the button
             leftTableDGV.SelectionChanged += new EventHandler((object sender, EventArgs e) => {
                 addPlayerOrLoadTeamButton.Enabled = (leftTableDGV.SelectedRows.Count == 1);

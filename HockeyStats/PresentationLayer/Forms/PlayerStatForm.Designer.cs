@@ -342,11 +342,11 @@
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 5;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.65799F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.34201F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.41573F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.58427F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 82F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 121F));
             this.tableLayoutPanel3.Controls.Add(this.searchButton, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.searchTextbox, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.addPlayerOrLoadTeamButton, 4, 0);
@@ -363,11 +363,11 @@
             // searchButton
             // 
             this.searchButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.searchButton.Location = new System.Drawing.Point(184, 3);
+            this.searchButton.Location = new System.Drawing.Point(183, 3);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(81, 20);
             this.searchButton.TabIndex = 1;
-            this.searchButton.Text = "Search";
+            this.searchButton.Text = "Search Player";
             this.searchButton.UseVisualStyleBackColor = true;
             // 
             // searchTextbox
@@ -375,13 +375,13 @@
             this.searchTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.searchTextbox.Location = new System.Drawing.Point(3, 3);
             this.searchTextbox.Name = "searchTextbox";
-            this.searchTextbox.Size = new System.Drawing.Size(175, 20);
+            this.searchTextbox.Size = new System.Drawing.Size(174, 20);
             this.searchTextbox.TabIndex = 3;
             // 
             // addPlayerOrLoadTeamButton
             // 
             this.addPlayerOrLoadTeamButton.Enabled = false;
-            this.addPlayerOrLoadTeamButton.Location = new System.Drawing.Point(412, 3);
+            this.addPlayerOrLoadTeamButton.Location = new System.Drawing.Point(411, 3);
             this.addPlayerOrLoadTeamButton.Name = "addPlayerOrLoadTeamButton";
             this.addPlayerOrLoadTeamButton.Size = new System.Drawing.Size(114, 20);
             this.addPlayerOrLoadTeamButton.TabIndex = 4;
@@ -391,7 +391,7 @@
             // clearSearchButton
             // 
             this.clearSearchButton.Enabled = false;
-            this.clearSearchButton.Location = new System.Drawing.Point(330, 3);
+            this.clearSearchButton.Location = new System.Drawing.Point(329, 3);
             this.clearSearchButton.Name = "clearSearchButton";
             this.clearSearchButton.Size = new System.Drawing.Size(76, 20);
             this.clearSearchButton.TabIndex = 5;
@@ -401,7 +401,7 @@
             // searchTypeDomainUpDown
             // 
             this.searchTypeDomainUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.searchTypeDomainUpDown.Location = new System.Drawing.Point(271, 3);
+            this.searchTypeDomainUpDown.Location = new System.Drawing.Point(270, 3);
             this.searchTypeDomainUpDown.Name = "searchTypeDomainUpDown";
             this.searchTypeDomainUpDown.ReadOnly = true;
             this.searchTypeDomainUpDown.Size = new System.Drawing.Size(53, 20);
