@@ -60,17 +60,13 @@ namespace HockeyStats
             SetupSelectColumnsButton();
         }
 
-        public void RefreshListTypeLabel()
+        public void RefreshListType()
         {
             string listType = form.currentPlayerList.listType.ToString();
             listType = listType.Replace("List", "");
             listType += " List";
             listTypeLabel.Text = listType;
-        }
 
-        public void RefreshListType()
-        {
-            RefreshListTypeLabel();
             changeTeamSeasonButton.Visible = false;
             selectSeasonDropDown.Enabled = true;
 
@@ -90,7 +86,8 @@ namespace HockeyStats
         public void SetListLabel(string listName)
         {
             listNameLabel.Text = listName;
-            listNameLabel.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            FontStyle fontStyle = (form.currentPlayerList.listStatus == PlayerList.ListStatus.Generated) ? FontStyle.Italic : FontStyle.Bold;
+            listNameLabel.Font = new Font("Microsoft Sans Serif", 12, fontStyle);
             while (listNameLabel.Bounds.IntersectsWith(selectPrimarySeasonTypeDropDown.Bounds))
             {
                 listNameLabel.Font = new Font("Microsoft Sans Serif", listNameLabel.Font.Size - 1, FontStyle.Bold);
