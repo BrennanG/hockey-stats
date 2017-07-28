@@ -68,7 +68,7 @@
     <Compile Include="PresentationLayer\Forms\ChangeSeasonModal.Designer.cs">
       <DependentUpon>ChangeSeasonModal.cs</DependentUpon>
     </Compile>
-    <Compile Include="PresentationLayer\Configuration.cs" />
+    <Compile Include="Utilities\Configuration.cs" />
     <Compile Include="PresentationLayer\Forms\FilterModal.cs">
       <SubType>Form</SubType>
     </Compile>

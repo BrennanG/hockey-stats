@@ -105,6 +105,7 @@ namespace HockeyStats
             ToolStripItemCollection loadListDropDownItems = loadListDropDown.DropDownItems;
             loadListDropDownItems.Clear();
             string[] playerListFiles = form.GetPlayerListsInDirectory();
+            loadListDropDown.Enabled = (playerListFiles.Count() < 1) ? false : true;
             foreach (string file in playerListFiles)
             {
                 // Get the name without the file path or suffix

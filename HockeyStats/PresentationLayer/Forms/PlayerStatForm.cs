@@ -55,7 +55,15 @@ namespace HockeyStats
 
         public void ReadConfigurationFile()
         {
-            configuration = Serializer.ReadXML<Configuration>(Constants.CONFIGURATION_FILE_NAME);
+            try
+            {
+                configuration = Serializer.ReadXML<Configuration>(Constants.CONFIGURATION_FILE_NAME);
+            }
+            catch
+            {
+                configuration = new Configuration();
+                MessageBox.Show("Setting things up. This may take a few minutes.");
+            }
 
             // Check that the configuration file has been updated with the most recent draft year
             string mostRecentDraftYear = DraftListManager.GetMostRecentDraftYear();
