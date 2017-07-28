@@ -62,7 +62,7 @@ namespace HockeyStats
             catch
             {
                 configuration = new Configuration();
-                MessageBox.Show("Setting things up. This may take a few minutes.");
+                MessageBox.Show("Setup has begun (Internet required). This may take a few minutes.");
             }
 
             // Check that the configuration file has been updated with the most recent draft year

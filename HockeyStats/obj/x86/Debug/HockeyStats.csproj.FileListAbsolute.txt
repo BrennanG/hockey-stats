@@ -19,7 +19,6 @@ C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey
 C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\bin\Debug\HockeyStats.pdb
 C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\bin\Debug\Newtonsoft.Json.dll
 C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\bin\Debug\Newtonsoft.Json.xml
-C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.csprojResolveAssemblyReference.cache
 C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.PlayerStatForm.resources
 C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.Properties.Resources.resources
 C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Debug\HockeyStats.csproj.GenerateResource.Cache

@@ -1,0 +1,12 @@
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\bin\Release\HockeyStats.exe
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\bin\Release\HockeyStats.pdb
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\bin\Release\Newtonsoft.Json.dll
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\bin\Release\Newtonsoft.Json.xml
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Release\HockeyStats.ChangeSeasonModal.resources
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Release\HockeyStats.FilterModal.resources
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Release\HockeyStats.LoadDraftModal.resources
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Release\HockeyStats.PlayerStatForm.resources
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Release\HockeyStats.Properties.Resources.resources
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Release\HockeyStats.csproj.GenerateResource.Cache
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Release\HockeyStats.exe
+C:\Users\brenn\OneDrive\Documents\Visual Studio 2017\Projects\HockeyStats\hockey-stats\HockeyStats\obj\x86\Release\HockeyStats.pdb
