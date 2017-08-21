@@ -182,6 +182,7 @@
             // listTypeLabel
             // 
             this.listTypeLabel.AutoSize = true;
+            this.listTypeLabel.BackColor = System.Drawing.Color.LightSteelBlue;
             this.listTypeLabel.Cursor = System.Windows.Forms.Cursors.Default;
             this.listTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listTypeLabel.Location = new System.Drawing.Point(186, 3);
@@ -203,6 +204,7 @@
             // listNameLabel
             // 
             this.listNameLabel.AutoSize = true;
+            this.listNameLabel.BackColor = System.Drawing.Color.LightSteelBlue;
             this.listNameLabel.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.listNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listNameLabel.Location = new System.Drawing.Point(404, 3);
@@ -213,7 +215,7 @@
             // 
             // topMenuStrip
             // 
-            this.topMenuStrip.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.topMenuStrip.BackColor = System.Drawing.Color.LightSteelBlue;
             this.topMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileDropDown,
             this.filterToolStripMenuItem,
@@ -509,6 +511,7 @@
             // 
             // tableLayoutPanel2
             // 
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.LightSteelBlue;
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -535,7 +538,7 @@
             // rightMenuStrip
             // 
             this.rightMenuStrip.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.rightMenuStrip.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.rightMenuStrip.BackColor = System.Drawing.Color.LightSteelBlue;
             this.rightMenuStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.rightMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectSecondarySeasonTypeDropDown});
@@ -547,6 +550,7 @@
             // 
             // selectSecondarySeasonTypeDropDown
             // 
+            this.selectSecondarySeasonTypeDropDown.BackColor = System.Drawing.Color.LightSteelBlue;
             this.selectSecondarySeasonTypeDropDown.Name = "selectSecondarySeasonTypeDropDown";
             this.selectSecondarySeasonTypeDropDown.Size = new System.Drawing.Size(118, 20);
             this.selectSecondarySeasonTypeDropDown.Text = "Select Season Type";
@@ -555,7 +559,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(1084, 861);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

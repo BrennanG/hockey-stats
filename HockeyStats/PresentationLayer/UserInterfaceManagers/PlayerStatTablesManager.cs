@@ -61,7 +61,7 @@ namespace HockeyStats
             }
             else if (form.topTable.GetSeasonType() == Constants.PLAYOFFS)
             {
-                topTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+                topTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightSteelBlue;
             }
 
             if (form.rightTable.GetSeasonType() == Constants.REGULAR_SEASON)
@@ -71,8 +71,8 @@ namespace HockeyStats
             }
             else if (form.rightTable.GetSeasonType() == Constants.PLAYOFFS)
             {
-                middleTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
-                rightTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(217, 235, 249);
+                middleTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightSteelBlue;
+                rightTableDGV.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightSteelBlue;
             }
 
             HighlightDraftRowsInRightTable(form.rightTable.GetPlayerStats());

@@ -1,0 +1,5 @@
+1. Obtain an API Key for EliteProspects API
+
+2. Open a Windows Command Prompt and type 'setx EP_API_KEY "[API KEY HERE]"' (replace [API KEY HERE] with your API Key)
+
+3. Open the HockeyStats executable. On first opening, setup could take a few minutes.
